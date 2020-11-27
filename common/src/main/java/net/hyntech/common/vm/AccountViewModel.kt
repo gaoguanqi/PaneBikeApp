@@ -13,6 +13,7 @@ import net.hyntech.common.model.entity.TestEntity
 import net.hyntech.common.model.repository.CommonRepository
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 
 class AccountViewModel : BaseViewModel() {
 
@@ -70,7 +71,9 @@ class AccountViewModel : BaseViewModel() {
 
         launch(
             {
-//                val map:MutableMap<String,String> = mutableMapOf()
+                val map:Map<String,Any> = HashMap()
+
+
 //                map.putAll(NetWorkUtils.addPublicRequestParams())
 //                map.put("phone","13717591366")
 //                map.put("pwd","1111111")
@@ -105,7 +108,7 @@ class AccountViewModel : BaseViewModel() {
 
 
 
-                val body = json.toRequestBody("application/json;charset=utf-8".toMediaType())
+                val body = JSONObject(map).toString().toRequestBody("application/json;charset=utf-8".toMediaType())
                 val result:CommonEntity = repository.loginPhone(body).apply {
                     this.code
                     defUI.toastEvent.postValue("error:未知1")
