@@ -35,7 +35,11 @@ class WeclomeAdapter(val context:Context,val data:Array<Int>,val listener:OnClic
                 ImageLoader.getInstance().loadImage(
                     BaseApp.instance,
                     GlideImageConfig(UIUtils.getDrawable(item), it).also { it.type = TransType.NORMAL })
-                it.setOnClickListener { listener.onItemClick(pos) }
+                it.setOnClickListener {
+                    if(!UIUtils.isFastDoubleClick()){
+                        listener.onItemClick(pos)
+                    }
+                }
             }
         }
     }

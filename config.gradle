@@ -1,9 +1,4 @@
 ext {
-    usual = 1
-    police = 2
-
-    appBuild = 0
-
     android = [
             compileSdkVersion: 29,
             buildToolsVersion: "29.0.3",
@@ -13,11 +8,17 @@ ext {
             versionName      : "1.0.0",
 
             //------平安电车民用--------//
-            versionCodeUsual      : 100,
-            versionNameUsual      : "1.0.0",
+//            applicationIdUsual: "net.hyntech.electricvehicleusual",
+
+            applicationIdUsual    : "net.hyntech.ebikeusual",
+            versionCodeUsual      : 200,
+            versionNameUsual      : "2.0.0",
 
             //------平安电车警用--------//
-            versionCodePolice      : 100,
-            versionNamePolice      : "1.0.0"
+//            applicationIdPolice: "net.hyntech.electricvehiclepolice",
+
+            applicationIdPolice    : "net.hyntech.ebikepolice",
+            versionCodePolice      : 300,
+            versionNamePolice      : "3.0.0"
     ]
 }

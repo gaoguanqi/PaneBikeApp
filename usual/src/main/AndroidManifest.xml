@@ -3,7 +3,7 @@
     package="net.hyntech.usual">
 
     <application
-        android:name="net.hyntech.police.app.UsualApplication"
+        android:name=".app.UsualApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_usual"
         android:label="@string/usual_app_name"

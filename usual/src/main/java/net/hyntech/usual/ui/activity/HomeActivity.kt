@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import net.hyntech.baselib.utils.ToastUtil
+import net.hyntech.usual.app.UsualApplication
 import net.hyntech.usual.R
 
 class HomeActivity : AppCompatActivity() {
@@ -14,6 +15,8 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+
     }
 
 

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.blankj.utilcode.util.SPUtils
 import kotlinx.android.synthetic.main.activity_welcome.*
+import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseActivity
@@ -15,7 +16,7 @@ class WelcomeActivity:BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
 
-        ToastUtil.showToast(buildType)
+
 
         val list: Array<Int> = arrayOf(
             R.drawable.welcome1,
@@ -33,6 +34,8 @@ class WelcomeActivity:BaseActivity() {
     }
 
     private fun launchTarget() {
+        val buildType:String? = getBundleString(Constants.GlobalValue.BUILD_TYPE)
+        BaseApp.instance.setBuildType(buildType)
         when(buildType){
             Constants.BundleKey.EXTRA_USUAL -> {
                 SPUtils.getInstance(this.packageName).put(Constants.SaveInfoKey.HAS_WELCOME_USUAL,true)

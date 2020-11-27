@@ -21,6 +21,11 @@
     <string name="common_hint_verify_code">请输入短信验证码</string>
     <string name="common_get_verify_code">获取验证码</string>
 
+    <string name="common_permissions_title">权限申请</string>
+    <string name="common_permissions_desc">请开启必要权限,否则您无法正常使用一些功能</string>
+    <string name="common_permissions_cancle">不同意</string>
+    <string name="common_permissions_confirm">前往开启</string>
+
 
 
 

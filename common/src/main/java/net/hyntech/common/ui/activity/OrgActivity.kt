@@ -2,7 +2,9 @@ package net.hyntech.common.ui.activity
 
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_org.*
+import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.LogUtils
+import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseViewActivity
@@ -22,6 +24,7 @@ class OrgActivity:BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
 
     override fun initData(savedInstanceState: Bundle?) {
 
+        ToastUtil.showToast(BaseApp.instance.getBuildType())
         setTitle<OrgActivity>(UIUtils.getString(R.string.common_title_org)).setLeftTxt<OrgActivity>(UIUtils.getString(R.string.common_back)).onBack<OrgActivity>{
             onFinish()
         }

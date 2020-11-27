@@ -16,6 +16,13 @@ abstract class BaseApp : Application() {
 
     abstract fun getAppPackage():String
 
+    private var buildType:String? = null
+
+    fun getBuildType():String? = buildType
+    fun setBuildType(v:String?){
+        this.buildType = v
+    }
+
     override fun onCreate() {
         super.onCreate()
         instance = this

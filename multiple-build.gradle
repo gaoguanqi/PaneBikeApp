@@ -36,42 +36,7 @@ android {
     }
 
 
-    defaultConfig {
-        if(rootProject.ext.appBuild == rootProject.ext.usual){
-            applicationId "net.hyntech.ebikeusual"
-        }else if(rootProject.ext.appBuild == rootProject.ext.police){
-            applicationId "net.hyntech.ebikepolice"
-        }else {
-            applicationId "net.hyntech.ebike"
-        }
 
-        minSdkVersion rootProject.ext.android["minSdkVersion"]
-        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
-
-        if(rootProject.ext.appBuild == rootProject.ext.usual){
-            versionCode rootProject.ext.android["versionCodeUsual"]
-            versionName rootProject.ext.android["versionNameUsual"]
-        }else if(rootProject.ext.appBuild == rootProject.ext.police){
-            versionCode rootProject.ext.android["versionCodePolice"]
-            versionName rootProject.ext.android["versionNamePolice"]
-        }else {
-            versionCode rootProject.ext.android["versionCode"]
-            versionName rootProject.ext.android["versionName"]
-        }
-
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        multiDexEnabled true
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME: project.getName()]
-                includeCompileClasspath true
-                arguments = [ eventBusIndex : project.getName()+'.EventBusIndex' ]
-            }
-        }
-    }
     signingConfigs {
         debug {
             storeFile file(keystoreProperties.RELEASE_STOREFILE)
@@ -215,12 +180,5 @@ dependencies {
     implementation 'com.alibaba:arouter-api:1.5.1'
     kapt 'com.alibaba:arouter-compiler:1.5.1'
 
-
-
-    if(rootProject.ext.appBuild == rootProject.ext.usual){
-
-    }else if(rootProject.ext.appBuild == rootProject.ext.police){
-
-    }
 }
 apply from: 'multiple-channel.gradle'
