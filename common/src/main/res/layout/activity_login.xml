@@ -22,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-            android:background="@drawable/pic_usual" />
+            android:background="@{viewModel.bgDrawable}"
+            tools:background="@drawable/ic_launcher_background" />
 
         <LinearLayout
             android:layout_width="match_parent"

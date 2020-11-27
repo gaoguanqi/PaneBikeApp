@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-
 kapt {
     arguments {
         arg("AROUTER_MODULE_NAME", project.getName())
@@ -54,7 +53,16 @@ android {
     }
 
     buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+        }
+
         release {
+            debuggable true
+            //移除无用的资源文件
+            shrinkResources false
+            zipAlignEnabled false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

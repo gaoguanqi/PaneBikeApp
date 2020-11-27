@@ -3,9 +3,7 @@ package net.hyntech.usual.ui.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
-import com.blankj.utilcode.util.SPUtils
 import net.hyntech.baselib.utils.ToastUtil
-import net.hyntech.ebike.app.global.Constants
 import net.hyntech.usual.R
 
 class HomeActivity : AppCompatActivity() {

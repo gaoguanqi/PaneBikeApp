@@ -1,12 +1,13 @@
-package net.hyntech.usual.ui.activity
+package net.hyntech.common.ui.activity
 
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_org.*
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.UIUtils
+import net.hyntech.common.R
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.databinding.ActivityOrgBinding
 import net.hyntech.common.vm.AccountViewModel
-import net.hyntech.usual.R
-import net.hyntech.usual.databinding.ActivityOrgBinding
 
 class OrgActivity:BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
 

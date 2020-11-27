@@ -1,4 +1,4 @@
-package net.hyntech.ebike.app.global
+package net.hyntech.common.global
 
 import android.os.Environment
 
@@ -6,6 +6,7 @@ import android.os.Environment
 class Constants {
 
     object Package{
+
     }
 
     object Path {
@@ -18,17 +19,18 @@ class Constants {
     }
 
     object SaveInfoKey {
-        const val HAS_WECLOME_USUAL = "weclome_usual"
-        const val HAS_WECLOME_POLICE = "weclome_police"
+        const val HAS_WELCOME_USUAL = "welcome_usual"
+        const val HAS_WELCOME_POLICE = "welcome_police"
     }
 
 
     object GlobalValue {
-
+        const val BUILD_TYPE = "build_type"
     }
 
     object BundleKey {
-
+        const val EXTRA_POLICE = "police"
+        const val EXTRA_USUAL = "usual"
     }
 
 }

@@ -1,6 +1,8 @@
 package net.hyntech.common.vm
 
+import android.graphics.drawable.Drawable
 import android.text.TextUtils
+import androidx.annotation.DrawableRes
 import androidx.databinding.ObservableField
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.AppUtils
@@ -15,6 +17,8 @@ class AccountViewModel : BaseViewModel() {
 
     private val repository by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { CommonRepository() }
 
+
+    val bgDrawable: ObservableField<Drawable> = ObservableField()
 
     val verName: ObservableField<String> = ObservableField("")
     val companyEvent: SingleLiveEvent<Any> = SingleLiveEvent()

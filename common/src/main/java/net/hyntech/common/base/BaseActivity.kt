@@ -2,6 +2,7 @@ package net.hyntech.common.base
 
 import android.view.View
 import kotlinx.android.synthetic.main.include_title.*
+import net.hyntech.common.global.Constants
 import net.hyntech.common.widget.dialog.LoadingDialog
 import net.hyntech.baselib.base.BaseActivity as B
 
@@ -9,6 +10,7 @@ abstract class BaseActivity : B() {
 
     private var loadingDialog: LoadingDialog? = null
 
+    protected val buildType:String? by lazy { getBundleString(Constants.GlobalValue.BUILD_TYPE) }
 
     open fun showLoading() {
         loadingDialog ?: LoadingDialog(this).let {

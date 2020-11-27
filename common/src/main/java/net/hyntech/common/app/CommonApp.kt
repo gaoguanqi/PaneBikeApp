@@ -37,5 +37,4 @@ abstract class CommonApp:BaseApp() {
        })
    }
 
-
 }

@@ -1,11 +1,11 @@
-package net.hyntech.usual.ui.activity
+package net.hyntech.common.ui.activity
 
 import android.os.Bundle
 import net.hyntech.baselib.utils.UIUtils
+import net.hyntech.common.R
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.databinding.ActivityForgetPwdBinding
 import net.hyntech.common.vm.AccountViewModel
-import net.hyntech.usual.R
-import net.hyntech.usual.databinding.ActivityForgetPwdBinding
 
 class ForgetPwdActivity: BaseViewActivity<ActivityForgetPwdBinding, AccountViewModel>() {
     private val viewModel by viewModels<AccountViewModel>()

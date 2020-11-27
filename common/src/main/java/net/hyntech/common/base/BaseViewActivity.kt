@@ -1,6 +1,5 @@
 package net.hyntech.common.base
 
-import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,6 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.baselib.base.ViewModelLazy
-import net.hyntech.common.vm.AccountViewModel
 
 abstract class BaseViewActivity<VB : ViewDataBinding, VM : BaseViewModel> : net.hyntech.common.base.BaseActivity(),
     CoroutineScope by MainScope() {

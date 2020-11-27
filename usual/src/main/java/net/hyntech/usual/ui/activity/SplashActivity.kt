@@ -3,16 +3,15 @@ package net.hyntech.usual.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.IntentUtils
 import com.blankj.utilcode.util.SPUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
 import net.hyntech.baselib.utils.PermissionUtil
 import net.hyntech.baselib.utils.RequestPermission
 import net.hyntech.common.base.BaseActivity
+import net.hyntech.common.ui.activity.LoginActivity
+import net.hyntech.common.ui.activity.WelcomeActivity
 import net.hyntech.common.widget.dialog.CommonDialog
-import net.hyntech.common.widget.dialog.LoadingDialog
-import net.hyntech.ebike.app.global.Constants
+import net.hyntech.common.global.Constants
 import net.hyntech.usual.R
 
 class SplashActivity : BaseActivity() {
@@ -50,10 +49,10 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun launchTarget() {
-        if(SPUtils.getInstance(this.packageName).getBoolean(Constants.SaveInfoKey.HAS_WECLOME_USUAL,false)){
-            startActivity(Intent(this,LoginActivity::class.java))
+        if(SPUtils.getInstance(this.packageName).getBoolean(Constants.SaveInfoKey.HAS_WELCOME_USUAL,false)){
+            startActivity(Intent(this, LoginActivity::class.java).putExtra(Constants.GlobalValue.BUILD_TYPE,Constants.BundleKey.EXTRA_USUAL))
         }else{
-            startActivity(Intent(this,WeclomeActivity::class.java))
+            startActivity(Intent(this, WelcomeActivity::class.java).putExtra(Constants.GlobalValue.BUILD_TYPE,Constants.BundleKey.EXTRA_USUAL))
         }
         onFinish()
     }

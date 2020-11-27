@@ -1,14 +1,19 @@
-package net.hyntech.usual.ui.activity
+package net.hyntech.common.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import androidx.lifecycle.Observer
+import net.hyntech.baselib.utils.LogUtils
+import net.hyntech.baselib.utils.ToastUtil
+import net.hyntech.baselib.utils.UIUtils
+import net.hyntech.common.R
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.databinding.ActivityLoginBinding
+import net.hyntech.common.global.Constants
 import net.hyntech.common.vm.AccountViewModel
-import net.hyntech.usual.R
-import net.hyntech.usual.databinding.ActivityLoginBinding
 
 class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() {
 
@@ -26,6 +31,16 @@ class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() 
 
 
     override fun initData(savedInstanceState: Bundle?) {
+        LogUtils.logGGQ("buildType:${buildType}")
+        when(buildType){
+            Constants.BundleKey.EXTRA_USUAL ->{
+                viewModel.bgDrawable.set(UIUtils.getDrawable(R.drawable.pic_usual))
+            }
+
+            Constants.BundleKey.EXTRA_POLICE ->{
+                viewModel.bgDrawable.set(UIUtils.getDrawable(R.drawable.pic_police))
+            }
+        }
 
         viewModel.companyEvent.observe(this, Observer {
             startActivity(Intent(LoginActivity@this,OrgActivity::class.java))

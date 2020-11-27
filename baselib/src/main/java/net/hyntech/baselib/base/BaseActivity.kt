@@ -27,6 +27,7 @@ abstract class BaseActivity : AppCompatActivity(), IView {
     open fun hasStatusBarMode(): Boolean = false
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         if(hasStatusBarMode()){
             setStatusBarMode()
@@ -41,12 +42,16 @@ abstract class BaseActivity : AppCompatActivity(), IView {
 
     open fun setStatusBarMode(color:Int = Color.TRANSPARENT){
         BarUtils.setStatusBarColor(this, color)
+
     }
 
     open fun setContentLayout() {
         setContentView(getLayoutId())
     }
 
+    open fun getBundleString(key:String):String?{
+        return intent?.getStringExtra(key)
+    }
 
     /**
      * 接收到普通的Event
