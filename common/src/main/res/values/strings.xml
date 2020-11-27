@@ -1,0 +1,30 @@
+<resources>
+    <string name="common_name">平安电车</string>
+
+    <string name="common_back">返回</string>
+    <string name="common_text_cancle">取消</string>
+    <string name="common_text_confirm">确定</string>
+    <string name="common_choose_company">请选择公安局</string>
+    <string name="common_account">账号</string>
+    <string name="common_password">密码</string>
+    <string name="common_forget_password">忘记密码</string>
+    <string name="common_login">登录</string>
+    <string name="common_search">搜索</string>
+    <string name="common_police">公安局\t\t</string>
+    <string name="common_phone">手机号码</string>
+    <string name="common_hint_phone">请输入手机号码</string>
+    <string name="common_new_password">新密码\t\t</string>
+    <string name="common_hint_password">请输入至少6位数字及字母组合</string>
+    <string name="common_confirm_password">确认密码</string>
+    <string name="common_hint_new_password">请输入您的新密码</string>
+    <string name="common_verify_code">验证码\t\t</string>
+    <string name="common_hint_verify_code">请输入短信验证码</string>
+    <string name="common_get_verify_code">获取验证码</string>
+
+
+
+
+
+    <string name="common_title_org">请选择组织机构</string>
+    <string name="common_title_forget_pwd">重置密码</string>
+</resources>

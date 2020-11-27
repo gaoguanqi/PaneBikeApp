@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="net.hyntech.common.vm.AccountViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/common_color_background"
+        android:orientation="vertical">
+
+        <include layout="@layout/include_title" />
+
+        <LinearLayout style="@style/common_style_forget_pwd">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/common_police"
+                android:textColor="@color/common_black"
+                android:textSize="@dimen/common_font_common" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/common_color_text"
+                android:textSize="@dimen/common_font_common"
+                tools:text="demo环境" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@null"
+                android:src="@drawable/ic_fill_down_48dp" />
+        </LinearLayout>
+
+        <View
+            style="@style/common_style_line"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp" />
+
+        <LinearLayout style="@style/common_style_forget_pwd">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/common_phone"
+                android:textColor="@color/common_black"
+                android:textSize="@dimen/common_font_common" />
+
+            <net.hyntech.common.widget.view.ClearEditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="phone"
+                android:background="@null"
+                android:hint="@string/common_hint_phone"
+                android:paddingStart="20dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/common_black"
+                android:textSize="@dimen/common_font_common" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/common_style_line"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp" />
+
+        <LinearLayout style="@style/common_style_forget_pwd">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/common_new_password"
+                android:textColor="@color/common_black"
+                android:textSize="@dimen/common_font_common" />
+
+            <net.hyntech.common.widget.view.ClearEditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="textPassword"
+                android:background="@null"
+                android:hint="@string/common_hint_password"
+                android:paddingStart="20dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/common_black"
+                android:textSize="@dimen/common_font_common" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/common_style_line"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp" />
+
+
+        <LinearLayout style="@style/common_style_forget_pwd">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/common_confirm_password"
+                android:textColor="@color/common_black"
+                android:textSize="@dimen/common_font_common" />
+
+            <net.hyntech.common.widget.view.ClearEditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:inputType="textPassword"
+                android:background="@null"
+                android:hint="@string/common_hint_new_password"
+                android:paddingStart="20dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/common_black"
+                android:textSize="@dimen/common_font_common" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/common_style_line"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp" />
+
+        <LinearLayout style="@style/common_style_forget_pwd">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/common_verify_code"
+                android:textColor="@color/common_black"
+                android:textSize="@dimen/common_font_common" />
+
+            <net.hyntech.common.widget.view.ClearEditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/common_hint_verify_code"
+                android:paddingStart="20dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/common_black"
+                android:textSize="@dimen/common_font_common" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:background="@drawable/selector_common"
+                android:text="@string/common_get_verify_code"
+                android:textColor="@color/common_white"
+                android:textSize="@dimen/common_font_text" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

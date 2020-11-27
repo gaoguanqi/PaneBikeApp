@@ -1,0 +1,6 @@
+include ':common'
+include ':police'
+include ':usual'
+include ':baselib'
+include ':app'
+rootProject.name = "PaneBikeApp"

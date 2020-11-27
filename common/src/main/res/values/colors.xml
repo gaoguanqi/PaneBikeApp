@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="common_colorPrimary">#38B7FE</color>
+    <color name="common_colorPrimaryDark">#38B7FE</color>
+    <color name="common_colorAccent">#00A2E9</color>
+    <color name="common_colorTheme">#38B7FE</color>
+
+    <color name="common_color_background">#FFFFFF</color>
+
+    <color name="common_white">#FFFFFF</color>
+    <color name="common_black">#000000</color>
+    <color name="common_trans">#00000000</color>
+    <color name="common_color_gray">#bfbfbf</color>
+    <color name="common_color_toast">#333333</color>
+    <color name="common_color_title">#FFFFFF</color>
+    <color name="common_color_line">#E0E0E0</color>
+
+    <color name="common_color_pressed">#00A2E9</color>
+    <color name="common_color_normal">#38B7FE</color>
+    <color name="common_color_enable">#3338B7FE</color>
+    <color name="common_color_text">#38B7FE</color>
+
+    <color name="common_color_gradient_dark">#00A2E9</color>
+    <color name="common_color_gradient_light">#A6E8FE</color>
+
+    <color name="common_color_progress">#55E5E5E5</color>
+</resources>
