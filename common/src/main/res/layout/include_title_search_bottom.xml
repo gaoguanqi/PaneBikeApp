@@ -107,6 +107,8 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:ellipsize="end"
+                    android:hint="@string/common_search_content"
+                    android:textSize="@dimen/common_font_text"
                     android:paddingEnd="10dp"
                     android:singleLine="true" />
             </LinearLayout>

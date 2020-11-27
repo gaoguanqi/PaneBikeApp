@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.SPUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
+import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.PermissionUtil
 import net.hyntech.baselib.utils.RequestPermission
 import net.hyntech.baselib.utils.ToastUtil
@@ -52,7 +53,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun launchTarget() {
-        if(SPUtils.getInstance(this.packageName).getBoolean(Constants.SaveInfoKey.HAS_WELCOME_USUAL,false)){
+        if(SPUtils.getInstance(BaseApp.instance.getAppPackage()).getBoolean(Constants.SaveInfoKey.HAS_WELCOME_USUAL,false)){
             startActivity(Intent(this, LoginActivity::class.java).putExtra(Constants.GlobalValue.BUILD_TYPE,Constants.BundleKey.EXTRA_USUAL))
         }else{
             startActivity(Intent(this, WelcomeActivity::class.java).putExtra(Constants.GlobalValue.BUILD_TYPE,Constants.BundleKey.EXTRA_USUAL))

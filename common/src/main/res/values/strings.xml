@@ -10,6 +10,7 @@
     <string name="common_forget_password">忘记密码</string>
     <string name="common_login">登录</string>
     <string name="common_search">搜索</string>
+    <string name="common_search_content">搜索内容</string>
     <string name="common_police">公安局\t\t</string>
     <string name="common_phone">手机号码</string>
     <string name="common_hint_phone">请输入手机号码</string>

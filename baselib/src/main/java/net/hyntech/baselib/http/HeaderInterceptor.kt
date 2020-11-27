@@ -1,5 +1,6 @@
 package net.hyntech.baselib.http
 
+import net.hyntech.baselib.utils.LogUtils
 import okhttp3.Headers
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -34,6 +35,7 @@ class HeaderInterceptor (private val headers: Map<String, String>?) : Intercepto
                 for (headMap in headers) {
                     //添加统一通用header，不存在则添加，存在则不添加。
                     if (originalHeaders.get(headMap.key) == null) {
+                        LogUtils.logGGQ("公共请求头：${headMap.key}--${headMap.value}")
                         addHeader(headMap.key, headMap.value).build()
                     }
                 }

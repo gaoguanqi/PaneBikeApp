@@ -14,13 +14,16 @@ class Constants {
     }
 
     object ApiParams {
-        const val USERNAME = "username"
-        const val IMEI = "imei"
+        const val phone = "phone"
+        const val pwd = "pwd"
     }
 
     object SaveInfoKey {
         const val HAS_WELCOME_USUAL = "welcome_usual"
         const val HAS_WELCOME_POLICE = "welcome_police"
+
+        const val ACCESS_TOKEN = "accessToken"
+
     }
 
 

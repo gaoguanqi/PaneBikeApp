@@ -18,14 +18,17 @@ class TokenInterceptor : Interceptor {
             response.body?.also {
                 val sBody = it.source().buffer.clone().readString(charset)
                 val jsonObject: JSONObject = JSONObject(sBody)
-                val code: Int = jsonObject.getInt("code")
-                LogUtils.logGGQ("TokenInterceptor : ${code}")
-                if (code == 301) {
+                val code: String = jsonObject.getString("code")
+                val msg: String = jsonObject.getString("msg")
+                LogUtils.logGGQ("code : ${code}")
+                LogUtils.logGGQ("msg : ${msg}")
+                //if (code == 301) {
                     //ActivityUtils.startActivity(GlobalActivity::class.java)
-                }
+               // }
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            LogUtils.logGGQ("TokenInterceptor : error->${e.fillInStackTrace()}")
         }
 
         return response

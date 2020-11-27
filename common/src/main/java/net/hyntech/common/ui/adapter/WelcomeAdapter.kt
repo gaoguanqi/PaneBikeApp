@@ -14,10 +14,10 @@ import net.hyntech.common.widget.imgloader.ImageLoader
 import net.hyntech.common.widget.imgloader.TransType
 import net.hyntech.common.widget.imgloader.glide.GlideImageConfig
 
-class WeclomeAdapter(val context:Context,val data:Array<Int>,val listener:OnClickListener) : RecyclerView.Adapter<WeclomeAdapter.ViewHolder>() {
+class WelcomeAdapter(val context:Context, val data:Array<Int>, val listener:OnClickListener) : RecyclerView.Adapter<WelcomeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_weclome,parent,false))
+        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_welcome,parent,false))
 
     }
 

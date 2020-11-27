@@ -14,6 +14,8 @@ import net.hyntech.common.provider.IDemoProvider
 class TestActivity:BaseActivity() {
 
 
+    //ARouter.getInstance().build(ARouterConstants.TEST_PAGE).navigation()
+
     override fun getLayoutId(): Int = R.layout.activity_test
 
 
