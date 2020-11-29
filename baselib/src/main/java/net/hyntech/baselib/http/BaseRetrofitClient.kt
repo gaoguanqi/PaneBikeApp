@@ -1,13 +1,11 @@
 package net.hyntech.baselib.http
 
 import android.util.Pair
-import com.blankj.utilcode.util.NetworkUtils
 import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.app.config.Config
-import okhttp3.Headers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -19,7 +17,6 @@ abstract class BaseRetrofitClient {
         private const val TIME_OUT:Long = 60000L
     }
 
-    abstract fun getHeader():HeaderInterceptor
 
     protected val client: OkHttpClient
         get() {
@@ -35,21 +32,22 @@ abstract class BaseRetrofitClient {
 //            val header = HeaderInterceptor(map)
             builder.addInterceptor(TokenInterceptor())
             builder.addInterceptor(logging)
-//            builder.addInterceptor(getHeader())
+//            builder.addInterceptor(header)
 
 //                    ssl
-//            builder.sslSocketFactory(SSLHelper.sslSocketFactory, SSLHelper.trustManager).hostnameVerifier(SSLHelper.hostnameVerifier)
+            builder.sslSocketFactory(SSLHelper.sslSocketFactory, SSLHelper.trustManager).hostnameVerifier(SSLHelper.hostnameVerifier)
 
 //            val sslContext = SSLHelper.getSSLContext(caIn, ksIn, ksPwd)
 //            builder.sslSocketFactory(sslContext.socketFactory).hostnameVerifier(SSLHelper.hostnameVerifier)
 
-                    //ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
+//                    ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
                 .cookieJar(
                     PersistentCookieJar(
                         SetCookieCache(), SharedPrefsCookiePersistor(
                     BaseApp.instance)
                     )
                 )
+
                 .connectTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
                 .readTimeout(TIME_OUT, TimeUnit.MILLISECONDS)
             handleBuilder(builder)

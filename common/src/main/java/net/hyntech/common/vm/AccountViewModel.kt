@@ -11,6 +11,7 @@ import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.common.model.entity.CommonEntity
 import net.hyntech.common.model.entity.TestEntity
 import net.hyntech.common.model.repository.CommonRepository
+import net.hyntech.common.utils.HttpParamsUtils
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
@@ -59,20 +60,18 @@ class AccountViewModel : BaseViewModel() {
 //                login(phone!!, pwd!!)
 //            }
 
-//            l()
-            login()
+            l()
+//            login()
+//            loginTest()
         }
 
     }
 
 
-    private fun l(){
-
-
+    private fun loginTest(){
         launch(
             {
                 val map:Map<String,Any> = HashMap()
-
 
 //                map.putAll(NetWorkUtils.addPublicRequestParams())
 //                map.put("phone","13717591366")
@@ -95,14 +94,14 @@ class AccountViewModel : BaseViewModel() {
                 }
                  */
                 val request = TestEntity("1.0.6",
-                "AN-Android",
+                    "AN-Android",
                     "WIFI",
                     "9ff9e2c0-5079-45b1-8ca3-99bf877239c9",
                     "13715795455",
                     "eerrrrrrrr",
                     "2b29d32d2f9e092bbe10f046483ad2ff",
                     "2020-11-27 17:49:57"
-                    )
+                )
 
                 val json = GsonUtils.toJson(request)
 
@@ -118,6 +117,37 @@ class AccountViewModel : BaseViewModel() {
             {
                 //defUI.toastEvent.postValue("error:${it.code} -- ${it.errMsg}")
                 defUI.toastEvent.postValue("error:未知2")
+            },
+            {
+                LogUtils.logGGQ("回调完成 complete")
+            }, true
+        )
+    }
+
+
+    private fun l(){
+
+
+        launch(
+            {
+                val map:MutableMap<String,Any> = mutableMapOf()
+                map.putAll(HttpParamsUtils.addPublicRequestParams())
+                map.put("phone","11111111111")
+                map.put("pwd","111111")
+
+                val body = JSONObject(map.toMap()).toString().toRequestBody("application/json;charset=utf-8".toMediaType())
+                val result:CommonEntity = repository.loginPhone(body).apply {
+                    this.code
+                    defUI.toastEvent.postValue("error:未知1")
+
+                }
+
+                LogUtils.logGGQ("result->${result}")
+            },
+            {
+                //defUI.toastEvent.postValue("error:${it.code} -- ${it.errMsg}")
+                defUI.toastEvent.postValue("error:未知2")
+
             },
             {
                 LogUtils.logGGQ("回调完成 complete")

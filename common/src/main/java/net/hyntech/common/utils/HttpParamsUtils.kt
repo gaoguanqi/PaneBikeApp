@@ -12,7 +12,7 @@ import net.hyntech.baselib.error.AppException
 import net.hyntech.common.global.Constants
 import java.util.*
 
-class NetWorkUtils {
+class HttpParamsUtils {
     companion object{
 
         fun addPublicRequestParams(addToken:Boolean = true):MutableMap<String,String>{

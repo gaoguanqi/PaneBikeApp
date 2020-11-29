@@ -31,6 +31,7 @@ class HeaderInterceptor (private val headers: Map<String, String>?) : Intercepto
         return chain.proceed(chain.request().newBuilder().run {
             if (!headers.isNullOrEmpty()) {
                 val originalRequest:Request = chain.request()
+
                 val originalHeaders:Headers = originalRequest.headers
                 for (headMap in headers) {
                     //添加统一通用header，不存在则添加，存在则不添加。
