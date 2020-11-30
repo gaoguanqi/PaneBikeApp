@@ -2,21 +2,14 @@ package net.hyntech.common.vm
 
 import android.graphics.drawable.Drawable
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.GsonUtils
-import com.blankj.utilcode.util.JsonUtils
+import net.hyntech.baselib.app.config.Config
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.baselib.utils.LogUtils
-import net.hyntech.common.global.Constants.ApiParams.phone
-import net.hyntech.common.global.Constants.ApiParams.pwd
-import net.hyntech.common.model.entity.CommonEntity
-import net.hyntech.common.model.entity.TestEntity
+import net.hyntech.common.model.entity.CenterEntity
 import net.hyntech.common.model.repository.CommonRepository
-import net.hyntech.common.utils.HttpParamsUtils
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
 import java.util.*
 
 class AccountViewModel : BaseViewModel() {
@@ -30,9 +23,12 @@ class AccountViewModel : BaseViewModel() {
     val companyEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val forgetPwdEvent: SingleLiveEvent<Any> = SingleLiveEvent()
 
-    val org: ObservableField<String> = ObservableField()
+    val orgTitle: ObservableField<String> = ObservableField()
     val account: ObservableField<String> = ObservableField()
     val password: ObservableField<String> = ObservableField()
+
+    val orgData: MutableLiveData<List<CenterEntity.OrgListBean>> = MutableLiveData()
+
 
 
     init {
@@ -62,7 +58,6 @@ class AccountViewModel : BaseViewModel() {
 
 
     private fun login(){
-
         launchOnlyResult({
             val params:WeakHashMap<String,Any> = WeakHashMap()
             params.put("phone","13717591366")
@@ -71,8 +66,16 @@ class AccountViewModel : BaseViewModel() {
         }, success = {
             LogUtils.logGGQ("---success>>>${it?.toString()}")
         })
-
-
-
     }
+
+    fun getOrgList() {
+        launchOnlyResult({
+            repository.getOrgList()
+        }, success = {
+            it?.let {data ->
+                orgData.value = data.org_list
+            }
+        })
+    }
+
 }
