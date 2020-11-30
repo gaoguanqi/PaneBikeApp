@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.Observer
 import net.hyntech.baselib.app.BaseApp
+import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseViewActivity
@@ -40,6 +41,18 @@ class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() 
                 viewModel.bgDrawable.set(UIUtils.getDrawable(R.drawable.pic_police))
             }
         }
+
+        viewModel.defUI.showDialog.observe(this, Observer {
+            showLoading()
+        })
+
+        viewModel.defUI.dismissDialog.observe(this, Observer {
+            dismissLoading()
+        })
+
+        viewModel.defUI.toastEvent.observe(this, Observer {
+            ToastUtil.showToast(it)
+        })
 
         viewModel.companyEvent.observe(this, Observer {
             startActivity(Intent(LoginActivity@this,OrgActivity::class.java))

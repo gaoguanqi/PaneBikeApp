@@ -60,17 +60,17 @@ abstract class BaseFragment<VB : ViewDataBinding> : Fragment(),
 
     open fun showLoading() {
         if (loadingDialog == null) {
-            loadingDialog = LoadingDialog(this.requireContext())
+            loadingDialog = context?.let {
+                LoadingDialog(it)
+            }
         }
-
-        if (!loadingDialog!!.isShowing) {
-            loadingDialog!!.show()
-        }
+        loadingDialog?.show()
     }
 
     open fun dismissLoading() {
-        loadingDialog?.cancel()
+        loadingDialog?.run { if (isShowing) dismiss() }
     }
+
 
 
     override fun onResume() {

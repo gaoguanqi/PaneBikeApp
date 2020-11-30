@@ -6,11 +6,12 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
+import java.util.*
 
 /**
  * 添加公共请求头拦截器
  */
-class HeaderInterceptor (private val headers: Map<String, String>?) : Interceptor {
+class HeaderInterceptor (private val headers: WeakHashMap<String, Any>?) : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -37,7 +38,7 @@ class HeaderInterceptor (private val headers: Map<String, String>?) : Intercepto
                     //添加统一通用header，不存在则添加，存在则不添加。
                     if (originalHeaders.get(headMap.key) == null) {
                         LogUtils.logGGQ("公共请求头：${headMap.key}--${headMap.value}")
-                        addHeader(headMap.key, headMap.value).build()
+                        addHeader(headMap.key, headMap.value.toString()).build()
                     }
                 }
             }

@@ -12,13 +12,17 @@ abstract class BaseActivity : B() {
 
 
     open fun showLoading() {
-        loadingDialog ?: LoadingDialog(this).let {
-            if (!it.isShowing) it.show()
+        if (loadingDialog == null) {
+            loadingDialog = this?.let {
+                LoadingDialog(this)
+            }
         }
+        loadingDialog?.show()
+
     }
 
     open fun dismissLoading() {
-        loadingDialog?.cancel()
+        loadingDialog?.run { if (isShowing) dismiss() }
     }
 
 

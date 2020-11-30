@@ -4,9 +4,14 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.blankj.utilcode.util.NetworkUtils
+import com.blankj.utilcode.util.Utils
 import kotlinx.coroutines.*
+import net.hyntech.baselib.R
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.app.manager.SingleLiveEvent
+import net.hyntech.baselib.ext.isResultSuccess
+import net.hyntech.baselib.http.BaseResponse
 import net.hyntech.baselib.http.ExceptionHandle
 import net.hyntech.baselib.http.ResponseThrowable
 import net.hyntech.baselib.utils.LogUtils
@@ -30,7 +35,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
     }
 
 
-    fun onClickProxy(m: () -> Unit){
+    fun onClickProxy(m: () -> Unit) {
         if (!UIUtils.isFastDoubleClick()) {
             m()
         }
@@ -43,24 +48,105 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
      * @param complete  完成回调（无论成功失败都会调用）
      * @param isShowDialog 是否显示加载框
      */
-    fun launch(
+    fun launchGo(
         block: suspend CoroutineScope.() -> Unit,
-        error: suspend CoroutineScope.(ResponseThrowable) -> Unit = {},
+        error: suspend CoroutineScope.(ResponseThrowable) -> Unit = {
+            defUI.toastEvent.postValue("${it.code}:${it.errMsg}")
+        },
         complete: suspend CoroutineScope.() -> Unit = {},
         isShowDialog: Boolean = true
     ) {
+        if(!NetworkUtils.isConnected()){
+            defUI.toastEvent.postValue("网络异常,请检查网络！")
+            return
+        }
         if (isShowDialog) defUI.showDialog.call()
         launchUI {
             handleException(
-                withContext(Dispatchers.IO)
-                { block },
+                withContext(Dispatchers.IO) { block },
                 { error(it) },
                 {
                     defUI.dismissDialog.call()
                     complete()
-                },
-                true
+                }
             )
+        }
+    }
+
+
+    /**
+     * 过滤请求结果，其他全抛异常
+     * @param block 请求体
+     * @param success 成功回调
+     * @param error 失败回调
+     * @param complete  完成回调（无论成功失败都会调用）
+     * @param isShowDialog 是否显示加载框
+     */
+    fun <T> launchOnlyResult(
+        block: suspend CoroutineScope.() -> BaseResponse<T>,
+        success: (T?) -> Unit,
+        error: (ResponseThrowable) -> Unit = {
+            defUI.toastEvent.postValue("${it.code}:${it.errMsg}")
+        },
+        complete: () -> Unit = {},
+        isShowDialog: Boolean = true,
+        isShowToast:Boolean = true
+    ) {
+        if(!NetworkUtils.isConnected()){
+            defUI.toastEvent.postValue("网络异常,请检查网络！")
+            return
+        }
+        if (isShowDialog) defUI.showDialog.call()
+        launchUI {
+            handleException(
+                { withContext(Dispatchers.IO) { block() } },
+                { res ->
+                    executeResponse(res) {
+                        success(it)
+                    }
+                },
+                {
+                    if(isShowToast) error(it)
+                },
+                {
+                    defUI.dismissDialog.call()
+                    complete()
+                }
+            )
+        }
+    }
+
+
+    /**
+     * 请求结果过滤
+     */
+    private suspend fun <T> executeResponse(
+        response: BaseResponse<T>,
+        success: suspend CoroutineScope.(T?) -> Unit
+    ) {
+        coroutineScope {
+            if (response.code.isResultSuccess()) success(response.data)
+            else throw ResponseThrowable(response.code, response.msg)
+        }
+    }
+
+    /**
+     * 异常统一处理
+     */
+    private suspend fun <T> handleException(
+        block: suspend CoroutineScope.() -> BaseResponse<T>,
+        success: suspend CoroutineScope.(BaseResponse<T>) -> Unit,
+        error: suspend CoroutineScope.(ResponseThrowable) -> Unit,
+        complete: suspend CoroutineScope.() -> Unit
+    ) {
+        coroutineScope {
+            try {
+                success(block())
+            } catch (e: ResponseThrowable) {
+                error(ExceptionHandle.handleException(e))
+            } finally {
+                complete()
+            }
         }
     }
 
@@ -71,21 +157,19 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
     private suspend fun handleException(
         block: suspend CoroutineScope.() -> Unit,
         error: suspend CoroutineScope.(ResponseThrowable) -> Unit,
-        complete: suspend CoroutineScope.() -> Unit,
-        isHandlerError: Boolean = false
+        complete: suspend CoroutineScope.() -> Unit
     ) {
         coroutineScope {
             try {
                 block()
-            } catch (e: Throwable) {
-                val err = ExceptionHandle.handleException(e)
-                if (!isHandlerError) defUI.toastEvent.postValue("${err.code}:${err.errMsg}")
-                else error(err)
+            } catch (e: ResponseThrowable) {
+                error(ExceptionHandle.handleException(e))
             } finally {
                 complete()
             }
         }
     }
+
 
     /**
      * UI事件

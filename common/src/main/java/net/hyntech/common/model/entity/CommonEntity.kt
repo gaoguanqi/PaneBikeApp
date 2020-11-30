@@ -1,8 +1,8 @@
 package net.hyntech.common.model.entity
 
-import net.hyntech.baselib.http.BaseResult
+import net.hyntech.baselib.http.BaseResponse
 
-class CommonEntity:BaseResult<CommonEntity>() {
+class CommonEntity:BaseResponse<CommonEntity>() {
 
 
 }

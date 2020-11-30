@@ -15,8 +15,8 @@ import java.util.*
 class HttpParamsUtils {
     companion object{
 
-        fun addPublicRequestParams(addToken:Boolean = true):MutableMap<String,String>{
-            val map:MutableMap<String,String> = mutableMapOf()
+        fun addPublicRequestParams(addToken:Boolean = true):WeakHashMap<String,Any>{
+            val map:WeakHashMap<String,Any> = WeakHashMap()
             val accessToken = SPUtils.getInstance(BaseApp.instance.getAppPackage()).getString(Constants.SaveInfoKey.ACCESS_TOKEN)
             val currentTimeStr = TimeUtils.getNowString()
             val uuidStr = UUID.randomUUID().toString()

@@ -1,7 +1,7 @@
 package net.hyntech.baselib.http
 
 class ResponseThrowable : Exception {
-    var code: Int
+    var code: String
     var errMsg: String
 
     constructor(error: ERROR) {
@@ -9,7 +9,7 @@ class ResponseThrowable : Exception {
         errMsg = error.getValue()
     }
 
-    constructor(code: Int, msg: String) {
+    constructor(code: String, msg: String) {
         this.code = code
         this.errMsg = msg
     }
