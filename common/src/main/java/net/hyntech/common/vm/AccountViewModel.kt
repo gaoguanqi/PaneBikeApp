@@ -12,6 +12,7 @@ import net.hyntech.baselib.app.config.Config
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.baselib.utils.LogUtils
+import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.db.AppDatabase
@@ -63,7 +64,6 @@ class AccountViewModel : BaseViewModel() {
         onClickProxy {
             login()
         }
-
     }
 
 
@@ -113,10 +113,19 @@ class AccountViewModel : BaseViewModel() {
                 searchOrgList.add(it)
             }
         }
-        orgData.value = if(searchOrgList.isEmpty()) orgDataList else searchOrgList
+        orgData.value = searchOrgList
+        if(searchOrgList.isEmpty()){
+            ToastUtil.showToast("未搜索到相关内容")
+        }
     }
 
     fun searchRecover() {
         orgData.value = orgDataList
+    }
+
+    fun openOrg(){
+        onClickProxy {
+            companyEvent.call()
+        }
     }
 }

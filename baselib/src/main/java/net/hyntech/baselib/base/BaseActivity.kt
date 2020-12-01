@@ -1,8 +1,10 @@
 package net.hyntech.baselib.base
 
+import android.app.Activity
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -25,6 +27,7 @@ abstract class BaseActivity : AppCompatActivity(), IView {
 
     open fun hasUsedEventBus(): Boolean = false
     open fun hasStatusBarMode(): Boolean = false
+    open fun hasEventKeyBack(): Boolean = false
 
 
 
@@ -51,6 +54,12 @@ abstract class BaseActivity : AppCompatActivity(), IView {
 
     open fun getBundleString(key:String):String?{
         return intent?.getStringExtra(key)
+    }
+
+    fun onClickProxy(m: () -> Unit) {
+        if (!UIUtils.isFastDoubleClick()) {
+            m()
+        }
     }
 
     /**
@@ -87,7 +96,23 @@ abstract class BaseActivity : AppCompatActivity(), IView {
     open fun <T> onStickyEventBusDispense(event: Event<T>) {}
 
 
-    open fun onFinish() {
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if(hasEventKeyBack()){
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                onKeyBack()
+                return true
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    open fun onKeyBack(){}
+
+    open fun onFinish(isResultOK:Boolean = false) {
+        if(isResultOK){
+            setResult(Activity.RESULT_OK)
+        }
         this.finish()
     }
 

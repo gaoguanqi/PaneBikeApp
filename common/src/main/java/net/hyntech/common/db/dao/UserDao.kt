@@ -2,6 +2,7 @@ package net.hyntech.common.db.dao
 
 
 import androidx.room.*
+import net.hyntech.baselib.utils.LogUtils
 
 @Dao
 interface UserDao {
@@ -27,6 +28,7 @@ interface UserDao {
     fun getCurrentUser(): User?{
         val users = getAllUser()
         if(!users.isEmpty()){
+            LogUtils.logGGQ("getCurrentUser->>>")
             return users.last()
         }
         return null

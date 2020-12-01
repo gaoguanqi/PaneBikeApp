@@ -77,7 +77,7 @@ class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() 
         })
 
         viewModel.forgetPwdEvent.observe(this, Observer {
-            startActivity(Intent(LoginActivity@this,ForgetPwdActivity::class.java))
+            startActivityForResult(Intent(LoginActivity@this,ForgetPwdActivity::class.java),EventCode.EVENT_CODE_ORG)
         })
 
 

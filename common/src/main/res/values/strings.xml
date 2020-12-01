@@ -4,6 +4,7 @@
     <string name="common_back">返回</string>
     <string name="common_text_cancle">取消</string>
     <string name="common_text_confirm">确定</string>
+    <string name="common_text_ask">确认</string>
     <string name="common_choose_company">请选择公安局</string>
     <string name="common_account">账号</string>
     <string name="common_password">密码</string>

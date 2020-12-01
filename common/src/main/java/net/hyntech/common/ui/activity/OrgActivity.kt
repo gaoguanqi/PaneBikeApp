@@ -48,11 +48,26 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
         }
 
         etInput = findViewById(R.id.et_input)
-        etInput?.setListener(object :ClearEditText.OnClickListener{
-            override fun onClearClick() {
-                viewModel.searchRecover()
+//        etInput?.setListener(object :ClearEditText.OnClickListener{
+//            override fun onClearClick() {
+//                viewModel.searchRecover()
+//            }
+//        })
+
+        etInput?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(TextUtils.isEmpty(s)){
+                    viewModel.searchRecover()
+                }
             }
         })
+
+
         refreshLayout.setEnableRefresh(true)//是否启用下拉刷新功能
         refreshLayout.setEnableLoadMore(false)//是否启用上拉加载功能
         refreshLayout.setOnRefreshListener { ref ->
@@ -83,8 +98,7 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
                             this.insertUser(it)
                         }
                     }
-                    setResult(Activity.RESULT_OK)
-                    onFinish()
+                    onFinish(true)
                 }
             }
         })
@@ -95,8 +109,8 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
         })
 
         findViewById<Button>(R.id.btn_search).setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
-               val input:String? = etInput?.getText().toString().trim()
+            onClickProxy {
+                val input:String? = etInput?.getText().toString().trim()
                 if(TextUtils.isEmpty(input)){
                     ToastUtil.showToast(UIUtils.getString(R.string.common_tip_search))
                 }else{

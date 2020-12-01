@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import net.hyntech.baselib.base.IView
+import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.widget.dialog.LoadingDialog
 
 abstract class BaseFragment<VB : ViewDataBinding> : Fragment(),
@@ -71,6 +72,12 @@ abstract class BaseFragment<VB : ViewDataBinding> : Fragment(),
         loadingDialog?.run { if (isShowing) dismiss() }
     }
 
+
+    fun onClickProxy(m: () -> Unit) {
+        if (!UIUtils.isFastDoubleClick()) {
+            m()
+        }
+    }
 
 
     override fun onResume() {
