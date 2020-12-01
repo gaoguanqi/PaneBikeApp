@@ -142,6 +142,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
         coroutineScope {
             try {
                 success(block())
+                LogUtils.logGGQ("-->>-T-<<")
             } catch (e: ResponseThrowable) {
                 error(ExceptionHandle.handleException(e))
             } finally {
@@ -162,6 +163,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
         coroutineScope {
             try {
                 block()
+                LogUtils.logGGQ("-->>-N-T-<<")
             } catch (e: ResponseThrowable) {
                 error(ExceptionHandle.handleException(e))
             } finally {

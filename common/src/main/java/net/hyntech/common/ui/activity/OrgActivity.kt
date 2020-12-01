@@ -12,7 +12,9 @@ import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.databinding.ActivityOrgBinding
+import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
+import net.hyntech.common.global.Global
 import net.hyntech.common.model.entity.CenterEntity
 import net.hyntech.common.ui.adapter.OrgAdapter
 import net.hyntech.common.vm.AccountViewModel
@@ -50,12 +52,23 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
         val adapter: OrgAdapter = OrgAdapter(this)
         adapter.setListener(object :OrgAdapter.OnClickListener{
             override fun onItemClick(item: CenterEntity.OrgListBean?) {
-                item?.let {
-                    SPUtils.getInstance(BaseApp.instance.getAppPackage()).apply {
-                        this.put(Constants.SaveInfoKey.API_URL,it.api_url)
-                        this.put(Constants.SaveInfoKey.NAME_ORG,it.orgName)
+                item?.let { org ->
+                    AppDatabase.getInstance(BaseApp.instance).userDao().apply {
+                        this.getCurrentUser()?.let {
+                            it.orgId = org.orgId
+                            it.orgName = org.orgName
+
+                            var mURL:String = org.api_url
+                            org.api_url?.let {url ->
+                                mURL = url.substring(0,url.lastIndexOf("/"))
+                            }
+                            it.apiUrl = mURL
+                            LogUtils.logGGQ("-->>apiUrl:${it.apiUrl}")
+                            it.appwebUrl = org.appweb_url
+                            Global.BASE_URL = it.apiUrl!!
+                            this.insertUser(it)
+                        }
                     }
-                    ToastUtil.showToast(it.orgName)
                     setResult(Activity.RESULT_OK)
                     onFinish()
                 }

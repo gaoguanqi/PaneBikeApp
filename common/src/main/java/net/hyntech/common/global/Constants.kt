@@ -23,8 +23,6 @@ class Constants {
         const val HAS_WELCOME_POLICE = "welcome_police"
 
         const val ACCESS_TOKEN = "accessToken"
-        const val API_URL = "api_url"
-        const val NAME_ORG = "name_org"
 
     }
 

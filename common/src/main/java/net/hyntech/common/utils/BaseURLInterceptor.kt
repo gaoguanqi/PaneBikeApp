@@ -32,6 +32,9 @@ class BaseURLInterceptor: Interceptor {
             } else {
                 oldHttpUrl
             }
+
+
+
             //重建新的HttpUrl，修改需要修改的url部分
             newBaseUrl?.let {
                 val newFullUrl = oldHttpUrl.newBuilder()

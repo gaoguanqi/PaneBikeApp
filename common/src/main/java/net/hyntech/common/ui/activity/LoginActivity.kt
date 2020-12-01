@@ -16,6 +16,7 @@ import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.databinding.ActivityLoginBinding
+import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
 import net.hyntech.common.global.EventCode
 import net.hyntech.common.vm.AccountViewModel
@@ -49,7 +50,15 @@ class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() 
             }
         }
 
-        binding.tvOrgName.text = SPUtils.getInstance(BaseApp.instance.getAppPackage()).getString(Constants.SaveInfoKey.NAME_ORG,UIUtils.getString(R.string.common_choose_company))
+        viewModel.initUser()
+
+        AppDatabase.getInstance(BaseApp.instance).userDao().apply {
+            this.getCurrentUser()?.let {
+                binding.tvOrgName.text = it.orgName
+            }?:let {
+                binding.tvOrgName.text = UIUtils.getString(R.string.common_choose_company)
+            }
+        }
 
         viewModel.defUI.showDialog.observe(this, Observer {
             showLoading()
@@ -101,9 +110,9 @@ class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() 
         if(resultCode == Activity.RESULT_OK){
             when(requestCode){
                 EventCode.EVENT_CODE_ORG ->{
-                    SPUtils.getInstance(BaseApp.instance.getAppPackage()).getString(Constants.SaveInfoKey.NAME_ORG)?.let {
-                        if(!TextUtils.isEmpty(it)){
-                            binding.tvOrgName.text = it
+                    AppDatabase.getInstance(BaseApp.instance).userDao().apply {
+                        this.getCurrentUser()?.let {
+                            binding.tvOrgName.text = it.orgName
                         }
                     }
                 }

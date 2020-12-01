@@ -5,6 +5,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.SPUtils
+import com.blankj.utilcode.util.Utils
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.app.config.Config
 import net.hyntech.baselib.app.manager.SingleLiveEvent
@@ -12,9 +13,13 @@ import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
+import net.hyntech.common.db.AppDatabase
+import net.hyntech.common.db.dao.User
 import net.hyntech.common.global.Constants
+import net.hyntech.common.global.Global
 import net.hyntech.common.model.entity.CenterEntity
 import net.hyntech.common.model.repository.CommonRepository
+import java.lang.Exception
 import java.util.*
 
 class AccountViewModel : BaseViewModel() {
@@ -80,7 +85,19 @@ class AccountViewModel : BaseViewModel() {
         })
     }
 
-
-
-
+    fun initUser() {
+        AppDatabase.getInstance(BaseApp.instance).userDao().apply {
+            if(this.getCurrentUser() == null){
+                val user:User = User()
+                user.orgName = UIUtils.getString(R.string.common_choose_company)
+                user.userType = "0"
+                user.accessToken = SPUtils.getInstance(BaseApp.instance.getAppPackage()).getString(Constants.SaveInfoKey.ACCESS_TOKEN,"")
+                user.buildType = BaseApp.instance.getBuildType()
+                user.apiUrl = Global.BASE_URL
+                this.insertUser(user)
+            }else{
+                Global.BASE_URL = this.getCurrentUser()?.apiUrl!!
+            }
+        }
+    }
 }
