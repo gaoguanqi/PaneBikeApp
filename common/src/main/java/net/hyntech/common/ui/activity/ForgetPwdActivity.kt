@@ -75,6 +75,7 @@ class ForgetPwdActivity: BaseViewActivity<ActivityForgetPwdBinding, AccountViewM
                 return@onClickProxy
             }
 
+            viewModel.getVerifyCode(phone!!)
 
 
         }

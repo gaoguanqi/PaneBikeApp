@@ -90,6 +90,7 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
                             var mURL:String = org.api_url
                             org.api_url?.let {url ->
                                 mURL = url.substring(0,url.lastIndexOf("/"))
+//                                mURL = Global.TEST_URL
                             }
                             it.apiUrl = mURL
                             LogUtils.logGGQ("-->>apiUrl:${it.apiUrl}")

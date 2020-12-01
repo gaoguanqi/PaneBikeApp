@@ -128,4 +128,19 @@ class AccountViewModel : BaseViewModel() {
             companyEvent.call()
         }
     }
+
+    fun getVerifyCode(phone: String) {
+        launchOnlyResult({
+            val params:WeakHashMap<String,Any> = WeakHashMap()
+            params.put("phone",phone)
+            params.put("resetPwd","qqqqqq")
+            params.put("length","4")
+            repository.getVerifyCode(params)
+        }, success = {
+            ToastUtil.showToast(it?.msg)
+
+        }, error = {
+
+        })
+    }
 }

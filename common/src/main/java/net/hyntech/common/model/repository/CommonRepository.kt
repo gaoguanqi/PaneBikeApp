@@ -26,7 +26,9 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.loginPhone(params2Body(params))
     }
 
-
+    suspend fun getVerifyCode(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getVerifyCode(params2Body(params))
+    }
 
 
 }
