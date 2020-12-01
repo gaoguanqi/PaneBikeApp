@@ -37,7 +37,7 @@ class HeaderInterceptor (private val headers: WeakHashMap<String, Any>?) : Inter
                 for (headMap in headers) {
                     //添加统一通用header，不存在则添加，存在则不添加。
                     if (originalHeaders.get(headMap.key) == null) {
-                        LogUtils.logGGQ("公共请求头：${headMap.key}--${headMap.value}")
+                        LogUtils.logGGQ("公共请求参数：${headMap.key}--${headMap.value}")
                         addHeader(headMap.key, headMap.value.toString()).build()
                     }
                 }

@@ -1,6 +1,7 @@
 package net.hyntech.common.vm
 
 import android.graphics.drawable.Drawable
+import android.text.TextUtils
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.AppUtils
@@ -37,6 +38,8 @@ class AccountViewModel : BaseViewModel() {
     val password: ObservableField<String> = ObservableField()
 
     val orgData: MutableLiveData<List<CenterEntity.OrgListBean>> = MutableLiveData()
+    val orgDataList:MutableList<CenterEntity.OrgListBean> = arrayListOf()
+    val searchOrgList:MutableList<CenterEntity.OrgListBean> = arrayListOf()
 
     init {
         verName.set("当前版本：${AppUtils.getAppVersionName()}")
@@ -80,7 +83,9 @@ class AccountViewModel : BaseViewModel() {
             repository.getOrgList()
         }, success = {
             it?.let {data ->
-                orgData.value = data.org_list
+                orgDataList.clear()
+                orgDataList.addAll(data.org_list)
+                orgData.value = orgDataList
             }
         })
     }
@@ -99,5 +104,19 @@ class AccountViewModel : BaseViewModel() {
                 Global.BASE_URL = this.getCurrentUser()?.apiUrl!!
             }
         }
+    }
+
+    fun searchInput(input: String) {
+        searchOrgList.clear()
+        orgData.value?.forEach {
+            if(it.orgName.contains(input)){
+                searchOrgList.add(it)
+            }
+        }
+        orgData.value = if(searchOrgList.isEmpty()) orgDataList else searchOrgList
+    }
+
+    fun searchRecover() {
+        orgData.value = orgDataList
     }
 }

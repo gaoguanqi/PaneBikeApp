@@ -7,6 +7,8 @@ import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.appcompat.widget.AppCompatEditText
 import net.hyntech.common.R
+import net.hyntech.common.model.entity.CenterEntity
+import net.hyntech.common.ui.adapter.OrgAdapter
 
 class ClearEditText:AppCompatEditText {
 
@@ -19,6 +21,12 @@ class ClearEditText:AppCompatEditText {
         attributeSet,
         defStyleAttr
     )
+    private var listener: OnClickListener? = null
+
+    fun setListener(listener: OnClickListener?){
+        this.listener = listener
+    }
+
 
     private val blackClearDrawable =
         ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_cancel_24, null) as Drawable
@@ -87,7 +95,12 @@ class ClearEditText:AppCompatEditText {
                 clearButtonImage = opaqueClearDrawable
                 text?.clear()
                 hideClearButton()
+                listener?.onClearClick()
             }
         }
+    }
+
+    interface OnClickListener{
+        fun onClearClick()
     }
 }

@@ -16,8 +16,9 @@ object RetrofitClient : BaseRetrofitClient() {
     override fun handleBuilder(builder: OkHttpClient.Builder) {
         //添加header
         val header = HttpParamsUtils.addPublicRequestParams()
-
         builder.addInterceptor(HeaderInterceptor(header))
+
+        //添加BaseURL 拦截器
         builder.addInterceptor(BaseURLInterceptor())
 
     }

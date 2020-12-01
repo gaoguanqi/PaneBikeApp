@@ -2,6 +2,10 @@ package net.hyntech.common.ui.activity
 
 import android.app.Activity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.SPUtils
 import kotlinx.android.synthetic.main.activity_org.*
@@ -18,8 +22,12 @@ import net.hyntech.common.global.Global
 import net.hyntech.common.model.entity.CenterEntity
 import net.hyntech.common.ui.adapter.OrgAdapter
 import net.hyntech.common.vm.AccountViewModel
+import net.hyntech.common.widget.view.ClearEditText
 
 class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
+
+
+    private var etInput:ClearEditText? = null
 
     private val viewModel by viewModels<AccountViewModel>()
 
@@ -39,6 +47,12 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
             onFinish()
         }
 
+        etInput = findViewById(R.id.et_input)
+        etInput?.setListener(object :ClearEditText.OnClickListener{
+            override fun onClearClick() {
+                viewModel.searchRecover()
+            }
+        })
         refreshLayout.setEnableRefresh(true)//是否启用下拉刷新功能
         refreshLayout.setEnableLoadMore(false)//是否启用上拉加载功能
         refreshLayout.setOnRefreshListener { ref ->
@@ -79,6 +93,17 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
         viewModel.orgData.observe(this, androidx.lifecycle.Observer {
             adapter.setData(it)
         })
+
+        findViewById<Button>(R.id.btn_search).setOnClickListener {
+            if(!UIUtils.isFastDoubleClick()){
+               val input:String? = etInput?.getText().toString().trim()
+                if(TextUtils.isEmpty(input)){
+                    ToastUtil.showToast(UIUtils.getString(R.string.common_tip_search))
+                }else{
+                    viewModel.searchInput(input!!)
+                }
+            }
+        }
     }
 
 

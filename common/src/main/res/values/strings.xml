@@ -21,6 +21,7 @@
     <string name="common_verify_code">验证码\t\t</string>
     <string name="common_hint_verify_code">请输入短信验证码</string>
     <string name="common_get_verify_code">获取验证码</string>
+    <string name="common_tip_search">请输入有效内容</string>
 
     <string name="common_permissions_title">权限申请</string>
     <string name="common_permissions_desc">请开启必要权限,否则您无法正常使用一些功能</string>

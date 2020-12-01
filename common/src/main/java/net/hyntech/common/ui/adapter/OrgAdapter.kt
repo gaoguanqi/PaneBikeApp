@@ -3,6 +3,7 @@ package net.hyntech.common.ui.adapter
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_org.view.*
@@ -16,7 +17,7 @@ class OrgAdapter(val context: Context):RecyclerView.Adapter<OrgAdapter.ViewHolde
 
     private lateinit var binding: ItemOrgBinding
 
-    private var list: List<CenterEntity.OrgListBean>? = null
+    private var list: MutableList<CenterEntity.OrgListBean> = arrayListOf()
     private var listener:OnClickListener? = null
 
     fun setListener(listener:OnClickListener?){
@@ -24,7 +25,8 @@ class OrgAdapter(val context: Context):RecyclerView.Adapter<OrgAdapter.ViewHolde
     }
 
     fun setData(data:List<CenterEntity.OrgListBean>){
-        this.list = data
+        this.list.clear()
+        this.list.addAll(data)
         notifyDataSetChanged()
     }
 
@@ -39,18 +41,18 @@ class OrgAdapter(val context: Context):RecyclerView.Adapter<OrgAdapter.ViewHolde
         val holder: ViewHolder = ViewHolder(binding.root)
         holder.itemView.item_root.setOnClickListener {
             if(!UIUtils.isFastDoubleClick()){
-                listener?.onItemClick(list?.get(holder.adapterPosition))
+                listener?.onItemClick(list.get(holder.adapterPosition))
             }
         }
         return holder
     }
 
     override fun getItemCount(): Int {
-        return list?.size?:0
+        return list.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setData(list?.get(position))
+        holder.setData(list.get(position))
     }
 
 
@@ -58,7 +60,7 @@ class OrgAdapter(val context: Context):RecyclerView.Adapter<OrgAdapter.ViewHolde
 
         fun setData(entity: CenterEntity.OrgListBean?) {
             entity?.let {
-                binding.data = it
+                itemView.findViewById<TextView>(R.id.tv_name).text = it.orgName
             }
         }
     }
