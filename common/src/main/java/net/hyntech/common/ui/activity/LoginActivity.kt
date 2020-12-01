@@ -1,22 +1,29 @@
 package net.hyntech.common.ui.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import androidx.lifecycle.Observer
+import com.blankj.utilcode.util.SPUtils
 import net.hyntech.baselib.app.BaseApp
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.databinding.ActivityLoginBinding
 import net.hyntech.common.global.Constants
+import net.hyntech.common.global.EventCode
 import net.hyntech.common.vm.AccountViewModel
 
 class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() {
 
     private val viewModel by viewModels<AccountViewModel>()
+
 
 
     override fun getLayoutId(): Int = R.layout.activity_login
@@ -42,6 +49,8 @@ class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() 
             }
         }
 
+        binding.tvOrgName.text = SPUtils.getInstance(BaseApp.instance.getAppPackage()).getString(Constants.SaveInfoKey.NAME_ORG,UIUtils.getString(R.string.common_choose_company))
+
         viewModel.defUI.showDialog.observe(this, Observer {
             showLoading()
         })
@@ -55,12 +64,14 @@ class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() 
         })
 
         viewModel.companyEvent.observe(this, Observer {
-            startActivity(Intent(LoginActivity@this,OrgActivity::class.java))
+            startActivityForResult(Intent(LoginActivity@this,OrgActivity::class.java),EventCode.EVENT_CODE_ORG)
         })
 
         viewModel.forgetPwdEvent.observe(this, Observer {
             startActivity(Intent(LoginActivity@this,ForgetPwdActivity::class.java))
         })
+
+
 
         binding.etAccount.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
@@ -83,7 +94,21 @@ class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() 
                 viewModel.password.set(s.toString())
             }
         })
-
-
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                EventCode.EVENT_CODE_ORG ->{
+                    SPUtils.getInstance(BaseApp.instance.getAppPackage()).getString(Constants.SaveInfoKey.NAME_ORG)?.let {
+                        if(!TextUtils.isEmpty(it)){
+                            binding.tvOrgName.text = it
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }

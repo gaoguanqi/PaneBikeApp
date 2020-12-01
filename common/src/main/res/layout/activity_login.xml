@@ -41,6 +41,7 @@
                     android:src="@drawable/ic_company" />
 
                 <TextView
+                    android:id="@+id/tv_org_name"
                     style="@style/common_style_account_text"
                     android:background="@drawable/layer_bottom_line"
                     android:text="@string/common_choose_company"

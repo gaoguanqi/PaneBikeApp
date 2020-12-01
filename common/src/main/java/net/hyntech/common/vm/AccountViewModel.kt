@@ -4,10 +4,15 @@ import android.graphics.drawable.Drawable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.AppUtils
+import com.blankj.utilcode.util.SPUtils
+import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.app.config.Config
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.baselib.utils.LogUtils
+import net.hyntech.baselib.utils.UIUtils
+import net.hyntech.common.R
+import net.hyntech.common.global.Constants
 import net.hyntech.common.model.entity.CenterEntity
 import net.hyntech.common.model.repository.CommonRepository
 import java.util.*
@@ -23,13 +28,10 @@ class AccountViewModel : BaseViewModel() {
     val companyEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val forgetPwdEvent: SingleLiveEvent<Any> = SingleLiveEvent()
 
-    val orgTitle: ObservableField<String> = ObservableField()
     val account: ObservableField<String> = ObservableField()
     val password: ObservableField<String> = ObservableField()
 
     val orgData: MutableLiveData<List<CenterEntity.OrgListBean>> = MutableLiveData()
-
-
 
     init {
         verName.set("当前版本：${AppUtils.getAppVersionName()}")
@@ -77,5 +79,8 @@ class AccountViewModel : BaseViewModel() {
             }
         })
     }
+
+
+
 
 }

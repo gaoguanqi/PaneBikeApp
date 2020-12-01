@@ -9,7 +9,7 @@ class LogUtils {
         @JvmStatic
         fun logGGQ(s: String?) {
             if (Config.CONFIG_DEBUG) {
-                Log.i("GGQ", "->>>${s}")
+                Log.i("GGQ", "${s}")
             }
         }
     }

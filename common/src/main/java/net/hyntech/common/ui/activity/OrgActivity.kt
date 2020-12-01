@@ -1,10 +1,12 @@
 package net.hyntech.common.ui.activity
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.SPUtils
 import kotlinx.android.synthetic.main.activity_org.*
 import net.hyntech.baselib.app.BaseApp
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
@@ -49,8 +51,13 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
         adapter.setListener(object :OrgAdapter.OnClickListener{
             override fun onItemClick(item: CenterEntity.OrgListBean?) {
                 item?.let {
-                    SPUtils.getInstance(BaseApp.instance.getAppPackage()).put(Constants.SaveInfoKey.API_URL,it.orgName)
+                    SPUtils.getInstance(BaseApp.instance.getAppPackage()).apply {
+                        this.put(Constants.SaveInfoKey.API_URL,it.api_url)
+                        this.put(Constants.SaveInfoKey.NAME_ORG,it.orgName)
+                    }
                     ToastUtil.showToast(it.orgName)
+                    setResult(Activity.RESULT_OK)
+                    onFinish()
                 }
             }
         })

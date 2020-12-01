@@ -24,6 +24,7 @@ class Constants {
 
         const val ACCESS_TOKEN = "accessToken"
         const val API_URL = "api_url"
+        const val NAME_ORG = "name_org"
 
     }
 
