@@ -36,12 +36,18 @@ abstract class AppDatabase : RoomDatabase() {
             }
             return INSTANCE!!
         }
-    }
 
-    val migration_1_2 = object : Migration(1, 2) {
-        override fun migrate(database: SupportSQLiteDatabase) {
-//            database.execSQL("")
+        val migration_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                //  创建新的临时表
+                database.execSQL( "CREATE TABLE users_new (id INTEGER,username TEXT, password TEXT, userId TEXT, expiresIn INTEGER, userType TEXT, accessToken TEXT, buildType TEXT, orgId TEXT, orgName TEXT, apiUrl TEXT, appWebUrl TEXT , config TEXT,ext1 TEXT, ext2 TEXT, ext3 TEXT,PRIMARY KEY(id))" )
+                // 复制数据
+                database.execSQL( "INSERT INTO users_new (id, username, userType ,accessToken ,buildType ,orgId, orgName,apiUrl,appWebUrl,config,ext1,ext2,ext3) SELECT id, username, build_type ,access_token, build_type,org_id ,org_name ,api_url appweb_url,config,ext1,ext2,ext3 FROM users" )
+                // 删除表结构
+                database.execSQL( "DROP TABLE users" )
+                // 临时表名称更改
+                database.execSQL( "ALTER TABLE users_new RENAME TO users" )
+            }
         }
     }
-
 }

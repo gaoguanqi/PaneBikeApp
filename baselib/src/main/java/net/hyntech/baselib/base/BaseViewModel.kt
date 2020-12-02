@@ -5,9 +5,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blankj.utilcode.util.NetworkUtils
-import com.blankj.utilcode.util.Utils
 import kotlinx.coroutines.*
-import net.hyntech.baselib.R
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.ext.isResultSuccess

@@ -21,6 +21,7 @@ import net.hyntech.common.global.Constants
 import net.hyntech.common.global.Global
 import net.hyntech.common.model.entity.CenterEntity
 import net.hyntech.common.model.repository.CommonRepository
+import okhttp3.internal.userAgent
 import java.lang.Exception
 import java.util.*
 
@@ -62,19 +63,50 @@ class AccountViewModel : BaseViewModel() {
 
     fun onLogin() {
         onClickProxy {
-            login()
+            AppDatabase.getInstance(BaseApp.instance).userDao().getCurrentUser()?.let {
+                if(TextUtils.isEmpty(it.orgId)){
+                    ToastUtil.showToast("请选择公安局")
+                    return@onClickProxy
+                }
+            }
+
+            val phone = account.get()
+            val pwd = password.get()
+            if(TextUtils.isEmpty(phone) || TextUtils.isEmpty(pwd)){
+                ToastUtil.showToast("请输入账号和密码")
+                return@onClickProxy
+            }
+
+            login(phone!!,pwd!!)
         }
     }
 
 
-    private fun login(){
+    private fun login(phone:String,pwd:String){
         launchOnlyResult({
             val params:WeakHashMap<String,Any> = WeakHashMap()
-            params.put("phone","13717591366")
-            params.put("pwd","1111111")
+            params.put("phone","410727190810161215")
+            params.put("pwd","民用")
+
+//            params.put("phone","410205198203062517")
+//            params.put("pwd","警用")
+
             repository.loginPhone(params)
         }, success = {
             LogUtils.logGGQ("---success>>>${it?.toString()}")
+            it?.let {u ->
+                AppDatabase.getInstance(BaseApp.instance).userDao().apply {
+                    this.getCurrentUser()?.let { user ->
+                        user.username = phone
+                        user.password = pwd
+                        user.userId = u.userId
+                        user.accessToken = u.accessToken
+                        user.expiresIn = u.expiresIn
+                        this.updateUser(user)
+                    }
+                }
+            }
+
         })
     }
 

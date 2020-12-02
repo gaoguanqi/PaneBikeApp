@@ -5,9 +5,6 @@ import kotlinx.coroutines.withContext
 import net.hyntech.baselib.base.BaseRepository
 import net.hyntech.common.model.RetrofitClient
 import net.hyntech.common.utils.HttpParamsUtils
-import okhttp3.RequestBody
-import retrofit2.http.GET
-import retrofit2.http.Query
 import java.util.*
 
 open class CommonRepository:BaseRepository() {

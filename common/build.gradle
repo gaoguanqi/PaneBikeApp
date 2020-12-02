@@ -54,11 +54,13 @@ android {
 
     buildTypes {
         debug {
+            buildConfigField("boolean", "LOG_ENABLE", "true")//控制日志是否打印
             debuggable true
             minifyEnabled false
         }
 
         release {
+            buildConfigField("boolean", "LOG_ENABLE", "false")//控制日志是否打印
             debuggable true
             //移除无用的资源文件
             shrinkResources false
