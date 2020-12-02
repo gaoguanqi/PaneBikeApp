@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import androidx.lifecycle.Observer
+import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.SPUtils
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.LogUtils
@@ -19,6 +20,7 @@ import net.hyntech.common.databinding.ActivityLoginBinding
 import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
 import net.hyntech.common.global.EventCode
+import net.hyntech.common.provider.ARouterConstants
 import net.hyntech.common.vm.AccountViewModel
 
 class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() {
@@ -55,6 +57,8 @@ class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() 
         AppDatabase.getInstance(BaseApp.instance).userDao().apply {
             this.getCurrentUser()?.let {
                 binding.tvOrgName.text = it.orgName
+                viewModel.account.set(it.username)
+                viewModel.password.set(it.password)
             }?:let {
                 binding.tvOrgName.text = UIUtils.getString(R.string.common_choose_company)
             }
@@ -80,7 +84,17 @@ class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() 
             startActivityForResult(Intent(LoginActivity@this,ForgetPwdActivity::class.java),EventCode.EVENT_CODE_ORG)
         })
 
-
+        viewModel.loginEvent.observe(this, Observer {
+            when(buildType){
+                Constants.BundleKey.EXTRA_USUAL ->{
+                    ARouter.getInstance().build(ARouterConstants.USUAL_HOME_PAGE).navigation()
+                }
+                Constants.BundleKey.EXTRA_POLICE ->{
+                    ARouter.getInstance().build(ARouterConstants.POLICE_HOME_PAGE).navigation()
+                }
+            }
+            onFinish()
+        })
 
         binding.etAccount.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}

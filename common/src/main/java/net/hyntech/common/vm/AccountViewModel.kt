@@ -35,6 +35,7 @@ class AccountViewModel : BaseViewModel() {
     val verName: ObservableField<String> = ObservableField("")
     val companyEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val forgetPwdEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val loginEvent: SingleLiveEvent<Any> = SingleLiveEvent()
 
     val account: ObservableField<String> = ObservableField()
     val password: ObservableField<String> = ObservableField()
@@ -105,8 +106,8 @@ class AccountViewModel : BaseViewModel() {
                         this.updateUser(user)
                     }
                 }
+                loginEvent.call()
             }
-
         })
     }
 

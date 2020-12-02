@@ -30,6 +30,22 @@
         <item name="android:background">@color/common_color_line</item>
     </style>
 
+    <style name="common_style_menu_active">
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="common_style_menu_inactive">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="common_style_tablayout_text" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="common_style_tabvideo_text" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+    </style>
+
 
     <style name="common_style_title">
         <item name="android:layout_width">wrap_content</item>

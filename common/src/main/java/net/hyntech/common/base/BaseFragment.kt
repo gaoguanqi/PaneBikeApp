@@ -13,11 +13,12 @@ import androidx.navigation.Navigation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
+import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.baselib.base.IView
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.widget.dialog.LoadingDialog
 
-abstract class BaseFragment<VB : ViewDataBinding> : Fragment(),
+abstract class BaseFragment<VB : ViewDataBinding,VM :BaseViewModel>(val viewModel: VM) : Fragment(),
     CoroutineScope by MainScope(), IView {
 
     protected lateinit var binding: VB
@@ -28,16 +29,17 @@ abstract class BaseFragment<VB : ViewDataBinding> : Fragment(),
 
     abstract fun getLayoutId(): Int
 
+
+    abstract fun initData(savedInstanceState: Bundle?): Unit
+
     abstract fun bindViewModel()
-
-    abstract fun initData(view: View, savedInstanceState: Bundle?): Unit
-
 
     private var isFirst: Boolean = true
 
     private var loadingDialog: LoadingDialog? = null
 
     open fun hasNavController(): Boolean = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +57,12 @@ abstract class BaseFragment<VB : ViewDataBinding> : Fragment(),
         if (this.hasNavController()) {
             this.navController = Navigation.findNavController(view)
         }
-        this.initData(view, savedInstanceState)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        this.initData(savedInstanceState)
         this.onVisible()
     }
 

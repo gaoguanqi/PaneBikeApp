@@ -24,4 +24,9 @@
     <color name="common_color_gradient_light">#A6E8FE</color>
 
     <color name="common_color_progress">#55E5E5E5</color>
+
+    <color name="common_color_fab">#FF5E51</color>
+    <color name="common_color_fab_pressed">#55FF5E51</color>
+    <color name="common_color_badge">#FF5E51</color>
+
 </resources>

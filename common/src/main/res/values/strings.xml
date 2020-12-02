@@ -32,7 +32,11 @@
 
 
 
-
     <string name="common_title_org">请选择组织机构</string>
     <string name="common_title_forget_pwd">重置密码</string>
+
+    <string name="common_car_info">车辆信息</string>
+    <string name="common_conve_service">便民服务</string>
+    <string name="common_call_police">一键报警</string>
+    <string name="common_the_safe">防盗保障</string>
 </resources>

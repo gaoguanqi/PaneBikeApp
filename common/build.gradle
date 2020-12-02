@@ -169,6 +169,8 @@ dependencies {
     api 'com.scwang.smart:refresh-header-classics:2.0.1'    //经典刷新头
     api 'com.scwang.smart:refresh-footer-classics:2.0.1'    //经典加载
     api 'commons-codec:commons-codec:1.11'
+    api 'com.youth.banner:banner:2.1.0'
+
     api project(path: ':baselib')
 
 }

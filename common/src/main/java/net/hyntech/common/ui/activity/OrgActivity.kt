@@ -95,7 +95,7 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
                             it.appwebUrl = org.appweb_url
                             Global.BASE_URL = it.apiUrl!!
                             Global.BASE_URL = Global.TEST_URL
-                            this.insertUser(it)
+                            this.updateUser(it)
                         }
                     }
                     onFinish(true)
