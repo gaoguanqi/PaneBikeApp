@@ -12,6 +12,6 @@
 /captures
 .externalNativeBuild
 .cxx
-/keystore.properties
 /usual/keystore/
 /police/keystore/
+!/keystore.properties
