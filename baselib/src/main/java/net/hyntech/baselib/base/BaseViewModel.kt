@@ -123,7 +123,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
         success: suspend CoroutineScope.(T?) -> Unit
     ) {
         coroutineScope {
-            if (!response.code.isResultSuccess()) success(response.data)
+            if (response.code.isResultSuccess()) success(response.data)
             else {
                 throw ResponseThrowable(response.code, response.msg)
             }
