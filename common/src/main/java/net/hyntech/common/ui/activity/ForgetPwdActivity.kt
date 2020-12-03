@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.RegexUtils
+import com.maple.player.widget.timer.MyCountDownTimerListener
 import kotlinx.android.synthetic.main.activity_forget_pwd.*
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.ToastUtil
@@ -42,6 +43,19 @@ class ForgetPwdActivity: BaseViewActivity<ActivityForgetPwdBinding, AccountViewM
         setTitle<ForgetPwdActivity>(UIUtils.getString(R.string.common_title_forget_pwd)).onBack<ForgetPwdActivity>{
             onFinish(true)
         }
+
+        viewModel.defUI.showDialog.observe(this, Observer {
+            showLoading()
+        })
+
+        viewModel.defUI.dismissDialog.observe(this, Observer {
+            dismissLoading()
+        })
+
+        viewModel.defUI.toastEvent.observe(this, Observer {
+            ToastUtil.showToast(it)
+        })
+
         tvOrgName = findViewById(R.id.tv_org_name)
         etPhone = findViewById(R.id.et_phone)
         etNewPwd = findViewById(R.id.et_new_pwd)

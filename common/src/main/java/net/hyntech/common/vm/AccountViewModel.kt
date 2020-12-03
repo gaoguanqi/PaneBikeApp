@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.Utils
+import com.maple.player.widget.timer.MyCountDownTimerListener
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.app.config.Config
 import net.hyntech.baselib.app.manager.SingleLiveEvent
@@ -21,6 +22,7 @@ import net.hyntech.common.global.Constants
 import net.hyntech.common.global.Global
 import net.hyntech.common.model.entity.CenterEntity
 import net.hyntech.common.model.repository.CommonRepository
+import net.hyntech.common.widget.timer.MyCountDownTimer
 import okhttp3.internal.userAgent
 import java.lang.Exception
 import java.util.*
@@ -36,6 +38,8 @@ class AccountViewModel : BaseViewModel() {
     val companyEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val forgetPwdEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val loginEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val verifyCodeEnable: ObservableField<Boolean> = ObservableField(true)
+    val verifyCodeText: ObservableField<String> = ObservableField()
 
     val account: ObservableField<String> = ObservableField()
     val password: ObservableField<String> = ObservableField()
@@ -44,8 +48,27 @@ class AccountViewModel : BaseViewModel() {
     val orgDataList:MutableList<CenterEntity.OrgListBean> = arrayListOf()
     val searchOrgList:MutableList<CenterEntity.OrgListBean> = arrayListOf()
 
+    private val timer: MyCountDownTimer
+    private val timerListener: MyCountDownTimerListener
+
     init {
         verName.set("当前版本：${AppUtils.getAppVersionName()}")
+        verifyCodeText.set(UIUtils.getString(R.string.common_get_verify_code))
+        timerListener = object :MyCountDownTimerListener {
+            override fun onStart() {
+                verifyCodeEnable.set(false)
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+                verifyCodeText.set("${millisUntilFinished} s")
+            }
+
+            override fun onFinish() {
+                verifyCodeEnable.set(true)
+                verifyCodeText.set("重新发送")
+            }
+        }
+        timer = MyCountDownTimer(60000, 1000, timerListener)
     }
 
 
@@ -78,8 +101,8 @@ class AccountViewModel : BaseViewModel() {
                 return@onClickProxy
             }
 
-//            login(phone!!,pwd!!)
-            loginEvent.call()
+            login(phone!!,pwd!!)
+//            loginEvent.call()
         }
     }
 
@@ -87,11 +110,17 @@ class AccountViewModel : BaseViewModel() {
     private fun login(phone:String,pwd:String){
         launchOnlyResult({
             val params:WeakHashMap<String,Any> = WeakHashMap()
-            params.put("phone","15664284736")
-            params.put("pwd","136512")
 
-//            params.put("phone","410205198203062517")
-//            params.put("pwd","警用")
+            //民用
+//            params.put("phone","15664284736")
+//            params.put("pwd","136512")
+
+            //警用
+//            params.put("phone","18537385619")
+//            params.put("pwd","000000")
+
+            params.put("phone",phone)
+            params.put("pwd",pwd)
 
             repository.loginPhone(params)
         }, success = {
@@ -169,13 +198,11 @@ class AccountViewModel : BaseViewModel() {
             val params:WeakHashMap<String,Any> = WeakHashMap()
             params.put("phone",phone)
             params.put("resetPwd","1")
-            params.put("length","4")
+            params.put("length",4)
             repository.getVerifyCode(params)
         }, success = {
-            ToastUtil.showToast(it?.msg)
-
-        }, error = {
-
-        })
+            timer.start()
+            timerListener.onStart()
+        },isShowDialog = false)
     }
 }

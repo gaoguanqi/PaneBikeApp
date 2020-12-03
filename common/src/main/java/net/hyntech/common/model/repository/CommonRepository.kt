@@ -11,8 +11,8 @@ open class CommonRepository:BaseRepository() {
 
     private val retrofitClient = RetrofitClient.service
 
-    override fun getPublicParams(): WeakHashMap<String, Any> {
-        return HttpParamsUtils.addPublicRequestParams(true)
+    override fun getPublicParams(addToken:Boolean): WeakHashMap<String, Any> {
+        return HttpParamsUtils.addPublicRequestParams(addToken)
     }
 
     suspend fun getOrgList() = withContext(Dispatchers.IO) {
@@ -24,7 +24,7 @@ open class CommonRepository:BaseRepository() {
     }
 
     suspend fun getVerifyCode(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
-        retrofitClient.getVerifyCode(params2Body(params))
+        retrofitClient.getVerifyCode(params2Body(params,true,false))
     }
 
 

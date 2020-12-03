@@ -11,14 +11,14 @@ ext {
 //            applicationIdUsual: "net.hyntech.electricvehicleusual",
 
             applicationIdUsual    : "net.hyntech.ebikeusual",
-            versionCodeUsual      : 200,
-            versionNameUsual      : "2.0.0",
+            versionCodeUsual      : 6,
+            versionNameUsual      : "1.0.6",
 
             //------平安电车警用--------//
 //            applicationIdPolice: "net.hyntech.electricvehiclepolice",
 
             applicationIdPolice    : "net.hyntech.ebikepolice",
-            versionCodePolice      : 300,
-            versionNamePolice      : "3.0.0"
+            versionCodePolice      : 8,
+            versionNamePolice      : "1.0.8"
     ]
 }
