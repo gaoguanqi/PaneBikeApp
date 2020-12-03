@@ -28,11 +28,11 @@
             app:layout_constraintVertical_weight="3"
             android:background="@color/common_colorTheme"
             android:orientation="vertical">
-
-            <RelativeLayout
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/common_toolbar"
-                android:background="@color/common_colorTheme">
+                android:layout_height="16dp"/>
+            <RelativeLayout
+                style="@style/common_style_toolbar">
 
                 <TextView
                     android:id="@+id/tv_title"
