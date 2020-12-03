@@ -123,8 +123,10 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
         success: suspend CoroutineScope.(T?) -> Unit
     ) {
         coroutineScope {
-            if (response.code.isResultSuccess()) success(response.data)
-            else throw ResponseThrowable(response.code, response.msg)
+            if (!response.code.isResultSuccess()) success(response.data)
+            else {
+                throw ResponseThrowable(response.code, response.msg)
+            }
         }
     }
 
@@ -142,7 +144,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
                 success(block())
                 LogUtils.logGGQ("-->>-T-<<")
             } catch (e: ResponseThrowable) {
-                error(ExceptionHandle.handleException(e))
+                error(ExceptionHandle.handleException(e,e))
             } finally {
                 complete()
             }
@@ -163,7 +165,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
                 block()
                 LogUtils.logGGQ("-->>-N-T-<<")
             } catch (e: ResponseThrowable) {
-                error(ExceptionHandle.handleException(e))
+                error(ExceptionHandle.handleException(e,e))
             } finally {
                 complete()
             }

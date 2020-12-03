@@ -9,7 +9,7 @@ import retrofit2.HttpException
 import java.net.ConnectException
 
 object ExceptionHandle {
-    fun handleException(e: Throwable): ResponseThrowable {
+    fun handleException(e: Throwable,fail:ResponseThrowable): ResponseThrowable {
         val ex: ResponseThrowable
         if (e is HttpException) {
             ex = ResponseThrowable(ERROR.NETWORD_ERROR)
@@ -36,7 +36,7 @@ object ExceptionHandle {
             ex = ResponseThrowable(ERROR.TIMEOUT_ERROR)
             return ex
         } else {
-            ex = ResponseThrowable(ERROR.UNKNOWN)
+            ex = ResponseThrowable(fail.code,fail.errMsg)
             return ex
         }
     }

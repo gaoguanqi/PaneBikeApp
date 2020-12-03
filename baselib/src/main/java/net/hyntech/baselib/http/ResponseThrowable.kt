@@ -1,8 +1,8 @@
 package net.hyntech.baselib.http
 
 class ResponseThrowable : Exception {
-    var code: String
-    var errMsg: String
+    var code: String = ERROR.UNKNOWN.getKey()
+    var errMsg: String = ERROR.UNKNOWN.getValue()
 
     constructor(error: ERROR) {
         code = error.getKey()
