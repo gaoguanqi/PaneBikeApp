@@ -14,4 +14,4 @@
 .cxx
 /usual/keystore/
 /police/keystore/
-!/keystore.properties
+/keystore.properties
