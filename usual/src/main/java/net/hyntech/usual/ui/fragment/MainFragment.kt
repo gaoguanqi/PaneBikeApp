@@ -2,6 +2,7 @@ package net.hyntech.usual.ui.fragment
 
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
+import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseFragment
 import net.hyntech.common.model.entity.SeverInfoEntity
@@ -26,13 +27,20 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
 
     override fun initData(savedInstanceState: Bundle?) {
         val list:List<SeverInfoEntity> = arrayListOf(
-            SeverInfoEntity(UIUtils.getString(CR.string.common_car_info),R.drawable.icon_car_locus),
-            SeverInfoEntity(UIUtils.getString(CR.string.common_conve_service),R.drawable.icon_conve_service),
-            SeverInfoEntity(UIUtils.getString(CR.string.common_call_police),R.drawable.icon_call_police),
-            SeverInfoEntity(UIUtils.getString(CR.string.common_the_safe),R.drawable.icon_the_safe))
+            SeverInfoEntity(UIUtils.getString(CR.string.common_car_info),CR.drawable.icon_car_locus),
+            SeverInfoEntity(UIUtils.getString(CR.string.common_conve_service),CR.drawable.icon_conver_service),
+            SeverInfoEntity(UIUtils.getString(CR.string.common_call_police),CR.drawable.icon_call_police),
+            SeverInfoEntity(UIUtils.getString(CR.string.common_the_safe),CR.drawable.icon_the_safe))
 
         binding.rvMain.layoutManager = GridLayoutManager(requireContext(),4)
         val adapter: SeverListAdapter = SeverListAdapter(requireContext(),CR.layout.item_sever_usual,list)
+        adapter.setListener(object :SeverListAdapter.OnClickListener{
+            override fun onItemClick(item: SeverInfoEntity?) {
+                item?.let {
+                    ToastUtil.showToast(it.name)
+                }
+            }
+        })
         binding.rvMain.adapter = adapter
     }
 

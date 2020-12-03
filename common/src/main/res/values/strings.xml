@@ -39,4 +39,10 @@
     <string name="common_conve_service">便民服务</string>
     <string name="common_call_police">一键报警</string>
     <string name="common_the_safe">防盗保障</string>
+
+    <string name="common_dot_manage">点位管理</string>
+    <string name="common_device_info">设备信息</string>
+    <string name="common_car_up">车辆登记</string>
+    <string name="common_up_record">登记记录</string>
+    <string name="common_find_car">车辆查找</string>
 </resources>
