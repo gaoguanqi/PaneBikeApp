@@ -1,24 +1,24 @@
 package net.hyntech.common.ui.adapter
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_org.view.*
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.ext.layoutInflater
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
+import net.hyntech.common.base.BaseAdapter
 import net.hyntech.common.model.entity.SeverInfoEntity
 import net.hyntech.common.widget.imgloader.ImageLoader
 import net.hyntech.common.widget.imgloader.TransType
 import net.hyntech.common.widget.imgloader.glide.GlideImageConfig
 
-class SeverListAdapter(val context: Context,val layoutRes:Int,val list:List<SeverInfoEntity>):RecyclerView.Adapter<SeverListAdapter.ViewHolder>() {
+class SeverListAdapter(val context: Context,val layoutRes:Int,val list:List<SeverInfoEntity>):
+    BaseAdapter<SeverListAdapter.ViewHolder>() {
 
     private var listener: OnClickListener? = null
 

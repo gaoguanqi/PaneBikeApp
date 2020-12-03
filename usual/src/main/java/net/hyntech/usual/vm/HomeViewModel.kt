@@ -7,7 +7,10 @@ class HomeViewModel : BaseViewModel() {
 
 
 
-    fun toast(){
-        ToastUtil.showToast("点击")
+    fun onClickNotice(){
+        onClickProxy {
+            ToastUtil.showToast("点击消息")
+        }
     }
+
 }

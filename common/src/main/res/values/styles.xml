@@ -24,6 +24,12 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="common_style_toolbar">
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/common_colorTheme</item>
+    </style>
+
     <style name="common_style_line">
         <item name="android:layout_height">@dimen/common_line</item>
         <item name="android:layout_width">match_parent</item>

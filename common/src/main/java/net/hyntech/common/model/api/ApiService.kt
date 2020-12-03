@@ -13,10 +13,10 @@ interface ApiService:BaseApi {
     suspend fun getOrgList(): CenterEntity
 
     @Headers("urlname:hyntech")
-    @POST(ApiURL.URL_LOGIN)
+    @POST(ApiURL.URL_USER_LOGIN)
     suspend fun loginPhone(@Body requestBody: RequestBody): UserEntity
 
     @Headers("urlname:hyntech")
-    @POST("/antitheft/v1/sms/usual/send_code.thtml")
+    @POST(ApiURL.URL_SMS_VERIFY_CODE)
     suspend fun getVerifyCode(@Body requestBody: RequestBody): CommonEntity
 }

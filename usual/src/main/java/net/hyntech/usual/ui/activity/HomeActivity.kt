@@ -12,6 +12,7 @@ import net.hyntech.common.ui.adapter.MyFragmentStateAdapter
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.ActivityHomeBinding
 import net.hyntech.usual.ui.fragment.MainFragment
+import net.hyntech.usual.ui.fragment.MineFragment
 import net.hyntech.usual.vm.HomeViewModel
 
 @Route(path = ARouterConstants.USUAL_HOME_PAGE)
@@ -27,10 +28,12 @@ class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>() {
         binding.viewModel = viewModel
     }
 
+    override fun hasStatusBarMode(): Boolean  = true
+
     override fun initData(savedInstanceState: Bundle?) {
         val list: List<Fragment> = listOf(
             MainFragment.getInstance(viewModel),
-            MainFragment.getInstance(viewModel)
+            MineFragment.getInstance(viewModel)
         )
 
 

@@ -78,7 +78,8 @@ class AccountViewModel : BaseViewModel() {
                 return@onClickProxy
             }
 
-            login(phone!!,pwd!!)
+//            login(phone!!,pwd!!)
+            loginEvent.call()
         }
     }
 
@@ -86,8 +87,8 @@ class AccountViewModel : BaseViewModel() {
     private fun login(phone:String,pwd:String){
         launchOnlyResult({
             val params:WeakHashMap<String,Any> = WeakHashMap()
-            params.put("phone","410727190810161215")
-            params.put("pwd","民用")
+            params.put("phone","15664284736")
+            params.put("pwd","136512")
 
 //            params.put("phone","410205198203062517")
 //            params.put("pwd","警用")
@@ -96,6 +97,7 @@ class AccountViewModel : BaseViewModel() {
         }, success = {
             LogUtils.logGGQ("---success>>>${it?.toString()}")
             it?.let {u ->
+                SPUtils.getInstance(BaseApp.instance.getAppPackage()).put(Constants.SaveInfoKey.ACCESS_TOKEN,u.accessToken)
                 AppDatabase.getInstance(BaseApp.instance).userDao().apply {
                     this.getCurrentUser()?.let { user ->
                         user.username = phone
@@ -166,7 +168,7 @@ class AccountViewModel : BaseViewModel() {
         launchOnlyResult({
             val params:WeakHashMap<String,Any> = WeakHashMap()
             params.put("phone",phone)
-            params.put("resetPwd","qqqqqq")
+            params.put("resetPwd","1")
             params.put("length","4")
             repository.getVerifyCode(params)
         }, success = {

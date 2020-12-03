@@ -31,7 +31,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize">
+                android:layout_height="@dimen/common_toolbar"
+                android:background="@color/common_colorTheme">
 
                 <TextView
                     android:id="@+id/tv_title"
@@ -48,10 +49,12 @@
                     android:layout_toEndOf="@id/tv_title"/>
 
                 <RelativeLayout
-                    android:id="@+id/rl_message"
+                    android:id="@+id/root_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
+
+                    android:onClick="@{(v) -> viewModel.onClickNotice()}"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true">
 

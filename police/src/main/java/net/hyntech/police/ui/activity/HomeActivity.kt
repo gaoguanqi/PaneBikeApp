@@ -5,6 +5,7 @@ import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.provider.ARouterConstants
@@ -12,6 +13,7 @@ import net.hyntech.common.ui.adapter.MyFragmentStateAdapter
 import net.hyntech.police.R
 import net.hyntech.police.databinding.ActivityHomeBinding
 import net.hyntech.police.ui.fragment.MainFragment
+import net.hyntech.police.ui.fragment.MineFragment
 import net.hyntech.police.vm.HomeViewModel
 
 @Route(path = ARouterConstants.POLICE_HOME_PAGE)
@@ -29,11 +31,12 @@ class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>() {
         binding.viewModel = viewModel
     }
 
+    override fun hasStatusBarMode(): Boolean = true
 
     override fun initData(savedInstanceState: Bundle?) {
         val list: List<Fragment> = listOf(
             MainFragment.getInstance(viewModel),
-            MainFragment.getInstance(viewModel)
+            MineFragment.getInstance(viewModel)
         )
 
 
@@ -51,9 +54,11 @@ class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>() {
             when(item.itemId){
                 R.id.item_nav_main ->{
                     binding.pager.currentItem = 0
+                    LogUtils.logGGQ("-->>首页")
                 }
                 R.id.item_nav_mine ->{
                     binding.pager.currentItem = 1
+                    LogUtils.logGGQ("-->>我的")
                 }
             }
             false

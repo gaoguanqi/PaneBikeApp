@@ -45,7 +45,6 @@ abstract class BaseActivity : AppCompatActivity(), IView {
 
     open fun setStatusBarMode(color:Int = Color.TRANSPARENT){
         BarUtils.setStatusBarColor(this, color)
-
     }
 
     open fun setContentLayout() {

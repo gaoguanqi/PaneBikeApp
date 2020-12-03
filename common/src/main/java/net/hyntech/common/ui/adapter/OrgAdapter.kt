@@ -10,10 +10,11 @@ import kotlinx.android.synthetic.main.item_org.view.*
 import net.hyntech.baselib.ext.layoutInflater
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
+import net.hyntech.common.base.BaseAdapter
 import net.hyntech.common.databinding.ItemOrgBinding
 import net.hyntech.common.model.entity.CenterEntity
 
-class OrgAdapter(val context: Context):RecyclerView.Adapter<OrgAdapter.ViewHolder>() {
+class OrgAdapter(val context: Context):BaseAdapter<OrgAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemOrgBinding
 

@@ -10,11 +10,12 @@ import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.UIUtils
 
 import net.hyntech.common.R
+import net.hyntech.common.base.BaseAdapter
 import net.hyntech.common.widget.imgloader.ImageLoader
 import net.hyntech.common.widget.imgloader.TransType
 import net.hyntech.common.widget.imgloader.glide.GlideImageConfig
 
-class WelcomeAdapter(val context:Context, val data:Array<Int>, val listener:OnClickListener) : RecyclerView.Adapter<WelcomeAdapter.ViewHolder>() {
+class WelcomeAdapter(val context:Context, val data:Array<Int>, val listener:OnClickListener) : BaseAdapter<WelcomeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_welcome,parent,false))
