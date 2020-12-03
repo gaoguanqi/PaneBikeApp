@@ -13,4 +13,5 @@
 .externalNativeBuild
 .cxx
 /keystore.properties
-*.keystore
+/usual/keystore/
+/police/keystore/
