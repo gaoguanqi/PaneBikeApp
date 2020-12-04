@@ -43,6 +43,9 @@ class User {
     @ColumnInfo(name = "ebikeNo")
     var ebikeNo:String? = ""
 
+    @ColumnInfo(name = "menu")
+    var menu:String? = ""
+
     @ColumnInfo(name = "config")
     var config:String? = ""
 

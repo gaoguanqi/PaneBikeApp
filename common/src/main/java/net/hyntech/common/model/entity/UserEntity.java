@@ -2,10 +2,13 @@ package net.hyntech.common.model.entity;
 
 import net.hyntech.baselib.http.BaseResponse;
 
+import java.util.List;
+
 public class UserEntity extends BaseResponse<UserEntity> {
     private String accessToken;
     private String userId;
     private Long expiresIn;
+    private List<String> menu;
 
     public String getAccessToken() {
         return accessToken;
@@ -31,12 +34,11 @@ public class UserEntity extends BaseResponse<UserEntity> {
         this.expiresIn = expiresIn;
     }
 
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "accessToken='" + accessToken + '\'' +
-                ", userId='" + userId + '\'' +
-                ", expiresIn=" + expiresIn +
-                '}';
+    public List<String> getMenu() {
+        return menu;
+    }
+
+    public void setMenu(List<String> menu) {
+        this.menu = menu;
     }
 }

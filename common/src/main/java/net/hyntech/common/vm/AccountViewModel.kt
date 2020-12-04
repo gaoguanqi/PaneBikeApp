@@ -133,6 +133,9 @@ class AccountViewModel : BaseViewModel() {
                         user.password = pwd
                         user.userId = u.userId
                         user.accessToken = u.accessToken
+                        if(u.menu != null){
+                            user.menu = u.menu.toString()
+                        }
                         user.expiresIn = u.expiresIn
                         this.updateUser(user)
                     }
