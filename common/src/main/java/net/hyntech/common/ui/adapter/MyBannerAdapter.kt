@@ -13,6 +13,7 @@ import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.ext.layoutInflater
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
+import net.hyntech.common.base.BaseViewHolder
 import net.hyntech.common.model.entity.BannerEntity
 import net.hyntech.common.widget.imgloader.ImageLoader
 import net.hyntech.common.widget.imgloader.TransType
@@ -35,7 +36,7 @@ class MyBannerAdapter(val context: Context,val list:List<BannerEntity>) : Banner
         holder?.setData(list.get(position))
     }
 
-    inner class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BannerViewHolder(itemView: View) : BaseViewHolder(itemView) {
         fun setData(entity: BannerEntity?) {
             entity?.let {
                 itemView.findViewById<ImageView>(R.id.iv_img)?.let {iv->

@@ -35,25 +35,24 @@
                 style="@style/common_style_toolbar">
 
                 <TextView
-                    android:id="@+id/tv_title"
+                    android:id="@+id/tv_main_title"
                     style="@style/common_style_title"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/common_name" />
+                    tools:text="@string/common_name" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_arrow_down_32dp"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/tv_title"/>
+                    android:layout_toEndOf="@id/tv_main_title" />
 
                 <RelativeLayout
                     android:id="@+id/root_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
-
                     android:onClick="@{(v) -> viewModel.onClickNotice()}"
                     android:layout_centerVertical="true"
                     android:layout_alignParentEnd="true">

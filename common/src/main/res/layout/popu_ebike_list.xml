@@ -3,11 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/common_color_background"
+    android:layout_centerHorizontal="true"
+    android:layout_gravity="center_horizontal"
     tools:ignore="ResourceName">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_ebike"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="4dp"
+        android:background="@color/common_color_background"/>
+
 </FrameLayout>

@@ -28,8 +28,8 @@ class BaseURLInterceptor: Interceptor {
             if (TextUtils.equals("center",headerValue)) {
                 Config.BASE_URL.toHttpUrlOrNull()
             } else if (TextUtils.equals("hyntech",headerValue)) {
-//                Global.BASE_URL.toHttpUrlOrNull()
-                Global.TEST_URL.toHttpUrlOrNull()
+                Global.BASE_URL.toHttpUrlOrNull()
+//                Global.TEST_URL.toHttpUrlOrNull()
             } else {
                 oldHttpUrl
             }

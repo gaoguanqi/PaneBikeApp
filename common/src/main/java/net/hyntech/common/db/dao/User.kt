@@ -40,6 +40,9 @@ class User {
     @ColumnInfo(name = "appWebUrl")
     var appwebUrl:String? = ""
 
+    @ColumnInfo(name = "ebikeNo")
+    var ebikeNo:String? = ""
+
     @ColumnInfo(name = "config")
     var config:String? = ""
 

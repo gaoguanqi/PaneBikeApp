@@ -11,6 +11,7 @@ import net.hyntech.baselib.ext.layoutInflater
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseAdapter
+import net.hyntech.common.base.BaseViewHolder
 import net.hyntech.common.databinding.ItemOrgBinding
 import net.hyntech.common.model.entity.CenterEntity
 
@@ -57,7 +58,7 @@ class OrgAdapter(val context: Context):BaseAdapter<OrgAdapter.ViewHolder>() {
     }
 
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
 
         fun setData(entity: CenterEntity.OrgListBean?) {
             entity?.let {

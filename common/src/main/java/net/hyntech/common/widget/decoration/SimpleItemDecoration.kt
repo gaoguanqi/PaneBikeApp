@@ -19,7 +19,7 @@ class SimpleItemDecoration(
 
 
     private val divider: Drawable?
-    private val height:Int = 2
+    private val height:Int = 1
 
     override fun getItemOffsets(
         outRect: Rect,

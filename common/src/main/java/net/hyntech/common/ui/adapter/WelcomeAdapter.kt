@@ -11,6 +11,7 @@ import net.hyntech.baselib.utils.UIUtils
 
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseAdapter
+import net.hyntech.common.base.BaseViewHolder
 import net.hyntech.common.widget.imgloader.ImageLoader
 import net.hyntech.common.widget.imgloader.TransType
 import net.hyntech.common.widget.imgloader.glide.GlideImageConfig
@@ -30,7 +31,7 @@ class WelcomeAdapter(val context:Context, val data:Array<Int>, val listener:OnCl
         holder.setData(position,data.get(position))
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
         fun setData(pos:Int,item: Int) {
             itemView.findViewById<ImageView>(R.id.iv_img)?.let {
                 ImageLoader.getInstance().loadImage(

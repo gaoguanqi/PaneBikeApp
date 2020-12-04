@@ -31,5 +31,9 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.getMessageCount(params2Body(params))
     }
 
+    suspend fun getUserInfo(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getUserInfo(params2Body(params))
+    }
+
 
 }

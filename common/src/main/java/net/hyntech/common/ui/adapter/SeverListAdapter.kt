@@ -12,6 +12,7 @@ import net.hyntech.baselib.ext.layoutInflater
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseAdapter
+import net.hyntech.common.base.BaseViewHolder
 import net.hyntech.common.model.entity.SeverInfoEntity
 import net.hyntech.common.widget.imgloader.ImageLoader
 import net.hyntech.common.widget.imgloader.TransType
@@ -46,7 +47,7 @@ class SeverListAdapter(val context: Context,val layoutRes:Int,val list:List<Seve
     }
 
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
         fun setData(entity: SeverInfoEntity?) {
             entity?.let {
                 itemView.findViewById<TextView>(R.id.tv_name).text = it.name
