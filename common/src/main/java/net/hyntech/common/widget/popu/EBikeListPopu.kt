@@ -1,21 +1,19 @@
 package net.hyntech.common.widget.popu
 
-import android.animation.Animator
 import android.content.Context
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SimpleItemAnimator
-import me.jessyan.autosize.AutoSize
-import me.jessyan.autosize.AutoSizeCompat
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseAdapter
 import net.hyntech.common.base.BaseViewHolder
 import net.hyntech.common.widget.decoration.SimpleItemDecoration
 import razerdp.basepopup.BaseLazyPopupWindow
 import razerdp.basepopup.BasePopupWindow
+import razerdp.util.animation.AnimationHelper
+import razerdp.util.animation.ScaleConfig
 
 class EBikeListPopu<VH:BaseViewHolder,T : BaseAdapter<VH>>(
     val mContext: Context,
@@ -45,5 +43,17 @@ class EBikeListPopu<VH:BaseViewHolder,T : BaseAdapter<VH>>(
             this.adapter = mAdapter
         }
     }
+
+    override fun onCreateShowAnimation(): Animation {
+//        return super.onCreateShowAnimation()
+        return AnimationHelper.asAnimation().withScale(ScaleConfig.TOP_TO_BOTTOM.duration(200L)).toShow()
+    }
+
+    override fun onCreateDismissAnimation(): Animation {
+//        return super.onCreateDismissAnimation()
+        return AnimationHelper.asAnimation().withScale(ScaleConfig.BOTTOM_TO_TOP.duration(100L)).toDismiss()
+    }
+
+
 
 }
