@@ -61,7 +61,6 @@ abstract class BaseFragment<VB : ViewDataBinding,VM :BaseViewModel>(val viewMode
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         this.initData(savedInstanceState)
         this.onVisible()
     }
@@ -96,11 +95,13 @@ abstract class BaseFragment<VB : ViewDataBinding,VM :BaseViewModel>(val viewMode
         if (lifecycle.currentState == Lifecycle.State.STARTED && this.isFirst) {
             this.isFirst = false
             lazyLoadData()
+        }else if(!this.isFirst){
+            refReshData()
         }
     }
 
     open fun lazyLoadData() {}
-
+    open fun refReshData(){}
 
     override fun onDestroy() {
         super.onDestroy()

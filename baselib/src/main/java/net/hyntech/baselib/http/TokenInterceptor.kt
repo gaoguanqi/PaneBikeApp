@@ -22,6 +22,7 @@ class TokenInterceptor : Interceptor {
                 val msg: String = jsonObject.getString("msg")
                 LogUtils.logGGQ("code : ${code}")
                 LogUtils.logGGQ("msg : ${msg}")
+                LogUtils.logGGQ("sBody : ${sBody}")
                 //if (code == 301) {
                     //ActivityUtils.startActivity(GlobalActivity::class.java)
                // }

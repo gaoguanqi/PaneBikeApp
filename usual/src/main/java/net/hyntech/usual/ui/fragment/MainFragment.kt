@@ -1,7 +1,10 @@
 package net.hyntech.usual.ui.fragment
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import kotlinx.android.synthetic.main.fragment_main.*
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseFragment
@@ -22,8 +25,6 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
     }
 
     override fun getLayoutId(): Int = R.layout.fragment_main
-
-
 
     override fun initData(savedInstanceState: Bundle?) {
         val list:List<SeverInfoEntity> = arrayListOf(
@@ -46,6 +47,18 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
 
     override fun bindViewModel() {
         binding.viewModel = viewModel
+    }
+
+
+    override fun lazyLoadData() {
+        super.lazyLoadData()
+        LogUtils.logGGQ("lazyLoadData--->>")
+    }
+
+    override fun refReshData() {
+        super.refReshData()
+        LogUtils.logGGQ("refReshData--->>")
+        viewModel.getMessageCount()
 
     }
 

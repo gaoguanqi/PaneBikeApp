@@ -13,5 +13,6 @@ class ApiURL {
 
         const val URL_USER_LOGIN = PREFIX_URL + "/login.thtml"
         const val URL_SMS_VERIFY_CODE = PREFIX_SMS_URL + "/send_code.thtml"
+        const val URL_MESSAGE_COUNT = PREFIX_URL + "/message_count.thtml"
     }
 }

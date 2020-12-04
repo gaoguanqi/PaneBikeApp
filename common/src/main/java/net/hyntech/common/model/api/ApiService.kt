@@ -2,6 +2,7 @@ package net.hyntech.common.model.api
 
 import net.hyntech.common.model.entity.CenterEntity
 import net.hyntech.common.model.entity.CommonEntity
+import net.hyntech.common.model.entity.MessageCountEntity
 import net.hyntech.common.model.entity.UserEntity
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -19,4 +20,8 @@ interface ApiService:BaseApi {
     @Headers("urlname:hyntech")
     @POST(ApiURL.URL_SMS_VERIFY_CODE)
     suspend fun getVerifyCode(@Body requestBody: RequestBody): CommonEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_MESSAGE_COUNT)
+    suspend fun getMessageCount(@Body requestBody: RequestBody): MessageCountEntity
 }

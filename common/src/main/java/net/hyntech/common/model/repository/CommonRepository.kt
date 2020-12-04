@@ -27,5 +27,9 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.getVerifyCode(params2Body(params,true,false))
     }
 
+    suspend fun getMessageCount(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getMessageCount(params2Body(params))
+    }
+
 
 }

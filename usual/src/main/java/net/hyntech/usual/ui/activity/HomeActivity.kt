@@ -3,6 +3,7 @@ package net.hyntech.usual.ui.activity
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
 import net.hyntech.baselib.utils.ToastUtil
@@ -31,6 +32,19 @@ class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>() {
     override fun hasStatusBarMode(): Boolean  = true
 
     override fun initData(savedInstanceState: Bundle?) {
+
+        viewModel.defUI.showDialog.observe(this, Observer {
+            showLoading()
+        })
+
+        viewModel.defUI.dismissDialog.observe(this, Observer {
+            dismissLoading()
+        })
+
+        viewModel.defUI.toastEvent.observe(this, Observer {
+            ToastUtil.showToast(it)
+        })
+
         val list: List<Fragment> = listOf(
             MainFragment.getInstance(viewModel),
             MineFragment.getInstance(viewModel)
