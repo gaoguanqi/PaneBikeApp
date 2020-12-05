@@ -114,7 +114,7 @@ class MineFragment(viewModel: HomeViewModel):BaseFragment<FragmentMineBinding,Ho
             startActivity(
                 Intent(requireContext(), LoginActivity::class.java).putExtra(
                     Constants.GlobalValue.BUILD_TYPE,
-                    Constants.BundleKey.EXTRA_POLICE))
+                    Constants.BundleKey.EXTRA_USUAL))
             finish()
         }
     }
