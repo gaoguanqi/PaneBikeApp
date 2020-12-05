@@ -192,6 +192,7 @@
 -dontnote com.google.android.material.**
 -dontwarn androidx.**
 
+-keep class net.hyntech.**.app.** { *; }
 -keep class net.hyntech.**.base.** { *; }
 -keep class net.hyntech.**.ext.** { *; }
 -keep class net.hyntech.**.db.** { *; }
@@ -236,7 +237,10 @@
 -dontwarn razerdp.widget.**
 -keep class razerdp.widget.**{*;}
 
-
+#org.conscrypt
+-dontwarn org.conscrypt.**
+-keep class org.conscrypt.** { *; }
+-keep interface org.conscrypt.** { *; }
 
 
 
@@ -286,7 +290,13 @@ androidx.recyclerview.widget.LinearLayoutManager mLayoutManager;
 }
 
 # for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+
+#百度地图混淆
+-keep class com.baidu.** {*;}
+-keep class vi.com.** {*;}
+-dontwarn com.baidu.**
+#百度地图混淆-end
 
 -dontwarn com.meituan.android.walle.**
 -keep class com.meituan.android.walle.**{*;}

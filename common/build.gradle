@@ -62,6 +62,15 @@ android {
             buildConfigField("boolean", "LOG_ENABLE", "true")//控制日志是否打印
             debuggable true
             minifyEnabled false
+
+//            debuggable false
+//            //library 不移除无用的资源文件
+//            shrinkResources false
+//            //开启压缩
+//            zipAlignEnabled true
+//            //开启混淆
+//            minifyEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
         release {
