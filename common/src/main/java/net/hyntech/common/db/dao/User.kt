@@ -1,5 +1,4 @@
 package net.hyntech.common.db.dao
-import android.util.Log
 import androidx.room.*
 @Entity(tableName = "users")
 class User {
@@ -10,11 +9,23 @@ class User {
     @ColumnInfo(name = "username")
     var username:String? = ""
 
+    @ColumnInfo(name = "account")
+    var account:String? = ""
+
     @ColumnInfo(name = "password")
     var password:String? = ""
 
     @ColumnInfo(name = "userId")
     var userId:String? = ""
+
+    @ColumnInfo(name = "phone")
+    var phone:String? = ""
+
+    @ColumnInfo(name = "idCard")
+    var idCard:String? = ""
+
+    @ColumnInfo(name = "avatar")
+    var avatar:String? = ""
 
     @ColumnInfo(name = "expiresIn")
     var expiresIn:Long? = 0L

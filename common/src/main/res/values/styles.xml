@@ -130,4 +130,12 @@
         <item name="android:windowAnimationStyle">@style/common_anim_activity_right2left</item>
     </style>
 
+
+    <style name="common_style_mine_item">
+        <item name="android:layout_height">52dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/selector_item_white</item>
+        <item name="android:paddingStart">@dimen/common_padding</item>
+    </style>
 </resources>

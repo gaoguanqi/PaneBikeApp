@@ -25,14 +25,20 @@ import net.hyntech.usual.R
 import net.hyntech.usual.databinding.FragmentMainBinding
 import net.hyntech.common.R as CR
 import net.hyntech.usual.vm.HomeViewModel
+import razerdp.basepopup.BasePopupWindow
 
 class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,HomeViewModel>(viewModel) {
 
     private var tvTitle:TextView? = null
+    private var ivArrowIcon:ImageView? = null
+
     private var ebikeList: MutableList<UserInfoEntity.EbikeListBean>? = null
     private val ebikeAdapter by lazy { EBikeListAdapter(requireContext()) }
     private val ebikePopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EBikeListPopu<EBikeListAdapter.ViewHolder,EBikeListAdapter>(requireContext(),ebikeAdapter).apply {
-        this.popupGravity = Gravity.BOTTOM } }
+        this.popupGravity = Gravity.BOTTOM
+        this.setOnPopupWindowShowListener { ivArrowIcon?.background = UIUtils.getDrawable(CR.drawable.ic_arrow_up) }
+        this.onDismissListener = object :BasePopupWindow.OnDismissListener(){ override fun onDismiss() { ivArrowIcon?.background = UIUtils.getDrawable(CR.drawable.ic_arrow_down) } } }
+    }
 
     companion object {
         fun getInstance(viewModel: HomeViewModel): MainFragment {
@@ -45,6 +51,7 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
     override fun initData(savedInstanceState: Bundle?) {
 
         tvTitle = view?.findViewById(R.id.tv_main_title)
+        ivArrowIcon = view?.findViewById(R.id.iv_arrow_icon)
 
         val list:List<SeverInfoEntity> = arrayListOf(
             SeverInfoEntity(UIUtils.getString(CR.string.common_car_info),CR.drawable.icon_car_locus),

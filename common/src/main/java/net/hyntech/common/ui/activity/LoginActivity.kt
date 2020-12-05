@@ -57,7 +57,7 @@ class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() 
         AppDatabase.getInstance(BaseApp.instance).userDao().apply {
             this.getCurrentUser()?.let {
                 binding.tvOrgName.text = it.orgName
-                viewModel.account.set(it.username)
+                viewModel.account.set(it.account)
                 viewModel.password.set(it.password)
             }?:let {
                 binding.tvOrgName.text = UIUtils.getString(R.string.common_choose_company)

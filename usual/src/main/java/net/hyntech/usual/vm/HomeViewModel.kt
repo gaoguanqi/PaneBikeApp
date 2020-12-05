@@ -67,12 +67,27 @@ class HomeViewModel : BaseViewModel() {
                                 }
                             }
                         }
+
+                        data.user?.let { u ->
+                            user.phone = u.phone
+                            user.idCard = u.idNo
+                            user.username = u.name
+                            user.userType = u.usetType
+                            user.avatar = u.headimgurl
+                        }
                         this.updateUser(user)
                     }
                 }
                 userInfo.postValue(data)
             }
         },isShowDialog = false,isShowToast = false)
+    }
+
+
+    fun onLogout(){
+        onClickProxy {
+            ToastUtil.showToast("点击退出")
+        }
     }
 
 }

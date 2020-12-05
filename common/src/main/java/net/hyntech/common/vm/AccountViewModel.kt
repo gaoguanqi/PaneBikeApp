@@ -129,7 +129,7 @@ class AccountViewModel : BaseViewModel() {
                 SPUtils.getInstance(BaseApp.instance.getAppPackage()).put(Constants.SaveInfoKey.ACCESS_TOKEN,u.accessToken)
                 AppDatabase.getInstance(BaseApp.instance).userDao().apply {
                     this.getCurrentUser()?.let { user ->
-                        user.username = phone
+                        user.account = phone
                         user.password = pwd
                         user.userId = u.userId
                         user.accessToken = u.accessToken
