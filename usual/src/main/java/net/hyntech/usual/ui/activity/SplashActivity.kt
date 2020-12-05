@@ -8,7 +8,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.PermissionUtil
 import net.hyntech.baselib.utils.RequestPermission
-import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseActivity
 import net.hyntech.common.ui.activity.LoginActivity
@@ -16,7 +15,6 @@ import net.hyntech.common.ui.activity.WelcomeActivity
 import net.hyntech.common.widget.dialog.CommonDialog
 import net.hyntech.common.global.Constants
 import net.hyntech.usual.R
-import net.hyntech.usual.app.UsualApplication
 
 class SplashActivity : BaseActivity() {
     private val rxPermissions: RxPermissions = RxPermissions(this)

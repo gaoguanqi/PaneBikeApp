@@ -2,7 +2,7 @@
 <selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android" tools:ignore="ResourceName">
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/common_color_enable" />
+            <solid android:color="@color/common_color_line" />
             <corners android:bottomLeftRadius="15dp" />
         </shape>
     </item>
