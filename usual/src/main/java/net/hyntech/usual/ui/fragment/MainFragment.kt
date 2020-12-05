@@ -3,11 +3,12 @@ package net.hyntech.usual.ui.fragment
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Gravity
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.baidu.mapapi.map.BaiduMap
+import com.baidu.mapapi.map.MapView
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
@@ -29,6 +30,8 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
 
     private var tvTitle:TextView? = null
     private var ivArrowIcon:ImageView? = null
+    private var mapView: MapView? = null
+    private var baiduMap:BaiduMap? = null
 
     private var ebikeList: MutableList<UserInfoEntity.EbikeListBean>? = null
     private val ebikeAdapter by lazy { EBikeListAdapter(requireContext()) }
@@ -48,8 +51,15 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
 
     override fun initData(savedInstanceState: Bundle?) {
 
-        tvTitle = view?.findViewById(R.id.tv_main_title)
-        ivArrowIcon = view?.findViewById(R.id.iv_arrow_icon)
+        view?.apply {
+            tvTitle = this.findViewById(R.id.tv_main_title)
+            ivArrowIcon = this.findViewById(R.id.iv_arrow_icon)
+            mapView = this.findViewById(R.id.bmap_view)
+            mapView?.let {
+                baiduMap = it.map
+            }
+        }
+
 
         val list:List<SeverInfoEntity> = arrayListOf(
             SeverInfoEntity(UIUtils.getString(CR.string.common_car_info),CR.drawable.icon_car_locus),
@@ -101,8 +111,14 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
         tvTitle?.setOnClickListener {
             showEBikePopu()
         }
-
         viewModel.getUserInfo()
+        initBaiduMap()
+    }
+
+    private fun initBaiduMap() {
+        baiduMap?.let {
+
+        }
     }
 
 

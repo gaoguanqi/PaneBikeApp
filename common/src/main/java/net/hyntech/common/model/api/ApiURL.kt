@@ -13,12 +13,12 @@ class ApiURL {
 
 
 
-//        private const val PREFIX_URL = "/app/v1/user/usual"
-        private const val PREFIX_URL = "/app/v1/user/police"
+        private const val PREFIX_URL = "/app/v1/user/usual"
+//        private const val PREFIX_URL = "/app/v1/user/police"
 
 
-//        private const val PREFIX_SMS_URL = "/app/v1/sms/usual"
-        private const val PREFIX_SMS_URL = "/app/v1/sms/police"
+        private const val PREFIX_SMS_URL = "/app/v1/sms/usual"
+//        private const val PREFIX_SMS_URL = "/app/v1/sms/police"
 
 
 

@@ -3,7 +3,7 @@
     package="net.hyntech.usual">
 
     <application
-        android:name=".app.UsualApplication"
+        android:name="net.hyntech.usual.app.UsualApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_usual"
         android:label="@string/usual_app_name"
@@ -20,11 +20,22 @@
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="Pn024aTNwTAMhh59Q8HL9QeGNh4DFTQy" />
 
         <activity android:name=".ui.activity.HomeActivity"
             android:screenOrientation="portrait" />
 
-
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>
