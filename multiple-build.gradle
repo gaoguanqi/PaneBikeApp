@@ -63,11 +63,11 @@ android {
         }
 
         release {
-            debuggable true
+            debuggable false
             //移除无用的资源文件
-            shrinkResources false
-            zipAlignEnabled false
-            minifyEnabled false
+            shrinkResources true
+            zipAlignEnabled true
+            minifyEnabled true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
