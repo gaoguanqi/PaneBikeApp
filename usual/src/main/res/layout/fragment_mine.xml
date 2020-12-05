@@ -29,6 +29,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/common_toolbar"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/common_color_title"
                 android:textSize="@dimen/common_font_title"
                 android:textStyle="bold"

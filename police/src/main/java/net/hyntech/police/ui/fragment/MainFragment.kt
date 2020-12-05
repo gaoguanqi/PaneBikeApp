@@ -2,6 +2,7 @@ package net.hyntech.police.ui.fragment
 
 import android.os.Bundle
 import android.text.TextUtils
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.blankj.utilcode.util.GsonUtils
 import com.youth.banner.indicator.CircleIndicator
@@ -84,16 +85,27 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
             }
         })
         binding.rvMain.adapter = adapter
+
+
+        //用户数据
+        viewModel.userInfo.observe(this, Observer {userInfo ->
+            LogUtils.logGGQ("用户数据：${userInfo.user}")
+        })
+
+        viewModel.getUserInfo()
     }
+
 
     override fun lazyLoadData() {
         super.lazyLoadData()
+        LogUtils.logGGQ("lazyLoadData--->>")
         viewModel.getMessageCount()
     }
 
     override fun refReshData() {
         super.refReshData()
         LogUtils.logGGQ("refReshData--->>")
+        viewModel.getUserInfo(true)
         viewModel.getMessageCount()
     }
 
