@@ -7,8 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.baidu.mapapi.map.BaiduMap
-import com.baidu.mapapi.map.MapView
+import com.baidu.mapapi.map.*
+import com.baidu.mapapi.model.LatLng
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
@@ -22,9 +22,10 @@ import net.hyntech.common.ui.adapter.SeverListAdapter
 import net.hyntech.common.widget.popu.EBikeListPopu
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.FragmentMainBinding
-import net.hyntech.common.R as CR
 import net.hyntech.usual.vm.HomeViewModel
 import razerdp.basepopup.BasePopupWindow
+import net.hyntech.common.R as CR
+
 
 class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,HomeViewModel>(viewModel) {
 
@@ -32,6 +33,8 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
     private var ivArrowIcon:ImageView? = null
     private var mapView: MapView? = null
     private var baiduMap:BaiduMap? = null
+    private val iconMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.icon_marker_car) }
+
 
     private var ebikeList: MutableList<UserInfoEntity.EbikeListBean>? = null
     private val ebikeAdapter by lazy { EBikeListAdapter(requireContext()) }
@@ -104,6 +107,7 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
         viewModel.userInfo.observe(this, Observer {userInfo ->
             viewModel.currentEbike.get()?.let {ebike ->
                     tvTitle?.setText(ebike.ebikeNo)
+                addMarkers(ebike)
             }
             ebikeList = userInfo.ebike_list
         })
@@ -112,13 +116,24 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
             showEBikePopu()
         }
         viewModel.getUserInfo()
-        initBaiduMap()
     }
 
-    private fun initBaiduMap() {
-        baiduMap?.let {
+    private fun addMarkers(ebike: UserInfoEntity.EbikeListBean) {
+        val latLng:LatLng = LatLng(ebike.lastLat, ebike.lastLng)
+        val marker = baiduMap?.run {
+            val markerOptions = MarkerOptions().position(latLng).icon(iconMarker)
+            this.addOverlay(markerOptions)
+        } as? Marker
 
-        }
+        //定义地图状态
+        val mMapStatus: MapStatus = MapStatus.Builder()
+            .target(latLng)
+            .zoom(18f)
+            .build()
+        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+        val mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus)
+        //改变地图状态
+        baiduMap?.setMapStatus(mMapStatusUpdate)
     }
 
 
