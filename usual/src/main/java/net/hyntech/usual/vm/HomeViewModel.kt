@@ -4,6 +4,7 @@ import android.text.TextUtils
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import net.hyntech.baselib.app.BaseApp
+import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.common.db.AppDatabase
@@ -20,6 +21,15 @@ class HomeViewModel : BaseViewModel() {
 
     val userInfo: MutableLiveData<UserInfoEntity> = MutableLiveData()
     val currentEbike: ObservableField<UserInfoEntity.EbikeListBean> = ObservableField()
+
+    //item event
+    val accountEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val carInfoEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val myOrderEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val myAddValEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val myMessageEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val changePwdEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val logoutEvent: SingleLiveEvent<Any> = SingleLiveEvent()
 
 
     fun onClickNotice(){
@@ -84,9 +94,45 @@ class HomeViewModel : BaseViewModel() {
     }
 
 
+    fun onClickAccount(){
+        onClickProxy {
+            accountEvent.call()
+        }
+    }
+
+    fun onClickCarInfo(){
+        onClickProxy {
+            carInfoEvent.call()
+        }
+    }
+
+    fun onClickMyOrder(){
+        onClickProxy {
+            myOrderEvent.call()
+        }
+    }
+
+    fun onClickMyAddVal(){
+        onClickProxy {
+            myAddValEvent.call()
+        }
+    }
+
+    fun onClickMyMessage(){
+        onClickProxy {
+            myMessageEvent.call()
+        }
+    }
+
+    fun onClickChangePwd(){
+        onClickProxy {
+            changePwdEvent.call()
+        }
+    }
+
     fun onLogout(){
         onClickProxy {
-            ToastUtil.showToast("点击退出")
+            logoutEvent.call()
         }
     }
 

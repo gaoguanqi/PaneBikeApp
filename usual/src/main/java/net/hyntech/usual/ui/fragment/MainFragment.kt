@@ -5,11 +5,9 @@ import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.blankj.utilcode.util.ScreenUtils
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
@@ -71,18 +69,18 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
         binding.rvMain.adapter = adapter
         ebikeAdapter.setListener(object :EBikeListAdapter.OnClickListener{
             override fun onItemClick(entity: UserInfoEntity.EbikeListBean?) {
-                entity?.let {
+                entity?.let {ebike ->
                     AppDatabase.getInstance(BaseApp.instance).userDao().apply {
                         this.getCurrentUser()?.let {user ->
-                            if(!TextUtils.equals(user.ebikeNo,entity.ebikeNo)){
-                                user.ebikeNo = entity.ebikeNo
+                            if(!TextUtils.equals(user.ebikeNo,ebike.ebikeNo)){
+                                user.ebikeNo = ebike.ebikeNo
                                 this.updateUser(user)
                                 ebikeList?.forEach { item ->
                                      item.isSelected = false
                                 }
-                                tvTitle?.setText(entity.ebikeNo)
-                                entity.isSelected = true
-                                viewModel.currentEbike.set(entity)
+                                tvTitle?.text = ebike.ebikeNo
+                                ebike.isSelected = true
+                                viewModel.currentEbike.set(ebike)
                                 ebikeAdapter.notifyDataSetChanged()
                             }
                         }
@@ -93,11 +91,11 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
         })
 
         //用户数据
-        viewModel.userInfo.observe(this, Observer {
-            viewModel.currentEbike.get()?.let {
-                    tvTitle?.setText(it.ebikeNo)
+        viewModel.userInfo.observe(this, Observer {userInfo ->
+            viewModel.currentEbike.get()?.let {ebike ->
+                    tvTitle?.setText(ebike.ebikeNo)
             }
-            ebikeList = it.ebike_list
+            ebikeList = userInfo.ebike_list
         })
 
         tvTitle?.setOnClickListener {

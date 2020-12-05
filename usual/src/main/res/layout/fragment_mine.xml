@@ -22,6 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:onClick="@{(v) -> viewModel.onClickAccount()}"
             android:background="@drawable/pic_mine">
 
             <TextView
@@ -33,7 +34,7 @@
                 android:textStyle="bold"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                tools:text="@string/common_name" />
+                android:text="@string/common_title_mine" />
 
             <ImageView
                 android:id="@+id/iv_avatar"
@@ -63,7 +64,7 @@
                 android:textSize="@dimen/common_font_common"
                 android:textColor="@color/common_white"
                 android:layout_below="@id/tv_name"
-                tools:text="11111111111" />
+                tools:text="phone" />
         </RelativeLayout>
 
         <LinearLayout
@@ -73,7 +74,8 @@
             android:orientation="vertical">
 
             <LinearLayout
-               style="@style/common_style_mine_item">
+               style="@style/common_style_mine_item"
+                android:onClick="@{(v) -> viewModel.onClickCarInfo()}">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -115,7 +117,8 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/common_style_mine_item">
+                style="@style/common_style_mine_item"
+                android:onClick="@{(v) -> viewModel.onClickMyOrder()}">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -157,7 +160,8 @@
             </LinearLayout>
 
             <LinearLayout
-               style="@style/common_style_mine_item">
+               style="@style/common_style_mine_item"
+                android:onClick="@{(v) -> viewModel.onClickMyAddVal()}">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -199,7 +203,8 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/common_style_mine_item">
+                style="@style/common_style_mine_item"
+                android:onClick="@{(v) -> viewModel.onClickMyMessage()}">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -241,7 +246,8 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/common_style_mine_item">
+                style="@style/common_style_mine_item"
+                android:onClick="@{(v) -> viewModel.onClickChangePwd()}">
 
                 <ImageView
                     android:layout_width="wrap_content"
