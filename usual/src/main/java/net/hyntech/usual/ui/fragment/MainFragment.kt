@@ -12,6 +12,7 @@ import com.baidu.mapapi.animation.ScaleAnimation
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
 import net.hyntech.baselib.app.BaseApp
+import net.hyntech.baselib.http.t
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
@@ -38,7 +39,8 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
     private var ivArrowIcon:ImageView? = null
     private var mapView: TextureMapView? = null
     private var baiduMap:BaiduMap? = null
-    private val iconMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.icon_marker_car) }
+    private val ebikeMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.icon_marker_car) }
+    private val gcodingMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.icon_gcoding) }
 
 
     private var ebikeList: MutableList<UserInfoEntity.EbikeListBean>? = null
@@ -67,7 +69,9 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
             mapView = this.findViewById(R.id.bmap_view)
             mapView?.let {
                 baiduMap = it.map
-                baiduMap?.setMyLocationConfiguration(MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING,true,iconMarker))
+                // 开启定位图层
+                baiduMap?.isMyLocationEnabled = true
+                baiduMap?.setMyLocationConfiguration(MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING,true,gcodingMarker))
                 MapViewHandler(this@MainFragment).setMapView(it)
             }
         }
@@ -120,6 +124,10 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
                 tvTitle?.text = ebike.ebikeNo
                 setEbikeLock(ebike.lockFlag)
                 addMarkers(ebike)
+            }?:let {
+                tvTitle?.text = ""
+                tvLock?.text = ""
+                tvFab?.text = "暂无车辆"
             }
             ebikeList = userInfo.ebike_list
         })
@@ -136,11 +144,19 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
         })
         viewModel.currentLatLng.observe(this, Observer {
             val mapStatus: MapStatus = MapStatus.Builder()
-                .target(it)
+                .target(LatLng(it.latitude,it.longitude))
                 .zoom(18.0f)
+                .build()
+
+            val locData:MyLocationData = MyLocationData.Builder()
+                .accuracy(it.radius)
+                //此处设置开发者获取到的方向信息，顺时针0-360
+                .direction(it.direction).latitude(it.latitude)
+                .longitude(it.longitude)
                 .build()
             //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
             val mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus)
+            baiduMap?.setMyLocationData(locData)
             //改变地图状态
             baiduMap?.setMapStatus(mapStatusUpdate)
         })
@@ -168,7 +184,7 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
             val marker = baiduMap?.run {
                 //添加之前删除 marker
                 this.clear()
-                val markerOptions = MarkerOptions().position(ll).icon(iconMarker)
+                val markerOptions = MarkerOptions().position(ll).icon(ebikeMarker)
                 markerOptions?.alpha(0.9f);//marker图标透明度，0~1.0，默认为1.0
 //                markerOptions?.animateType(MarkerOptions.MarkerAnimateType.drop) ////marker出现的方式，从天上掉下
                 this.addOverlay(markerOptions)

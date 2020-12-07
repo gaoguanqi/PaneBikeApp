@@ -3,6 +3,7 @@ package net.hyntech.usual.vm
 import android.text.TextUtils
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.baidu.location.BDLocation
 import com.baidu.mapapi.model.LatLng
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.app.manager.SingleLiveEvent
@@ -20,7 +21,7 @@ class HomeViewModel : BaseViewModel() {
     private val repository by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { CommonRepository() }
 
     val messageCount: ObservableField<String> = ObservableField("0")
-    val currentLatLng:MutableLiveData<LatLng> = MutableLiveData()
+    val currentLatLng:MutableLiveData<BDLocation> = MutableLiveData()
 
     val userInfo: MutableLiveData<UserInfoEntity> = MutableLiveData()
     val currentEbike: ObservableField<UserInfoEntity.EbikeListBean> = ObservableField()
@@ -107,14 +108,14 @@ class HomeViewModel : BaseViewModel() {
 
     fun onLockState() {
         currentEbike.get()?.let {ebike ->
+            val lockFlag:Int = if(ebike.lockFlag == 0) 1 else 0
             launchOnlyResult({
                 val params: WeakHashMap<String, Any> = WeakHashMap()
-                val lockFlag:Int = if(ebike.lockFlag == 0) 1 else 0
                 params.put("ebikeId",ebike.ebikeId)
                 params.put("lockFlag",lockFlag)
                 repository.ebikeLock(params)
             }, success = {
-                ebike.lockFlag = if(ebike.lockFlag == 0) 1 else 0
+                ebike.lockFlag = lockFlag
                 ebikeLockFlag.postValue(ebike.lockFlag)
             },isShowDialog = false)
         }

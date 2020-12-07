@@ -31,12 +31,13 @@ class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>(), Sens
     private val locClient: LocationClient by lazy { LocationClient(this) }
     private val locListener: MyLocationListener by lazy { MyLocationListener(object :MyLocationListener.LocationListener{
         override fun onReceive(bdLocation: BDLocation) {
-            viewModel.currentLatLng.postValue(LatLng(bdLocation.latitude,bdLocation.longitude))
+            viewModel.currentLatLng.postValue(bdLocation)
         }
     }) }
     private val locClientOption: LocationClientOption by lazy { LocationClientOption().apply {
         this.isOpenGps = true //打开gps
         this.coorType = "bd09ll" //设置坐标类型
+        this.setIsNeedAddress(true) //必须设置之后才能获取到详细的地址信息
 //        this.scanSpan = 0 //可选3000，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
     } }
 
