@@ -3,6 +3,7 @@ package net.hyntech.usual.vm
 import android.text.TextUtils
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.baidu.mapapi.model.LatLng
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
@@ -18,6 +19,7 @@ class HomeViewModel : BaseViewModel() {
     private val repository by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { CommonRepository() }
 
     val messageCount: ObservableField<String> = ObservableField("0")
+    val currentLatLng:MutableLiveData<LatLng> = MutableLiveData()
 
     val userInfo: MutableLiveData<UserInfoEntity> = MutableLiveData()
     val currentEbike: ObservableField<UserInfoEntity.EbikeListBean> = ObservableField()

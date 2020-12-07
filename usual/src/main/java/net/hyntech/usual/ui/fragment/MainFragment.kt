@@ -12,7 +12,6 @@ import com.baidu.mapapi.animation.ScaleAnimation
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
 import net.hyntech.baselib.app.BaseApp
-import net.hyntech.baselib.app.manager.LifecycleHandler
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
@@ -64,6 +63,7 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
             mapView = this.findViewById(R.id.bmap_view)
             mapView?.let {
                 baiduMap = it.map
+                baiduMap?.setMyLocationConfiguration(MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING,true,iconMarker))
                 MapViewHandler(this@MainFragment).setMapView(it)
             }
         }
@@ -123,6 +123,16 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
         }
         viewModel.initLoadingEvent.observe(this, Observer {
             if(it) showLoading() else dismissLoading()
+        })
+        viewModel.currentLatLng.observe(this, Observer {
+            val mapStatus: MapStatus = MapStatus.Builder()
+                .target(it)
+                .zoom(18.0f)
+                .build()
+            //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+            val mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus)
+            //改变地图状态
+            baiduMap?.setMapStatus(mapStatusUpdate)
         })
         viewModel.getUserInfo(true)
     }

@@ -23,6 +23,6 @@ class ImageLoader <T : ImageConfig> {
 
 
     fun loadImage(ctx: Context, config: T) {
-        this.mStrategy?.loadImage(ctx, config);
+        this.mStrategy?.loadImage(ctx, config)
     }
 }

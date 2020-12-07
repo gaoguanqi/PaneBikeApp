@@ -18,8 +18,7 @@ import net.hyntech.common.widget.imgloader.ImageLoader
 import net.hyntech.common.widget.imgloader.TransType
 import net.hyntech.common.widget.imgloader.glide.GlideImageConfig
 
-class SeverListAdapter(val context: Context,val layoutRes:Int,val list:List<SeverInfoEntity>):
-    BaseAdapter<SeverListAdapter.ViewHolder>() {
+class  SeverListAdapter(val context: Context,val layoutRes:Int,val list:List<SeverInfoEntity>): BaseAdapter<SeverListAdapter.ViewHolder>() {
 
     private var listener: OnClickListener? = null
 

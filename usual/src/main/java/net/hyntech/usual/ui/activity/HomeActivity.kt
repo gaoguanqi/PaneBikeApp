@@ -1,15 +1,24 @@
 package net.hyntech.usual.ui.activity
 
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.baidu.location.BDLocation
+import com.baidu.location.LocationClient
+import com.baidu.location.LocationClientOption
+import com.baidu.mapapi.CoordType
+import com.baidu.mapapi.model.LatLng
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.provider.ARouterConstants
 import net.hyntech.common.ui.adapter.MyFragmentStateAdapter
+import net.hyntech.common.widget.baidumap.MyLocationListener
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.ActivityHomeBinding
 import net.hyntech.usual.ui.fragment.MainFragment
@@ -17,9 +26,21 @@ import net.hyntech.usual.ui.fragment.MineFragment
 import net.hyntech.usual.vm.HomeViewModel
 
 @Route(path = ARouterConstants.USUAL_HOME_PAGE)
-class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>() {
+class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>(), SensorEventListener {
 
     private var lastBackPressedMillis: Long = 0
+    private val locClient: LocationClient by lazy { LocationClient(this) }
+    private val locListener: MyLocationListener by lazy { MyLocationListener(object :MyLocationListener.LocationListener{
+        override fun onReceive(bdLocation: BDLocation) {
+            viewModel.currentLatLng.postValue(LatLng(bdLocation.latitude,bdLocation.longitude))
+        }
+    }) }
+    private val locClientOption: LocationClientOption by lazy { LocationClientOption().apply {
+        this.isOpenGps = true //打开gps
+        this.coorType = "bd09ll" //设置坐标类型
+        this.scanSpan = 0 //可选3000，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+    } }
+
 
     private val viewModel by viewModels<HomeViewModel>()
 
@@ -72,6 +93,14 @@ class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>() {
             }
             false
         }
+
+        initLocation()
+    }
+
+    private fun initLocation() {
+        locClient.registerLocationListener(locListener)
+        locClient.locOption = locClientOption
+        locClient.start()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -86,6 +115,19 @@ class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>() {
             return true
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+
+    override fun onSensorChanged(event: SensorEvent?) {}
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 退出时销毁定位
+        locClient.unRegisterLocationListener(locListener)
+        locClient.stop()
     }
 
 

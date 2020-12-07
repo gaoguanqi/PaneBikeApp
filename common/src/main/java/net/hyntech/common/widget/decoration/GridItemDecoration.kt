@@ -23,8 +23,8 @@ class GridItemDecoration(val context: Context): RecyclerView.ItemDecoration() {
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
 //        super.onDraw(c, parent, state)
-        drawHorizontal(c, parent);
-        drawVertical(c, parent);
+        drawHorizontal(c, parent)
+        drawVertical(c, parent)
     }
 
     private fun drawVertical(c: Canvas, parent: RecyclerView) {
