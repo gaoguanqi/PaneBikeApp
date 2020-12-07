@@ -2,6 +2,7 @@ package net.hyntech.common.model.entity;
 
 import net.hyntech.baselib.http.BaseResponse;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class UserInfoEntity extends BaseResponse<UserInfoEntity> {
@@ -647,7 +648,7 @@ public class UserInfoEntity extends BaseResponse<UserInfoEntity> {
         }
     }
 
-    public static class EbikeListBean {
+    public static class EbikeListBean implements Serializable {
         /**
          * alarmId :
          * beginTimeInsurance : 2020-12-03

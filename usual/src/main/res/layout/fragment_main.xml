@@ -35,20 +35,25 @@
             <RelativeLayout
                 style="@style/common_style_toolbar">
 
-                <TextView
-                    android:id="@+id/tv_main_title"
-                    style="@style/common_style_title"
+                <LinearLayout
+                    android:id="@+id/ll_ebike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
-                    tools:text="@string/common_name" />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_main_title"
+                        style="@style/common_style_title"
+                        tools:text="@string/common_name" />
 
-                <ImageView
-                    android:id="@+id/iv_arrow_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_arrow_down"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/tv_main_title" />
+                    <ImageView
+                        android:id="@+id/iv_arrow_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_arrow_down" />
+                </LinearLayout>
 
                 <RelativeLayout
                     android:id="@+id/root_message"

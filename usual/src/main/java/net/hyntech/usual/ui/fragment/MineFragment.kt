@@ -9,12 +9,12 @@ import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.BarUtils
 import net.hyntech.baselib.app.BaseApp
-import net.hyntech.baselib.utils.LogUtils
-import net.hyntech.baselib.utils.ToastUtil
-import net.hyntech.baselib.utils.UIUtils
+import net.hyntech.baselib.utils.*
 import net.hyntech.common.base.BaseFragment
 import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
+import net.hyntech.common.global.EventCode
+import net.hyntech.common.model.entity.UserInfoEntity
 import net.hyntech.common.provider.ARouterConstants
 import net.hyntech.common.ui.activity.LoginActivity
 import net.hyntech.common.widget.dialog.CommonDialog
@@ -23,6 +23,7 @@ import net.hyntech.common.widget.imgloader.TransType
 import net.hyntech.common.widget.imgloader.glide.GlideImageConfig
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.FragmentMineBinding
+import net.hyntech.usual.ui.activity.EbikeInfoActivity
 import net.hyntech.usual.vm.HomeViewModel
 
 class MineFragment(viewModel: HomeViewModel):BaseFragment<FragmentMineBinding,HomeViewModel>(viewModel) {
@@ -69,7 +70,15 @@ class MineFragment(viewModel: HomeViewModel):BaseFragment<FragmentMineBinding,Ho
             ToastUtil.showToast("1")
         })
         viewModel.carInfoEvent.observe(this, Observer {
-            ToastUtil.showToast("1")
+
+            viewModel.userInfo.value?.ebike_list?.let {ebikes ->
+                LogUtils.logGGQ("---event ->>${ebikes.size}")
+                val event:Event<List<UserInfoEntity.EbikeListBean>> = Event(EventCode.EVENT_CODE_EBIKES,ebikes)
+                EventBusUtils.sendStickyEvent(event)
+            }
+
+            startActivity(Intent(requireContext(),EbikeInfoActivity::class.java))
+
         })
         viewModel.myOrderEvent.observe(this, Observer {
             ToastUtil.showToast("1")
