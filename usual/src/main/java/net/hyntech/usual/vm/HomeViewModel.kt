@@ -30,7 +30,7 @@ class HomeViewModel : BaseViewModel() {
     val myMessageEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val changePwdEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val logoutEvent: SingleLiveEvent<Any> = SingleLiveEvent()
-
+    val initLoadingEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     fun onClickNotice(){
         onClickProxy {
@@ -51,6 +51,9 @@ class HomeViewModel : BaseViewModel() {
     }
 
     fun getUserInfo(isInit:Boolean = false){
+        if(isInit){
+            initLoadingEvent.postValue(true)
+        }
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
             repository.getUserInfo(params)
@@ -89,6 +92,10 @@ class HomeViewModel : BaseViewModel() {
                     }
                 }
                 userInfo.postValue(data)
+            }
+        },complete = {
+            if(isInit){
+                initLoadingEvent.postValue(false)
             }
         },isShowDialog = false,isShowToast = false)
     }

@@ -91,8 +91,10 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
         viewModel.userInfo.observe(this, Observer {userInfo ->
             LogUtils.logGGQ("用户数据：${userInfo.user}")
         })
-
-        viewModel.getUserInfo()
+        viewModel.initLoadingEvent.observe(this, Observer {
+            if(it) showLoading() else dismissLoading()
+        })
+        viewModel.getUserInfo(true)
     }
 
 
@@ -105,7 +107,7 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
     override fun refReshData() {
         super.refReshData()
         LogUtils.logGGQ("refReshData--->>")
-        viewModel.getUserInfo(true)
+        viewModel.getUserInfo()
         viewModel.getMessageCount()
     }
 

@@ -7,14 +7,14 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 
 // 加入生命周期
-class LifecycleHandler(val lifecycleOwner: LifecycleOwner) : Handler(), LifecycleObserver {
+open class LifecycleHandler(val lifecycleOwner: LifecycleOwner) : Handler(), LifecycleObserver {
 
     init {
         lifecycleOwner.lifecycle.addObserver(this)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy() {
+    open fun onDestroy() {
         removeCallbacksAndMessages(null)
         lifecycleOwner.lifecycle.removeObserver(this)
     }

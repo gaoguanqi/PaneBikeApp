@@ -102,7 +102,7 @@
             app:layout_constraintVertical_weight="7"
             android:background="@color/common_white">
 
-            <com.baidu.mapapi.map.MapView
+            <com.baidu.mapapi.map.TextureMapView
                 android:id="@+id/bmap_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
