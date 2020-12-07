@@ -33,6 +33,8 @@ import net.hyntech.common.R as CR
 class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,HomeViewModel>(viewModel) {
 
     private var tvTitle:TextView? = null
+    private var tvLock:TextView? = null
+    private var tvFab:TextView? = null
     private var ivArrowIcon:ImageView? = null
     private var mapView: TextureMapView? = null
     private var baiduMap:BaiduMap? = null
@@ -59,6 +61,8 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
 
         view?.apply {
             tvTitle = this.findViewById(R.id.tv_main_title)
+            tvLock = this.findViewById(R.id.tv_lock)
+            tvFab = this.findViewById(R.id.tv_fab)
             ivArrowIcon = this.findViewById(R.id.iv_arrow_icon)
             mapView = this.findViewById(R.id.bmap_view)
             mapView?.let {
@@ -96,8 +100,8 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
                                 ebikeList?.forEach { item ->
                                      item.isSelected = false
                                 }
-                                tvTitle?.text = ebike.ebikeNo
                                 ebike.isSelected = true
+                                setEbikeNoLock(ebike)
                                 viewModel.currentEbike.set(ebike)
                                 ebikeAdapter.notifyDataSetChanged()
                                 addMarkers(ebike)
@@ -112,7 +116,7 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
         //用户数据
         viewModel.userInfo.observe(this, Observer {userInfo ->
             viewModel.currentEbike.get()?.let {ebike ->
-                    tvTitle?.setText(ebike.ebikeNo)
+                setEbikeNoLock(ebike)
                 addMarkers(ebike)
             }
             ebikeList = userInfo.ebike_list
@@ -121,6 +125,7 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
         tvTitle?.setOnClickListener {
             showEBikePopu()
         }
+
         viewModel.initLoadingEvent.observe(this, Observer {
             if(it) showLoading() else dismissLoading()
         })
@@ -135,6 +140,18 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
             baiduMap?.setMapStatus(mapStatusUpdate)
         })
         viewModel.getUserInfo(true)
+    }
+
+    private fun setEbikeNoLock(ebike: UserInfoEntity.EbikeListBean){
+        tvTitle?.text = ebike.ebikeNo
+        //"lockFlag"   0, 未上锁 锁车  1 已上锁 解锁
+        if(ebike.lockFlag == 1){
+            tvLock?.text = "已上锁"
+            tvFab?.text = "解锁"
+        }else{
+            tvLock?.text = "未上锁"
+            tvFab?.text = "锁车"
+        }
     }
 
     private fun addMarkers(ebike: UserInfoEntity.EbikeListBean) {

@@ -12,7 +12,6 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
-import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.model.LatLng
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.common.base.BaseViewActivity
@@ -38,7 +37,7 @@ class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>(), Sens
     private val locClientOption: LocationClientOption by lazy { LocationClientOption().apply {
         this.isOpenGps = true //打开gps
         this.coorType = "bd09ll" //设置坐标类型
-        this.scanSpan = 0 //可选3000，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+//        this.scanSpan = 0 //可选3000，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
     } }
 
 
