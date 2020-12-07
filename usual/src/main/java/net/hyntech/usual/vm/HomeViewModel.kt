@@ -7,6 +7,7 @@ import com.baidu.mapapi.model.LatLng
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.model.entity.UserInfoEntity
@@ -23,6 +24,7 @@ class HomeViewModel : BaseViewModel() {
 
     val userInfo: MutableLiveData<UserInfoEntity> = MutableLiveData()
     val currentEbike: ObservableField<UserInfoEntity.EbikeListBean> = ObservableField()
+    val ebikeLockFlag: MutableLiveData<Int> = MutableLiveData()
 
     //item event
     val accountEvent: SingleLiveEvent<Any> = SingleLiveEvent()
@@ -103,6 +105,23 @@ class HomeViewModel : BaseViewModel() {
     }
 
 
+    fun onLockState() {
+        currentEbike.get()?.let {ebike ->
+            launchOnlyResult({
+                val params: WeakHashMap<String, Any> = WeakHashMap()
+                val lockFlag:Int = if(ebike.lockFlag == 0) 1 else 0
+                params.put("ebikeId",ebike.ebikeId)
+                params.put("lockFlag",lockFlag)
+                repository.ebikeLock(params)
+            }, success = {
+                ebike.lockFlag = if(ebike.lockFlag == 0) 1 else 0
+                ebikeLockFlag.postValue(ebike.lockFlag)
+            },isShowDialog = false)
+        }
+
+    }
+
+
     fun onClickAccount(){
         onClickProxy {
             accountEvent.call()
@@ -144,5 +163,8 @@ class HomeViewModel : BaseViewModel() {
             logoutEvent.call()
         }
     }
+
+
+
 
 }

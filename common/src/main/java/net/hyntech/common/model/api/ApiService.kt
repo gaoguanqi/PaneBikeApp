@@ -26,4 +26,10 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_USER_INFO)
     suspend fun getUserInfo(@Body requestBody: RequestBody): UserInfoEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_EBIKE_LOCK)
+    suspend fun ebikeLock(@Body requestBody: RequestBody): CommonEntity
+
+
+
 }

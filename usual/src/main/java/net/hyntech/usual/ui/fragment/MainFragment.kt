@@ -101,7 +101,8 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
                                      item.isSelected = false
                                 }
                                 ebike.isSelected = true
-                                setEbikeNoLock(ebike)
+                                tvTitle?.text = ebike.ebikeNo
+                                setEbikeLock(ebike.lockFlag)
                                 viewModel.currentEbike.set(ebike)
                                 ebikeAdapter.notifyDataSetChanged()
                                 addMarkers(ebike)
@@ -116,7 +117,8 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
         //用户数据
         viewModel.userInfo.observe(this, Observer {userInfo ->
             viewModel.currentEbike.get()?.let {ebike ->
-                setEbikeNoLock(ebike)
+                tvTitle?.text = ebike.ebikeNo
+                setEbikeLock(ebike.lockFlag)
                 addMarkers(ebike)
             }
             ebikeList = userInfo.ebike_list
@@ -124,6 +126,9 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
 
         tvTitle?.setOnClickListener {
             showEBikePopu()
+        }
+        tvFab?.setOnClickListener {
+            viewModel.onLockState()
         }
 
         viewModel.initLoadingEvent.observe(this, Observer {
@@ -139,13 +144,16 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
             //改变地图状态
             baiduMap?.setMapStatus(mapStatusUpdate)
         })
+        viewModel.ebikeLockFlag.observe(this, Observer {
+            setEbikeLock(it)
+            ToastUtil.showToast("操作成功")
+        })
         viewModel.getUserInfo(true)
     }
 
-    private fun setEbikeNoLock(ebike: UserInfoEntity.EbikeListBean){
-        tvTitle?.text = ebike.ebikeNo
+    private fun setEbikeLock(lockFlag: Int){
         //"lockFlag"   0, 未上锁 锁车  1 已上锁 解锁
-        if(ebike.lockFlag == 1){
+        if(lockFlag == 1){
             tvLock?.text = "已上锁"
             tvFab?.text = "解锁"
         }else{

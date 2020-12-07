@@ -26,5 +26,7 @@ class ApiURL {
         const val URL_SMS_VERIFY_CODE = PREFIX_SMS_URL + "/send_code.thtml"
         const val URL_MESSAGE_COUNT = PREFIX_URL + "/message_count.thtml"
         const val URL_USER_INFO = PREFIX_URL + "/get_user_info.thtml"
+
+        const val URL_EBIKE_LOCK = "/app/v1/ebike/usual/ebike_lock.thtml"
     }
 }

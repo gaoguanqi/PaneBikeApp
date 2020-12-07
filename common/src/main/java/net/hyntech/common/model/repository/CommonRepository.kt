@@ -35,5 +35,8 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.getUserInfo(params2Body(params))
     }
 
+    suspend fun ebikeLock(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.ebikeLock(params2Body(params))
+    }
 
 }
