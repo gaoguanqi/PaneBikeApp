@@ -288,7 +288,16 @@ androidx.recyclerview.widget.LinearLayoutManager mLayoutManager;
 -keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
   *** rewind();
 }
+-dontwarn dalvik.**
+-dontwarn com.tencent.smtt.**
 
+-keep class com.tencent.smtt.** {
+    *;
+}
+
+-keep class com.tencent.tbs.** {
+    *;
+}
 # for DexGuard only
 #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 

@@ -9,6 +9,8 @@ class ARouterConstants {
         private const val GROUP_USUAL = "/usual/"
         //Test
         const val TEST_PAGE = GROUP_COMMON + "test"
+        //浏览器
+        const val BROWSER_PAGE = GROUP_COMMON + "browser"
 
         const val USUAL_HOME_PAGE = GROUP_USUAL + "home"
         const val POLICE_HOME_PAGE = GROUP_POLICE + "home"

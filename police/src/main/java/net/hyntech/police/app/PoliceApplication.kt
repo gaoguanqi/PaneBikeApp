@@ -5,9 +5,14 @@ import com.baidu.mapapi.SDKInitializer
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import com.tencent.smtt.export.external.TbsCoreSettings
+import com.tencent.smtt.sdk.QbSdk
+import com.tencent.smtt.sdk.QbSdk.PreInitCallback
 import net.hyntech.baselib.app.BaseApp
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
+
 
 class PoliceApplication : BaseApp() {
 
@@ -34,6 +39,21 @@ class PoliceApplication : BaseApp() {
         //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
         //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
         SDKInitializer.setCoordType(CoordType.BD09LL)
+
+        // 在调用TBS初始化、创建WebView之前进行如下配置
+        val map = HashMap<String, Any>()
+        map[TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER] = true
+        map[TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE] = true
+        QbSdk.initTbsSettings(map)
+        val cb: PreInitCallback = object : PreInitCallback {
+            override fun onViewInitFinished(arg0: Boolean) {
+                LogUtils.logGGQ("x5WebView->>${arg0}")
+            }
+            override fun onCoreInitFinished() {}
+        }
+
+        //x5内核初始化接口
+        QbSdk.initX5Environment(applicationContext, cb)
     }
 
     override fun onCreate() {

@@ -189,6 +189,7 @@ dependencies {
     api 'commons-codec:commons-codec:1.11'
     api 'com.youth.banner:banner:2.1.0'
     api 'com.github.razerdp:BasePopup:2.2.10'
+    api 'com.tencent.tbs.tbssdk:sdk:43939'
 
     api files('libs/BaiduLBS_Android.jar')
 

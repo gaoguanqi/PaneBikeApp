@@ -34,6 +34,8 @@ class Constants {
     object BundleKey {
         const val EXTRA_POLICE = "police"
         const val EXTRA_USUAL = "usual"
+        const val EXTRA_TITLE = "title"
+        const val EXTRA_URL = "url"
     }
 
 }
