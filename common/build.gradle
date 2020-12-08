@@ -191,6 +191,8 @@ dependencies {
     api 'com.github.razerdp:BasePopup:2.2.10'
     api 'com.tencent.tbs.tbssdk:sdk:43939'
     api 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
     api files('libs/BaiduLBS_Android.jar')
 
     api project(path: ':baselib')

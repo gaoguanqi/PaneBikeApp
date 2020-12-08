@@ -15,6 +15,7 @@
     <color name="common_color_toast">#333333</color>
     <color name="common_color_title">#FFFFFF</color>
     <color name="common_color_line">#E0E0E0</color>
+    <color name="common_color_f9f9f9">#f9f9f9</color>
 
     <color name="common_color_pressed">#00A2E9</color>
     <color name="common_color_normal">#38B7FE</color>

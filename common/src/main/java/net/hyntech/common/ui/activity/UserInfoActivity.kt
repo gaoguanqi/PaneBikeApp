@@ -15,12 +15,25 @@ import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.provider.ARouterConstants
 import net.hyntech.common.utils.CommonUtils
 import net.hyntech.common.vm.UserInfoViewModel
+import net.hyntech.common.widget.dialog.BottomOptionDialog
 import net.hyntech.common.widget.imgloader.ImageLoader
 import net.hyntech.common.widget.imgloader.TransType
 import net.hyntech.common.widget.imgloader.glide.GlideImageConfig
 
 @Route(path = ARouterConstants.USER_INFO_PAGE)
 class UserInfoActivity:BaseViewActivity<ActivityUserInfoBinding,UserInfoViewModel>() {
+
+    private val bottomOptionDialog: BottomOptionDialog by lazy {
+        BottomOptionDialog(this,object :BottomOptionDialog.OnClickListener{
+            override fun onCameraClick() {
+            }
+
+            override fun onPhotoClick() {
+            }
+
+            override fun onCancelClick() {}
+        })
+    }
 
     private val viewModel by viewModels<UserInfoViewModel>()
 
@@ -36,8 +49,9 @@ class UserInfoActivity:BaseViewActivity<ActivityUserInfoBinding,UserInfoViewMode
         }
 
         viewModel.avatarEvent.observe(this, Observer {
-            ToastUtil.showToast("头像")
-
+            if(!bottomOptionDialog.isShowing){
+                bottomOptionDialog.show()
+            }
         })
         viewModel.phoneEvent.observe(this, Observer {
             ToastUtil.showToast("手机号")
