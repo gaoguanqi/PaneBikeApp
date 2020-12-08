@@ -13,6 +13,8 @@ class ARouterConstants {
         const val BROWSER_PAGE = GROUP_COMMON + "browser"
         //预览大图
         const val PREVIEW_PAGE = GROUP_COMMON + "preview"
+        //个人资料
+        const val USER_INFO_PAGE = GROUP_COMMON + "user-info"
 
         const val USUAL_HOME_PAGE = GROUP_USUAL + "home"
         const val POLICE_HOME_PAGE = GROUP_POLICE + "home"

@@ -66,8 +66,21 @@ class MineFragment(viewModel: HomeViewModel):BaseFragment<FragmentMineBinding,Ho
         })
 
 
+        //个人资料
         viewModel.accountEvent.observe(this, Observer {
-            ToastUtil.showToast("1")
+            //ToastUtil.showToast("1")
+            //https://appweb.hyntech.net/antitheft/page/my/grxx/grzl.html
+//            val bundle:Bundle = Bundle().apply {
+//                this.putString(Constants.BundleKey.EXTRA_TITLE,"个人资料")
+//                this.putString(Constants.BundleKey.EXTRA_URL,"https://appweb.hyntech.net/antitheft/page/my/grxx/grzl.html")
+//            }
+//            ARouter.getInstance().build(ARouterConstants.BROWSER_PAGE)
+//                .with(bundle)
+//                .navigation()
+
+
+            ARouter.getInstance().build(ARouterConstants.USER_INFO_PAGE)
+                .navigation()
         })
         viewModel.carInfoEvent.observe(this, Observer {
 

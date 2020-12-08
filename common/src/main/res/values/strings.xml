@@ -39,6 +39,8 @@
     <string name="common_title_main">首页</string>
     <string name="common_title_mine">我的</string>
     <string name="common_title_preview">预览大图</string>
+    <string name="common_title_user_info">个人资料</string>
+
 
     <string name="common_car_info">车辆信息</string>
     <string name="common_conve_service">便民服务</string>

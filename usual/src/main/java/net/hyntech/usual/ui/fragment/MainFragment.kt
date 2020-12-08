@@ -74,6 +74,7 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
                 baiduMap = it.map
                 // 开启定位图层
                 baiduMap?.isMyLocationEnabled = true
+                //自定义标签
 //                baiduMap?.setMyLocationConfiguration(MyLocationConfiguration(MyLocationConfiguration.LocationMode.FOLLOWING,true,gcodingMarker))
                 MapViewHandler(this@MainFragment).setMapView(it)
             }
