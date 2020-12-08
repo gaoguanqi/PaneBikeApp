@@ -237,6 +237,8 @@
 -dontwarn razerdp.widget.**
 -keep class razerdp.widget.**{*;}
 
+-dontwarn com.github.chrisbanes.photoview.**
+-keep class com.github.chrisbanes.photoview.**{*;}
 #org.conscrypt
 -dontwarn org.conscrypt.**
 -keep class org.conscrypt.** { *; }

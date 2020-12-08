@@ -94,6 +94,7 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
                             LogUtils.logGGQ("-->>apiUrl:${it.apiUrl}")
                             it.appwebUrl = org.appweb_url
                             Global.BASE_URL = it.apiUrl!!
+//                            Global.BASE_URL = "http://39.98.135.139:8080"
                             this.updateUser(it)
                         }
                     }

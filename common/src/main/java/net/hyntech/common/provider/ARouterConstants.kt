@@ -11,6 +11,8 @@ class ARouterConstants {
         const val TEST_PAGE = GROUP_COMMON + "test"
         //浏览器
         const val BROWSER_PAGE = GROUP_COMMON + "browser"
+        //预览大图
+        const val PREVIEW_PAGE = GROUP_COMMON + "preview"
 
         const val USUAL_HOME_PAGE = GROUP_USUAL + "home"
         const val POLICE_HOME_PAGE = GROUP_POLICE + "home"

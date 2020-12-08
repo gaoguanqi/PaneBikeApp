@@ -36,7 +36,7 @@ abstract class BaseActivity : AppCompatActivity(), IView {
             setStatusBarMode()
         }
         super.onCreate(savedInstanceState)
-        setContentLayout();
+        setContentLayout()
         if (hasUsedEventBus()) {
             EventBusUtils.register(this)
         }

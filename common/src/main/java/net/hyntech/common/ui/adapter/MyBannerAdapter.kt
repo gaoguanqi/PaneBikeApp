@@ -38,11 +38,12 @@ class MyBannerAdapter(val context: Context,val list:List<BannerEntity>) : Banner
 
     inner class BannerViewHolder(itemView: View) : BaseViewHolder(itemView) {
         fun setData(entity: BannerEntity?) {
-            entity?.let {
+            entity?.let {item ->
                 itemView.findViewById<ImageView>(R.id.iv_img)?.let {iv->
+
                     ImageLoader.getInstance().loadImage(
                         BaseApp.instance,
-                        GlideImageConfig(UIUtils.getDrawable(it.resId), iv).also { it.type = TransType.NORMAL })
+                        GlideImageConfig(if(item.type == 1) UIUtils.getDrawable(item.resId) else item.url, iv).also { it.type = TransType.NORMAL })
                 }
             }
         }

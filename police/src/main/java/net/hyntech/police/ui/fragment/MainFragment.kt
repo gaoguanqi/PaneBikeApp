@@ -8,7 +8,6 @@ import com.blankj.utilcode.util.GsonUtils
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.listener.OnBannerListener
 import net.hyntech.baselib.app.BaseApp
-import net.hyntech.baselib.http.t
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
@@ -16,7 +15,6 @@ import net.hyntech.common.base.BaseFragment
 import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.model.entity.BannerEntity
 import net.hyntech.common.model.entity.SeverInfoEntity
-import net.hyntech.common.model.entity.UserEntity
 import net.hyntech.common.ui.adapter.MyBannerAdapter
 import net.hyntech.common.ui.adapter.SeverListAdapter
 import net.hyntech.common.widget.decoration.GridItemDecoration
@@ -42,7 +40,7 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
 
 
     override fun initData(savedInstanceState: Bundle?) {
-        val bannerList:List<BannerEntity> = arrayListOf(BannerEntity("banner1",R.drawable.pic_banner),BannerEntity("banner2",R.drawable.pic_banner))
+        val bannerList:List<BannerEntity> = arrayListOf(BannerEntity("banner1","",R.drawable.pic_banner,1),BannerEntity("banner2","",R.drawable.pic_banner,1))
         binding.banner.addBannerLifecycleObserver(this).setAdapter(MyBannerAdapter(requireContext(),bannerList)).setIndicator(
             CircleIndicator(requireContext())
         ).setOnBannerListener(object :OnBannerListener<BannerEntity>{

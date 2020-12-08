@@ -750,7 +750,7 @@ public class UserInfoEntity extends BaseResponse<UserInfoEntity> {
         private String idNoPic1;
         private String idNoPic2;
         private int installState;
-        private int insuranceCoverage;
+        private long insuranceCoverage;
         private int insurancePrice;
         private String insuranceProductName;
         private String insuranceState;
@@ -773,7 +773,7 @@ public class UserInfoEntity extends BaseResponse<UserInfoEntity> {
         private String phone;
         private String policeName;
         private String policeOfficeId;
-        private int price;
+        private long price;
         private String remark;
         private String ruleType;
         private String servicePackageOrgId;
@@ -1032,11 +1032,11 @@ public class UserInfoEntity extends BaseResponse<UserInfoEntity> {
             this.installState = installState;
         }
 
-        public int getInsuranceCoverage() {
+        public long getInsuranceCoverage() {
             return insuranceCoverage;
         }
 
-        public void setInsuranceCoverage(int insuranceCoverage) {
+        public void setInsuranceCoverage(long insuranceCoverage) {
             this.insuranceCoverage = insuranceCoverage;
         }
 
@@ -1216,11 +1216,11 @@ public class UserInfoEntity extends BaseResponse<UserInfoEntity> {
             this.policeOfficeId = policeOfficeId;
         }
 
-        public int getPrice() {
+        public long getPrice() {
             return price;
         }
 
-        public void setPrice(int price) {
+        public void setPrice(long price) {
             this.price = price;
         }
 

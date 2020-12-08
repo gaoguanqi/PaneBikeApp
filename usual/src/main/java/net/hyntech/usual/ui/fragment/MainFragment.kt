@@ -36,7 +36,7 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
 
     private var tvTitle:TextView? = null
     private var tvLock:TextView? = null
-    private var llEbike:LinearLayout? = null
+    private var llTitle:LinearLayout? = null
     private var tvFab:TextView? = null
     private var ivArrowIcon:ImageView? = null
     private var mapView: TextureMapView? = null
@@ -66,7 +66,7 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
         view?.apply {
             tvTitle = this.findViewById(R.id.tv_main_title)
             tvLock = this.findViewById(R.id.tv_lock)
-            llEbike = this.findViewById(R.id.ll_ebike)
+            llTitle = this.findViewById(R.id.ll_title)
             tvFab = this.findViewById(R.id.tv_fab)
             ivArrowIcon = this.findViewById(R.id.iv_arrow_icon)
             mapView = this.findViewById(R.id.bmap_view)
@@ -135,7 +135,7 @@ class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,Ho
             ebikeList = userInfo.ebike_list
         })
 
-        llEbike?.setOnClickListener {
+        llTitle?.setOnClickListener {
             showEBikePopu()
         }
         tvFab?.setOnClickListener {

@@ -11,6 +11,7 @@
     <color name="common_black">#000000</color>
     <color name="common_trans">#00000000</color>
     <color name="common_color_gray">#bfbfbf</color>
+    <color name="common_gray_text">#666666</color>
     <color name="common_color_toast">#333333</color>
     <color name="common_color_title">#FFFFFF</color>
     <color name="common_color_line">#E0E0E0</color>
