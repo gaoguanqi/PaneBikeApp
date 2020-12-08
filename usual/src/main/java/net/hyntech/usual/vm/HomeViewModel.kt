@@ -64,6 +64,10 @@ class HomeViewModel : BaseViewModel() {
             repository.getUserInfo(params)
         }, success = {
             it?.let {data ->
+                val ebike1 = UserInfoEntity.EbikeListBean()
+                ebike1.ebikeNo = "11111"
+                data.ebike_list.add(ebike1)
+
                 AppDatabase.getInstance(BaseApp.instance).userDao().apply {
                     this.getCurrentUser()?.let {user ->
                         if(data.ebike_list != null && data.ebike_list.isNotEmpty()){

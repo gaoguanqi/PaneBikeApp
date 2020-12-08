@@ -3,6 +3,8 @@ package net.hyntech.usual.ui.activity
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.Gravity
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,15 +24,29 @@ import net.hyntech.common.model.entity.BannerEntity
 import net.hyntech.common.model.entity.PhotoEntity
 import net.hyntech.common.model.entity.UserInfoEntity
 import net.hyntech.common.provider.ARouterConstants
+import net.hyntech.common.ui.adapter.EBikeListAdapter
 import net.hyntech.common.ui.adapter.MyBannerAdapter
 import net.hyntech.common.ui.adapter.PhotoAdapter
+import net.hyntech.common.widget.popu.EBikeListPopu
 import net.hyntech.usual.R
+import razerdp.basepopup.BasePopupWindow
 import net.hyntech.common.R as CR
 
 class EbikeInfoActivity : BaseActivity() {
 
     private var tvTitle:TextView? = null
+    private var ivArrowIcon: ImageView? = null
+
+    private val ebikeAdapter by lazy { EBikeListAdapter(this) }
+
+    private val ebikePopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EBikeListPopu<EBikeListAdapter.ViewHolder, EBikeListAdapter>(this,ebikeAdapter).apply {
+        this.popupGravity = Gravity.BOTTOM
+        this.setOnPopupWindowShowListener { ivArrowIcon?.background = UIUtils.getDrawable(CR.drawable.ic_arrow_up) }
+        this.onDismissListener = object : BasePopupWindow.OnDismissListener(){ override fun onDismiss() { ivArrowIcon?.background = UIUtils.getDrawable(CR.drawable.ic_arrow_down) } } }
+    }
+
     private var banner:Banner<BannerEntity,MyBannerAdapter>? = null
+    private val bannerAdapter:MyBannerAdapter by lazy { MyBannerAdapter(this,bannerList)}
 
     private var currentEbike:UserInfoEntity.EbikeListBean? = null
     private var ebikeList:List<UserInfoEntity.EbikeListBean>? = null
@@ -65,6 +81,7 @@ class EbikeInfoActivity : BaseActivity() {
 
     override fun initData(savedInstanceState: Bundle?) {
         tvTitle = findViewById(R.id.tv_title)
+        ivArrowIcon = findViewById(R.id.iv_arrow_icon)
         banner = findViewById(R.id.banner)
         findViewById<LinearLayout>(R.id.ll_left)?.setOnClickListener {
             onFinish()
@@ -73,12 +90,47 @@ class EbikeInfoActivity : BaseActivity() {
         findViewById<LinearLayout>(R.id.ll_title)?.setOnClickListener {
             onClickTitle()
         }
+        banner?.addBannerLifecycleObserver(this)?.setAdapter(bannerAdapter)?.setIndicator(
+            CircleIndicator(this)
+        )?.setOnBannerListener(object : OnBannerListener<BannerEntity> {
+            override fun OnBannerClick(data: BannerEntity?, position: Int) {
+                data?.let {
+                    ToastUtil.showToast(it.name)
+                }
+            }
+        })
+        rv_photo?.layoutManager = GridLayoutManager(this,3)
+        rv_photo?.adapter = photoAdapter
+
+        ebikeAdapter.setListener(object :EBikeListAdapter.OnClickListener{
+            override fun onItemClick(entity: UserInfoEntity.EbikeListBean?) {
+                entity?.let {ebike ->
+                    currentEbike?.let { curr ->
+                        if(!TextUtils.equals(curr.ebikeNo,ebike.ebikeNo)){
+                            ebikeList?.forEach {item ->
+                                item.isSelected = false
+                            }
+                            ebike.isSelected = true
+                            currentEbike = ebike
+                            setData(currentEbike)
+                        }
+                    }
+                }
+                ebikePopu.dismiss()
+            }
+        })
     }
 
     private fun onClickTitle() {
-        ToastUtil.showToast("点击title")
+        showEBikePopu()
     }
 
+    private fun showEBikePopu(){
+        ebikeList?.let {list ->
+            ebikeAdapter.setData(list)
+            ebikePopu.showPopupWindow(tvTitle)
+        }
+    }
 
     override fun <T> onStickyEventBusDispense(event: Event<T>) {
         super.onStickyEventBusDispense(event)
@@ -93,23 +145,22 @@ class EbikeInfoActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         ebikeList?.let {
-            setData()
+            currentEbike = ebikeList?.first()
+            ebikeList?.forEach {item ->
+                LogUtils.logGGQ("--item-->>${item.isSelected}")
+                if(item.isSelected){
+                    currentEbike = item
+                }
+            }
+            setData(currentEbike)
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setData() {
-        currentEbike = ebikeList?.first()
-        ebikeList?.forEach {item ->
-            LogUtils.logGGQ("--item-->>${item.isSelected}")
-            if(item.isSelected){
-                currentEbike = item
-            }
-        }
-
+    private fun setData(ebike:UserInfoEntity.EbikeListBean?) {
         bannerList.clear()
         photoList.clear()
-        currentEbike?.let {info ->
+        ebike?.let {info ->
             tvTitle?.text = info.ebikeNo
             if(!TextUtils.isEmpty(info.ebikePic1)){ bannerList.add(BannerEntity((info.ebikeNo),info.ebikePic1,0))
                 photoList.add(PhotoEntity(info.ebikePic1)) }
@@ -158,21 +209,11 @@ class EbikeInfoActivity : BaseActivity() {
         }
 
         if(bannerList.isNotEmpty()){
-            banner?.addBannerLifecycleObserver(this)?.setAdapter(MyBannerAdapter(this,bannerList))?.setIndicator(
-                CircleIndicator(this)
-            )?.setOnBannerListener(object : OnBannerListener<BannerEntity> {
-                override fun OnBannerClick(data: BannerEntity?, position: Int) {
-                    data?.let {
-                        ToastUtil.showToast(it.name)
-                    }
-                }
-            })
+            bannerAdapter.setDatas(bannerList)
         }
 
         if(photoList.isNotEmpty()){
-            rv_photo?.layoutManager = GridLayoutManager(this,3)
             photoAdapter.setData(photoList)
-            rv_photo?.adapter = photoAdapter
         }
     }
 }

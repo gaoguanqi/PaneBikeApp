@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import net.hyntech.baselib.ext.layoutInflater
+import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseAdapter
 import net.hyntech.common.base.BaseViewHolder
@@ -30,7 +31,9 @@ class EBikeListAdapter(val context: Context) :
         val view: View = context.layoutInflater.inflate(R.layout.item_ebike_list, parent, false)
         val holder: ViewHolder = ViewHolder(view)
         holder.itemView.setOnClickListener {
-            listener?.onItemClick(list.get(holder.adapterPosition))
+            if(!UIUtils.isFastDoubleClick()){
+                listener?.onItemClick(list.get(holder.adapterPosition))
+            }
         }
         return holder
     }
