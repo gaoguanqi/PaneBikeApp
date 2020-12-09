@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_radius_top"
-        android:text="相机" />
+        android:text="拍照" />
 
     <View
         android:layout_width="match_parent"

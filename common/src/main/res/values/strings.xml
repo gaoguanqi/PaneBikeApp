@@ -26,6 +26,7 @@
 
     <string name="common_permissions_title">权限申请</string>
     <string name="common_permissions_desc">请开启必要权限,否则您无法正常使用一些功能</string>
+    <string name="common_permissions_camera">请开启访问您的相册及使用相机权限,否则您无法正常使用该功能</string>
     <string name="common_permissions_cancle">不同意</string>
     <string name="common_permissions_confirm">前往开启</string>
     <string name="common_logout">退出登录</string>
