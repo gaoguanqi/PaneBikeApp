@@ -8,11 +8,11 @@ import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseActivity
+import net.hyntech.common.global.Constants
 import net.hyntech.common.vm.AccountSafetyViewModel
 
 class AccountSafetyActivity: BaseActivity(),NavController.OnDestinationChangedListener {
 
-    private var navController: NavController? = null
     val viewModel:AccountSafetyViewModel by lazy { ViewModelProvider(this).get(AccountSafetyViewModel::class.java) }
 
     override fun getLayoutId(): Int = R.layout.activity_account_safety
@@ -33,13 +33,12 @@ class AccountSafetyActivity: BaseActivity(),NavController.OnDestinationChangedLi
             onFinish()
         })
 
+        val navController = Navigation.findNavController(this,R.id.fragment_controller_safety)
+        navController.setGraph(R.navigation.nav_graph_account_safety,intent?.extras)
+        navController.navigateUp()
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-//        return super.onSupportNavigateUp()
-        navController = findNavController(R.id.fragment_controller_safety)
-        return navController?.navigateUp() ?: false
-    }
+
 
     override fun onDestinationChanged(
         controller: NavController,

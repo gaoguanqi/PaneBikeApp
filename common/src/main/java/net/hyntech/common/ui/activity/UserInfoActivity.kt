@@ -22,6 +22,7 @@ import net.hyntech.common.R
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.databinding.ActivityUserInfoBinding
 import net.hyntech.common.db.AppDatabase
+import net.hyntech.common.global.Constants
 import net.hyntech.common.provider.ARouterConstants
 import net.hyntech.common.utils.CommonUtils
 import net.hyntech.common.vm.UserInfoViewModel
@@ -34,6 +35,9 @@ import net.hyntech.common.widget.imgloader.glide.GlideImageConfig
 
 @Route(path = ARouterConstants.USER_INFO_PAGE)
 class UserInfoActivity:BaseViewActivity<ActivityUserInfoBinding,UserInfoViewModel>() {
+
+    private var phone:String? = null
+    private var idCard:String? = null
 
     private var ivAvatar:ImageView? = null
     private val rxPermissions: RxPermissions = RxPermissions(this)
@@ -80,11 +84,15 @@ class UserInfoActivity:BaseViewActivity<ActivityUserInfoBinding,UserInfoViewMode
             }
         })
         viewModel.phoneEvent.observe(this, Observer {
-            startActivity(Intent(this,AccountSafetyActivity::class.java))
+            LogUtils.logGGQ("phone->>${phone}")
+            LogUtils.logGGQ("idCard->>${idCard}")
+            startActivity(Intent(this,AccountSafetyActivity::class.java).putExtra(Constants.BundleKey.EXTRA_PHONE,phone).putExtra(Constants.BundleKey.EXTRA_IDCARD,idCard))
         })
 
         AppDatabase.getInstance(BaseApp.instance).userDao().apply {
             this.getCurrentUser()?.let { user ->
+                phone = user.phone
+                idCard = user.idCard
                 binding.tvName.text = user.username
                 binding.tvIdcard.text = CommonUtils.coverIDCard(user.idCard)
                 binding.tvPhone.text = user.phone

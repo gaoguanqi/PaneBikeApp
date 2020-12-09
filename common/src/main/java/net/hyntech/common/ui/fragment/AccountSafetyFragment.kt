@@ -1,13 +1,16 @@
 package net.hyntech.common.ui.fragment
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.Observer
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseFragment
 import net.hyntech.common.databinding.FragmentAccountSafetyBinding
+import net.hyntech.common.global.Constants
 import net.hyntech.common.ui.activity.AccountSafetyActivity
 import net.hyntech.common.vm.AccountSafetyViewModel
 
@@ -39,6 +42,17 @@ class AccountSafetyFragment:BaseFragment<FragmentAccountSafetyBinding,AccountSaf
             vm.idCardEvent.observe(this, Observer {
                 navController?.navigate(R.id.common_action_accountsafetyfragment_to_idcardsafetyfragment)
             })
+        }
+
+        val phone = this.arguments?.getString(Constants.BundleKey.EXTRA_PHONE)
+        val idCard = this.arguments?.getString(Constants.BundleKey.EXTRA_IDCARD)
+        LogUtils.logGGQ("phone->${phone}")
+        LogUtils.logGGQ("idCard->${idCard}")
+        if(!TextUtils.isEmpty(phone)){
+            viewModel?.userPhone?.set(phone)
+        }
+        if(!TextUtils.isEmpty(idCard)){
+            viewModel?.userIDCard?.set(idCard)
         }
     }
 

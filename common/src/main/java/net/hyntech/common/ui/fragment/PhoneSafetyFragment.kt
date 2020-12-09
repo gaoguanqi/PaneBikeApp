@@ -14,6 +14,7 @@ class PhoneSafetyFragment:BaseFragment<FragmentPhoneSafetyBinding, AccountSafety
 
     private var tvTitle: TextView? = null
     private var llLeft: LinearLayout? = null
+    private var tvPhone: TextView? = null
     private var viewModel:AccountSafetyViewModel? = null
 
     override fun getLayoutId(): Int = R.layout.fragment_phone_safety
@@ -24,10 +25,15 @@ class PhoneSafetyFragment:BaseFragment<FragmentPhoneSafetyBinding, AccountSafety
         view?.apply {
             tvTitle = this.findViewById(R.id.tv_title)
             llLeft = this.findViewById(R.id.ll_left)
+            tvPhone = this.findViewById(R.id.tv_phone)
             tvTitle?.text = UIUtils.getString(R.string.common_title_phone_safety)
             llLeft?.setOnClickListener {
                 viewModel?.onClickBack()
             }
+        }
+
+        viewModel?.userPhone?.get()?.let {
+            tvPhone?.text = it
         }
     }
 

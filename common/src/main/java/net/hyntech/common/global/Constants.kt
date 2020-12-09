@@ -38,6 +38,8 @@ class Constants {
         const val EXTRA_URL = "url"
         const val EXTRA_OBJ = "obj"
         const val EXTRA_INDEX = "index"
+        const val EXTRA_PHONE = "phone"
+        const val EXTRA_IDCARD = "idcard"
     }
 
 }
