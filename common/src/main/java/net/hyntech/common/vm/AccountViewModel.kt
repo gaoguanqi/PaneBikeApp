@@ -38,6 +38,7 @@ class AccountViewModel : BaseViewModel() {
     val companyEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val forgetPwdEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val loginEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val resetEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val verifyCodeEnable: ObservableField<Boolean> = ObservableField(true)
     val verifyCodeText: ObservableField<String> = ObservableField()
 
@@ -82,6 +83,12 @@ class AccountViewModel : BaseViewModel() {
     fun onForgetPassword() {
         onClickProxy {
             forgetPwdEvent.call()
+        }
+    }
+
+    fun onClickReset(){
+        onClickProxy {
+            resetEvent.call()
         }
     }
 

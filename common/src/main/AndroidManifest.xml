@@ -74,6 +74,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.ForgetPwdActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.ResetPwdActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.BrowserActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.PreviewActivity"

@@ -103,13 +103,16 @@ class MineFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMineBindin
             ToastUtil.showToast("1")
         })
         viewModel.changePwdEvent.observe(this, Observer {
-            ToastUtil.showToast("1")
-            val bundle:Bundle = Bundle().apply {
-                this.putString(Constants.BundleKey.EXTRA_TITLE,"修改密码")
-                this.putString(Constants.BundleKey.EXTRA_URL,"https://appweb.hyntech.net/antitheft/page/my/grxx/xgmm.html")
-            }
-            ARouter.getInstance().build(ARouterConstants.BROWSER_PAGE)
-                .with(bundle)
+//            ToastUtil.showToast("1")
+//            val bundle:Bundle = Bundle().apply {
+//                this.putString(Constants.BundleKey.EXTRA_TITLE,"修改密码")
+//                this.putString(Constants.BundleKey.EXTRA_URL,"https://appweb.hyntech.net/antitheft/page/my/grxx/xgmm.html")
+//            }
+//            ARouter.getInstance().build(ARouterConstants.BROWSER_PAGE)
+//                .with(bundle)
+//                .navigation()
+
+            ARouter.getInstance().build(ARouterConstants.RESET_PWD_PAGE)
                 .navigation()
         })
         viewModel.logoutEvent.observe(this, Observer {
