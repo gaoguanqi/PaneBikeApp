@@ -32,7 +32,7 @@ import razerdp.basepopup.BasePopupWindow
 import net.hyntech.common.R as CR
 
 
-class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,HomeViewModel>(viewModel) {
+class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,HomeViewModel>() {
 
     private var tvTitle:TextView? = null
     private var tvLock:TextView? = null

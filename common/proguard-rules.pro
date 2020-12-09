@@ -335,6 +335,8 @@ androidx.recyclerview.widget.LinearLayoutManager mLayoutManager;
 
 #Okio
 -dontwarn org.codehaus.mojo.animal_sniffer.*
+-keepnames class androidx.navigation.fragment.NavHostFragment
+
 
 
 

@@ -18,7 +18,7 @@ import net.hyntech.baselib.base.IView
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.widget.dialog.LoadingDialog
 
-abstract class BaseFragment<VB : ViewDataBinding,VM :BaseViewModel>(val viewModel: VM) : Fragment(),
+abstract class BaseFragment<VB : ViewDataBinding,VM :BaseViewModel> : Fragment(),
     CoroutineScope by MainScope(), IView {
 
     protected lateinit var binding: VB

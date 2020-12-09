@@ -23,7 +23,7 @@ import net.hyntech.police.databinding.FragmentMineBinding
 import net.hyntech.police.vm.HomeViewModel
 
 
-class MineFragment(viewModel: HomeViewModel):BaseFragment<FragmentMineBinding,HomeViewModel>(viewModel){
+class MineFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMineBinding,HomeViewModel>(){
 
     private var tvName: TextView? = null
     private var ivAvatar: ImageView? = null

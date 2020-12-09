@@ -1,11 +1,13 @@
 package net.hyntech.common.ui.activity
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.ImageView
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.IntentUtils
 import com.luck.picture.lib.PictureSelector
@@ -78,7 +80,7 @@ class UserInfoActivity:BaseViewActivity<ActivityUserInfoBinding,UserInfoViewMode
             }
         })
         viewModel.phoneEvent.observe(this, Observer {
-            ToastUtil.showToast("手机号")
+            startActivity(Intent(this,AccountSafetyActivity::class.java))
         })
 
         AppDatabase.getInstance(BaseApp.instance).userDao().apply {

@@ -41,6 +41,9 @@
     <string name="common_title_mine">我的</string>
     <string name="common_title_preview">预览大图</string>
     <string name="common_title_user_info">个人资料</string>
+    <string name="common_title_account_safety">安全验证</string>
+    <string name="common_title_phone_safety">手机号验证</string>
+    <string name="common_title_idcard_safety">身份证号验证</string>
 
 
     <string name="common_car_info">车辆信息</string>
@@ -53,4 +56,5 @@
     <string name="common_car_up">车辆登记</string>
     <string name="common_up_record">登记记录</string>
     <string name="common_find_car">车辆查找</string>
+    <string name="common_text_account_safety">为了您的账号安全,需要验证您的身份,请选择以下任意一种方式进行验证。</string>
 </resources>

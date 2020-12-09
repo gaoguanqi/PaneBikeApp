@@ -24,7 +24,7 @@ import net.hyntech.police.databinding.FragmentMainBinding
 import net.hyntech.police.vm.HomeViewModel
 import java.util.ArrayList
 
-class MainFragment(viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,HomeViewModel>(viewModel) {
+class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBinding,HomeViewModel>() {
 
     companion object {
         fun getInstance(viewModel: HomeViewModel): MainFragment {

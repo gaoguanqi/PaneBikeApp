@@ -6,6 +6,7 @@
     <color name="common_colorTheme">#38B7FE</color>
 
     <color name="common_color_background">#FFFFFF</color>
+    <color name="common_default_background">#F6F6F6</color>
 
     <color name="common_white">#FFFFFF</color>
     <color name="common_black">#000000</color>

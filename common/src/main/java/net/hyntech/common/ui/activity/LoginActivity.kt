@@ -28,7 +28,6 @@ class LoginActivity: BaseViewActivity<ActivityLoginBinding, AccountViewModel>() 
     private val viewModel by viewModels<AccountViewModel>()
 
 
-
     override fun getLayoutId(): Int = R.layout.activity_login
 
     override fun bindViewModel(){
