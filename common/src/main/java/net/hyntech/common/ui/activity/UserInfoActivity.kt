@@ -78,6 +78,18 @@ class UserInfoActivity:BaseViewActivity<ActivityUserInfoBinding,UserInfoViewMode
 
         ivAvatar = findViewById(R.id.iv_avatar)
 
+        viewModel.defUI.showDialog.observe(this, Observer {
+            showLoading()
+        })
+
+        viewModel.defUI.dismissDialog.observe(this, Observer {
+            dismissLoading()
+        })
+
+        viewModel.defUI.toastEvent.observe(this, Observer {
+            ToastUtil.showToast(it)
+        })
+
         viewModel.avatarEvent.observe(this, Observer {
             if(!bottomOptionDialog.isShowing){
                 bottomOptionDialog.show()
@@ -167,12 +179,18 @@ class UserInfoActivity:BaseViewActivity<ActivityUserInfoBinding,UserInfoViewMode
             })
     }
 
+    private val imegList:MutableList<String> = mutableListOf()
+
     private fun uploadImage(path: String) {
-        ivAvatar?.let { iv->
-            ImageLoader.getInstance().loadImage(
-                BaseApp.instance,
-                GlideImageConfig(path, iv).also { config-> config.type = TransType.CIRCLE })
-        }
+        imegList.clear()
+        imegList.add(path)
+//        ivAvatar?.let { iv->
+//            ImageLoader.getInstance().loadImage(
+//                BaseApp.instance,
+//                GlideImageConfig(path, iv).also { config-> config.type = TransType.CIRCLE })
+//        }
+
+        viewModel.uploadImageList(imegList.toList())
     }
 
     private fun openPhoto(){

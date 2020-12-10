@@ -5,6 +5,7 @@ import kotlinx.coroutines.withContext
 import net.hyntech.baselib.base.BaseRepository
 import net.hyntech.common.model.RetrofitClient
 import net.hyntech.common.utils.HttpParamsUtils
+import okhttp3.MultipartBody
 import java.util.*
 
 open class CommonRepository:BaseRepository() {
@@ -37,6 +38,10 @@ open class CommonRepository:BaseRepository() {
 
     suspend fun ebikeLock(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
         retrofitClient.ebikeLock(params2Body(params))
+    }
+
+    suspend fun uploadImageList(partList:List<MultipartBody.Part>) = withContext(Dispatchers.IO){
+        retrofitClient.uploadImageList(partList)
     }
 
 }

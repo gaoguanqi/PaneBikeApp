@@ -1,6 +1,7 @@
 package net.hyntech.common.model.api
 
 import net.hyntech.common.model.entity.*
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
 
@@ -31,5 +32,9 @@ interface ApiService:BaseApi {
     suspend fun ebikeLock(@Body requestBody: RequestBody): CommonEntity
 
 
+    @Headers("urlname:hyntech")
+    @Multipart
+    @POST(ApiURL.URL_UPLOAD_IMG)
+    suspend fun uploadImageList(@Part partList: List<MultipartBody.Part>): UploadImgEntity
 
 }

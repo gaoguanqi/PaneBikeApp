@@ -14,6 +14,7 @@ import net.hyntech.common.base.BaseFragment
 import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
 import net.hyntech.common.global.EventCode
+import net.hyntech.common.model.api.ApiURL
 import net.hyntech.common.model.entity.UserInfoEntity
 import net.hyntech.common.provider.ARouterConstants
 import net.hyntech.common.ui.activity.LoginActivity
@@ -98,7 +99,7 @@ class MineFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMineBindin
             ///my/grxx/wdbd.html
              val bundle:Bundle = Bundle().apply {
                 this.putString(Constants.BundleKey.EXTRA_TITLE,"我的保单")
-                this.putString(Constants.BundleKey.EXTRA_URL,"https://appweb.hyntech.net/antitheft/page/my/grxx/wdbd.html")
+                this.putString(Constants.BundleKey.EXTRA_URL,ApiURL.WEB_URL_MY_ORDER)
             }
             ARouter.getInstance().build(ARouterConstants.BROWSER_PAGE)
                 .with(bundle)

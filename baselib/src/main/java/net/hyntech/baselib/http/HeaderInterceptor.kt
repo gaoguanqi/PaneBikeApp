@@ -13,7 +13,6 @@ import java.util.*
  */
 class HeaderInterceptor (private val headers: WeakHashMap<String, Any>?) : Interceptor {
 
-    @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
 //        val original = chain.request()
 //        val originalHeaders = original.headers

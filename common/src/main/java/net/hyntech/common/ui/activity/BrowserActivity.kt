@@ -56,8 +56,9 @@ class BrowserActivity : BaseActivity() {
             this.addJavascriptInterface(object :WebViewJavaScriptFunction{
                 @JavascriptInterface
                 override fun getUserInfo(): String? {
-                    LogUtils.logGGQ("---getUserInfo")
-                    return viewModel.getUserInfo()
+                    val result = viewModel.getUserInfo()
+                    LogUtils.logGGQ("---result-->>${result}")
+                    return result
                 }
 
                 @JavascriptInterface

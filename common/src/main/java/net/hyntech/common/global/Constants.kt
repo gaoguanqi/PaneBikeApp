@@ -29,6 +29,9 @@ class Constants {
 
     object GlobalValue {
         const val BUILD_TYPE = "build_type"
+
+        const val IMAGE_TYPE_USUAL = "usual" //普通图片上传标识
+        const val IMAGE_TYPE_ID_NO = "idNo" //身份证图片上传标识
     }
 
     object BundleKey {

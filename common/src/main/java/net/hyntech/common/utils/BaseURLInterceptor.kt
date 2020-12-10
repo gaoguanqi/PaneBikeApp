@@ -29,8 +29,9 @@ class BaseURLInterceptor: Interceptor {
                 Config.BASE_URL.toHttpUrlOrNull()
             } else if (TextUtils.equals("hyntech",headerValue)) {
                 Global.BASE_URL.toHttpUrlOrNull()
-//                Global.TEST_URL.toHttpUrlOrNull()
-            } else {
+            } else if(TextUtils.equals("test",headerValue)){
+                "http://192.168.0.111:8080".toHttpUrlOrNull()
+            }else{
                 oldHttpUrl
             }
 
