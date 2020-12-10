@@ -94,7 +94,16 @@ class MineFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMineBindin
 
         })
         viewModel.myOrderEvent.observe(this, Observer {
-            ToastUtil.showToast("1")
+            ToastUtil.showToast("我的保单")
+            ///my/grxx/wdbd.html
+             val bundle:Bundle = Bundle().apply {
+                this.putString(Constants.BundleKey.EXTRA_TITLE,"我的保单")
+                this.putString(Constants.BundleKey.EXTRA_URL,"https://appweb.hyntech.net/antitheft/page/my/grxx/wdbd.html")
+            }
+            ARouter.getInstance().build(ARouterConstants.BROWSER_PAGE)
+                .with(bundle)
+                .navigation()
+
         })
         viewModel.myAddValEvent.observe(this, Observer {
             ToastUtil.showToast("1")

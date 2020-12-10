@@ -4,18 +4,28 @@ import android.content.res.Configuration
 import android.graphics.PixelFormat
 import android.os.Bundle
 import android.view.View
+import android.webkit.JavascriptInterface
+import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.annotation.Route
+import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseActivity
+import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
 import net.hyntech.common.provider.ARouterConstants
+import net.hyntech.common.vm.AccountSafetyViewModel
+import net.hyntech.common.vm.BrowserViewModel
 import net.hyntech.common.widget.x5web.WebViewJavaScriptFunction
 import net.hyntech.common.widget.x5web.X5WebView
 
 
 @Route(path = ARouterConstants.BROWSER_PAGE)
 class BrowserActivity : BaseActivity() {
+
+    val viewModel: BrowserViewModel by lazy { ViewModelProvider(this).get(
+        BrowserViewModel::class.java) }
+
 
     private var webView: X5WebView? = null
     private var title:String = ""
@@ -44,6 +54,13 @@ class BrowserActivity : BaseActivity() {
             window?.setFormat(PixelFormat.TRANSLUCENT)
             this.view?.overScrollMode = View.OVER_SCROLL_ALWAYS
             this.addJavascriptInterface(object :WebViewJavaScriptFunction{
+                @JavascriptInterface
+                override fun getUserInfo(): String? {
+                    LogUtils.logGGQ("---getUserInfo")
+                    return viewModel.getUserInfo()
+                }
+
+                @JavascriptInterface
                 override fun onJsFunctionCalled(tag: String?) {
 
                 }
