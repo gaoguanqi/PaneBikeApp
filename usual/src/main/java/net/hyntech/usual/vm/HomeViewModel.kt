@@ -27,6 +27,8 @@ class HomeViewModel : BaseViewModel() {
     val currentEbike: ObservableField<UserInfoEntity.EbikeListBean> = ObservableField()
     val ebikeLockFlag: MutableLiveData<Int> = MutableLiveData()
 
+    val avatarUrl: MutableLiveData<String> = MutableLiveData()
+
     //item event
     val accountEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val carInfoEvent: SingleLiveEvent<Any> = SingleLiveEvent()

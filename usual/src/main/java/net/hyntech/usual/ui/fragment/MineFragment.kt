@@ -54,15 +54,19 @@ class MineFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMineBindin
             tvPhone = this.findViewById(R.id.tv_phone)
         }
 
+        viewModel.avatarUrl.observe(this, Observer { url->
+            if(ivAvatar != null && !TextUtils.isEmpty(url)){
+                ImageLoader.getInstance().loadImage(
+                    BaseApp.instance,
+                    GlideImageConfig(url,ivAvatar!!).also { it.type = TransType.CIRCLE })
+            }
+        })
+
         viewModel.userInfo.observe(this, Observer {userInfo ->
             userInfo.user?.let {user ->
                 tvName?.text = user.name
                 tvPhone?.text = user.phone
-                if(ivAvatar != null && !TextUtils.isEmpty(user.headimgurl)){
-                    ImageLoader.getInstance().loadImage(
-                        BaseApp.instance,
-                        GlideImageConfig(user.headimgurl,ivAvatar!!).also { it.type = TransType.CIRCLE })
-                }
+                viewModel.avatarUrl.postValue(user.headimgurl)
             }
         })
 
@@ -145,6 +149,8 @@ class MineFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMineBindin
         super.refReshData()
         LogUtils.logGGQ("我的 -->> refReshData")
     }
+
+
 
 
     private fun onLogout() {

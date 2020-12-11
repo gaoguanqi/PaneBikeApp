@@ -44,4 +44,8 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.uploadImageList(partList)
     }
 
+    suspend fun editHeadImage(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO){
+        retrofitClient.editHeadImage(params2Body(params))
+    }
+
 }

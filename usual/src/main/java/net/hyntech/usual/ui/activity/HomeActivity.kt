@@ -4,6 +4,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,8 +14,12 @@ import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
 import com.baidu.mapapi.model.LatLng
+import net.hyntech.baselib.utils.Event
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.global.EventCode
+import net.hyntech.common.model.entity.UserInfoEntity
 import net.hyntech.common.provider.ARouterConstants
 import net.hyntech.common.ui.adapter.MyFragmentStateAdapter
 import net.hyntech.common.widget.baidumap.MyLocationListener
@@ -51,6 +56,7 @@ class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>(), Sens
     }
 
     override fun hasStatusBarMode(): Boolean  = true
+    override fun hasUsedEventBus(): Boolean = true
 
     override fun initData(savedInstanceState: Bundle?) {
 
@@ -123,6 +129,18 @@ class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>(), Sens
     override fun onSensorChanged(event: SensorEvent?) {}
 
 
+    override fun <T> onEventBusDispense(event: Event<T>) {
+        super.onEventBusDispense(event)
+        when(event.code){
+            EventCode.EVENT_CODE_AVATAR ->{
+                val avatarUrl = event.data.toString()
+                if(!TextUtils.isEmpty(avatarUrl)){
+                    LogUtils.logGGQ("--event data:--${event.data}")
+                    viewModel.avatarUrl.postValue(avatarUrl)
+                }
+            }
+        }
+    }
     override fun onDestroy() {
         super.onDestroy()
         // 退出时销毁定位

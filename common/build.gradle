@@ -198,7 +198,6 @@ dependencies {
 
     api 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
 
-    api 'org.xutils:xutils:3.9.0'
     api files('libs/BaiduLBS_Android.jar')
 
     api project(path: ':baselib')

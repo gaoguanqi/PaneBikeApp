@@ -23,6 +23,7 @@ import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.databinding.ActivityUserInfoBinding
 import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
+import net.hyntech.common.global.EventCode
 import net.hyntech.common.provider.ARouterConstants
 import net.hyntech.common.utils.CommonUtils
 import net.hyntech.common.vm.UserInfoViewModel
@@ -99,6 +100,14 @@ class UserInfoActivity:BaseViewActivity<ActivityUserInfoBinding,UserInfoViewMode
             LogUtils.logGGQ("phone->>${phone}")
             LogUtils.logGGQ("idCard->>${idCard}")
             startActivity(Intent(this,AccountSafetyActivity::class.java).putExtra(Constants.BundleKey.EXTRA_PHONE,phone).putExtra(Constants.BundleKey.EXTRA_IDCARD,idCard))
+        })
+
+        viewModel.avatarUrl.observe(this, Observer {url ->
+            ivAvatar?.let { iv->
+                ImageLoader.getInstance().loadImage(BaseApp.instance, GlideImageConfig(url, iv).also { config-> config.type = TransType.CIRCLE })
+                val event:Event<String> = Event(EventCode.EVENT_CODE_AVATAR,url)
+                EventBusUtils.sendEvent(event)
+            }
         })
 
         AppDatabase.getInstance(BaseApp.instance).userDao().apply {
@@ -184,12 +193,6 @@ class UserInfoActivity:BaseViewActivity<ActivityUserInfoBinding,UserInfoViewMode
     private fun uploadImage(path: String) {
         imegList.clear()
         imegList.add(path)
-//        ivAvatar?.let { iv->
-//            ImageLoader.getInstance().loadImage(
-//                BaseApp.instance,
-//                GlideImageConfig(path, iv).also { config-> config.type = TransType.CIRCLE })
-//        }
-
         viewModel.uploadImageList(imegList.toList())
     }
 

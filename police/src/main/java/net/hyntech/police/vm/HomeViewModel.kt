@@ -20,6 +20,7 @@ class HomeViewModel:BaseViewModel() {
 
     val userInfo: MutableLiveData<UserInfoEntity> = MutableLiveData()
 
+    val avatarUrl: MutableLiveData<String> = MutableLiveData()
 
     //item event
     val accountEvent: SingleLiveEvent<Any> = SingleLiveEvent()

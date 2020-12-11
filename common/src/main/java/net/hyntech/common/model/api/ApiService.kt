@@ -31,10 +31,13 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_EBIKE_LOCK)
     suspend fun ebikeLock(@Body requestBody: RequestBody): CommonEntity
 
-
     @Headers("urlname:hyntech")
     @Multipart
     @POST(ApiURL.URL_UPLOAD_IMG)
     suspend fun uploadImageList(@Part partList: List<MultipartBody.Part>): UploadImgEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_EDIT_HEADIMGURL)
+    suspend fun editHeadImage(@Body requestBody: RequestBody): CommonEntity
 
 }

@@ -50,14 +50,17 @@ class MineFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMineBindin
             ivAvatar = this.findViewById(R.id.iv_avatar)
         }
 
+        viewModel.avatarUrl.observe(this, Observer {url ->
+            if(ivAvatar != null && !TextUtils.isEmpty(url)){
+                ImageLoader.getInstance().loadImage(
+                    BaseApp.instance,
+                    GlideImageConfig(url,ivAvatar!!).also { it.type = TransType.CIRCLE })
+            }
+        })
         viewModel.userInfo.observe(this, Observer {userInfo ->
             userInfo.user?.let {user ->
                 tvName?.text = user.name
-                if(ivAvatar != null && !TextUtils.isEmpty(user.headimgurl)){
-                    ImageLoader.getInstance().loadImage(
-                        BaseApp.instance,
-                        GlideImageConfig(user.headimgurl,ivAvatar!!).also { it.type = TransType.CIRCLE })
-                }
+                viewModel.avatarUrl.postValue(user.headimgurl)
             }
         })
 

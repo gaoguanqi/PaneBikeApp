@@ -1,6 +1,8 @@
 package net.hyntech.common.vm
 
-import net.hyntech.baselib.app.BaseApp
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.runBlocking
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.baselib.utils.LogUtils
@@ -11,20 +13,18 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import org.jetbrains.anko.collections.forEachWithIndex
-import org.xutils.x
 import java.io.File
+import java.util.*
 
 class UserInfoViewModel : BaseViewModel() {
 
     private val repository by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { CommonRepository() }
 
-    init {
-        x.Ext.init(BaseApp.instance)
-    }
 
     val avatarEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val phoneEvent: SingleLiveEvent<Any> = SingleLiveEvent()
 
+    val avatarUrl: MutableLiveData<String> = MutableLiveData()
 
     fun onClickAvatar() {
         onClickProxy {
@@ -37,16 +37,9 @@ class UserInfoViewModel : BaseViewModel() {
             phoneEvent.call()
         }
     }
-
-    /**
-     * .addFormDataPart("accessToken", "accessToken-6bd17fd24c9d4f5caa27c402d9babab5")
-    .addFormDataPart("timestamp", "2020-12-10 17:05:14")
-    .addFormDataPart("nonce", "0f2fd58c-ea8f-48e6-bc12-53a4b80a820d")
-    .addFormDataPart("sig", "e274ea9509a3aaf8b64fd37ab2dcfdde")
-    .addFormDataPart("imgType", "usual")
-     */
     //上传图片
     fun uploadImageList(imegList: List<String>) {
+        defUI.showDialog.call()
         val builder: MultipartBody.Builder = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
         builder.addFormDataPart("imgType", Constants.GlobalValue.IMAGE_TYPE_USUAL)
@@ -65,10 +58,33 @@ class UserInfoViewModel : BaseViewModel() {
         launchOnlyResult({
             repository.uploadImageList(partsList)
         }, success = { data ->
-            data?.imgUrl?.let {
-                LogUtils.logGGQ("--img->>${it}")
+            data?.imgUrl?.let {urls ->
+                val urlList:MutableList<String> = mutableListOf()
+                if(urls.contains(",")){
+                    urlList.addAll(urls.split(","))
+                }else{
+                    urlList.add(urls)
+                }
+               if(urlList.isNotEmpty()){
+                   editHeadImage(urlList.first())
+               }
             }
-        })
+        },error = {
+            defUI.dismissDialog.call()
+        },isShowDialog = false,isShowToast = false)
+    }
 
+
+    private fun editHeadImage(imgUrl:String){
+        val params: WeakHashMap<String, Any> = WeakHashMap()
+        params.put("headimgurl",imgUrl)
+        launchOnlyResult({
+            repository.editHeadImage(params)
+        }, success = {
+            avatarUrl.value = imgUrl
+            defUI.toastEvent.postValue("修改成功")
+        },complete = {
+            defUI.dismissDialog.call()
+        },isShowDialog = false)
     }
 }
