@@ -47,4 +47,9 @@ interface ApiService:BaseApi {
     @Headers("urlname:hyntech")
     @POST(ApiURL.URL_EBIKE_IGNORE)
     suspend fun ignoreEbikeError(@Body requestBody: RequestBody): CommonEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_ALARM_RECORD)
+    suspend fun getAlarmRecordList(@Body requestBody: RequestBody): AlarmRecordEntity
+
 }

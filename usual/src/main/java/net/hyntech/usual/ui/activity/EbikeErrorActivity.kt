@@ -1,6 +1,7 @@
 package net.hyntech.usual.ui.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -58,9 +59,9 @@ class EbikeErrorActivity:BaseViewActivity<ActivityEbikeErrorBinding,ControllerVi
     @SuppressLint("RestrictedApi")
     override fun initData(savedInstanceState: Bundle?) {
 
-        setTitle<EbikeErrorActivity>(UIUtils.getString(CR.string.common_title_ebike_error)).setRightTxt<EbikeErrorActivity>(UIUtils.getString(CR.string.common_alarm_record)
+        setTitle<EbikeErrorActivity>(UIUtils.getString(CR.string.common_title_ebike_error)).setRightTxt<EbikeErrorActivity>(UIUtils.getString(CR.string.common_title_alarm_record)
         ).onSide<EbikeErrorActivity> {
-            ToastUtil.showToast("报警记录")
+            startActivity(Intent(this,AlarmRecordActivity::class.java))
         }.onBack<EbikeErrorActivity> {
             onFinish()
         }
@@ -102,32 +103,36 @@ class EbikeErrorActivity:BaseViewActivity<ActivityEbikeErrorBinding,ControllerVi
         })
         viewModel.ignoreEvent.observe(this, Observer {
             //忽略后刷新数据
-            viewModel.getEbikeErrorList()
+            viewModel.onEbikeRefreshData()
         })
 
         viewModel.getEbikeErrorList()
     }
 
     private fun onRefreshData(){
-        viewModel.onRefreshData()
+        viewModel.onEbikeRefreshData()
     }
 
     private fun onLoadMoreData(){
         if(viewModel.lastPage){
             finishLoadMore()
         }else{
-            viewModel.onLoadMoreData()
+            viewModel.onEbikeLoadMoreData()
         }
     }
 
     //结束下拉刷新
     private fun finishRefresh() {
-        refreshLayout?.finishRefresh(300)
+        refreshLayout?.let {
+            if(it.isRefreshing)it.finishRefresh(300)
+        }
     }
 
     //结束加载更多
     private fun finishLoadMore() {
-        refreshLayout?.finishLoadMore(300)
+        refreshLayout?.let {
+            if(it.isLoading) it.finishLoadMore(300)
+        }
     }
 
 

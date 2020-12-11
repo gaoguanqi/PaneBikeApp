@@ -32,4 +32,5 @@
     <color name="common_color_fab_pressed">#55FF5E51</color>
     <color name="common_color_badge">#FF5E51</color>
 
+    <color name="common_color_pass">#1AD09F</color>
 </resources>

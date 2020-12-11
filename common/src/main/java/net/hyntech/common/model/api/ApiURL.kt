@@ -8,8 +8,8 @@ class ApiURL {
 
 
         // https://api.hyntech.net/app/v1/user/usual/get_user_info.thtml
-//            private const val EXT = "/app"
-            private const val EXT = "/antitheft"
+            private const val EXT = "/app"
+//            private const val EXT = "/antitheft"
 
 //        private const val PREFIX_URL = "/antitheft/v1/user/usual"
 //        private const val PREFIX_URL = "/antitheft/v1/user/police"
@@ -51,7 +51,8 @@ class ApiURL {
         const val URL_EBIKE_ERROR = "${EXT}/v1/alarm_exception_log/usual/list.thtml"
         //民用版 忽略车辆异常信息
         const val URL_EBIKE_IGNORE = "${EXT}/v1/alarm_exception_log/usual/ignore.thtml"
-
+        //民用版 报警记录
+        const val URL_ALARM_RECORD = "${EXT}/v1/alarm/usual/list.thtml"
 
 
 

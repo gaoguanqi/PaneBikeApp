@@ -52,7 +52,7 @@
     <string name="common_title_phone_safety">手机号验证</string>
     <string name="common_title_idcard_safety">身份证号验证</string>
     <string name="common_title_ebike_error">车辆异常信息</string>
-    <string name="common_alarm_record">报警记录</string>
+    <string name="common_title_alarm_record">报警记录</string>
 
 
     <string name="common_car_info">车辆信息</string>

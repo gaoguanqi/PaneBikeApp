@@ -32,6 +32,10 @@
 
         <activity android:name=".ui.activity.EbikeErrorActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".ui.activity.AlarmRecordActivity"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"

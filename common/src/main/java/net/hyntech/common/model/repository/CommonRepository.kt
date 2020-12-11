@@ -55,4 +55,9 @@ open class CommonRepository:BaseRepository() {
     suspend fun ignoreEbikeError(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO){
         retrofitClient.ignoreEbikeError(params2Body(params))
     }
+
+    suspend fun getAlarmRecordList(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO){
+        retrofitClient.getAlarmRecordList(params2Body(params))
+    }
+
 }
