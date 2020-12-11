@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="ResourceName">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="@color/common_white"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <LinearLayout
+            android:id="@+id/item_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/common_padding"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/common_padding"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_ebike_no"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    tools:text="测试文本"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/common_font_text"
+                    android:textColor="@color/common_color_text"
+                    app:drawableStartCompat="@drawable/ic_car"
+                    android:drawablePadding="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_ebike_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="位移变化"
+                    android:textSize="@dimen/common_font_text"
+                    android:textColor="@color/common_color_badge" />
+            </LinearLayout>
+            <View
+                android:layout_marginStart="@dimen/common_padding"
+                android:layout_marginEnd="@dimen/common_padding"
+                android:background="@drawable/shape_dashgap"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layerType="software" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/common_padding"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="车主姓名"
+                    android:paddingEnd="20dp"
+                    android:textSize="@dimen/common_font_text"
+                    android:textColor="@color/common_gray_text" />
+
+                <TextView
+                    android:id="@+id/tv_ebike_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="测试文本"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/common_font_text"
+                    android:textColor="@color/common_black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/common_padding"
+                android:paddingEnd="@dimen/common_padding"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系电话"
+                    android:paddingEnd="20dp"
+                    android:textSize="@dimen/common_font_text"
+                    android:textColor="@color/common_gray_text" />
+
+                <TextView
+                    android:id="@+id/tv_ebike_tel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="测试文本"
+                    android:textSize="@dimen/common_font_text"
+                    android:textColor="@color/common_black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/common_padding"
+                android:paddingEnd="@dimen/common_padding"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="报警地点"
+                    android:paddingEnd="20dp"
+                    android:textSize="@dimen/common_font_text"
+                    android:textColor="@color/common_gray_text" />
+
+                <TextView
+                    android:id="@+id/tv_alarm_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/common_font_text"
+                    android:textColor="@color/common_black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/common_padding"
+                android:paddingEnd="@dimen/common_padding"
+                android:paddingTop="8dp"
+                android:paddingBottom="@dimen/common_padding"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="报告时间"
+                    android:paddingEnd="20dp"
+                    android:textSize="@dimen/common_font_text"
+                    android:textColor="@color/common_gray_text" />
+
+                <TextView
+                    android:id="@+id/tv_alarm_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="测试文本"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/common_font_text"
+                    android:textColor="@color/common_black" />
+            </LinearLayout>
+
+            <View
+                android:layout_marginStart="@dimen/common_padding"
+                android:layout_marginEnd="@dimen/common_padding"
+                android:background="@drawable/shape_dashgap"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layerType="software" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/common_padding"
+                android:gravity="end"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_ignore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:text="忽略"
+                    android:textColor="@color/common_color_text"
+                    android:textSize="@dimen/common_font_common"
+                    android:paddingStart="28dp"
+                    android:paddingEnd="28dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:background="@drawable/selector_cancel" />
+
+                <TextView
+                    android:id="@+id/tv_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="报警"
+                    android:textColor="@color/common_white"
+                    android:textSize="@dimen/common_font_common"
+                    android:paddingStart="28dp"
+                    android:paddingEnd="28dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:background="@drawable/selector_confirm" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

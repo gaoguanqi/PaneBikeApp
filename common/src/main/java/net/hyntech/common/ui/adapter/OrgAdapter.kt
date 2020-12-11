@@ -19,7 +19,7 @@ class OrgAdapter(val context: Context):BaseAdapter<OrgAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemOrgBinding
 
-    private var list: MutableList<CenterEntity.OrgListBean> = arrayListOf()
+    private val list: MutableList<CenterEntity.OrgListBean> = arrayListOf()
     private var listener:OnClickListener? = null
 
     fun setListener(listener:OnClickListener?){

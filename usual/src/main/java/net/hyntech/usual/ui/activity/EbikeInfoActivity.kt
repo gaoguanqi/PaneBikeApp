@@ -32,6 +32,9 @@ import net.hyntech.usual.R
 import razerdp.basepopup.BasePopupWindow
 import net.hyntech.common.R as CR
 
+/**
+ * 我的 -> 车辆信息
+ */
 class EbikeInfoActivity : BaseActivity() {
 
     private var tvTitle:TextView? = null
@@ -90,6 +93,8 @@ class EbikeInfoActivity : BaseActivity() {
         findViewById<LinearLayout>(R.id.ll_title)?.setOnClickListener {
             onClickTitle()
         }
+
+
         banner?.addBannerLifecycleObserver(this)?.setAdapter(bannerAdapter)?.setIndicator(
             CircleIndicator(this)
         )?.setOnBannerListener(object : OnBannerListener<BannerEntity> {
@@ -120,7 +125,6 @@ class EbikeInfoActivity : BaseActivity() {
             }
         })
     }
-
     private fun onClickTitle() {
         showEBikePopu()
     }

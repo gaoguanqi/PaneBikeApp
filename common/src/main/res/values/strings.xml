@@ -33,6 +33,10 @@
     <string name="common_permissions_confirm">前往开启</string>
     <string name="common_logout">退出登录</string>
     <string name="common_change_password">修改密码</string>
+    <string name="common_tip">提示</string>
+    <string name="common_no">否</string>
+    <string name="common_yes">是</string>
+    <string name="common_ignore_content">确定要忽略</string>
 
 
 
@@ -47,6 +51,8 @@
     <string name="common_title_account_safety">安全验证</string>
     <string name="common_title_phone_safety">手机号验证</string>
     <string name="common_title_idcard_safety">身份证号验证</string>
+    <string name="common_title_ebike_error">车辆异常信息</string>
+    <string name="common_alarm_record">报警记录</string>
 
 
     <string name="common_car_info">车辆信息</string>

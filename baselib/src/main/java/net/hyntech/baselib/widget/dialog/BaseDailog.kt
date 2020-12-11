@@ -11,11 +11,12 @@ open class BaseDailog(
     context: Context,
     val width: Int = WindowManager.LayoutParams.WRAP_CONTENT,
     val height: Int = WindowManager.LayoutParams.WRAP_CONTENT,
-    val style:Int
+    val style:Int,
+    val isCancelable:Boolean = false
 ) : Dialog(context, style) {
 
     init {
-        setCancelable(false)
+        setCancelable(isCancelable)
         window?.setGravity(Gravity.CENTER)
         //默认的Dialog只有5/6左右的宽度
         window?.decorView?.setPadding(0, 0, 0, 0);

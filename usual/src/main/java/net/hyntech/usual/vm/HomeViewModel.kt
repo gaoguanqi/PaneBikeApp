@@ -31,6 +31,7 @@ class HomeViewModel : BaseViewModel() {
 
     //item event
     val accountEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val noticeEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val carInfoEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val myOrderEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val myAddValEvent: SingleLiveEvent<Any> = SingleLiveEvent()
@@ -41,7 +42,7 @@ class HomeViewModel : BaseViewModel() {
 
     fun onClickNotice(){
         onClickProxy {
-            ToastUtil.showToast("点击消息")
+            noticeEvent.call()
         }
     }
 

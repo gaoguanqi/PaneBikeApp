@@ -47,8 +47,10 @@ class ApiURL {
 
         //民用版 锁车/解锁 车辆
         const val URL_EBIKE_LOCK = "${EXT}/v1/ebike/usual/ebike_lock.thtml"
-
-
+        //民用版 车辆异常信息
+        const val URL_EBIKE_ERROR = "${EXT}/v1/alarm_exception_log/usual/list.thtml"
+        //民用版 忽略车辆异常信息
+        const val URL_EBIKE_IGNORE = "${EXT}/v1/alarm_exception_log/usual/ignore.thtml"
 
 
 

@@ -48,4 +48,11 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.editHeadImage(params2Body(params))
     }
 
+    suspend fun getEbikeErrorList(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO){
+        retrofitClient.getEbikeErrorList(params2Body(params))
+    }
+
+    suspend fun ignoreEbikeError(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO){
+        retrofitClient.ignoreEbikeError(params2Body(params))
+    }
 }

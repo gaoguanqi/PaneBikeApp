@@ -21,8 +21,9 @@ class CommonDialog : BaseDailog {
         content: String,
         cancle: String = UIUtils.getString(R.string.common_text_cancle),
         confirm: String = UIUtils.getString(R.string.common_text_confirm),
-        listener:OnClickListener
-    ) : super(context,style = R.style.common_DialogCommon) {
+        listener:OnClickListener,
+        isCancelable:Boolean = false
+    ) : super(context,style = R.style.common_DialogCommon,isCancelable = isCancelable) {
         this.title = title
         this.content = content
         this.cancle = cancle

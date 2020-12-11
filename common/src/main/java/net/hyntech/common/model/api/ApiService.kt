@@ -40,4 +40,11 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_EDIT_HEADIMGURL)
     suspend fun editHeadImage(@Body requestBody: RequestBody): CommonEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_EBIKE_ERROR)
+    suspend fun getEbikeErrorList(@Body requestBody: RequestBody): EbikeErrorEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_EBIKE_IGNORE)
+    suspend fun ignoreEbikeError(@Body requestBody: RequestBody): CommonEntity
 }

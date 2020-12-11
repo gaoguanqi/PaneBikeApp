@@ -1,5 +1,6 @@
 package net.hyntech.usual.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Gravity
@@ -27,6 +28,7 @@ import net.hyntech.common.ui.adapter.SeverListAdapter
 import net.hyntech.common.widget.popu.EBikeListPopu
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.FragmentMainBinding
+import net.hyntech.usual.ui.activity.EbikeErrorActivity
 import net.hyntech.usual.vm.HomeViewModel
 import razerdp.basepopup.BasePopupWindow
 import net.hyntech.common.R as CR
@@ -134,6 +136,9 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
                 tvFab?.text = "暂无车辆"
             }
             ebikeList = userInfo.ebike_list
+        })
+        viewModel.noticeEvent.observe(this, Observer {
+            startActivity(Intent(requireActivity(),EbikeErrorActivity::class.java))
         })
 
         llTitle?.setOnClickListener {
