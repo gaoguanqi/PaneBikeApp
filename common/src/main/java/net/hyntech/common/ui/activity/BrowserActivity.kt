@@ -7,14 +7,11 @@ import android.view.View
 import android.webkit.JavascriptInterface
 import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.annotation.Route
-import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseActivity
-import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
 import net.hyntech.common.provider.ARouterConstants
-import net.hyntech.common.vm.AccountSafetyViewModel
 import net.hyntech.common.vm.BrowserViewModel
 import net.hyntech.common.widget.x5web.WebViewJavaScriptFunction
 import net.hyntech.common.widget.x5web.X5WebView

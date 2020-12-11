@@ -7,6 +7,9 @@ class Global {
 //        var BASE_URL: String = "https://api.hyntech.net"
 //        var BASE_URL: String = "http://39.98.135.139:8080"
         var BASE_URL: String = "http://192.168.0.112:8080"
+
+        var BASE_WEB_URL: String = "https://appweb.hyntech.net"
+
 //        var TEST_URL: String = "http://192.168.0.111:8080/antitheft/v1/user/police/login.thtml"
 //        const val TEST_URL: String = "http://192.168.0.111:8080"
 //        const val TEST_URL: String = "http://39.98.135.139:8080"
