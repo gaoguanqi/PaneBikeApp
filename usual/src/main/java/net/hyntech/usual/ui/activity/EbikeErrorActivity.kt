@@ -15,6 +15,7 @@ import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
 import net.hyntech.common.model.entity.EbikeErrorEntity
+import net.hyntech.common.model.vo.BundleAlarmVo
 import net.hyntech.common.widget.dialog.CommonDialog
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.ActivityEbikeErrorBinding
@@ -43,8 +44,16 @@ class EbikeErrorActivity:BaseViewActivity<ActivityEbikeErrorBinding,ControllerVi
 
         override fun onAlarmClick(item: EbikeErrorEntity.AlarmExceptionLogListBean?) {
                 item?.let {
+                    val array = java.util.ArrayList<BundleAlarmVo>()
+                    val vo:BundleAlarmVo = BundleAlarmVo()
+                    vo.ebikeNo = it.ebikeNo
+                    vo.name = it.name
+                    vo.phone = it.phone
+                    vo.address = it.addr
+                    array.add(vo)
                     val bundle:Bundle = Bundle()
-                    bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,it)
+                    bundle.putInt(Constants.BundleKey.EXTRA_TYPE,2)
+                    bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,array)
                     startActivity(Intent(this@EbikeErrorActivity,AkeyAlarmActivity::class.java).putExtras(bundle))
                 }
              }

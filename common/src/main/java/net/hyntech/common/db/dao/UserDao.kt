@@ -28,7 +28,7 @@ interface UserDao {
     fun getCurrentUser(): User?{
         val users = getAllUser()
         if(!users.isEmpty()){
-            LogUtils.logGGQ("getCurrentUser->>>")
+            LogUtils.logGGQ("getCurrentUser->>>${users.size}")
             return users.last()
         }
         return null

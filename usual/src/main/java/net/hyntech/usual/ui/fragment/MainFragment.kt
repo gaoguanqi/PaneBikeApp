@@ -20,14 +20,18 @@ import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseFragment
 import net.hyntech.common.db.AppDatabase
+import net.hyntech.common.global.Constants
 import net.hyntech.common.global.handler.MapViewHandler
+import net.hyntech.common.model.entity.EbikeErrorEntity
 import net.hyntech.common.model.entity.SeverInfoEntity
 import net.hyntech.common.model.entity.UserInfoEntity
+import net.hyntech.common.model.vo.BundleAlarmVo
 import net.hyntech.common.ui.adapter.EBikeListAdapter
 import net.hyntech.common.ui.adapter.SeverListAdapter
 import net.hyntech.common.widget.popu.EBikeListPopu
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.FragmentMainBinding
+import net.hyntech.usual.ui.activity.AkeyAlarmActivity
 import net.hyntech.usual.ui.activity.EbikeErrorActivity
 import net.hyntech.usual.vm.HomeViewModel
 import razerdp.basepopup.BasePopupWindow
@@ -92,9 +96,12 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         binding.rvMain.layoutManager = GridLayoutManager(requireContext(),4)
         val adapter: SeverListAdapter = SeverListAdapter(requireContext(),CR.layout.item_sever_usual,list)
         adapter.setListener(object :SeverListAdapter.OnClickListener{
-            override fun onItemClick(item: SeverInfoEntity?) {
-                item?.let {
-                    ToastUtil.showToast(it.name)
+            override fun onItemClick(pos:Int,item: SeverInfoEntity?) {
+                when(pos){
+                    0 -> onCarInfo()
+                    1 -> onConverService()
+                    2 -> onAkeyAlarm()
+                    3 -> onTheSafe()
                 }
             }
         })
@@ -176,6 +183,8 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         viewModel.getUserInfo(true)
     }
 
+
+
     private fun setEbikeLock(lockFlag: Int){
         //"lockFlag"   0, 未上锁 锁车  1 已上锁 解锁
         if(lockFlag == 1){
@@ -254,5 +263,40 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
     override fun onPause() {
         super.onPause()
         LogUtils.logGGQ("--onPause-")
+    }
+
+    //车辆信息
+    private fun onTheSafe() {
+
+    }
+    //便民服务
+    private fun onConverService() {
+
+    }
+
+    //一键报警
+    private fun onAkeyAlarm() {
+        if(!ebikeList.isNullOrEmpty()){
+            val array = java.util.ArrayList<BundleAlarmVo>()
+            ebikeList?.forEach {item ->
+                val vo = BundleAlarmVo()
+                item.isSelected = vo.isSelected
+                vo.ebikeNo = item.ebikeNo
+                vo.name = viewModel.userInfo.value?.user?.name
+                vo.phone = viewModel.userInfo.value?.user?.phone
+                vo.address = ""
+                array.add(vo)
+            }
+            val bundle:Bundle = Bundle()
+            bundle.putInt(Constants.BundleKey.EXTRA_TYPE,1)
+            bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,array)
+            startActivity(Intent(requireActivity(), AkeyAlarmActivity::class.java).putExtras(bundle))
+        }else{
+            ToastUtil.showToast("数据加载中,请稍后")
+        }
+    }
+    //防盗保障
+    private fun onCarInfo() {
+
     }
 }

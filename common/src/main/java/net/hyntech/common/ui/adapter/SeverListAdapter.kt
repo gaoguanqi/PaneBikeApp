@@ -31,7 +31,7 @@ class  SeverListAdapter(val context: Context,val layoutRes:Int,val list:List<Sev
         val holder: ViewHolder = ViewHolder(view)
         holder.itemView.item_root.setOnClickListener {
             if(!UIUtils.isFastDoubleClick()){
-                listener?.onItemClick(list.get(holder.adapterPosition))
+                listener?.onItemClick(holder.adapterPosition,list.get(holder.adapterPosition))
             }
         }
         return holder
@@ -60,6 +60,6 @@ class  SeverListAdapter(val context: Context,val layoutRes:Int,val list:List<Sev
     }
 
     interface OnClickListener{
-        fun onItemClick(item: SeverInfoEntity?)
+        fun onItemClick(pos:Int,item: SeverInfoEntity?)
     }
 }

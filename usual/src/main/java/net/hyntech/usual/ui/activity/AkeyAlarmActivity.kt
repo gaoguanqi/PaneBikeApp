@@ -14,14 +14,12 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.listener.OnResultCallbackListener
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_akey_alarm.*
-import net.hyntech.baselib.utils.PermissionUtil
-import net.hyntech.baselib.utils.RequestPermission
-import net.hyntech.baselib.utils.ToastUtil
-import net.hyntech.baselib.utils.UIUtils
+import net.hyntech.baselib.utils.*
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
 import net.hyntech.common.model.entity.EbikeErrorEntity
 import net.hyntech.common.model.entity.PhotoEntity
+import net.hyntech.common.model.vo.BundleAlarmVo
 import net.hyntech.common.provider.ARouterConstants
 import net.hyntech.common.ui.adapter.PhotoAdapter
 import net.hyntech.common.widget.dialog.CommonDialog
@@ -99,18 +97,43 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
                 applyCamera()
             }
         }
+        btn_no_down.setOnClickListener {
+            if(!UIUtils.isFastDoubleClick()){
+
+            }
+        }
+
         rv.adapter = photoAdapter
         photoAdapter.setData(photoList)
         val bundle = intent.extras
         bundle?.let {
-            (it.getSerializable(Constants.BundleKey.EXTRA_OBJ) as EbikeErrorEntity.AlarmExceptionLogListBean).let { entity->
-                tv_car_no.text = entity.ebikeNo
-                tv_name.text = entity.name
-                tv_phone.text = entity.phone
-                et_position.setText(entity.addr)
+            val type:Int = it.getInt(Constants.BundleKey.EXTRA_TYPE)
+            LogUtils.logGGQ("--------type------------>>${type}")
+            val list = it.getSerializable(Constants.BundleKey.EXTRA_OBJ) as List<BundleAlarmVo>
+            if(type == 1 && list.isNotEmpty()){
+                btn_no_down.visibility = View.VISIBLE
+                var vo = list.first()
+                if(list.size > 1){
+                    list.forEach {item ->
+                        if(item.isSelected){
+                            vo = item
+                        }
+                    }
+                }
+                setData(vo)
+            }else if(type == 2 && list.isNotEmpty()){
+                btn_no_down.visibility = View.GONE
+                setData(list.first())
             }
         }
 
+    }
+
+    private fun setData(vo:BundleAlarmVo){
+        tv_car_no.text = vo.ebikeNo
+        tv_name.text = vo.name
+        tv_phone.text = vo.phone
+        et_position.setText(vo.address)
     }
 
     private fun applyCamera(){

@@ -46,6 +46,7 @@
                     android:layout_height="46dp"
                     android:background="@color/common_color_background"
                     android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingStart="@dimen/common_padding"
                     android:paddingEnd="@dimen/common_padding">
@@ -60,12 +61,23 @@
 
                     <TextView
                         android:id="@+id/tv_car_no"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:textColor="@color/common_black"
                         android:textSize="@dimen/common_font_common"
                         tools:text="测试文本" />
+
+                    <ImageButton
+                        android:id="@+id/btn_no_down"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_no_down"
+                        android:visibility="gone"
+                        android:background="@null"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="10dp" />
                 </LinearLayout>
 
                 <View

@@ -129,7 +129,7 @@ public class EbikeErrorEntity extends BaseResponse<EbikeErrorEntity> {
         }
     }
 
-    public static class AlarmExceptionLogListBean implements Serializable {
+    public static class AlarmExceptionLogListBean {
         /**
          * addr : 开封市尉氏县水坡镇苏桥村西头村口
          * alarmLogId : 3ee1838e3ccf4c21a12c6aca9c7938c8
