@@ -53,12 +53,15 @@
     <string name="common_title_idcard_safety">身份证号验证</string>
     <string name="common_title_ebike_error">车辆异常信息</string>
     <string name="common_title_alarm_record">报警记录</string>
+    <string name="common_title_akey_alarm">一键报警</string>
 
 
     <string name="common_car_info">车辆信息</string>
     <string name="common_conve_service">便民服务</string>
     <string name="common_call_police">一键报警</string>
     <string name="common_the_safe">防盗保障</string>
+    <string name="common_akey_car_no">车牌号\t\t</string>
+    <string name="common_akey_name">联系人\t\t</string>
 
     <string name="common_dot_manage">点位管理</string>
     <string name="common_device_info">设备信息</string>
@@ -66,4 +69,7 @@
     <string name="common_up_record">登记记录</string>
     <string name="common_find_car">车辆查找</string>
     <string name="common_text_account_safety">为了您的账号安全,需要验证您的身份,请选择以下任意一种方式进行验证。</string>
+
+    <string name="common_text_akey_des">请确认您的爱车丢失后报警，报警完成后，我们将会联系相关的警务人员进行处理。</string>
+    <string name="common_text_akey_img">请上传jpg,png格式的图片，内容与车辆有关，不超过三张</string>
 </resources>

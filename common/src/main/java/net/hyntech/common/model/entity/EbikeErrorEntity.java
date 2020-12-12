@@ -3,6 +3,7 @@ package net.hyntech.common.model.entity;
 
 import net.hyntech.baselib.http.BaseResponse;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class EbikeErrorEntity extends BaseResponse<EbikeErrorEntity> {
@@ -128,7 +129,7 @@ public class EbikeErrorEntity extends BaseResponse<EbikeErrorEntity> {
         }
     }
 
-    public static class AlarmExceptionLogListBean {
+    public static class AlarmExceptionLogListBean implements Serializable {
         /**
          * addr : 开封市尉氏县水坡镇苏桥村西头村口
          * alarmLogId : 3ee1838e3ccf4c21a12c6aca9c7938c8

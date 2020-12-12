@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_ebike_error.rv
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.global.Constants
 import net.hyntech.common.model.entity.EbikeErrorEntity
 import net.hyntech.common.widget.dialog.CommonDialog
 import net.hyntech.usual.R
@@ -41,7 +42,14 @@ class EbikeErrorActivity:BaseViewActivity<ActivityEbikeErrorBinding,ControllerVi
         }
 
         override fun onAlarmClick(item: EbikeErrorEntity.AlarmExceptionLogListBean?) {
-            ToastUtil.showToast("点击报警->>${item?.ebikeNo}") } }) } }
+                item?.let {
+                    val bundle:Bundle = Bundle()
+                    bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,it)
+                    startActivity(Intent(this@EbikeErrorActivity,AkeyAlarmActivity::class.java).putExtras(bundle))
+                }
+             }
+        })
+    } }
 
     private val ignoreDialog: CommonDialog by lazy { CommonDialog(this,
         UIUtils.getString(CR.string.common_tip),

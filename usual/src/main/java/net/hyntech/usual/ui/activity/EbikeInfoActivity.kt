@@ -59,22 +59,21 @@ class EbikeInfoActivity : BaseActivity() {
 
     private val photoAdapter by lazy { PhotoAdapter(this,CR.layout.item_photo).apply {
         this.setListener(object :PhotoAdapter.OnClickListener{
-            override fun onItemClick(pos:Int,item: PhotoEntity?) {
-                if(!UIUtils.isFastDoubleClick()){
-                    item?.let {
-                        val bundle = Bundle()
-                        val array = java.util.ArrayList<String>()
-                        photoList.forEach {
-                            array.add(it.url)
-                        }
-                        bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,array)
-                        bundle.putInt(Constants.BundleKey.EXTRA_INDEX,pos)
-                        ARouter.getInstance().build(ARouterConstants.PREVIEW_PAGE)
-                            .with(bundle)
-                            .navigation()
+            override fun onItemClick(pos:Int,item: PhotoEntity?,list:MutableList<PhotoEntity>) {
+                item?.let {
+                    val bundle = Bundle()
+                    val array = java.util.ArrayList<String>()
+                    list.forEach {
+                        array.add(it.url)
                     }
+                    bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,array)
+                    bundle.putInt(Constants.BundleKey.EXTRA_INDEX,pos)
+                    ARouter.getInstance().build(ARouterConstants.PREVIEW_PAGE)
+                        .with(bundle)
+                        .navigation()
                 }
             }
+            override fun onItemDel(pos: Int, item: PhotoEntity?) {}
         })
     } }
 

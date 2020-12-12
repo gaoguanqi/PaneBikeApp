@@ -157,4 +157,11 @@ class ControllerViewModel:CommonViewModel() {
             }
         },isShowDialog = false,isShowToast = false)
     }
+
+    //-------一键报警------------------------------
+    fun onClickAlarm(){
+        onClickProxy {
+
+        }
+    }
 }

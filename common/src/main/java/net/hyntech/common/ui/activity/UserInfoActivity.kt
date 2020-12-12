@@ -201,6 +201,7 @@ class UserInfoActivity:BaseViewActivity<ActivityUserInfoBinding,UserInfoViewMode
             .openGallery(PictureMimeType.ofImage())
             .imageEngine(GlideEngine.createGlideEngine())
             .selectionMode(PictureConfig.SINGLE)
+            .isCamera(false)
             .isCompress(true)// 是否压缩
             .isGif(false)
             .forResult(object :OnResultCallbackListener<LocalMedia>{
