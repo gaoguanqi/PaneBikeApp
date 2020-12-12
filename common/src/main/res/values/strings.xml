@@ -54,6 +54,7 @@
     <string name="common_title_ebike_error">车辆异常信息</string>
     <string name="common_title_alarm_record">报警记录</string>
     <string name="common_title_akey_alarm">一键报警</string>
+    <string name="common_title_baidu_map">选择位置</string>
 
 
     <string name="common_car_info">车辆信息</string>

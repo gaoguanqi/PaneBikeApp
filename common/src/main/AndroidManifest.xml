@@ -84,6 +84,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.activity.AccountSafetyActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.BaiduMapActivity"
+            android:screenOrientation="portrait" />
         <service
             android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
             android:label="dexopt"

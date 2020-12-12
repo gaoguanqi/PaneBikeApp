@@ -125,6 +125,12 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
                 showPicker()
             }
         }
+        btn_position.setOnClickListener {
+            if(!UIUtils.isFastDoubleClick()){
+                ARouter.getInstance().build(ARouterConstants.BAIDU_MAP_PAGE)
+                    .navigation()
+            }
+        }
 
         rv.adapter = photoAdapter
         photoAdapter.setData(photoList)

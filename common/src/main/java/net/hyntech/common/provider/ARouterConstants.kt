@@ -17,6 +17,8 @@ class ARouterConstants {
         const val USER_INFO_PAGE = GROUP_COMMON + "user-info"
         //修改密码
         const val RESET_PWD_PAGE = GROUP_COMMON + "reset-pwd"
+        //选择位置
+        const val BAIDU_MAP_PAGE = GROUP_COMMON + "baidu-map"
 
         const val USUAL_HOME_PAGE = GROUP_USUAL + "home"
         const val POLICE_HOME_PAGE = GROUP_POLICE + "home"
