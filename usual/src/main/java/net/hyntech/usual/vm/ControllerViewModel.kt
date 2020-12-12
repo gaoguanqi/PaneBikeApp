@@ -36,7 +36,10 @@ class ControllerViewModel:CommonViewModel() {
         }, success = {
             it?.let {data ->
                 lastPage = data.page?.isLastPage?:true
-                if(!data.alarmExceptionLogList.isNullOrEmpty()){
+                if(data.alarmExceptionLogList.isNullOrEmpty()){
+                    defUI.emptyEvent.call()
+                    defUI.toastEvent.postValue("暂无数据！")
+                }else{
                     ebikeErrorList.postValue(data.alarmExceptionLogList)
                 }
             }
@@ -107,9 +110,15 @@ class ControllerViewModel:CommonViewModel() {
         }, success = {
             it?.let {data ->
                 lastPage = data.page?.isLastPage?:true
-                if(!data.atAlarmList.isNullOrEmpty()){
+                if(data.atAlarmList.isNullOrEmpty()){
+                    defUI.emptyEvent.call()
+                    defUI.toastEvent.postValue("暂无数据！")
+                }else{
                     alarmRecordList.postValue(data.atAlarmList)
                 }
+
+              //  alarmRecordList.value = listOf(AlarmRecordEntity.AtAlarmListBean())
+              //  alarmRecordList.postValue(alarmRecordList.value)
             }
         })
     }

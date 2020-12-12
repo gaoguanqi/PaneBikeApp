@@ -2,6 +2,8 @@ package net.hyntech.common.base
 
 import android.view.View
 import kotlinx.android.synthetic.main.include_title.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import net.hyntech.common.widget.dialog.LoadingDialog
 import net.hyntech.baselib.base.BaseActivity as B
 
@@ -21,7 +23,12 @@ abstract class BaseActivity : B() {
     }
 
     open fun dismissLoading() {
-        loadingDialog?.run { if (isShowing) dismiss() }
+        loadingDialog?.run { if (isShowing) {
+            runBlocking {
+                delay(500L)
+            }
+            dismiss()
+        } }
     }
 
 

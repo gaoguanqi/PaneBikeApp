@@ -1,6 +1,8 @@
 package net.hyntech.usual.ui.activity
 
 import android.os.Bundle
+import android.view.View
+import android.view.ViewStub
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_alarm_record.*
@@ -55,6 +57,11 @@ class AlarmRecordActivity:BaseViewActivity<ActivityAlarmRecordBinding,Controller
 
         viewModel.defUI.toastEvent.observe(this, Observer {
             ToastUtil.showToast(it)
+        })
+
+        viewModel.defUI.emptyEvent.observe(this, Observer {
+            refreshLayout.visibility = View.GONE
+            vsEmpty.inflate()
         })
 
         viewModel.alarmRecordList.observe(this, Observer {

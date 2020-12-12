@@ -180,6 +180,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
         val showDialog by lazy { SingleLiveEvent<String>() }
         val dismissDialog by lazy { SingleLiveEvent<Any>() }
         val toastEvent by lazy { SingleLiveEvent<String>() }
+        val emptyEvent by lazy { SingleLiveEvent<Boolean>() }
         val title by lazy { ObservableField<String>() }
 
     }

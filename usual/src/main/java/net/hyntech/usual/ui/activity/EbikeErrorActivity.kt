@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.blankj.utilcode.util.AppUtils
 import kotlinx.android.synthetic.main.activity_ebike_error.*
+import kotlinx.android.synthetic.main.activity_ebike_error.refreshLayout
+import kotlinx.android.synthetic.main.activity_ebike_error.rv
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
@@ -88,6 +90,11 @@ class EbikeErrorActivity:BaseViewActivity<ActivityEbikeErrorBinding,ControllerVi
 
         viewModel.defUI.toastEvent.observe(this, Observer {
             ToastUtil.showToast(it)
+        })
+
+        viewModel.defUI.emptyEvent.observe(this, Observer {
+            refreshLayout.visibility = View.GONE
+            vsEmpty.inflate()
         })
 
         viewModel.ebikeErrorList.observe(this, Observer {

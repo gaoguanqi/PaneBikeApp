@@ -33,6 +33,11 @@
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
-
+        <ViewStub
+            android:id="@+id/vsEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inflatedId="@+id/empty_root"
+            android:layout="@layout/layout_empty"/>
     </LinearLayout>
 </layout>

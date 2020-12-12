@@ -10,9 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.baselib.base.IView
 import net.hyntech.baselib.utils.UIUtils
@@ -75,7 +73,12 @@ abstract class BaseFragment<VB : ViewDataBinding,VM :BaseViewModel> : Fragment()
     }
 
     open fun dismissLoading() {
-        loadingDialog?.run { if (isShowing) dismiss() }
+        loadingDialog?.run { if (isShowing) {
+            runBlocking {
+                delay(500L)
+            }
+            dismiss()
+        } }
     }
 
 
