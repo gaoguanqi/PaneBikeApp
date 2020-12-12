@@ -197,6 +197,7 @@ dependencies {
     api 'com.github.chrisbanes:PhotoView:2.3.0'
     api 'androidx.cardview:cardview:1.0.0'
     api 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
+    api 'com.contrarywind:Android-PickerView:4.1.9'
 
     api files('libs/BaiduLBS_Android.jar')
 

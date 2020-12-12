@@ -337,6 +337,9 @@ androidx.recyclerview.widget.LinearLayoutManager mLayoutManager;
 -dontwarn org.codehaus.mojo.animal_sniffer.*
 -keepnames class androidx.navigation.fragment.NavHostFragment
 
+-dontwarn com.bigkoo.pickerview.**
+-keep class com.bigkoo.pickerview.**{*;}
+
 
 
 

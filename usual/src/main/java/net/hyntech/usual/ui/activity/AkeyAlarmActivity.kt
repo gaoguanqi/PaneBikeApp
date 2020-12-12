@@ -4,9 +4,16 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder
+import com.bigkoo.pickerview.builder.TimePickerBuilder
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener
+import com.bigkoo.pickerview.listener.OnTimeSelectListener
+import com.bigkoo.pickerview.view.OptionsPickerView
 import com.blankj.utilcode.util.AppUtils
+import com.blankj.utilcode.util.SizeUtils
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
@@ -17,7 +24,6 @@ import kotlinx.android.synthetic.main.activity_akey_alarm.*
 import net.hyntech.baselib.utils.*
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
-import net.hyntech.common.model.entity.EbikeErrorEntity
 import net.hyntech.common.model.entity.PhotoEntity
 import net.hyntech.common.model.vo.BundleAlarmVo
 import net.hyntech.common.provider.ARouterConstants
@@ -25,9 +31,10 @@ import net.hyntech.common.ui.adapter.PhotoAdapter
 import net.hyntech.common.widget.dialog.CommonDialog
 import net.hyntech.common.widget.imgloader.engine.GlideEngine
 import net.hyntech.usual.R
-import net.hyntech.common.R as CR
 import net.hyntech.usual.databinding.ActivityAkeyAlarmBinding
 import net.hyntech.usual.vm.ControllerViewModel
+import net.hyntech.common.R as CR
+
 
 class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerViewModel>() {
 
@@ -42,6 +49,7 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
             override fun onConfirmClick() { AppUtils.launchAppDetailsSettings() } }) }
 
 
+    private lateinit var ebikeList:List<BundleAlarmVo>
 
     private val photoList:MutableList<PhotoEntity> = mutableListOf()
 
@@ -67,6 +75,20 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
         })
     } }
 
+    //展示车辆
+    private val pickerList:MutableList<String> = mutableListOf()
+    private val pickerView by lazy {
+        OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
+            LogUtils.logGGQ("options1-->${options1}")
+        }).apply {
+            this.setContentTextSize(22)
+            this.setTitleColor(UIUtils.getColor(CR.color.common_color_text))
+            this.setCancelColor(UIUtils.getColor(CR.color.common_color_text))
+            this.setSubmitColor(UIUtils.getColor(CR.color.common_color_text))
+        }.build<String>().apply {
+            this.setTitleText("选择车辆")
+        }
+    }
     private fun delPhotoItem(pos: Int) {
         if(photoAdapter.getDataList().isNotEmpty() && photoAdapter.getDataList().size >= pos){
             photoAdapter.removeAtPosition(pos)
@@ -99,7 +121,7 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
         }
         btn_no_down.setOnClickListener {
             if(!UIUtils.isFastDoubleClick()){
-
+                showPicker()
             }
         }
 
@@ -109,24 +131,36 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
         bundle?.let {
             val type:Int = it.getInt(Constants.BundleKey.EXTRA_TYPE)
             LogUtils.logGGQ("--------type------------>>${type}")
-            val list = it.getSerializable(Constants.BundleKey.EXTRA_OBJ) as List<BundleAlarmVo>
-            if(type == 1 && list.isNotEmpty()){
+            ebikeList = it.getSerializable(Constants.BundleKey.EXTRA_OBJ) as List<BundleAlarmVo>
+            if(type == 1 && ebikeList.isNotEmpty()){
                 btn_no_down.visibility = View.VISIBLE
-                var vo = list.first()
-                if(list.size > 1){
-                    list.forEach {item ->
+                var vo = ebikeList.first()
+                if(ebikeList.size > 1){
+                    ebikeList.forEach {item ->
                         if(item.isSelected){
                             vo = item
                         }
                     }
                 }
                 setData(vo)
-            }else if(type == 2 && list.isNotEmpty()){
+            }else if(type == 2 && ebikeList.isNotEmpty()){
                 btn_no_down.visibility = View.GONE
-                setData(list.first())
+                setData(ebikeList.first())
             }
         }
 
+    }
+
+
+    private fun showPicker() {
+        pickerList.clear()
+        ebikeList.forEach {item ->
+            pickerList.add(item.ebikeNo)
+        }
+        pickerView.setPicker(pickerList)
+        if(!pickerView.isShowing){
+            pickerView.show()
+        }
     }
 
     private fun setData(vo:BundleAlarmVo){
