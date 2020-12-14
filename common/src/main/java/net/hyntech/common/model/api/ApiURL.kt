@@ -52,6 +52,8 @@ class ApiURL {
         const val URL_EBIKE_IGNORE = "${EXT}/v1/alarm_exception_log/usual/ignore.thtml"
         //民用版 报警记录
         const val URL_ALARM_RECORD = "${EXT}/v1/alarm/usual/list.thtml"
+        //民用版 报警提交
+        const val URL_SUBMIT_ALARM = "${EXT}/v1/alarm/usual/create.thtml"
 
 
 

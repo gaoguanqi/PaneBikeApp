@@ -4,6 +4,7 @@ import android.view.View
 import kotlinx.android.synthetic.main.include_title.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.widget.dialog.LoadingDialog
 import net.hyntech.baselib.base.BaseActivity as B
 
@@ -50,12 +51,12 @@ abstract class BaseActivity : B() {
     }
 
     fun <T : BaseActivity> onBack(m: () -> Unit): T {
-        ll_left?.setOnClickListener { m() }
+        ll_left?.setOnClickListener { if(!UIUtils.isFastDoubleClick()){m()} }
         return this as T
     }
 
     fun <T : BaseActivity> onSide(m: () -> Unit): T {
-        ll_right?.setOnClickListener { m() }
+        ll_right?.setOnClickListener { if(!UIUtils.isFastDoubleClick()){m()} }
         return this as T
     }
 }

@@ -8,6 +8,7 @@ import java.io.Serializable;
  */
 public class BundleAlarmVo implements Serializable {
 
+    public String ebikeId = "";
     public String ebikeNo = "";
     public String name = "";
     public String phone = "";

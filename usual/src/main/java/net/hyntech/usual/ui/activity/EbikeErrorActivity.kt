@@ -44,17 +44,22 @@ class EbikeErrorActivity:BaseViewActivity<ActivityEbikeErrorBinding,ControllerVi
 
         override fun onAlarmClick(item: EbikeErrorEntity.AlarmExceptionLogListBean?) {
                 item?.let {
-                    val array = java.util.ArrayList<BundleAlarmVo>()
-                    val vo:BundleAlarmVo = BundleAlarmVo()
-                    vo.ebikeNo = it.ebikeNo
-                    vo.name = it.name
-                    vo.phone = it.phone
-                    vo.address = it.addr
-                    array.add(vo)
-                    val bundle:Bundle = Bundle()
-                    bundle.putInt(Constants.BundleKey.EXTRA_TYPE,2)
-                    bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,array)
-                    startActivity(Intent(this@EbikeErrorActivity,AkeyAlarmActivity::class.java).putExtras(bundle))
+                    if(it.state == 1){
+                        ToastUtil.showToast("该车辆已经报警,无需重复报警")
+                    }else{
+                        val array = java.util.ArrayList<BundleAlarmVo>()
+                        val vo:BundleAlarmVo = BundleAlarmVo()
+                        vo.ebikeId = it.ebikeId
+                        vo.ebikeNo = it.ebikeNo
+                        vo.name = it.name
+                        vo.phone = it.phone
+                        vo.address = it.addr
+                        array.add(vo)
+                        val bundle:Bundle = Bundle()
+                        bundle.putInt(Constants.BundleKey.EXTRA_TYPE,2)
+                        bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,array)
+                        startActivity(Intent(this@EbikeErrorActivity,AkeyAlarmActivity::class.java).putExtras(bundle))
+                    }
                 }
              }
         })

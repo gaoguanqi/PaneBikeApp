@@ -116,9 +116,6 @@ class ControllerViewModel:CommonViewModel() {
                 }else{
                     alarmRecordList.postValue(data.atAlarmList)
                 }
-
-              //  alarmRecordList.value = listOf(AlarmRecordEntity.AtAlarmListBean())
-              //  alarmRecordList.postValue(alarmRecordList.value)
             }
         })
     }
@@ -159,9 +156,23 @@ class ControllerViewModel:CommonViewModel() {
     }
 
     //-------一键报警------------------------------
+    val alarmEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    val alarmResultEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+
     fun onClickAlarm(){
         onClickProxy {
-
+            alarmEvent.call()
         }
+    }
+
+    //报警
+    fun submitAlarm(params: WeakHashMap<String, Any>) {
+        launchOnlyResult({
+            repository.submitAlarm(params)
+        }, success = {
+            alarmResultEvent.call()
+        },complete = {
+            defUI.dismissDialog.call()
+        },isShowDialog = false,isShowToast = true)
     }
 }

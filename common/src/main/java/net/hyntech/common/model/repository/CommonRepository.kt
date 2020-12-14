@@ -60,4 +60,8 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.getAlarmRecordList(params2Body(params))
     }
 
+    suspend fun submitAlarm(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.submitAlarm(params2Body(params))
+    }
+
 }

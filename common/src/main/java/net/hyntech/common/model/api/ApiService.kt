@@ -52,4 +52,8 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_ALARM_RECORD)
     suspend fun getAlarmRecordList(@Body requestBody: RequestBody): AlarmRecordEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_SUBMIT_ALARM)
+    suspend fun submitAlarm(@Body requestBody: RequestBody): CommonEntity
+
 }

@@ -216,6 +216,7 @@
                         android:textSize="@dimen/common_font_text" />
 
                     <net.hyntech.common.widget.view.ClearEditText
+                        android:id="@+id/et_des"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"

@@ -95,6 +95,7 @@ class BaiduMapActivity : BaseActivity(), OnGetGeoCoderResultListener, OnGetPoiSe
         }
         rvPoint = findViewById(R.id.rv_point)
         rvPoint?.layoutManager = LinearLayoutManager(this)
+        rvPoint?.adapter = pointAdapter
 
         mapView = findViewById(R.id.bmap_view)
         mapView?.let {
@@ -209,11 +210,14 @@ class BaiduMapActivity : BaseActivity(), OnGetGeoCoderResultListener, OnGetPoiSe
                 p.name = "${index}"
                 poiInfoList.add(p)
             }
-            pointAdapter.setData(poiInfoList)
             if (rvPoint?.visibility == View.GONE) {
                 rvPoint?.visibility = View.VISIBLE
             }
-            rvPoint?.adapter = pointAdapter
+
+            pointAdapter.setData(poiInfoList)
+
+
+
             return
         }
 
@@ -221,7 +225,20 @@ class BaiduMapActivity : BaseActivity(), OnGetGeoCoderResultListener, OnGetPoiSe
             if (result.error == SearchResult.ERRORNO.NO_ERROR) {
                 val infos = result.allPoi
                 if (!infos.isNullOrEmpty()) {
+                    ToastUtil.showToast("")
                     poiInfoList.clear()
+                    pointAdapter.setIndex(0)
+
+                    for(index in 1..30){
+                        val p = PoiInfo()
+                        p.name = "${index}"
+                        poiInfoList.add(p)
+                    }
+                    if (rvPoint?.visibility == View.GONE) {
+                        rvPoint?.visibility = View.VISIBLE
+                    }
+
+                    pointAdapter.setData(poiInfoList)
 
                 }
             }

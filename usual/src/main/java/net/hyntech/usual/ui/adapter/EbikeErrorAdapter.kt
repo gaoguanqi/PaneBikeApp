@@ -91,6 +91,11 @@ class EbikeErrorAdapter(val context: Context):BaseAdapter<EbikeErrorAdapter.View
                 tvEbikeTel.text = it.phone
                 tvAlarmAddress.text = it.addr
                 tvAlarmTime.text = it.createTime
+                if(it.state == 1){
+                    tvAlarm.text = "已报警"
+                }else{
+                    tvAlarm.text = "报警"
+                }
             }
         }
     }

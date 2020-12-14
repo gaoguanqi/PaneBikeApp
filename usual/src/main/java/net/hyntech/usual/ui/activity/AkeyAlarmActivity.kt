@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder
@@ -38,6 +39,7 @@ import net.hyntech.common.widget.imgloader.engine.GlideEngine
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.ActivityAkeyAlarmBinding
 import net.hyntech.usual.vm.ControllerViewModel
+import java.util.*
 import net.hyntech.common.R as CR
 
 
@@ -57,6 +59,7 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
     private lateinit var ebikeList:List<BundleAlarmVo>
 
     private val photoList:MutableList<PhotoEntity> = mutableListOf()
+    private var ebikeId:String = ""
 
     private val photoAdapter by lazy { PhotoAdapter(this,CR.layout.item_photo_del).apply {
         this.setListener(object : PhotoAdapter.OnClickListener{
@@ -137,6 +140,66 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
             }
         }
 
+        viewModel.defUI.showDialog.observe(this, Observer {
+            showLoading()
+        })
+
+        viewModel.defUI.dismissDialog.observe(this, Observer {
+            dismissLoading()
+        })
+
+        viewModel.defUI.toastEvent.observe(this, Observer {
+            ToastUtil.showToast(it)
+        })
+        viewModel.imgUrls.observe(this, Observer {
+            LogUtils.logGGQ("上传成功->${it}")
+
+            val address= et_position.text.toString().trim()
+
+            val ebikeNo = tv_car_no.text.toString()
+            val name = tv_name.text.toString()
+            val phone = tv_phone.text.toString()
+            val des = et_des.text.toString()
+
+            LogUtils.logGGQ("车牌号->>${ebikeNo}")
+            LogUtils.logGGQ("联系人->>${name}")
+            LogUtils.logGGQ("联系电话->>${phone}")
+            LogUtils.logGGQ("丢失地点->>${address}")
+            LogUtils.logGGQ("描述内容->>${des}")
+            LogUtils.logGGQ("车辆id->>${ebikeId}")
+            //报警
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("alarmId","")
+            params.put("ebikeId",ebikeId)
+            params.put("stolenAddr",address)
+            params.put("remark",des)
+            params.put("relevantPic",it)
+
+            viewModel.submitAlarm(params)
+        })
+
+        viewModel.alarmResultEvent.observe(this, Observer {
+            ToastUtil.showToast("操作成功")
+
+        })
+        viewModel.alarmEvent.observe(this, Observer {
+            ToastUtil.showToast("提交")
+           val address= et_position.text.toString().trim()
+            if(TextUtils.isEmpty(address)){
+                ToastUtil.showToast("请填写丢失地点")
+                return@Observer
+            }
+            if(photoAdapter.getDataList().isNullOrEmpty()){
+                ToastUtil.showToast("请添加相关图片")
+            }else{
+                val imegList = mutableListOf<String>()
+                photoAdapter.getDataList().forEach { item ->
+                    imegList.add(item.url)
+                }
+                viewModel.uploadImageList(imegList)
+            }
+        })
+
         rv.adapter = photoAdapter
         photoAdapter.setData(photoList)
         val bundle = intent.extras
@@ -176,6 +239,7 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
     }
 
     private fun setData(vo:BundleAlarmVo){
+        ebikeId = vo.ebikeId
         tv_car_no.text = vo.ebikeNo
         tv_name.text = vo.name
         tv_phone.text = vo.phone
