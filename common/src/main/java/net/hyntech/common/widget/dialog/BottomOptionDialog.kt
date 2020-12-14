@@ -68,9 +68,10 @@ class BottomOptionDialog : Dialog {
         this.window?.setFlags(
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-        );
+        )
         super.show()
-        fullScreenImmersive(window?.decorView);
+        fullScreenImmersive(window?.decorView)
         this.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
     }
+
 }

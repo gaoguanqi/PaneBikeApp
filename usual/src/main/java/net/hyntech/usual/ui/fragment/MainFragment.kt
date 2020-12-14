@@ -161,7 +161,7 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         viewModel.currentLatLng.observe(this, Observer {
             val mapStatus: MapStatus = MapStatus.Builder()
                 .target(LatLng(it.latitude,it.longitude))
-                .zoom(18.0f)
+                .zoom(18f)
                 .build()
 
             val locData:MyLocationData = MyLocationData.Builder()
@@ -216,8 +216,8 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         //定义地图状态
         val mapStatus: MapStatus = MapStatus.Builder()
             .target(latLng)
-            .zoom(18.0f)
-            .overlook(0.0f)
+            .zoom(18f)
+            .overlook(0f)
             .build()
         //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
         val mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus)

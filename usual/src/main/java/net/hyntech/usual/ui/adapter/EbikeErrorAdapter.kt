@@ -6,14 +6,11 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
-import net.hyntech.baselib.ext.layoutInflater
+import net.hyntech.common.ext.layoutInflater
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseAdapter
 import net.hyntech.common.base.BaseViewHolder
-import net.hyntech.common.databinding.ItemOrgBinding
-import net.hyntech.common.model.entity.CenterEntity
 import net.hyntech.common.model.entity.EbikeErrorEntity
-import net.hyntech.common.ui.adapter.OrgAdapter
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.ItemEbikeErrorBinding
 

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.github.chrisbanes.photoview.PhotoView
 import net.hyntech.baselib.app.BaseApp
-import net.hyntech.baselib.ext.layoutInflater
+import net.hyntech.common.ext.layoutInflater
 
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseAdapter

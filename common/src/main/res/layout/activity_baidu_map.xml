@@ -10,6 +10,12 @@
     <com.baidu.mapapi.map.TextureMapView
         android:id="@+id/bmap_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:clickable="true" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_point"
+        android:layout_width="match_parent"
+        android:layout_height="310dp"
+        android:visibility="gone" />
 </LinearLayout>

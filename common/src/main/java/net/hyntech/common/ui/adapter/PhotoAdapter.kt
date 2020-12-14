@@ -7,7 +7,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.annotation.LayoutRes
 import net.hyntech.baselib.app.BaseApp
-import net.hyntech.baselib.ext.layoutInflater
+import net.hyntech.common.ext.layoutInflater
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseAdapter

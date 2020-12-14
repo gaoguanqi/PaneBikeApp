@@ -1,5 +1,7 @@
 package net.hyntech.usual.ui.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
@@ -21,9 +23,12 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.listener.OnResultCallbackListener
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_akey_alarm.*
+import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.*
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
+import net.hyntech.common.global.EventCode
 import net.hyntech.common.model.entity.PhotoEntity
 import net.hyntech.common.model.vo.BundleAlarmVo
 import net.hyntech.common.provider.ARouterConstants
@@ -128,7 +133,7 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
         btn_position.setOnClickListener {
             if(!UIUtils.isFastDoubleClick()){
                 ARouter.getInstance().build(ARouterConstants.BAIDU_MAP_PAGE)
-                    .navigation()
+                    .navigation(this,101)
             }
         }
 
@@ -241,4 +246,19 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
         photoAdapter.updataList(photoList)
     }
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                101 ->{
+                    val content = data?.getStringExtra(Constants.BundleKey.EXTRA_CONTENT)
+                   LogUtils.logGGQ("跳转返回-->>${content}")
+                    if(!TextUtils.isEmpty(content)){
+                        et_position?.setText(content)
+                    }
+                }
+            }
+        }
+    }
 }
