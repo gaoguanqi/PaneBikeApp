@@ -64,5 +64,16 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_SERVICE_PACKAGE)
     suspend fun getServiceList(@Body requestBody: RequestBody): ServiceSafeEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_SERVICE_DETAIL)
+    suspend fun getServiceDetails(@Body requestBody: RequestBody): ServiceDetailEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_CLAIM_PROCESS)
+    suspend fun getClaimProcess(@Body requestBody: RequestBody): ClaimProcessEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_INSURANCE_COVERANGE)
+    suspend fun getInsuranceCoverange(@Body requestBody: RequestBody): InsuranceCoverangeEntity
 
 }

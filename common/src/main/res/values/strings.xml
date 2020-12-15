@@ -58,6 +58,7 @@
     <string name="common_title_my_order">我的保单</string>
     <string name="common_title_pay">支付</string>
     <string name="common_title_the_safe">防盗保障</string>
+    <string name="common_title_service_detail">保障信息</string>
 
 
     <string name="common_car_info">车辆轨迹</string>
@@ -76,4 +77,6 @@
 
     <string name="common_text_akey_des">请确认您的爱车丢失后报警，报警完成后，我们将会联系相关的警务人员进行处理。</string>
     <string name="common_text_akey_img">请上传jpg,png格式的图片，内容与车辆有关，不超过三张</string>
+
+    <string name="common_text_area">地域\t\t\t\t</string>
 </resources>

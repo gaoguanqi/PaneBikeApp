@@ -46,6 +46,7 @@ class Constants {
         const val EXTRA_TYPE = "type"
         const val EXTRA_CONTENT = "content"
         const val EXTRA_PRICE = "price"
+        const val EXTRA_ID = "id"
     }
 
 }

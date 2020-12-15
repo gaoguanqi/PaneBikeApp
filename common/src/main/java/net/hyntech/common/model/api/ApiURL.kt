@@ -58,7 +58,12 @@ class ApiURL {
         const val URL_MY_ORDER = "${EXT}/v1/service_package/usual/my_list.thtml"
         //民用版 服务包列表
         const val URL_SERVICE_PACKAGE = "${EXT}/v1/service_package/usual/list.thtml"
-
+        //民用版 服务详情
+        const val URL_SERVICE_DETAIL = "${EXT}/v1/service_package/usual/detail.thtml"
+        //民用版 理赔流程
+        const val URL_CLAIM_PROCESS = "${EXT}/v1/service_package/usual/claim_process.thtml"
+        //民用版 保额信息
+        const val URL_INSURANCE_COVERANGE = "${EXT}/v1/ebike/usual/ebike_insurance_coverange.thtml"
         //web url
 
         //我的保单

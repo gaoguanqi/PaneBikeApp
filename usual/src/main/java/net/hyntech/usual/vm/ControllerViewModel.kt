@@ -305,4 +305,43 @@ class ControllerViewModel:CommonViewModel() {
         },isShowDialog = false,isShowToast = false)
     }
 
+    //-------------保障信息---------------------------
+    val serviceDetail: MutableLiveData<ServiceDetailEntity.AtServicePackageOrgBean> = MutableLiveData()
+    fun getServiceDetails(id:String?) {
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("servicePackageOrgId",id)
+            repository.getServiceDetails(params)
+        }, success = {
+            it?.let { data ->
+                serviceDetail.postValue(data.atServicePackageOrg)
+            }
+        },isShowToast = false,isShowDialog = false)
+    }
+
+    val claimProcess: MutableLiveData<List<ClaimProcessEntity.ClaimProcessBean>> = MutableLiveData()
+    fun getClaimProcess(id:String?) {
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("servicePackageOrgId",id)
+            repository.getClaimProcess(params)
+        }, success = {
+            it?.let { data ->
+                claimProcess.postValue(data.claim_process)
+            }
+        },isShowToast = false,isShowDialog = false)
+    }
+
+    val insuranceCoverange: MutableLiveData<String> = MutableLiveData()
+    fun getInsuranceCoverange(id:String?) {
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("servicePackageOrgId",id)
+            repository.getInsuranceCoverange(params)
+        }, success = {
+            it?.let { data ->
+                insuranceCoverange.postValue(data.insurance_coverange)
+            }
+        },isShowToast = false,isShowDialog = false)
+    }
 }

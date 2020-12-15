@@ -1,5 +1,6 @@
 package net.hyntech.usual.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -9,7 +10,6 @@ import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
-import net.hyntech.common.model.entity.AlarmRecordEntity
 import net.hyntech.common.model.entity.ServiceSafeEntity
 import net.hyntech.usual.R
 import net.hyntech.common.R as CR
@@ -17,6 +17,7 @@ import net.hyntech.usual.databinding.ActivityTheSafeBinding
 import net.hyntech.usual.ui.adapter.TheSafeAdapter
 import net.hyntech.usual.vm.ControllerViewModel
 
+//防盗保障
 class TheSafeActivity:BaseViewActivity<ActivityTheSafeBinding,ControllerViewModel>() {
 
     private val viewModel by viewModels<ControllerViewModel>()
@@ -24,7 +25,8 @@ class TheSafeActivity:BaseViewActivity<ActivityTheSafeBinding,ControllerViewMode
     private var orgId:String? = ""
 
     private val theSafeAdapter by lazy { TheSafeAdapter(this).apply {
-        this.setListener(object : TheSafeAdapter.OnClickListener{ override fun onItemClick(item: ServiceSafeEntity.ServicePackageListBean?) {} }) } }
+        this.setListener(object : TheSafeAdapter.OnClickListener{ override fun onItemClick(item: ServiceSafeEntity.ServicePackageListBean?) {
+            item?.let { startActivity(Intent(this@TheSafeActivity,ServiceDetailActivity::class.java).putExtra(Constants.BundleKey.EXTRA_ID,it.servicePackageOrgId)) } } }) } }
 
 
     override fun getLayoutId(): Int = R.layout.activity_the_safe

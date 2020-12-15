@@ -47,6 +47,10 @@
 
         <activity android:name=".ui.activity.TheSafeActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".ui.activity.ServiceDetailActivity"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"

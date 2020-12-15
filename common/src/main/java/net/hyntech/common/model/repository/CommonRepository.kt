@@ -72,5 +72,18 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.getServiceList(params2Body(params))
     }
 
+    suspend fun getServiceDetails(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getServiceDetails(params2Body(params))
+    }
+
+    suspend fun getClaimProcess(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getClaimProcess(params2Body(params))
+    }
+
+    suspend fun getInsuranceCoverange(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getInsuranceCoverange(params2Body(params))
+    }
+
+
 
 }
