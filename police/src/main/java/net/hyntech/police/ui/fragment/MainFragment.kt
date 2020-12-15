@@ -76,7 +76,7 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         binding.rvMain.addItemDecoration(GridItemDecoration(requireContext()))
         val adapter: SeverListAdapter = SeverListAdapter(requireContext(),CR.layout.item_sever_police,list)
         adapter.setListener(object :SeverListAdapter.OnClickListener{
-            override fun onItemClick(item: SeverInfoEntity?) {
+            override fun onItemClick(pos: Int,item: SeverInfoEntity?) {
                 item?.let {
                     ToastUtil.showToast(it.name)
                 }

@@ -64,4 +64,8 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.submitAlarm(params2Body(params))
     }
 
+    suspend fun getMyOrderList(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getMyOrderList(params2Body(params))
+    }
+
 }

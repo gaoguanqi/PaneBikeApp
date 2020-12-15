@@ -39,6 +39,11 @@
         <activity android:name=".ui.activity.AkeyAlarmActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".ui.activity.MyOrderActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".ui.activity.PayActivity"
+            android:screenOrientation="portrait" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"

@@ -54,8 +54,8 @@ class ApiURL {
         const val URL_ALARM_RECORD = "${EXT}/v1/alarm/usual/list.thtml"
         //民用版 报警提交
         const val URL_SUBMIT_ALARM = "${EXT}/v1/alarm/usual/create.thtml"
-
-
+        //民用版 我的保单
+        const val URL_MY_ORDER = "${EXT}/v1/service_package/usual/my_list.thtml"
 
         //web url
 

@@ -6,6 +6,7 @@ import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.common.model.entity.AlarmRecordEntity
 import net.hyntech.common.model.entity.CenterEntity
 import net.hyntech.common.model.entity.EbikeErrorEntity
+import net.hyntech.common.model.entity.MyOrderEntity
 import net.hyntech.common.vm.CommonViewModel
 import java.util.*
 
@@ -175,4 +176,72 @@ class ControllerViewModel:CommonViewModel() {
             defUI.dismissDialog.call()
         },isShowDialog = false,isShowToast = true)
     }
+
+    //--------------我的保单----------------------------------
+    val myOrderList: MutableLiveData<List<MyOrderEntity.ListBean>> = MutableLiveData()
+    val myOrderListRefresh: MutableLiveData<List<MyOrderEntity.ListBean>> = MutableLiveData()
+    val myOrderListLoadMore: MutableLiveData<List<MyOrderEntity.ListBean>> = MutableLiveData()
+    fun getMyOrderList() {
+        pageNo = 1
+        lastPage = true
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("PrmPageNo",pageNo)
+            params.put("PrmItemsPerPage",pageSize)
+            repository.getMyOrderList(params)
+        }, success = {
+            it?.let {data ->
+                lastPage = data.page?.isLastPage?:true
+                if(data.list.isNullOrEmpty()){
+                    defUI.emptyEvent.call()
+                    defUI.toastEvent.postValue("暂无数据！")
+                }else{
+                    myOrderList.postValue(data.list)
+                }
+            }
+        })
+    }
+
+    fun onMyOrderRefreshData() {
+        pageNo = 1
+        lastPage = true
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("PrmPageNo",pageNo)
+            params.put("PrmItemsPerPage",pageSize)
+            repository.getMyOrderList(params)
+        }, success = {
+            it?.let {data ->
+                lastPage = data.page?.isLastPage?:true
+                if(!data.list.isNullOrEmpty()){
+                    myOrderListRefresh.postValue(data.list)
+                }else{
+                    defUI.emptyEvent.call()
+                }
+            }
+        },isShowDialog = false,isShowToast = false)
+    }
+
+    fun onMyOrderLoadMoreData() {
+        pageNo +=1
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("PrmPageNo",pageNo)
+            params.put("PrmItemsPerPage",pageSize)
+            repository.getMyOrderList(params)
+        }, success = {
+            it?.let {data ->
+                lastPage = data.page?.isLastPage?:true
+                myOrderListLoadMore.postValue(data.list)
+            }
+        },isShowDialog = false,isShowToast = false)
+    }
+
+
+
+    //-----------支付----------------------
+    fun onPay() {
+
+    }
+
 }

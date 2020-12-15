@@ -24,7 +24,9 @@ import net.hyntech.common.widget.imgloader.TransType
 import net.hyntech.common.widget.imgloader.glide.GlideImageConfig
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.FragmentMineBinding
+import net.hyntech.usual.ui.activity.EbikeErrorActivity
 import net.hyntech.usual.ui.activity.EbikeInfoActivity
+import net.hyntech.usual.ui.activity.MyOrderActivity
 import net.hyntech.usual.vm.HomeViewModel
 
 class MineFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMineBinding,HomeViewModel>() {
@@ -101,20 +103,21 @@ class MineFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMineBindin
         viewModel.myOrderEvent.observe(this, Observer {
             ToastUtil.showToast("我的保单")
             ///my/grxx/wdbd.html
-             val bundle:Bundle = Bundle().apply {
-                this.putString(Constants.BundleKey.EXTRA_TITLE,"我的保单")
-                this.putString(Constants.BundleKey.EXTRA_URL,ApiURL.WEB_URL_MY_ORDER)
-            }
-            ARouter.getInstance().build(ARouterConstants.BROWSER_PAGE)
-                .with(bundle)
-                .navigation()
+//             val bundle:Bundle = Bundle().apply {
+//                this.putString(Constants.BundleKey.EXTRA_TITLE,"我的保单")
+//                this.putString(Constants.BundleKey.EXTRA_URL,ApiURL.WEB_URL_MY_ORDER)
+//            }
+//            ARouter.getInstance().build(ARouterConstants.BROWSER_PAGE)
+//                .with(bundle)
+//                .navigation()
+            startActivity(Intent(requireContext(),MyOrderActivity::class.java))
 
         })
         viewModel.myAddValEvent.observe(this, Observer {
             ToastUtil.showToast("1")
         })
         viewModel.myMessageEvent.observe(this, Observer {
-            ToastUtil.showToast("1")
+            startActivity(Intent(requireActivity(), EbikeErrorActivity::class.java))
         })
         viewModel.changePwdEvent.observe(this, Observer {
 //            ToastUtil.showToast("1")

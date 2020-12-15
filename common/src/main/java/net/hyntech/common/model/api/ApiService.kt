@@ -56,4 +56,8 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_SUBMIT_ALARM)
     suspend fun submitAlarm(@Body requestBody: RequestBody): CommonEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_MY_ORDER)
+    suspend fun getMyOrderList(@Body requestBody: RequestBody): MyOrderEntity
+
 }
