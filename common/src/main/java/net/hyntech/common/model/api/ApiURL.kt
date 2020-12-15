@@ -56,6 +56,8 @@ class ApiURL {
         const val URL_SUBMIT_ALARM = "${EXT}/v1/alarm/usual/create.thtml"
         //民用版 我的保单
         const val URL_MY_ORDER = "${EXT}/v1/service_package/usual/my_list.thtml"
+        //民用版 服务包列表
+        const val URL_SERVICE_PACKAGE = "${EXT}/v1/service_package/usual/list.thtml"
 
         //web url
 

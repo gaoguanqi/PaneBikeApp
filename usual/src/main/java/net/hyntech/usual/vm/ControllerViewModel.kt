@@ -3,10 +3,7 @@ package net.hyntech.usual.vm
 import androidx.lifecycle.MutableLiveData
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.utils.LogUtils
-import net.hyntech.common.model.entity.AlarmRecordEntity
-import net.hyntech.common.model.entity.CenterEntity
-import net.hyntech.common.model.entity.EbikeErrorEntity
-import net.hyntech.common.model.entity.MyOrderEntity
+import net.hyntech.common.model.entity.*
 import net.hyntech.common.vm.CommonViewModel
 import java.util.*
 
@@ -242,6 +239,70 @@ class ControllerViewModel:CommonViewModel() {
     //-----------支付----------------------
     fun onPay() {
 
+    }
+
+    //-----------服务包列表 （服务保障）-------------------------
+    val serviceList: MutableLiveData<List<ServiceSafeEntity.ServicePackageListBean>> = MutableLiveData()
+    val serviceListRefresh: MutableLiveData<List<ServiceSafeEntity.ServicePackageListBean>> = MutableLiveData()
+    val serviceListLoadMore: MutableLiveData<List<ServiceSafeEntity.ServicePackageListBean>> = MutableLiveData()
+
+    fun getServiceList(orgId:String?) {
+        pageNo = 1
+        lastPage = true
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("PrmPageNo",pageNo)
+            params.put("PrmItemsPerPage",pageSize)
+            params.put("orgId",orgId)
+            repository.getServiceList(params)
+        }, success = {
+            it?.let {data ->
+                lastPage = data.page?.isLastPage?:true
+                if(data.servicePackageList.isNullOrEmpty()){
+                    defUI.emptyEvent.call()
+                    defUI.toastEvent.postValue("暂无数据！")
+                }else{
+                    serviceList.postValue(data.servicePackageList)
+                }
+            }
+        })
+    }
+
+    fun onServiceRefreshData(orgId:String?) {
+        pageNo = 1
+        lastPage = true
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("PrmPageNo",pageNo)
+            params.put("PrmItemsPerPage",pageSize)
+            params.put("orgId",orgId)
+            repository.getServiceList(params)
+        }, success = {
+            it?.let {data ->
+                lastPage = data.page?.isLastPage?:true
+                if(!data.servicePackageList.isNullOrEmpty()){
+                    serviceListRefresh.postValue(data.servicePackageList)
+                }else{
+                    defUI.emptyEvent.call()
+                }
+            }
+        },isShowDialog = false,isShowToast = false)
+    }
+
+    fun onServiceLoadMoreData(orgId:String?) {
+        pageNo +=1
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("PrmPageNo",pageNo)
+            params.put("PrmItemsPerPage",pageSize)
+            params.put("orgId",orgId)
+            repository.getServiceList(params)
+        }, success = {
+            it?.let {data ->
+                lastPage = data.page?.isLastPage?:true
+                serviceListLoadMore.postValue(data.servicePackageList)
+            }
+        },isShowDialog = false,isShowToast = false)
     }
 
 }

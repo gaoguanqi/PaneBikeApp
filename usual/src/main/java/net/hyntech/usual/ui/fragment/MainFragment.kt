@@ -33,6 +33,7 @@ import net.hyntech.usual.R
 import net.hyntech.usual.databinding.FragmentMainBinding
 import net.hyntech.usual.ui.activity.AkeyAlarmActivity
 import net.hyntech.usual.ui.activity.EbikeErrorActivity
+import net.hyntech.usual.ui.activity.TheSafeActivity
 import net.hyntech.usual.vm.HomeViewModel
 import razerdp.basepopup.BasePopupWindow
 import net.hyntech.common.R as CR
@@ -50,6 +51,7 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
     private val ebikeMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.icon_marker_car) }
     private val gcodingMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.icon_gcoding) }
 
+    private var orgId:String? = ""
 
     private var ebikeList: MutableList<UserInfoEntity.EbikeListBean>? = null
     private val ebikeAdapter by lazy { EBikeListAdapter(requireContext()) }
@@ -143,6 +145,7 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
                 tvFab?.text = "暂无车辆"
             }
             ebikeList = userInfo.ebike_list
+            orgId = userInfo?.user?.orgId
         })
         viewModel.noticeEvent.observe(this, Observer {
             startActivity(Intent(requireActivity(),EbikeErrorActivity::class.java))
@@ -266,8 +269,18 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
     }
 
     //车辆信息
-    private fun onTheSafe() {
+    private fun onCarInfo() {
 
+    }
+
+    //防盗保障
+    private fun onTheSafe() {
+        if(TextUtils.isEmpty(orgId)){
+            LogUtils.logGGQ("机构Id --->>空<<--")
+            ToastUtil.showToast("暂无机构,请退出重试！")
+        }else{
+            startActivity(Intent(requireActivity(),TheSafeActivity::class.java).putExtra(Constants.BundleKey.EXTRA_CONTENT,orgId))
+        }
     }
     //便民服务
     private fun onConverService() {
@@ -323,8 +336,5 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
             ToastUtil.showToast("数据加载中,请稍后")
         }
     }
-    //防盗保障
-    private fun onCarInfo() {
 
-    }
 }

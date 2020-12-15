@@ -60,4 +60,9 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_MY_ORDER)
     suspend fun getMyOrderList(@Body requestBody: RequestBody): MyOrderEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_SERVICE_PACKAGE)
+    suspend fun getServiceList(@Body requestBody: RequestBody): ServiceSafeEntity
+
+
 }
