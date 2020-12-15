@@ -12,7 +12,7 @@ class UIUtils {
 
     companion object {
         private var lastClickTime: Long = 0
-        private const val DELAY_TIME: Long = 1000
+        private const val DELAY_TIME: Long = 600
 
         fun getString(@StringRes resId: Int): String {
             return StringUtils.getString(resId)
