@@ -297,10 +297,11 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
 //        }
 
         viewModel.currentEbike.get()?.let {
-            //lost 已赔付 normal 已报警
+            //lost 已赔付 alarm 已报警 normal 正常
+            LogUtils.logGGQ("一键报警-state->${it.state}")
             if(!TextUtils.isEmpty(it.state) && TextUtils.equals(it.state,"lost")){
                 ToastUtil.showToast("该车辆已赔付,无需报警")
-            }else if(!TextUtils.isEmpty(it.state) && TextUtils.equals(it.state,"normal")){
+            }else if(!TextUtils.isEmpty(it.state) && TextUtils.equals(it.state,"alarm")){
                 ToastUtil.showToast("该车辆已报警,不可重复报警")
             }else{
                 val array = java.util.ArrayList<BundleAlarmVo>()

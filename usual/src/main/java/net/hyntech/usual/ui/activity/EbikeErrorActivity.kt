@@ -115,6 +115,7 @@ class EbikeErrorActivity:BaseViewActivity<ActivityEbikeErrorBinding,ControllerVi
         })
 
         viewModel.defUI.emptyEvent.observe(this, Observer {
+            finishRefresh()
             refreshLayout.visibility = View.GONE
             vsEmpty.inflate()
         })
@@ -127,7 +128,9 @@ class EbikeErrorActivity:BaseViewActivity<ActivityEbikeErrorBinding,ControllerVi
             finishRefresh()
         })
         viewModel.ebikeListLoadMore.observe(this, Observer {
-            ebikeErrorAdapter.updataList(it)
+            if(!it.isNullOrEmpty()){
+                ebikeErrorAdapter.updataList(it)
+            }
             finishLoadMore()
         })
         viewModel.ignoreEvent.observe(this, Observer {

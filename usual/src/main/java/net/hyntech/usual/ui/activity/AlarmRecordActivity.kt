@@ -60,6 +60,7 @@ class AlarmRecordActivity:BaseViewActivity<ActivityAlarmRecordBinding,Controller
         })
 
         viewModel.defUI.emptyEvent.observe(this, Observer {
+            finishRefresh()
             refreshLayout.visibility = View.GONE
             vsEmpty.inflate()
         })
@@ -72,7 +73,9 @@ class AlarmRecordActivity:BaseViewActivity<ActivityAlarmRecordBinding,Controller
             finishRefresh()
         })
         viewModel.alarmListLoadMore.observe(this, Observer {
-            alarmRecordAdapter.updataList(it)
+            if(!it.isNullOrEmpty()){
+                alarmRecordAdapter.updataList(it)
+            }
             finishLoadMore()
         })
 

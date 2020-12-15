@@ -59,6 +59,8 @@ class ControllerViewModel:CommonViewModel() {
                 lastPage = data.page?.isLastPage?:true
                 if(!data.alarmExceptionLogList.isNullOrEmpty()){
                     ebikeListRefresh.postValue(data.alarmExceptionLogList)
+                }else{
+                    defUI.emptyEvent.call()
                 }
             }
         },isShowDialog = false,isShowToast = false)
@@ -74,9 +76,7 @@ class ControllerViewModel:CommonViewModel() {
         }, success = {
             it?.let {data ->
                 lastPage = data.page?.isLastPage?:true
-                if(!data.alarmExceptionLogList.isNullOrEmpty()){
-                    ebikeListLoadMore.postValue(data.alarmExceptionLogList)
-                }
+                ebikeListLoadMore.postValue(data.alarmExceptionLogList)
             }
         },isShowDialog = false,isShowToast = false)
     }
@@ -133,6 +133,8 @@ class ControllerViewModel:CommonViewModel() {
                 lastPage = data.page?.isLastPage?:true
                 if(!data.atAlarmList.isNullOrEmpty()){
                     alarmListRefresh.postValue(data.atAlarmList)
+                }else{
+                    defUI.emptyEvent.call()
                 }
             }
         },isShowDialog = false,isShowToast = false)
@@ -148,9 +150,7 @@ class ControllerViewModel:CommonViewModel() {
         }, success = {
             it?.let {data ->
                 lastPage = data.page?.isLastPage?:true
-                if(!data.atAlarmList.isNullOrEmpty()){
-                    alarmListLoadMore.postValue(data.atAlarmList)
-                }
+                alarmListLoadMore.postValue(data.atAlarmList)
             }
         },isShowDialog = false,isShowToast = false)
     }
