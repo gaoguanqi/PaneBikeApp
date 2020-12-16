@@ -199,25 +199,9 @@ class BaiduMapActivity : BaseActivity(), OnGetGeoCoderResultListener, OnGetPoiSe
 
     //接受周边地理位置结果
     override fun onGetPoiResult(result: PoiResult?) {
-        LogUtils.logGGQ("onGetPoiResult-->>")
+        LogUtils.logGGQ("onGetPoiResult--error>>${result?.error}")
         if (result == null || result.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
             ToastUtil.showToast("未找到结果")
-            poiInfoList.clear()
-            pointAdapter.setIndex(0)
-
-            for(index in 1..30){
-                val p = PoiInfo()
-                p.name = "${index}"
-                poiInfoList.add(p)
-            }
-            if (rvPoint?.visibility == View.GONE) {
-                rvPoint?.visibility = View.VISIBLE
-            }
-
-            pointAdapter.setData(poiInfoList)
-
-
-
             return
         }
 
@@ -225,21 +209,12 @@ class BaiduMapActivity : BaseActivity(), OnGetGeoCoderResultListener, OnGetPoiSe
             if (result.error == SearchResult.ERRORNO.NO_ERROR) {
                 val infos = result.allPoi
                 if (!infos.isNullOrEmpty()) {
-                    ToastUtil.showToast("")
                     poiInfoList.clear()
                     pointAdapter.setIndex(0)
-
-                    for(index in 1..30){
-                        val p = PoiInfo()
-                        p.name = "${index}"
-                        poiInfoList.add(p)
-                    }
                     if (rvPoint?.visibility == View.GONE) {
                         rvPoint?.visibility = View.VISIBLE
                     }
-
                     pointAdapter.setData(poiInfoList)
-
                 }
             }
         } catch (e: Exception) {

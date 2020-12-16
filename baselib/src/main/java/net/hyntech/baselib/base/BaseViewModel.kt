@@ -84,7 +84,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
         block: suspend CoroutineScope.() -> BaseResponse<T>,
         success: (T?) -> Unit,
         error: (ResponseThrowable) -> Unit = {
-            defUI.toastEvent.postValue("${it.code}:${it.errMsg}")
+            defUI.toastEvent.postValue("${it.errMsg}")
         },
         complete: () -> Unit = {},
         isShowDialog: Boolean = true,

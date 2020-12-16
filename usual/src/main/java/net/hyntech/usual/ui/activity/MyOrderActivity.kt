@@ -23,7 +23,7 @@ class MyOrderActivity:BaseViewActivity<ActivityMyOrderBinding,ControllerViewMode
 
     private val orderAdapter by lazy { MyOrderAdapter(this).apply {
         this.setListener(object :MyOrderAdapter.OnClickListener{
-            override fun onItemClick(item: MyOrderEntity.ListBean?) {
+            override fun onBuyNowClick(item: MyOrderEntity.ListBean?) {
                 item?.let {
                     ToastUtil.showToast(it.ebikeNo)
                     val price = item.realPrice.toString()
@@ -61,7 +61,6 @@ class MyOrderActivity:BaseViewActivity<ActivityMyOrderBinding,ControllerViewMode
         }
 
         rv.layoutManager = LinearLayoutManager(this)
-        rv.addItemDecoration(SimpleItemDecoration(this))
         rv.adapter = orderAdapter
 
         viewModel.defUI.showDialog.observe(this, Observer {

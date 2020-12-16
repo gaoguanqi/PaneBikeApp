@@ -15,12 +15,12 @@
     </style>
 
     <style name="common_SplashTheme" parent="common_NoTitleBarTheme">
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@drawable/layer_splash_bg</item>
     </style>
 
     <style name="common_FullscreenTheme" parent="common_NoTitleBarTheme">
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 

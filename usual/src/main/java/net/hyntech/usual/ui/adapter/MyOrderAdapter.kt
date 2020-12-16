@@ -44,9 +44,9 @@ class MyOrderAdapter(val context: Context): BaseAdapter<MyOrderAdapter.ViewHolde
             parent,
             false)
         val holder: ViewHolder = ViewHolder(binding.root)
-        binding.itemRoot.setOnClickListener {
+        binding.tvBuyNow.setOnClickListener {
             if(!UIUtils.isFastDoubleClick()){
-                listener?.onItemClick(list.get(holder.adapterPosition))
+                listener?.onBuyNowClick(list.get(holder.adapterPosition))
             }
         }
 
@@ -58,13 +58,13 @@ class MyOrderAdapter(val context: Context): BaseAdapter<MyOrderAdapter.ViewHolde
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setData(list.get(position))
+        holder.setData(position,list.get(position))
     }
 
 
     inner class ViewHolder(itemView: View): BaseViewHolder(itemView){
 
-        fun setData(entity: MyOrderEntity.ListBean?) {
+        fun setData(pos:Int,entity: MyOrderEntity.ListBean?) {
             entity?.let {
                 binding.tvEbikeNo.text = it.ebikeNo
                 binding.tvTitle.text = "${it.insuranceProductName}  ${it.termRange}年版"
@@ -96,10 +96,11 @@ class MyOrderAdapter(val context: Context): BaseAdapter<MyOrderAdapter.ViewHolde
                     binding.tvTime.text = "车辆丢失，已赔付"
                 }
             }
+            binding.viewLine.visibility = if(pos + 1 == list.size) View.GONE else View.VISIBLE
         }
     }
 
     interface OnClickListener{
-        fun onItemClick(item:MyOrderEntity.ListBean?)
+        fun onBuyNowClick(item:MyOrderEntity.ListBean?)
     }
 }
