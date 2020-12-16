@@ -1,6 +1,7 @@
 package net.hyntech.usual.ui.activity
 
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.RadioButton
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
@@ -13,11 +14,12 @@ import net.hyntech.usual.vm.ControllerViewModel
 
 class PayActivity:BaseViewActivity<ActivityPayBinding,ControllerViewModel>() {
 
-    private var radioZfb:RadioButton? = null
-    private var radioWx:RadioButton? = null
+    private var ivZfb:ImageView? = null
+    private var ivWx:ImageView? = null
     private var payOption:Int = 0
     private val viewModel by viewModels<ControllerViewModel>()
-
+    private val draUnselect by lazy { UIUtils.getDrawable(CR.drawable.ic_pay_unselect) }
+    private val draSelected by lazy { UIUtils.getDrawable(CR.drawable.ic_pay_selected) }
 
     override fun bindViewModel() {
         binding.viewModel = viewModel
@@ -31,21 +33,22 @@ class PayActivity:BaseViewActivity<ActivityPayBinding,ControllerViewModel>() {
         }
 
         val price = getBundleString(Constants.BundleKey.EXTRA_PRICE)
-        radioZfb = findViewById(R.id.rbtn_zfb)
-        radioWx = findViewById(R.id.rbtn_wx)
-        radioZfb?.isChecked = true
-        radioWx?.isChecked = false
+        ivZfb = findViewById(R.id.iv_zfb)
+        ivWx = findViewById(R.id.iv_wx)
         binding.tvPrice.text = "￥${price}"
+        //默认选中
+        ivZfb?.background = draSelected
+        payOption = 0
 
         binding.llPayZfb?.setOnClickListener {
-            radioWx?.isChecked = false
-            radioZfb?.isChecked = true
+            ivWx?.background = draUnselect
+            ivZfb?.background = draSelected
             payOption = 0
         }
 
         binding.llPayWx?.setOnClickListener {
-            radioZfb?.isChecked = false
-            radioWx?.isChecked = true
+            ivZfb?.background = draUnselect
+            ivWx?.background = draSelected
             payOption = 1
         }
 

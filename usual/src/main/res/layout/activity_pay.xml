@@ -94,12 +94,11 @@
                     android:textSize="@dimen/common_font_text" />
             </LinearLayout>
 
-            <RadioButton
-                android:id="@+id/rbtn_zfb"
+            <ImageView
+                android:id="@+id/iv_zfb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selector_radio_pay"
-                android:button="@null" />
+                android:background="@drawable/ic_pay_unselect"/>
         </LinearLayout>
 
         <LinearLayout
@@ -140,12 +139,11 @@
                     android:textSize="@dimen/common_font_text" />
             </LinearLayout>
 
-            <RadioButton
-                android:id="@+id/rbtn_wx"
+            <ImageView
+                android:id="@+id/iv_wx"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selector_radio_pay"
-                android:button="@null" />
+                android:background="@drawable/ic_pay_unselect"/>
         </LinearLayout>
 
         <Button
