@@ -344,4 +344,19 @@ class ControllerViewModel:CommonViewModel() {
             }
         },isShowToast = false,isShowDialog = false)
     }
+
+    //------------保障信息-----------------------
+    val safeInfoList: MutableLiveData<List<SafeInfoEntity.ListBean>> = MutableLiveData()
+
+    fun getSafeInfo(id:String?) {
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("servicePackageOrgId",id)
+            repository.getSafeInfo(params)
+        }, success = {
+            it?.let { data ->
+                safeInfoList.postValue(data.list)
+            }
+        })
+    }
 }

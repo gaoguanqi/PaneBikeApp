@@ -14,5 +14,15 @@ class CommonUtils {
                 return ""
             }
         }
+
+        fun splitDate(date:String?):String{
+            if(TextUtils.isEmpty(date)){
+                return ""
+            }
+            if(date?.contains(" ")?:false){
+                return date?.split(" ")?.first()?:""
+            }
+            return ""
+        }
     }
 }

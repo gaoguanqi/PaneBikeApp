@@ -67,6 +67,9 @@
         <activity android:name=".ui.activity.ServiceDetailActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".ui.activity.SafeInfoActivity"
+            android:screenOrientation="portrait" />
+
         <!--极光配置 开始-->
         <!-- Required SDK 核心功能-->
         <!-- 可配置 android:process 参数将 PushService 放在其他进程中 -->

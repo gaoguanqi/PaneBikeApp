@@ -64,6 +64,10 @@ class ApiURL {
         const val URL_CLAIM_PROCESS = "${EXT}/v1/service_package/usual/claim_process.thtml"
         //民用版 保额信息
         const val URL_INSURANCE_COVERANGE = "${EXT}/v1/ebike/usual/ebike_insurance_coverange.thtml"
+
+        //民用版 保障信息
+        const val URL_TO_PAY = "${EXT}/v1/service_package/usual/to_pay.thtml"
+
         //web url
 
         //我的保单

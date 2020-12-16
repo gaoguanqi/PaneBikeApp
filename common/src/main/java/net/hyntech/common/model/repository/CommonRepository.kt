@@ -84,6 +84,9 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.getInsuranceCoverange(params2Body(params))
     }
 
+    suspend fun getSafeInfo(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getSafeInfo(params2Body(params))
+    }
 
 
 }

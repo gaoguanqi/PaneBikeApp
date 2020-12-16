@@ -76,4 +76,7 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_INSURANCE_COVERANGE)
     suspend fun getInsuranceCoverange(@Body requestBody: RequestBody): InsuranceCoverangeEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_TO_PAY)
+    suspend fun getSafeInfo(@Body requestBody: RequestBody): SafeInfoEntity
 }

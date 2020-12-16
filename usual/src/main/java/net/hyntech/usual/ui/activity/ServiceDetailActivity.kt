@@ -1,5 +1,6 @@
 package net.hyntech.usual.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -72,6 +73,14 @@ class ServiceDetailActivity:BaseViewActivity<ActivityServiceDetailBinding,Contro
         viewModel.insuranceCoverange.observe(this, Observer {
             binding.tvLimit.text = it
         })
+
+        binding.btnBuy.setOnClickListener {
+            if(!UIUtils.isFastDoubleClick()){
+                val content:String? = viewModel.insuranceCoverange.value
+                startActivity(Intent(this,SafeInfoActivity::class.java).putExtra(Constants.BundleKey.EXTRA_ID,id).putExtra(Constants.BundleKey.EXTRA_CONTENT,content))
+            }
+        }
+
 
         viewModel.getServiceDetails(id)
         viewModel.getClaimProcess(id)

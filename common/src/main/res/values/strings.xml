@@ -58,7 +58,8 @@
     <string name="common_title_my_order">我的保单</string>
     <string name="common_title_pay">支付</string>
     <string name="common_title_the_safe">防盗保障</string>
-    <string name="common_title_service_detail">保障信息</string>
+    <string name="common_title_service_detail">服务详情</string>
+    <string name="common_title_safe_info">保障信息</string>
 
 
     <string name="common_car_info">车辆轨迹</string>
@@ -79,4 +80,20 @@
     <string name="common_text_akey_img">请上传jpg,png格式的图片，内容与车辆有关，不超过三张</string>
 
     <string name="common_text_area">地域\t\t\t\t</string>
+
+    <string name="common_ebike_no_t3">车牌号\t\t\t\t\t\t</string>
+    <string name="common_label_no_t3">标签号\t\t\t\t\t\t</string>
+    <string name="common_ebike_name_t2">车主姓名\t\t\t\t</string>
+    <string name="common_ebike_phone_t1">车主手机号\t\t</string>
+    <string name="common_frame_no_t1">车架号\t\t\t\t\t\t</string>
+    <string name="common_motor_t3">电机号\t\t\t\t\t\t</string>
+    <string name="common_brand_t2">品牌型号\t\t\t\t</string>
+    <string name="common_color_t2">车辆颜色\t\t\t\t</string>
+    <string name="common_type_t2">车辆类型\t\t\t\t</string>
+    <string name="common_buy_price_t0">购买价格/元\t</string>
+    <string name="common_buy_time_t2">购买时间\t\t\t\t</string>
+    <string name="common_remark_t4">备注\t\t\t\t\t\t\t\t</string>
+    <string name="common_safe_t4">保障服务\t\t\t\t</string>
+    <string name="common_range_t4">服务周期\t\t\t\t</string>
+    <string name="common_limit_t4">服务额度\t\t\t\t</string>
 </resources>
