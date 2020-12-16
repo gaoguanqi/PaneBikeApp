@@ -3,6 +3,7 @@ package net.hyntech.common.ui.adapter
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseAdapter
@@ -41,15 +42,18 @@ class ClaimProcessAdapter(val context: Context) : BaseAdapter<ClaimProcessAdapte
          val tvTitle:TextView = itemView.findViewById(R.id.tv_title)
          val tvContent:TextView = itemView.findViewById(R.id.tv_content)
          val tvIndex:TextView = itemView.findViewById(R.id.tv_index)
-         val tvLine:TextView = itemView.findViewById(R.id.tv_line)
+         val viewLine:View = itemView.findViewById(R.id.view_line)
         fun setData(pos:Int,entity: ClaimProcessEntity.ClaimProcessBean?) {
             entity?.let {
                 tvTitle.text = "${it.name}"
                 tvContent.text = "${it.model}"
                 tvIndex.text = "${pos+1}"
-                val params = tvLine.layoutParams
-                params.height = tvContent.height
-                tvLine.layoutParams = params
+            }
+
+            if(pos + 1 == list.size){
+                viewLine.visibility = View.GONE
+            }else{
+                viewLine.visibility = View.VISIBLE
             }
         }
     }
