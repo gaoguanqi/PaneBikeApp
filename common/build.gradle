@@ -199,6 +199,9 @@ dependencies {
     api 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
     api 'com.contrarywind:Android-PickerView:4.1.9'
 
+    api 'cn.jiguang.sdk:jpush:3.8.6'  // 此处以JPush 3.8.6 版本为例。
+    api 'cn.jiguang.sdk:jcore:2.6.0'  // 此处以JCore 2.6.0 版本为例。
+
     api files('libs/BaiduLBS_Android.jar')
 
     api project(path: ':baselib')

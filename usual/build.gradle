@@ -22,6 +22,13 @@ android {
                 arguments = [eventBusIndex: project.getName() + '.EventBusIndex' ]
             }
         }
+
+        //民用版 极光推送
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "e18bf7a0c03b2ef99a4369a2", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
     }
 }
 

@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.text.TextUtils
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import cn.jpush.android.api.JPushInterface
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.Utils
@@ -147,6 +148,9 @@ class AccountViewModel : BaseViewModel() {
                         this.updateUser(user)
                     }
                 }
+                //设置极光推送别名
+                JPushInterface.setAlias(BaseApp.instance, Global.JPUSH_SET_ALIAS, u.userId)
+
                 loginEvent.call()
             }
         })
