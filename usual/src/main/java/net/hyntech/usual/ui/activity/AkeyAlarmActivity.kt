@@ -88,7 +88,11 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
     private val pickerView by lazy {
         OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             LogUtils.logGGQ("options1-->${options1}")
-            setData(ebikeList.get(options1))
+            if(ebikeList.size > 1){
+                setData(ebikeList.get(options1))
+            }else{
+                LogUtils.logGGQ("只有一辆车，不用更新")
+            }
         }).apply {
             this.setContentTextSize(22)
             this.setTitleColor(UIUtils.getColor(CR.color.common_color_text))
