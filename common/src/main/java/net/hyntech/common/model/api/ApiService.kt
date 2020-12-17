@@ -79,4 +79,8 @@ interface ApiService:BaseApi {
     @Headers("urlname:hyntech")
     @POST(ApiURL.URL_TO_PAY)
     suspend fun getSafeInfo(@Body requestBody: RequestBody): SafeInfoEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_CONVER_SERVICE)
+    suspend fun getServiceShopList(@Body requestBody: RequestBody): ConverServiceEntity
 }

@@ -88,5 +88,9 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.getSafeInfo(params2Body(params))
     }
 
+    suspend fun getServiceShopList(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getServiceShopList(params2Body(params))
+    }
+
 
 }

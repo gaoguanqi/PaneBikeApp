@@ -13,5 +13,7 @@
 
     <dimen name="common_toolbar">72dp</dimen>
 
+    <dimen name="common_tab_radius">4dp</dimen>
+
 
 </resources>

@@ -24,5 +24,24 @@ class CommonUtils {
             }
             return ""
         }
+
+        fun splitPic(url:String?):String{
+            if(TextUtils.isEmpty(url)){
+                return ""
+            }
+            if(url?.contains(",")?:false){
+              return url?.split(",")?.first()?:""
+            }else{
+                return url?:""
+            }
+        }
+
+        //便民服务
+        fun filterShopType(type:String,shopType:String?):Boolean{
+            if(TextUtils.isEmpty(shopType)){
+                return false
+            }
+            return shopType?.contains(type)?:false
+        }
     }
 }

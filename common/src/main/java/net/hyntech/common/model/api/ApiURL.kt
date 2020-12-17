@@ -67,6 +67,8 @@ class ApiURL {
 
         //民用版 保障信息
         const val URL_TO_PAY = "${EXT}/v1/service_package/usual/to_pay.thtml"
+        //民用版 便民服务
+        const val URL_CONVER_SERVICE = "${EXT}/v1/service_shop/usual/list.thtml"
 
         //web url
 

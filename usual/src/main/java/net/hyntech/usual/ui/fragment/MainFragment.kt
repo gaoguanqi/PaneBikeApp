@@ -285,7 +285,10 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
     }
     //便民服务
     private fun onConverService() {
-        startActivity(Intent(requireActivity(),ConverServiceActivity::class.java))
+        //传递 orgId lat lng
+        val lat:String? = viewModel.currentLatLng.value?.latitude?.toString()
+        val lng:String? = viewModel.currentLatLng.value?.longitude?.toString()
+        startActivity(Intent(requireActivity(),ConverServiceActivity::class.java).putExtra(Constants.BundleKey.EXTRA_ID,orgId).putExtra(Constants.BundleKey.EXTRA_LAT,lat).putExtra(Constants.BundleKey.EXTRA_LNG,lng))
     }
 
     //一键报警

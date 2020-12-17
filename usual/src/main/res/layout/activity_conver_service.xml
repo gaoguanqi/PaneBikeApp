@@ -19,20 +19,71 @@
 
         <include layout="@layout/include_title" />
 
-        <LinearLayout
+        <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/common_colorTheme"
-            android:paddingBottom="8dp"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="10dp">
 
+            <RadioButton
+                android:id="@+id/rbtn_all"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_tab_left"
+                android:button="@color/common_trans"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="全部"
+                android:checked="true"
+                android:textColor="@drawable/selector_tab_txt" />
 
+            <RadioButton
+                android:id="@+id/rbtn_store"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_tab_center"
+                android:button="@color/common_trans"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="销售门店"
+                android:textColor="@drawable/selector_tab_txt" />
 
+            <RadioButton
+                android:id="@+id/rbtn_fix"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_tab_center"
+                android:button="@color/common_trans"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="维修站"
+                android:textColor="@drawable/selector_tab_txt" />
 
-        </LinearLayout>
+            <RadioButton
+                android:id="@+id/rbtn_power"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_tab_right"
+                android:button="@color/common_trans"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="充电站"
+                android:textColor="@drawable/selector_tab_txt" />
+        </RadioGroup>
+
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp"
+            android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

@@ -33,4 +33,8 @@
     <color name="common_color_badge">#FF5E51</color>
 
     <color name="common_color_pass">#1AD09F</color>
+
+    <color name="common_color_purple">#9C27B0</color>
+    <color name="common_color_green">#1AD09F</color>
+    <color name="common_color_blue">#2196F3</color>
 </resources>
