@@ -24,6 +24,8 @@ class Constants {
 
         const val ACCESS_TOKEN = "accessToken"
 
+        const val SEARCH = "search"
+
     }
 
 

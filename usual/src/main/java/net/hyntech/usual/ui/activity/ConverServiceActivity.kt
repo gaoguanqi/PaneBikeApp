@@ -1,5 +1,6 @@
 package net.hyntech.usual.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -10,6 +11,7 @@ import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
+import net.hyntech.common.ui.activity.SearchActivity
 import net.hyntech.common.ui.adapter.MyFragmentStateAdapter
 import net.hyntech.usual.R
 import net.hyntech.common.R as CR
@@ -33,7 +35,7 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding,Servic
         setTitle<ConverServiceActivity>(UIUtils.getString(CR.string.common_title_conver_service)).onBack<ConverServiceActivity> {
             onFinish()
         }.onSide<ConverServiceActivity> {
-            ToastUtil.showToast("搜索")
+            startActivity(Intent(this,SearchActivity::class.java).putExtra(Constants.BundleKey.EXTRA_CONTENT,"请输入网点名称、地址"))
         }
 
 
