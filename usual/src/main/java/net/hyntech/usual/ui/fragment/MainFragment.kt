@@ -32,6 +32,7 @@ import net.hyntech.common.widget.popu.EBikeListPopu
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.FragmentMainBinding
 import net.hyntech.usual.ui.activity.AkeyAlarmActivity
+import net.hyntech.usual.ui.activity.ConverServiceActivity
 import net.hyntech.usual.ui.activity.EbikeErrorActivity
 import net.hyntech.usual.ui.activity.TheSafeActivity
 import net.hyntech.usual.vm.HomeViewModel
@@ -100,10 +101,10 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         adapter.setListener(object :SeverListAdapter.OnClickListener{
             override fun onItemClick(pos:Int,item: SeverInfoEntity?) {
                 when(pos){
-                    0 -> onCarInfo()
-                    1 -> onConverService()
-                    2 -> onAkeyAlarm()
-                    3 -> onTheSafe()
+                    0 -> if(!UIUtils.isFastDoubleClick()) onCarInfo()
+                    1 -> if(!UIUtils.isFastDoubleClick()) onConverService()
+                    2 -> if(!UIUtils.isFastDoubleClick()) onAkeyAlarm()
+                    3 -> if(!UIUtils.isFastDoubleClick()) onTheSafe()
                 }
             }
         })
@@ -268,7 +269,7 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         LogUtils.logGGQ("--onPause-")
     }
 
-    //车辆信息
+    //车辆轨迹
     private fun onCarInfo() {
 
     }
@@ -284,7 +285,7 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
     }
     //便民服务
     private fun onConverService() {
-
+        startActivity(Intent(requireActivity(),ConverServiceActivity::class.java))
     }
 
     //一键报警
