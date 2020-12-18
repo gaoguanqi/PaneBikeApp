@@ -5,7 +5,8 @@ import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.databinding.DataBindingUtil
+import android.widget.LinearLayout
+import android.widget.TextView
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseAdapter
@@ -16,12 +17,8 @@ import net.hyntech.common.widget.imgloader.ImageLoader
 import net.hyntech.common.widget.imgloader.TransType
 import net.hyntech.common.widget.imgloader.glide.GlideImageConfig
 import net.hyntech.usual.R
-import net.hyntech.usual.databinding.ItemTheSafeBinding
 
 class TheSafeAdapter(val context: Context): BaseAdapter<TheSafeAdapter.ViewHolder>()  {
-
-
-    private lateinit var binding: ItemTheSafeBinding
 
     private val list: MutableList<ServiceSafeEntity.ServicePackageListBean> = arrayListOf()
 
@@ -44,12 +41,9 @@ class TheSafeAdapter(val context: Context): BaseAdapter<TheSafeAdapter.ViewHolde
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = DataBindingUtil.inflate<ItemTheSafeBinding>(parent.context.layoutInflater,
-            R.layout.item_the_safe,
-            parent,
-            false)
-        val holder: ViewHolder = ViewHolder(binding.root)
-        binding.itemRoot.setOnClickListener {
+        val view:View = context.layoutInflater.inflate(R.layout.item_the_safe,parent,false)
+        val holder: ViewHolder = ViewHolder(view)
+        holder.itemRoot.setOnClickListener {
             if(!UIUtils.isFastDoubleClick()){
                 listener?.onItemClick(list.get(holder.adapterPosition))
             }
@@ -67,16 +61,23 @@ class TheSafeAdapter(val context: Context): BaseAdapter<TheSafeAdapter.ViewHolde
     }
 
     inner class ViewHolder(itemView: View): BaseViewHolder(itemView){
+
+        private val tvTitle:TextView = itemView.findViewById(R.id.tv_title)
+        private val tvPrice:TextView = itemView.findViewById(R.id.tv_price)
+        private val tvContent:TextView = itemView.findViewById(R.id.tv_content)
+        private val ivPic:ImageView = itemView.findViewById(R.id.iv_pic)
+        val itemRoot: LinearLayout = itemView.findViewById(R.id.item_root)
+
         fun setData(entity: ServiceSafeEntity.ServicePackageListBean?) {
              entity?.let {
                  val remark:String = if(TextUtils.isEmpty(it.remark)) "" else "(${it.remark})"
 
-                 binding.tvTitle.text = "${it.insuranceName}${remark} ${it.termRange}年版"
-                 binding.tvPrice.text = "￥${it.insurancePrice/100}"
-                 binding.tvContent.text = if(TextUtils.isEmpty(it.insuranceDesc)) "暂无详情" else "${it.insuranceDesc}"
+                 tvTitle.text = "${it.insuranceName}${remark} ${it.termRange}年版"
+                 tvPrice.text = "￥${it.insurancePrice/100}"
+                 tvContent.text = if(TextUtils.isEmpty(it.insuranceDesc)) "暂无详情" else "${it.insuranceDesc}"
                  ImageLoader.getInstance().loadImage(
                      BaseApp.instance,
-                     GlideImageConfig(it.insurancePic, binding.ivPic).also { it.type = TransType.NORMAL })
+                     GlideImageConfig(it.insurancePic, ivPic).also { it.type = TransType.NORMAL })
             }
         }
     }

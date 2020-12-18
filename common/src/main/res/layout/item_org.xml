@@ -1,30 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_item_event"
+    android:orientation="vertical"
     tools:ignore="ResourceName">
 
-    <data>
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/common_black"
+        android:textSize="@dimen/common_font_common" />
 
-    </data>
+    <View style="@style/common_style_line" />
 
-    <LinearLayout
-        android:id="@+id/item_root"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/selector_item_event"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:gravity="center_vertical"
-            android:textSize="@dimen/common_font_common"
-            android:textColor="@color/common_black"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_height="44dp" />
-
-        <View style="@style/common_style_line"/>
-
-    </LinearLayout>
-</layout>
+</LinearLayout>

@@ -1,32 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:ignore="ResourceName">
 
-    <data>
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        tools:background="@mipmap/ic_launcher" />
 
-    </data>
-
-    <LinearLayout
-        android:id="@+id/item_root"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/iv_icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            tools:background="@mipmap/ic_launcher" />
-
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/common_white"
-            android:textSize="@dimen/common_font_text"
-            tools:text="测试" />
-    </LinearLayout>
-</layout>
+        android:layout_gravity="center"
+        android:textColor="@color/common_white"
+        android:textSize="@dimen/common_font_text"
+        tools:text="测试" />
+</LinearLayout>

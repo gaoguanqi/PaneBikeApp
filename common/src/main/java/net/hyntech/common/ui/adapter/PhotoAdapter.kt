@@ -47,8 +47,8 @@ class PhotoAdapter(val context: Context,@LayoutRes val resId:Int):BaseAdapter<Ph
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val viewHolder = ViewHolder(context.layoutInflater.inflate(resId,parent,false))
-        return viewHolder
+        val holder = ViewHolder(context.layoutInflater.inflate(resId,parent,false))
+        return holder
     }
 
     override fun getItemCount(): Int {
@@ -72,7 +72,7 @@ class PhotoAdapter(val context: Context,@LayoutRes val resId:Int):BaseAdapter<Ph
 
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
-        val ivImg:ImageView? = itemView.findViewById(R.id.iv_img)
+        val ivImg:ImageView = itemView.findViewById(R.id.iv_img)
         var btnDel:ImageButton? = null
 
         fun setData(entity: PhotoEntity?) {
@@ -81,11 +81,9 @@ class PhotoAdapter(val context: Context,@LayoutRes val resId:Int):BaseAdapter<Ph
                    btnDel = itemView.findViewById(R.id.btn_del)
                    btnDel?.visibility = View.VISIBLE
                }
-               if(ivImg != null){
-                   ImageLoader.getInstance().loadImage(
-                       BaseApp.instance,
-                       GlideImageConfig(it.url,ivImg).also { config -> config.type = TransType.NORMAL })
-               }
+               ImageLoader.getInstance().loadImage(
+                   BaseApp.instance,
+                   GlideImageConfig(it.url,ivImg).also { config -> config.type = TransType.NORMAL })
            }
         }
     }

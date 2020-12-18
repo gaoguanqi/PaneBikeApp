@@ -5,18 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.databinding.DataBindingUtil
 import net.hyntech.common.ext.layoutInflater
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseAdapter
 import net.hyntech.common.base.BaseViewHolder
 import net.hyntech.common.model.entity.EbikeErrorEntity
 import net.hyntech.usual.R
-import net.hyntech.usual.databinding.ItemEbikeErrorBinding
 
 class EbikeErrorAdapter(val context: Context):BaseAdapter<EbikeErrorAdapter.ViewHolder>() {
-
-    private lateinit var binding:ItemEbikeErrorBinding
 
     private val list: MutableList<EbikeErrorEntity.AlarmExceptionLogListBean> = arrayListOf()
 
@@ -38,11 +34,8 @@ class EbikeErrorAdapter(val context: Context):BaseAdapter<EbikeErrorAdapter.View
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = DataBindingUtil.inflate<ItemEbikeErrorBinding>(parent.context.layoutInflater,
-            R.layout.item_ebike_error,
-            parent,
-            false)
-        val holder:ViewHolder = ViewHolder(binding.root)
+        val view:View = context.layoutInflater.inflate(R.layout.item_ebike_error,parent,false)
+        val holder:ViewHolder = ViewHolder(view)
         holder.itemRoot.setOnClickListener {
             if(!UIUtils.isFastDoubleClick()){
                 listener?.onItemClick(list.get(holder.adapterPosition))

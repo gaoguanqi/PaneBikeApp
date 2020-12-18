@@ -4,22 +4,25 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_in_service.*
+import kotlinx.android.synthetic.main.fragment_service_fix.*
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.common.base.BaseFragment
 import net.hyntech.common.model.entity.ConverServiceEntity
 import net.hyntech.usual.R
-import net.hyntech.usual.databinding.FragmentInServiceBinding
+import net.hyntech.usual.databinding.FragmentServiceFixBinding
 import net.hyntech.usual.ui.adapter.ConverServiceAdapter
 import net.hyntech.usual.vm.ServiceViewModel
 
-//便民服务（shopType | String|  是  |服务类型|1-销售门店，2-维修站，3-充电站）
-class InServiceFragment(val id:String,val lat:String,val lng:String,val shopType:String = "",val viewModel: ServiceViewModel):BaseFragment<FragmentInServiceBinding,ServiceViewModel>() {
+
+//维修站
+class ServiceFixFragment(val id:String,val lat:String,val lng:String,val viewModel: ServiceViewModel): BaseFragment<FragmentServiceFixBinding, ServiceViewModel>() {
+
+    private val shopType:String = "2"
 
     companion object {
-        fun getInstance(id: String,lat: String,lng: String,shopType:String, viewModel: ServiceViewModel): InServiceFragment {
-            return InServiceFragment(id,lat,lng,shopType,viewModel)
+        fun getInstance(id: String,lat: String,lng: String,viewModel: ServiceViewModel): ServiceFixFragment {
+            return ServiceFixFragment(id,lat,lng,viewModel)
         }
     }
 
@@ -31,7 +34,7 @@ class InServiceFragment(val id:String,val lat:String,val lng:String,val shopType
         } }) } }
 
 
-    override fun getLayoutId(): Int = R.layout.fragment_in_service
+    override fun getLayoutId(): Int = R.layout.fragment_service_fix
 
     override fun initData(savedInstanceState: Bundle?) {
         refreshLayout.setEnableRefresh(true)//是否启用下拉刷新功能
@@ -44,21 +47,21 @@ class InServiceFragment(val id:String,val lat:String,val lng:String,val shopType
             onLoadMoreData()
         }
 
-        viewModel.defUI.emptyEvent.observe(this, Observer {
+        viewModel.emptyFixEvent.observe(this, Observer {
             LogUtils.logGGQ("empty--->>${shopType}")
             finishRefresh()
             if(refreshLayout.visibility == View.VISIBLE){refreshLayout.visibility = View.GONE}
             if(vsEmpty.visibility == View.GONE){vsEmpty.visibility = View.VISIBLE}
         })
 
-        viewModel.serviceList.observe(this, Observer {
+        viewModel.serviceFixList.observe(this, Observer {
             serviceAdapter.setData(it)
         })
-        viewModel.serviceListRefresh.observe(this, Observer {
+        viewModel.serviceFixRefresh.observe(this, Observer {
             serviceAdapter.setData(it)
             finishRefresh()
         })
-        viewModel.serviceListLoadMore.observe(this, Observer {
+        viewModel.serviceFixLoadMore.observe(this, Observer {
             if(!it.isNullOrEmpty()){
                 serviceAdapter.updataList(it)
             }
@@ -71,12 +74,11 @@ class InServiceFragment(val id:String,val lat:String,val lng:String,val shopType
 
     override fun lazyLoadData() {
         super.lazyLoadData()
-        viewModel.getServiceShopList(id,lat,lng,shopType)
+        viewModel.getServiceFixList(id,lat,lng,shopType,"")
     }
 
     override fun refReshData() {
         super.refReshData()
-        viewModel.onServiceRefreshData(id,lat,lng,shopType)
     }
 
 
@@ -86,14 +88,14 @@ class InServiceFragment(val id:String,val lat:String,val lng:String,val shopType
 
 
     private fun onRefreshData(){
-        viewModel.onServiceRefreshData(id,lat,lng,shopType)
+        viewModel.onServiceFixRefresh(id,lat,lng,shopType)
     }
 
     private fun onLoadMoreData(){
         if(viewModel.lastPage){
             finishLoadMore()
         }else{
-            viewModel.onServiceLoadMoreData(id,lat,lng,shopType)
+            viewModel.onServiceFixLoadMore(id,lat,lng,shopType)
         }
     }
 
@@ -110,4 +112,5 @@ class InServiceFragment(val id:String,val lat:String,val lng:String,val shopType
             if(it.isLoading) it.finishLoadMore(300)
         }
     }
+
 }

@@ -12,11 +12,8 @@ import net.hyntech.common.base.BaseAdapter
 import net.hyntech.common.base.BaseViewHolder
 import net.hyntech.common.model.entity.AlarmRecordEntity
 import net.hyntech.usual.R
-import net.hyntech.usual.databinding.ItemAlarmRecordBinding
 
 class AlarmRecordAdapter(val context: Context):BaseAdapter<AlarmRecordAdapter.ViewHolder>() {
-
-    private lateinit var binding:ItemAlarmRecordBinding
 
     private val list: MutableList<AlarmRecordEntity.AtAlarmListBean> = arrayListOf()
 
@@ -38,11 +35,8 @@ class AlarmRecordAdapter(val context: Context):BaseAdapter<AlarmRecordAdapter.Vi
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = DataBindingUtil.inflate<ItemAlarmRecordBinding>(parent.context.layoutInflater,
-            R.layout.item_alarm_record,
-            parent,
-            false)
-        val holder:ViewHolder = ViewHolder(binding.root)
+        val view:View = context.layoutInflater.inflate(R.layout.item_alarm_record,parent,false)
+        val holder:ViewHolder = ViewHolder(view)
         holder.itemRoot.setOnClickListener {
             if(!UIUtils.isFastDoubleClick()){
                 listener?.onItemClick(list.get(holder.adapterPosition))

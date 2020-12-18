@@ -29,7 +29,6 @@
                 android:layout_height="match_parent" />
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-
         <include
             android:id="@+id/vsEmpty"
             layout="@layout/layout_empty"/>

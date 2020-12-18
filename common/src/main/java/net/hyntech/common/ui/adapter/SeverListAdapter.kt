@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
-import kotlinx.android.synthetic.main.item_org.view.*
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.common.ext.layoutInflater
 import net.hyntech.baselib.utils.UIUtils
@@ -28,7 +28,7 @@ class  SeverListAdapter(val context: Context,val layoutRes:Int,val list:List<Sev
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View = context.layoutInflater.inflate(layoutRes,parent,false)
         val holder: ViewHolder = ViewHolder(view)
-        holder.itemView.item_root.setOnClickListener {
+        holder.itemRoot.setOnClickListener {
             if(!UIUtils.isFastDoubleClick()){
                 listener?.onItemClick(holder.adapterPosition,list.get(holder.adapterPosition))
             }
@@ -46,13 +46,14 @@ class  SeverListAdapter(val context: Context,val layoutRes:Int,val list:List<Sev
 
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
+        val itemRoot:LinearLayout = itemView.findViewById(R.id.item_root)
         fun setData(entity: SeverInfoEntity?) {
             entity?.let {
-                itemView.findViewById<TextView>(R.id.tv_name).text = it.name
+                itemView.findViewById<TextView>(R.id.tv_name)?.text = it.name
                 itemView.findViewById<ImageView>(R.id.iv_icon)?.let {iv->
                     ImageLoader.getInstance().loadImage(
                         BaseApp.instance,
-                        GlideImageConfig(UIUtils.getDrawable(it.resId), iv).also { it.type = TransType.NORMAL })
+                        GlideImageConfig(UIUtils.getDrawable(it.resId), iv).also { config-> config.type = TransType.NORMAL })
                 }
             }
         }

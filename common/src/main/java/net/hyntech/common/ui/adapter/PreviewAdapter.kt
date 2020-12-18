@@ -17,8 +17,9 @@ import net.hyntech.common.widget.imgloader.glide.GlideImageConfig
 class PreviewAdapter(val context:Context, val data:List<String>) : BaseAdapter<PreviewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val viewHolder = ViewHolder(context.layoutInflater.inflate(R.layout.item_preview,parent,false))
-        return viewHolder
+        val view:View = context.layoutInflater.inflate(R.layout.item_preview,parent,false)
+        val volder = ViewHolder(view)
+        return volder
     }
 
     override fun getItemCount(): Int {
@@ -30,12 +31,11 @@ class PreviewAdapter(val context:Context, val data:List<String>) : BaseAdapter<P
     }
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
+        private val pvImg:PhotoView = itemView.findViewById(R.id.pv_img)
         fun setData(item: String) {
-            itemView.findViewById<PhotoView>(R.id.pv_img)?.let {iv ->
-                ImageLoader.getInstance().loadImage(
-                    BaseApp.instance,
-                    GlideImageConfig(item, iv).also { it.type = TransType.NORMAL })
-            }
+            ImageLoader.getInstance().loadImage(
+                BaseApp.instance,
+                GlideImageConfig(item, pvImg).also { it.type = TransType.NORMAL })
         }
     }
 }

@@ -3,20 +3,16 @@ package net.hyntech.common.ui.adapter
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.databinding.DataBindingUtil
-import kotlinx.android.synthetic.main.item_org.view.*
 import net.hyntech.common.ext.layoutInflater
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseAdapter
 import net.hyntech.common.base.BaseViewHolder
-import net.hyntech.common.databinding.ItemOrgBinding
 import net.hyntech.common.model.entity.CenterEntity
 
 class OrgAdapter(val context: Context):BaseAdapter<OrgAdapter.ViewHolder>() {
-
-    private lateinit var binding: ItemOrgBinding
 
     private val list: MutableList<CenterEntity.OrgListBean> = arrayListOf()
     private var listener:OnClickListener? = null
@@ -33,14 +29,9 @@ class OrgAdapter(val context: Context):BaseAdapter<OrgAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = DataBindingUtil.inflate<ItemOrgBinding>(
-            parent.context.layoutInflater,
-            R.layout.item_org,
-            parent,
-            false
-        )
-        val holder: ViewHolder = ViewHolder(binding.root)
-        holder.itemView.item_root.setOnClickListener {
+        val view:View = context.layoutInflater.inflate(R.layout.item_org,parent,false)
+        val holder: ViewHolder = ViewHolder(view)
+        holder.itemRoot.setOnClickListener {
             if(!UIUtils.isFastDoubleClick()){
                 listener?.onItemClick(list.get(holder.adapterPosition))
             }
@@ -58,7 +49,7 @@ class OrgAdapter(val context: Context):BaseAdapter<OrgAdapter.ViewHolder>() {
 
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
-
+        val itemRoot:LinearLayout = itemView.findViewById(R.id.item_root)
         fun setData(entity: CenterEntity.OrgListBean?) {
             entity?.let {
                 itemView.findViewById<TextView>(R.id.tv_name).text = it.orgName
