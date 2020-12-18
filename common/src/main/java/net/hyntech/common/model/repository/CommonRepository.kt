@@ -92,5 +92,10 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.getServiceShopList(params2Body(params))
     }
 
+    suspend fun locationSearch(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.locationSearch(params2Body(params))
+    }
+
+
 
 }

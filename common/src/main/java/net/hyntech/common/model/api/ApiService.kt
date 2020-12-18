@@ -83,4 +83,8 @@ interface ApiService:BaseApi {
     @Headers("urlname:hyntech")
     @POST(ApiURL.URL_CONVER_SERVICE)
     suspend fun getServiceShopList(@Body requestBody: RequestBody): ConverServiceEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_LOCATION_SEARCH)
+    suspend fun locationSearch(@Body requestBody: RequestBody): CommonEntity
 }

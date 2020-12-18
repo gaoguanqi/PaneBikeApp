@@ -3,31 +3,52 @@ package net.hyntech.usual.ui.activity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Gravity
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import com.bigkoo.pickerview.builder.TimePickerBuilder
+import com.bigkoo.pickerview.listener.OnTimeSelectListener
+import com.bigkoo.pickerview.view.TimePickerView
+import com.blankj.utilcode.util.TimeUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
-
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
 import net.hyntech.common.model.vo.BundleEbikeVo
 import net.hyntech.common.ui.adapter.EbikeNoAdapter
+import net.hyntech.common.widget.dialog.CommonDialog
 import net.hyntech.common.widget.popu.EBikeListPopu
 import net.hyntech.usual.R
-import net.hyntech.common.R as CR
 import net.hyntech.usual.databinding.ActivityEbikeTrackBinding
 import net.hyntech.usual.vm.TrackViewModel
 import razerdp.basepopup.BasePopupWindow
+import java.util.*
+import net.hyntech.common.R as CR
 
 class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewModel>() {
 
     private var tvTitle:TextView? = null
+    private var ivArrowIcon: ImageView? = null
+    private var tvStartTime:TextView? = null
+    private var tvEndTime:TextView? = null
+
+    private val buyDialog: CommonDialog by lazy { CommonDialog(this,UIUtils.getString(CR.string.common_warm),
+        UIUtils.getString(CR.string.common_content_nobuy_service),
+        UIUtils.getString(CR.string.common_close),
+        UIUtils.getString(CR.string.common_buy_now),object :
+            CommonDialog.OnClickListener{
+            override fun onCancleClick() {
+                //关闭
+                onFinish()
+            }
+            override fun onConfirmClick() {
+                //立即购买
+
+            } }) }
 
     private lateinit var ebikeList:List<BundleEbikeVo>
-
-    private var ivArrowIcon: ImageView? = null
 
     private val ebikeAdapter by lazy { EbikeNoAdapter(this)}
 
@@ -38,6 +59,39 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
             CR.drawable.ic_arrow_down) } } }
     }
 
+
+    private val startTimePickerView: TimePickerView by lazy {
+        TimePickerBuilder(this, object :OnTimeSelectListener{
+            override fun onTimeSelect(date: Date?, v: View?) {
+                tvStartTime?.text = TimeUtils.date2String(date)
+            }
+        }).setType(booleanArrayOf(true, true, true, true, true, true))
+            .setTitleText("开始时间")
+            .setCancelColor(UIUtils.getColor(CR.color.common_color_gray))
+            .setSubmitColor(UIUtils.getColor(CR.color.common_colorTheme))
+            .setTitleBgColor(UIUtils.getColor(CR.color.common_white))
+            .setTitleColor(UIUtils.getColor(CR.color.common_black))
+            .setTextColorOut(UIUtils.getColor(CR.color.common_color_gray))
+            .setBgColor(UIUtils.getColor(CR.color.common_color_line))
+            .build()
+    }
+
+    private val endTimePickerView: TimePickerView by lazy {
+        TimePickerBuilder(this, object :OnTimeSelectListener{
+            override fun onTimeSelect(date: Date?, v: View?) {
+                tvEndTime?.text = TimeUtils.date2String(date)
+            }
+        }).setType(booleanArrayOf(true, true, true, true, true, true))
+            .setTitleText("结束时间")
+            .setCancelColor(UIUtils.getColor(CR.color.common_color_gray))
+            .setSubmitColor(UIUtils.getColor(CR.color.common_colorTheme))
+            .setTitleBgColor(UIUtils.getColor(CR.color.common_white))
+            .setTitleColor(UIUtils.getColor(CR.color.common_black))
+            .setTextColorOut(UIUtils.getColor(CR.color.common_color_gray))
+            .setBgColor(UIUtils.getColor(CR.color.common_color_line))
+            .build()
+    }
+
     private val viewModel by viewModels<TrackViewModel>()
 
     override fun getLayoutId(): Int = R.layout.activity_ebike_track
@@ -46,9 +100,30 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
         binding.viewModel = viewModel
     }
 
+    private var startTime:String = ""
+    private var endTime:String = ""
     override fun initData(savedInstanceState: Bundle?) {
         tvTitle = findViewById(R.id.tv_title)
         ivArrowIcon = findViewById(R.id.iv_arrow_icon)
+        tvStartTime = findViewById(R.id.tv_start_time)
+        tvEndTime = findViewById(R.id.tv_end_time)
+
+        viewModel.defUI.showDialog.observe(this, Observer {
+            showLoading()
+        })
+
+        viewModel.defUI.dismissDialog.observe(this, Observer {
+            dismissLoading()
+        })
+
+        viewModel.defUI.toastEvent.observe(this, Observer {
+            ToastUtil.showToast(it)
+        })
+
+        viewModel.notBuyServiceEvent.observe(this, Observer {
+            showBuyDialog()
+        })
+
         findViewById<LinearLayout>(R.id.ll_left)?.setOnClickListener {
             onFinish()
         }
@@ -56,6 +131,26 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
         findViewById<LinearLayout>(R.id.ll_title)?.setOnClickListener {
             onClickTitle()
         }
+        tvStartTime?.setOnClickListener {
+            if(!startTimePickerView.isShowing){
+                startTimePickerView.show()
+            }
+        }
+        tvEndTime?.setOnClickListener {
+            if(!endTimePickerView.isShowing){
+                endTimePickerView.show()
+            }
+        }
+
+
+
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_MONTH,-1)
+        startTime = TimeUtils.date2String(calendar.time)
+        tvStartTime?.text = startTime
+        endTime = TimeUtils.getNowString()
+        tvEndTime?.text = endTime
+
         val bundle = intent.extras
         bundle?.let {
             ebikeList = it.getSerializable(Constants.BundleKey.EXTRA_OBJ) as List<BundleEbikeVo>
@@ -94,7 +189,8 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
     private fun setData(vo: BundleEbikeVo) {
         this.currentEbike = vo
         tvTitle?.text = vo.ebikeNo
-        viewModel.locationSearch(vo.ebikeNo)
+
+        viewModel.locationSearch(vo.ebikeNo,startTime,endTime)
     }
 
     private fun onClickTitle() {
@@ -105,6 +201,12 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
         ebikeList.let {list ->
             ebikeAdapter.setData(list)
             ebikePopu.showPopupWindow(tvTitle)
+        }
+    }
+
+    private fun showBuyDialog(){
+        if(!buyDialog.isShowing){
+            buyDialog.show()
         }
     }
 }

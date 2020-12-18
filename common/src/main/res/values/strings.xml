@@ -38,8 +38,11 @@
     <string name="common_warm">温馨提示</string>
     <string name="common_no">否</string>
     <string name="common_yes">是</string>
+    <string name="common_close">关闭</string>
+    <string name="common_buy_now">立即购买</string>
     <string name="common_ignore_content">确定要忽略</string>
 
+    <string name="common_content_nobuy_service">该功能为增值服务，您还未购买该服务哦!</string>
 
 
 
