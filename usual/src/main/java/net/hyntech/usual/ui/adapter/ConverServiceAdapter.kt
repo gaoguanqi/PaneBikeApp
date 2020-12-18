@@ -37,14 +37,8 @@ class ConverServiceAdapter(val context: Context):BaseAdapter<ConverServiceAdapte
     }
 
     fun setData(data:List<ConverServiceEntity.AtServiceShopListBean>){
-        data.forEach {
-            LogUtils.logGGQ("->>>>>>>>>>${it.shopName}")
-        }
         this.list.clear()
         this.list.addAll(data)
-        this.list.forEach {
-            LogUtils.logGGQ("-<<<<<<---<<<<${it.shopName}")
-        }
         notifyDataSetChanged()
     }
 
@@ -60,6 +54,11 @@ class ConverServiceAdapter(val context: Context):BaseAdapter<ConverServiceAdapte
         holder.itemRoot.setOnClickListener {
             if(!UIUtils.isFastDoubleClick()){
                 listener?.onItemClick(list.get(holder.adapterPosition))
+            }
+        }
+        holder.ivCallPhone.setOnClickListener {
+            if(!UIUtils.isFastDoubleClick()){
+                listener?.onCallPhoneClick(list.get(holder.adapterPosition).phone)
             }
         }
         return holder
@@ -81,6 +80,7 @@ class ConverServiceAdapter(val context: Context):BaseAdapter<ConverServiceAdapte
         private val tvFix:TextView = itemView.findViewById(R.id.tv_fix)
         private val tvPower:TextView = itemView.findViewById(R.id.tv_power)
         private val ivImg:ImageView = itemView.findViewById(R.id.iv_img)
+        val ivCallPhone:ImageView = itemView.findViewById(R.id.iv_call_phone)
         val itemRoot:LinearLayout = itemView.findViewById(R.id.item_root)
 
         fun setData(entity: ConverServiceEntity.AtServiceShopListBean?) {
@@ -100,5 +100,6 @@ class ConverServiceAdapter(val context: Context):BaseAdapter<ConverServiceAdapte
 
     interface OnClickListener{
         fun onItemClick(item: ConverServiceEntity.AtServiceShopListBean?)
+        fun onCallPhoneClick(phone: String)
     }
 }

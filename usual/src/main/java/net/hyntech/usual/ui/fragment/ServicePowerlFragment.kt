@@ -11,6 +11,7 @@ import net.hyntech.common.base.BaseFragment
 import net.hyntech.common.model.entity.ConverServiceEntity
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.FragmentServicePowerBinding
+import net.hyntech.usual.ui.activity.ConverServiceActivity
 import net.hyntech.usual.ui.adapter.ConverServiceAdapter
 import net.hyntech.usual.vm.ServiceViewModel
 
@@ -29,8 +30,10 @@ class ServicePowerlFragment(val id:String, val lat:String, val lng:String, val v
         this.setListener(object : ConverServiceAdapter.OnClickListener{ override fun onItemClick(item: ConverServiceEntity.AtServiceShopListBean?) {
             item?.let {
                 ToastUtil.showToast("${it.shopName}")
-            }
-        } }) } }
+            } }
+            override fun onCallPhoneClick(phone: String) {
+                (activity as ConverServiceActivity).callPhone(phone)
+            } }) } }
 
 
     override fun getLayoutId(): Int = R.layout.fragment_service_power

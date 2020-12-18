@@ -128,7 +128,7 @@ class UserInfoActivity:BaseViewActivity<ActivityUserInfoBinding,UserInfoViewMode
 
 
     private fun applyCamera(type:Int){
-        PermissionUtil.applyPermissions(object : RequestPermission {
+        PermissionUtil.applyCamera(object : RequestPermission {
             override fun onRequestPermissionSuccess() {
                 if(type == 1){
                     openCamera()

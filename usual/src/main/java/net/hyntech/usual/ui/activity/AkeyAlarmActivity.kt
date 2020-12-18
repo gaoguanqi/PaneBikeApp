@@ -251,7 +251,7 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
     }
 
     private fun applyCamera(){
-        PermissionUtil.applyPermissions(object : RequestPermission {
+        PermissionUtil.applyCamera(object : RequestPermission {
             override fun onRequestPermissionSuccess() {
                 openPhoto()
             }

@@ -1,5 +1,6 @@
 package net.hyntech.usual.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -8,14 +9,16 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
-import net.hyntech.baselib.utils.Event
-import net.hyntech.baselib.utils.ToastUtil
-import net.hyntech.baselib.utils.UIUtils
+import com.blankj.utilcode.util.AppUtils
+import com.blankj.utilcode.util.PhoneUtils
+import com.tbruyelle.rxpermissions2.RxPermissions
+import net.hyntech.baselib.utils.*
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
 import net.hyntech.common.global.EventCode
 import net.hyntech.common.ui.activity.SearchActivity
 import net.hyntech.common.ui.adapter.MyFragmentStateAdapter
+import net.hyntech.common.widget.dialog.CommonDialog
 import net.hyntech.usual.R
 import net.hyntech.common.R as CR
 import net.hyntech.usual.databinding.ActivityConverServiceBinding
@@ -39,6 +42,8 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding,Servic
     private var id:String? = ""
     private var lat:String? = ""
     private var lng:String? = ""
+
+    private val rxPermissions: RxPermissions = RxPermissions(this)
 
     override fun initData(savedInstanceState: Bundle?) {
         setTitle<ConverServiceActivity>(UIUtils.getString(CR.string.common_title_conver_service)).onBack<ConverServiceActivity> {
@@ -94,6 +99,44 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding,Servic
             }
         }
     }
+
+    fun callPhone(phone:String){
+        PermissionUtil.applyCallPhone(object : RequestPermission {
+            override fun onRequestPermissionSuccess() {
+                showConfirmDialog(phone)
+            }
+
+            override fun onRequestPermissionFailure(permissions: List<String>) {
+                ToastUtil.showToast(UIUtils.getString(CR.string.common_permissions_phone))
+            }
+
+            override fun onRequestPermissionFailureWithAskNeverAgain(permissions: List<String>) {
+                ToastUtil.showToast(UIUtils.getString(CR.string.common_permissions_phone))
+            }
+        }, rxPermissions)
+    }
+
+    private var callDialog:CommonDialog? = null
+    private fun showConfirmDialog(phone: String){
+        if(callDialog == null){
+            callDialog = CommonDialog(this,UIUtils.getString(CR.string.common_warm),
+                "您确定要拨打电话:${phone}？",
+                UIUtils.getString(CR.string.common_text_cancle),
+                UIUtils.getString(CR.string.common_text_confirm),object :
+                    CommonDialog.OnClickListener{
+                    override fun onCancleClick() {}
+                    override fun onConfirmClick() {
+                        call(phone)
+                    } })
+        }
+        callDialog?.let { if(!it.isShowing) it.show()}
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun call(phone:String){
+        PhoneUtils.call(phone)
+    }
+
 
     override fun hasUsedEventBus(): Boolean = true
 

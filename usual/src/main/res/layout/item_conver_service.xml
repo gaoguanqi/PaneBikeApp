@@ -14,8 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingStart="16dp">
 
         <ImageView
             android:id="@+id/iv_img"
@@ -106,8 +105,11 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/iv_call_phone"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingStart="8dp"
+            android:paddingEnd="16dp"
             android:src="@drawable/ic_call_phone" />
     </LinearLayout>
 

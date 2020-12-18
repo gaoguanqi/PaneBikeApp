@@ -127,6 +127,7 @@ class PermissionUtil {
                 rxPermissions,
                 Manifest.permission.ACCESS_FINE_LOCATION, // 访问位置
                 Manifest.permission.CAMERA,     //相机
+                Manifest.permission.CALL_PHONE,   //拨打电话
                 Manifest.permission.READ_PHONE_STATE,   //手机状态
                 Manifest.permission.ACCESS_COARSE_LOCATION ,//网络定位
                 Manifest.permission.READ_EXTERNAL_STORAGE, //读取存储

@@ -29,11 +29,13 @@
     <string name="common_permissions_title">权限申请</string>
     <string name="common_permissions_desc">请开启必要权限,否则您无法正常使用一些功能</string>
     <string name="common_permissions_camera">请开启访问您的相册及使用相机权限,否则您无法正常使用该功能</string>
+    <string name="common_permissions_phone">请开启拨打电话权限,否则您无法正常使用该功能</string>
     <string name="common_permissions_cancle">不同意</string>
     <string name="common_permissions_confirm">前往开启</string>
     <string name="common_logout">退出登录</string>
     <string name="common_change_password">修改密码</string>
     <string name="common_tip">提示</string>
+    <string name="common_warm">温馨提示</string>
     <string name="common_no">否</string>
     <string name="common_yes">是</string>
     <string name="common_ignore_content">确定要忽略</string>
