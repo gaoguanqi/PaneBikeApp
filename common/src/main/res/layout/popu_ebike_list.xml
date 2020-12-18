@@ -7,12 +7,23 @@
     android:layout_gravity="center_horizontal"
     tools:ignore="ResourceName">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_ebike"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="4dp"
-        android:background="@color/common_color_background"/>
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/layer_triangle_up" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_ebike"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/common_color_background"/>
+    </LinearLayout>
 
 </FrameLayout>

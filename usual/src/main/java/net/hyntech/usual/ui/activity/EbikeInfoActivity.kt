@@ -108,15 +108,17 @@ class EbikeInfoActivity : BaseActivity() {
 
         ebikeAdapter.setListener(object :EBikeListAdapter.OnClickListener{
             override fun onItemClick(entity: UserInfoEntity.EbikeListBean?) {
-                entity?.let {ebike ->
-                    currentEbike?.let { curr ->
-                        if(!TextUtils.equals(curr.ebikeNo,ebike.ebikeNo)){
-                            ebikeList?.forEach {item ->
-                                item.isSelected = false
+                if(ebikeList != null && ebikeList!!.size > 1){
+                    entity?.let {ebike ->
+                        currentEbike?.let { curr ->
+                            if(!TextUtils.equals(curr.ebikeNo,ebike.ebikeNo)){
+                                ebikeList?.forEach {item ->
+                                    item.isSelected = false
+                                }
+                                ebike.isSelected = true
+                                currentEbike = ebike
+                                setData(currentEbike)
                             }
-                            ebike.isSelected = true
-                            currentEbike = ebike
-                            setData(currentEbike)
                         }
                     }
                 }

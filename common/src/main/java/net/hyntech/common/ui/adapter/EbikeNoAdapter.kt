@@ -5,23 +5,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import net.hyntech.common.ext.layoutInflater
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseAdapter
 import net.hyntech.common.base.BaseViewHolder
-import net.hyntech.common.model.entity.UserInfoEntity
+import net.hyntech.common.ext.layoutInflater
+import net.hyntech.common.model.vo.BundleEbikeVo
 
-class EBikeListAdapter(val context: Context) :
-    BaseAdapter<EBikeListAdapter.ViewHolder>() {
+class EbikeNoAdapter(val context: Context) : BaseAdapter<EbikeNoAdapter.ViewHolder>() {
 
     private var listener: OnClickListener? = null
-    private val list: MutableList<UserInfoEntity.EbikeListBean> = mutableListOf()
+    private val list: MutableList<BundleEbikeVo> = mutableListOf()
     fun setListener(listener: OnClickListener?){
         this.listener = listener
     }
 
-    fun setData(l:List<UserInfoEntity.EbikeListBean>){
+    fun setData(l:List<BundleEbikeVo>){
         list.clear()
         list.addAll(l)
         this.notifyDataSetChanged()
@@ -47,7 +46,7 @@ class EBikeListAdapter(val context: Context) :
     }
 
     inner class ViewHolder(itemView: View) : BaseViewHolder(itemView) {
-        fun setData(entity: UserInfoEntity.EbikeListBean?) {
+        fun setData(entity: BundleEbikeVo?) {
             entity?.let {
                 itemView.findViewById<TextView>(R.id.tv_name)?.text = it.ebikeNo
                 itemView.findViewById<ImageView>(R.id.iv_icon)?.visibility = if(it.isSelected) View.VISIBLE else View.GONE
@@ -56,6 +55,7 @@ class EBikeListAdapter(val context: Context) :
     }
 
     interface OnClickListener{
-        fun onItemClick(item: UserInfoEntity.EbikeListBean?)
+        fun onItemClick(item: BundleEbikeVo?)
     }
+
 }

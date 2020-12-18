@@ -6,17 +6,12 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder
-import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener
-import com.bigkoo.pickerview.listener.OnTimeSelectListener
-import com.bigkoo.pickerview.view.OptionsPickerView
 import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.SizeUtils
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
@@ -24,14 +19,11 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.listener.OnResultCallbackListener
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_akey_alarm.*
-import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.*
 import net.hyntech.common.base.BaseViewActivity
-import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
-import net.hyntech.common.global.EventCode
 import net.hyntech.common.model.entity.PhotoEntity
-import net.hyntech.common.model.vo.BundleAlarmVo
+import net.hyntech.common.model.vo.BundleEbikeVo
 import net.hyntech.common.provider.ARouterConstants
 import net.hyntech.common.ui.adapter.PhotoAdapter
 import net.hyntech.common.widget.dialog.CommonDialog
@@ -56,7 +48,7 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
             override fun onConfirmClick() { AppUtils.launchAppDetailsSettings() } }) }
 
 
-    private lateinit var ebikeList:List<BundleAlarmVo>
+    private lateinit var ebikeList:List<BundleEbikeVo>
 
     private val photoList:MutableList<PhotoEntity> = mutableListOf()
     private var ebikeId:String = ""
@@ -210,7 +202,7 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
         bundle?.let {
             val type:Int = it.getInt(Constants.BundleKey.EXTRA_TYPE)
             LogUtils.logGGQ("--------type------------>>${type}")
-            ebikeList = it.getSerializable(Constants.BundleKey.EXTRA_OBJ) as List<BundleAlarmVo>
+            ebikeList = it.getSerializable(Constants.BundleKey.EXTRA_OBJ) as List<BundleEbikeVo>
             if(type == 1 && ebikeList.isNotEmpty()){
                 btn_no_down.visibility = View.VISIBLE
                 var vo = ebikeList.first()
@@ -242,7 +234,7 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
         }
     }
 
-    private fun setData(vo:BundleAlarmVo){
+    private fun setData(vo: BundleEbikeVo){
         ebikeId = vo.ebikeId
         tv_car_no.text = vo.ebikeNo
         tv_name.text = vo.name

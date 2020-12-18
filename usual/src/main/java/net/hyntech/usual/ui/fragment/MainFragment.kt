@@ -14,7 +14,6 @@ import com.baidu.mapapi.animation.ScaleAnimation
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
 import net.hyntech.baselib.app.BaseApp
-import net.hyntech.baselib.http.t
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
@@ -22,19 +21,15 @@ import net.hyntech.common.base.BaseFragment
 import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
 import net.hyntech.common.global.handler.MapViewHandler
-import net.hyntech.common.model.entity.EbikeErrorEntity
 import net.hyntech.common.model.entity.SeverInfoEntity
 import net.hyntech.common.model.entity.UserInfoEntity
-import net.hyntech.common.model.vo.BundleAlarmVo
+import net.hyntech.common.model.vo.BundleEbikeVo
 import net.hyntech.common.ui.adapter.EBikeListAdapter
 import net.hyntech.common.ui.adapter.SeverListAdapter
 import net.hyntech.common.widget.popu.EBikeListPopu
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.FragmentMainBinding
-import net.hyntech.usual.ui.activity.AkeyAlarmActivity
-import net.hyntech.usual.ui.activity.ConverServiceActivity
-import net.hyntech.usual.ui.activity.EbikeErrorActivity
-import net.hyntech.usual.ui.activity.TheSafeActivity
+import net.hyntech.usual.ui.activity.*
 import net.hyntech.usual.vm.HomeViewModel
 import razerdp.basepopup.BasePopupWindow
 import net.hyntech.common.R as CR
@@ -111,21 +106,23 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         binding.rvMain.adapter = adapter
         ebikeAdapter.setListener(object :EBikeListAdapter.OnClickListener{
             override fun onItemClick(entity: UserInfoEntity.EbikeListBean?) {
-                entity?.let {ebike ->
-                    AppDatabase.getInstance(BaseApp.instance).userDao().apply {
-                        this.getCurrentUser()?.let {user ->
-                            if(!TextUtils.equals(user.ebikeNo,ebike.ebikeNo)){
-                                user.ebikeNo = ebike.ebikeNo
-                                this.updateUser(user)
-                                ebikeList?.forEach { item ->
-                                     item.isSelected = false
+                if(ebikeList != null && ebikeList!!.size > 1){
+                    entity?.let {ebike ->
+                        AppDatabase.getInstance(BaseApp.instance).userDao().apply {
+                            this.getCurrentUser()?.let {user ->
+                                if(!TextUtils.equals(user.ebikeNo,ebike.ebikeNo)){
+                                    user.ebikeNo = ebike.ebikeNo
+                                    this.updateUser(user)
+                                    ebikeList?.forEach { item ->
+                                        item.isSelected = false
+                                    }
+                                    ebike.isSelected = true
+                                    tvTitle?.text = ebike.ebikeNo
+                                    setEbikeLock(ebike.lockFlag)
+                                    viewModel.currentEbike.set(ebike)
+                                    ebikeAdapter.notifyDataSetChanged()
+                                    addMarkers(ebike)
                                 }
-                                ebike.isSelected = true
-                                tvTitle?.text = ebike.ebikeNo
-                                setEbikeLock(ebike.lockFlag)
-                                viewModel.currentEbike.set(ebike)
-                                ebikeAdapter.notifyDataSetChanged()
-                                addMarkers(ebike)
                             }
                         }
                     }
@@ -271,7 +268,19 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
 
     //车辆轨迹
     private fun onCarInfo() {
-
+        viewModel.currentEbike.get()?.let {
+            val array = java.util.ArrayList<BundleEbikeVo>()
+            val vo = BundleEbikeVo()
+            vo.isSelected = it.isSelected
+            vo.ebikeId = it.ebikeId
+            vo.ebikeNo = it.ebikeNo
+            array.add(vo)
+            val bundle:Bundle = Bundle()
+            bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,array)
+            startActivity(Intent(requireActivity(), EbikeTrackActivity::class.java).putExtras(bundle))
+        }?:let {
+            ToastUtil.showToast("数据加载中,请稍后")
+        }
     }
 
     //防盗保障
@@ -337,8 +346,8 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
 //                startActivity(Intent(requireActivity(), AkeyAlarmActivity::class.java).putExtras(bundle))
 //            }
 
-            val array = java.util.ArrayList<BundleAlarmVo>()
-            val vo = BundleAlarmVo()
+            val array = java.util.ArrayList<BundleEbikeVo>()
+            val vo = BundleEbikeVo()
             vo.isSelected = it.isSelected
             vo.ebikeId = it.ebikeId
             vo.ebikeNo = it.ebikeNo

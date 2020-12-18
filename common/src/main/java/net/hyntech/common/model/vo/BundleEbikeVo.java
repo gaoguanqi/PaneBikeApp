@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * 一键报警传递集合数据的实体VO
  */
-public class BundleAlarmVo implements Serializable {
+public class BundleEbikeVo implements Serializable {
 
     public String ebikeId = "";
     public String ebikeNo = "";

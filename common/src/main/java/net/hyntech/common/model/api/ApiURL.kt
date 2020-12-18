@@ -64,11 +64,12 @@ class ApiURL {
         const val URL_CLAIM_PROCESS = "${EXT}/v1/service_package/usual/claim_process.thtml"
         //民用版 保额信息
         const val URL_INSURANCE_COVERANGE = "${EXT}/v1/ebike/usual/ebike_insurance_coverange.thtml"
-
         //民用版 保障信息
         const val URL_TO_PAY = "${EXT}/v1/service_package/usual/to_pay.thtml"
         //民用版 便民服务
         const val URL_CONVER_SERVICE = "${EXT}/v1/service_shop/usual/list.thtml"
+        //民用版 车辆位置搜索(民用版V2新接口，带增值服务)
+        const val URL_LOCATION_SEARCH = "${EXT}/v2/ebike/usual/location_search.thtml"
 
         //web url
 

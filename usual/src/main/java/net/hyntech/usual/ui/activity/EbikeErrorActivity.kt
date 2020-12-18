@@ -2,7 +2,6 @@ package net.hyntech.usual.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -15,7 +14,7 @@ import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
 import net.hyntech.common.model.entity.EbikeErrorEntity
-import net.hyntech.common.model.vo.BundleAlarmVo
+import net.hyntech.common.model.vo.BundleEbikeVo
 import net.hyntech.common.widget.dialog.CommonDialog
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.ActivityEbikeErrorBinding
@@ -47,8 +46,9 @@ class EbikeErrorActivity:BaseViewActivity<ActivityEbikeErrorBinding,ControllerVi
                     if(it.state == 1){
                         ToastUtil.showToast("该车辆已经报警,无需重复报警")
                     }else{
-                        val array = java.util.ArrayList<BundleAlarmVo>()
-                        val vo:BundleAlarmVo = BundleAlarmVo()
+                        val array = java.util.ArrayList<BundleEbikeVo>()
+                        val vo: BundleEbikeVo =
+                            BundleEbikeVo()
                         vo.ebikeId = it.ebikeId
                         vo.ebikeNo = it.ebikeNo
                         vo.name = it.name
