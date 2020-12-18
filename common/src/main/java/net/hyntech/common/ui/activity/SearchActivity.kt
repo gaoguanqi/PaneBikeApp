@@ -1,17 +1,22 @@
 package net.hyntech.common.ui.activity
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
+import androidx.lifecycle.SavedStateHandle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.SPUtils
 import net.hyntech.baselib.app.BaseApp
-import net.hyntech.baselib.utils.ToastUtil
-import net.hyntech.baselib.utils.UIUtils
+import net.hyntech.baselib.utils.*
 import net.hyntech.common.R
 import net.hyntech.common.base.BaseActivity
+import net.hyntech.common.db.AppDatabase
+import net.hyntech.common.db.dao.Search
 import net.hyntech.common.global.Constants
+import net.hyntech.common.global.EventCode
 import net.hyntech.common.ui.adapter.SearchAdapter
 import net.hyntech.common.widget.view.ClearEditText
 
@@ -20,16 +25,13 @@ class SearchActivity:BaseActivity() {
     private lateinit var etInput:ClearEditText
     private lateinit var rv:RecyclerView
     private lateinit var tvClear:TextView
-
-    private val searchList:MutableList<String> = mutableListOf()
-    private val sp by lazy { SPUtils.getInstance(BaseApp.instance.getAppPackage()) }
-    private val defaultSet:MutableSet<String> by lazy { sp.getStringSet(Constants.SaveInfoKey.SEARCH)?: mutableSetOf() }
+    private val searchDao by lazy { AppDatabase.getInstance(BaseApp.instance).searchDao() }
 
     private val searchAdapter by lazy { SearchAdapter(this).apply {
         this.setListener(object :SearchAdapter.OnClickListener{
-            override fun onItemClick(item: String) {
-                saveContent(item)
-                ToastUtil.showToast("${item}")
+            override fun onItemClick(search: Search) {
+                ToastUtil.showToast("${search.content}")
+                sendEvent(search.content?:"")
             }
         })
     } }
@@ -40,7 +42,10 @@ class SearchActivity:BaseActivity() {
         setRightTxt<SearchActivity>(UIUtils.getString(R.string.common_search)).onBack<SearchActivity>{
             onFinish()
         }.onSide<SearchActivity> {
-            ToastUtil.showToast("搜索")
+            val input:String = etInput.text?.trim().toString()
+            if(!TextUtils.isEmpty(input)){
+                saveContent(input)
+            }
         }
         etInput = findViewById(R.id.et_input)
         etInput.hint = getBundleString(Constants.BundleKey.EXTRA_CONTENT)
@@ -49,21 +54,38 @@ class SearchActivity:BaseActivity() {
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = searchAdapter
         tvClear.setOnClickListener {
+            tvClear.visibility = View.GONE
             searchAdapter.clearList()
+            searchDao.deleteAll()
         }
 
-        if(defaultSet.isEmpty()){
+        val searchList = searchDao.getAllSearch()
+        if(searchList.isEmpty()){
             tvClear.visibility = View.GONE
+            LogUtils.logGGQ("--空--")
         }else{
-            searchList.addAll(defaultSet)
             tvClear.visibility = View.VISIBLE
             searchAdapter.setData(searchList)
+            LogUtils.logGGQ("--有数据--")
         }
     }
 
+    private fun saveContent(content:String)  {
+        val list = searchDao.getAllSearch()
+        if(list.isNotEmpty()){
+            list.forEach {
+                if(TextUtils.equals(content,it.content))return
+            }
+        }
+        val search:Search = Search()
+        search.content = content
+        searchDao.insertSearch(search)
+        sendEvent(content)
+    }
 
-    private fun saveContent(content:String){
-        defaultSet.add(content)
-        sp.put(Constants.SaveInfoKey.SEARCH,defaultSet)
+    private fun sendEvent(content:String){
+        val event: Event<String> = Event(EventCode.EVENT_CODE_SEARCH,content)
+        EventBusUtils.sendEvent(event)
+        onFinish()
     }
 }

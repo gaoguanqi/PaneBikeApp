@@ -2,15 +2,19 @@ package net.hyntech.usual.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
+import net.hyntech.baselib.utils.Event
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
+import net.hyntech.common.global.EventCode
 import net.hyntech.common.ui.activity.SearchActivity
 import net.hyntech.common.ui.adapter.MyFragmentStateAdapter
 import net.hyntech.usual.R
@@ -82,6 +86,18 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding,Servic
                 R.id.rbtn_power ->{
                     binding.pager.currentItem = 3
                 }
+            }
+        }
+    }
+
+    override fun hasUsedEventBus(): Boolean = true
+
+    override fun <T> onEventBusDispense(event: Event<T>) {
+        super.onEventBusDispense(event)
+        when(event.code){
+            EventCode.EVENT_CODE_SEARCH ->{
+                val content = event.data.toString()
+                ToastUtil.showToast(content)
             }
         }
     }
