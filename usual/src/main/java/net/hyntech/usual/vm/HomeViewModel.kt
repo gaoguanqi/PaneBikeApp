@@ -70,7 +70,7 @@ class HomeViewModel : BaseViewModel() {
                 AppDatabase.getInstance(BaseApp.instance).userDao().apply {
                     this.getCurrentUser()?.let {user ->
                         if(data.ebike_list != null && data.ebike_list.isNotEmpty()){
-                            currentEbike.set(data.ebike_list.first())
+                            currentEbike.set(data.ebike_list.first().apply { this.isSelected = true })
                             if(TextUtils.isEmpty(user.ebikeNo)){
                                 data.ebike_list.first().apply {
                                     this.isSelected = true
@@ -86,6 +86,7 @@ class HomeViewModel : BaseViewModel() {
                                         item.isSelected = false
                                     }
                                 }
+                                currentEbike.get()?.isSelected = true
                             }
                         }
 
