@@ -39,7 +39,16 @@ class PoliceApplication : BaseApp() {
         //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
         //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
         SDKInitializer.setCoordType(CoordType.BD09LL)
+    }
 
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+        initSDK()
+        //initX5Web()
+    }
+
+    private fun initX5Web(){
         // 在调用TBS初始化、创建WebView之前进行如下配置
         val map = HashMap<String, Any>()
         map[TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER] = true
@@ -54,11 +63,5 @@ class PoliceApplication : BaseApp() {
 
         //x5内核初始化接口
         QbSdk.initX5Environment(applicationContext, cb)
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        instance = this
-        initSDK()
     }
 }

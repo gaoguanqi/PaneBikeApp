@@ -51,6 +51,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
     private var ivArrowIcon: ImageView? = null
     private var tvStartTime:TextView? = null
     private var tvEndTime:TextView? = null
+    private var ebikeNo:String? = ""
 
     private var mapView: TextureMapView? = null
     private var baiduMap: BaiduMap? = null
@@ -90,6 +91,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
                 if(checkDate(date,endDate)){
                     startDate = date
                     tvStartTime?.text = TimeUtils.date2String(date)
+                    queryEbikeTrack()
                 }
             }
         }).setType(booleanArrayOf(true, true, true, true, true, true))
@@ -111,6 +113,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
                 if(checkDate(startDate,date)){
                     endDate = date
                     tvEndTime?.text = TimeUtils.date2String(date)
+                    queryEbikeTrack()
                 }
             }
         }).setType(booleanArrayOf(true, true, true, true, true, true))
@@ -302,10 +305,10 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
     private var currentEbike:BundleEbikeVo? = null
     private fun setData(vo: BundleEbikeVo) {
         this.ebikeId = vo.ebikeId
+        this.ebikeNo = vo.ebikeNo
         this.currentEbike = vo
         tvTitle?.text = vo.ebikeNo
-
-        viewModel.locationSearch(vo.ebikeNo,TimeUtils.date2String(startDate),TimeUtils.date2String(endDate))
+        queryEbikeTrack()
     }
 
     private fun onClickTitle() {
@@ -330,7 +333,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
             ToastUtil.showToast("您选择的日期有误！")
             return false
         }
-        if(TextUtils.isEmpty(ebikeId)){
+        if(TextUtils.isEmpty(ebikeNo)){
             ToastUtil.showToast("车牌号不能为空")
             return false
         }
@@ -362,6 +365,11 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
     }
     private fun onEbikeFast(){
         ToastUtil.showToast("onEbikeFast")
+    }
+
+    //查询车辆轨迹
+    private fun queryEbikeTrack(){
+        viewModel.locationSearch(ebikeNo!!,TimeUtils.date2String(startDate),TimeUtils.date2String(endDate))
     }
 
     override fun onDestroy() {

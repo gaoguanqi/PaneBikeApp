@@ -46,6 +46,16 @@ class UsualApplication : BaseApp() {
         JPushInterface.init(this)
         TagAliasOperatorHelper.getInstance().init(this)
 
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+        initSDK()
+//        initX5Web()
+    }
+
+    private fun initX5Web(){
         // 在调用TBS初始化、创建WebView之前进行如下配置
         val map = HashMap<String, Any>()
         map[TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER] = true
@@ -59,12 +69,6 @@ class UsualApplication : BaseApp() {
         }
         //x5内核初始化接口
         QbSdk.initX5Environment(applicationContext, cb)
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        instance = this
-        initSDK()
     }
 
 }
