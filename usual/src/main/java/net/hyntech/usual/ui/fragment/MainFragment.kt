@@ -268,18 +268,19 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
 
     //车辆轨迹
     private fun onCarInfo() {
-        viewModel.currentEbike.get()?.let {
+        if(!ebikeList.isNullOrEmpty()){
             val array = java.util.ArrayList<BundleEbikeVo>()
-            val vo = BundleEbikeVo()
-            vo.isSelected = it.isSelected
-            vo.ebikeId = it.ebikeId
-            vo.ebikeNo = it.ebikeNo
-            array.add(vo)
+            ebikeList?.forEach { item ->
+                val vo = BundleEbikeVo()
+                vo.isSelected = item.isSelected
+                vo.ebikeId = item.ebikeId
+                vo.ebikeNo = item.ebikeNo
+                array.add(vo)
+            }
+
             val bundle:Bundle = Bundle()
             bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,array)
             startActivity(Intent(requireActivity(), EbikeTrackActivity::class.java).putExtras(bundle))
-        }?:let {
-            ToastUtil.showToast("数据加载中,请稍后")
         }
     }
 
@@ -302,26 +303,6 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
 
     //一键报警
     private fun onAkeyAlarm() {
-//        if(!ebikeList.isNullOrEmpty()){
-//            val array = java.util.ArrayList<BundleAlarmVo>()
-//            ebikeList?.forEach {item ->
-//                val vo = BundleAlarmVo()
-//                item.isSelected = vo.isSelected
-//                vo.ebikeId = item.ebikeId
-//                vo.ebikeNo = item.ebikeNo
-//                vo.name = viewModel.userInfo.value?.user?.name
-//                vo.phone = viewModel.userInfo.value?.user?.phone
-//                vo.address = ""
-//                array.add(vo)
-//            }
-//            val bundle:Bundle = Bundle()
-//            bundle.putInt(Constants.BundleKey.EXTRA_TYPE,1)
-//            bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,array)
-//            startActivity(Intent(requireActivity(), AkeyAlarmActivity::class.java).putExtras(bundle))
-//        }else{
-//            ToastUtil.showToast("数据加载中,请稍后")
-//        }
-
         viewModel.currentEbike.get()?.let {
             //lost 已赔付 alarm 已报警 normal 正常
             LogUtils.logGGQ("一键报警-state->${it.state}")
@@ -330,36 +311,27 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
 //            }else if(!TextUtils.isEmpty(it.state) && TextUtils.equals(it.state,"alarm")){
 //                ToastUtil.showToast("该车辆已报警,不可重复报警")
 //            }else{
-//                val array = java.util.ArrayList<BundleAlarmVo>()
-//                val vo = BundleAlarmVo()
-//                vo.isSelected = it.isSelected
-//                vo.ebikeId = it.ebikeId
-//                vo.ebikeNo = it.ebikeNo
-//                vo.name = viewModel.userInfo.value?.user?.name
-//                vo.phone = viewModel.userInfo.value?.user?.phone
-//                vo.address = ""
-//                array.add(vo)
-//
-//                val bundle:Bundle = Bundle()
-//                bundle.putInt(Constants.BundleKey.EXTRA_TYPE,1)
-//                bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,array)
-//                startActivity(Intent(requireActivity(), AkeyAlarmActivity::class.java).putExtras(bundle))
+
 //            }
 
-            val array = java.util.ArrayList<BundleEbikeVo>()
-            val vo = BundleEbikeVo()
-            vo.isSelected = it.isSelected
-            vo.ebikeId = it.ebikeId
-            vo.ebikeNo = it.ebikeNo
-            vo.name = viewModel.userInfo.value?.user?.name
-            vo.phone = viewModel.userInfo.value?.user?.phone
-            vo.address = ""
-            array.add(vo)
+            if(!ebikeList.isNullOrEmpty()){
+                val array = java.util.ArrayList<BundleEbikeVo>()
+                ebikeList?.forEach { item ->
+                    val vo = BundleEbikeVo()
+                    vo.isSelected = item.isSelected
+                    vo.ebikeId = item.ebikeId
+                    vo.ebikeNo = item.ebikeNo
+                    vo.name = viewModel.userInfo.value?.user?.name
+                    vo.phone = viewModel.userInfo.value?.user?.phone
+                    vo.address = ""
+                    array.add(vo)
+                }
 
-            val bundle:Bundle = Bundle()
-            bundle.putInt(Constants.BundleKey.EXTRA_TYPE,1)
-            bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,array)
-            startActivity(Intent(requireActivity(), AkeyAlarmActivity::class.java).putExtras(bundle))
+                val bundle:Bundle = Bundle()
+                bundle.putInt(Constants.BundleKey.EXTRA_TYPE,1)
+                bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,array)
+                startActivity(Intent(requireActivity(), AkeyAlarmActivity::class.java).putExtras(bundle))
+            }
         }?:let {
             ToastUtil.showToast("数据加载中,请稍后")
         }

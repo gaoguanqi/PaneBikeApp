@@ -215,6 +215,7 @@ class EbikeInfoActivity : BaseActivity() {
 
         if(bannerList.isNotEmpty()){
             bannerAdapter.setDatas(bannerList)
+            bannerAdapter.notifyDataSetChanged()
         }
 
         if(photoList.isNotEmpty()){
