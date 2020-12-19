@@ -86,7 +86,7 @@ interface ApiService:BaseApi {
 
     @Headers("urlname:hyntech")
     @POST(ApiURL.URL_LOCATION_SEARCH)
-    suspend fun locationSearch(@Body requestBody: RequestBody): CommonEntity
+    suspend fun locationSearch(@Body requestBody: RequestBody): EbikeTrackEntity
 
     @Headers("urlname:hyntech")
     @POST(ApiURL.URL_ADDVAL_SERVICE)

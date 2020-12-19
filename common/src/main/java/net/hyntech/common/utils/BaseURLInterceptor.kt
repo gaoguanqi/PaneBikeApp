@@ -30,7 +30,7 @@ class BaseURLInterceptor: Interceptor {
             } else if (TextUtils.equals("hyntech",headerValue)) {
                 Global.BASE_URL.toHttpUrlOrNull()
             } else if(TextUtils.equals("test",headerValue)){
-                "http://192.168.0.111:8080".toHttpUrlOrNull()
+                "https://api.hyntech.net".toHttpUrlOrNull()
             }else{
                 oldHttpUrl
             }
