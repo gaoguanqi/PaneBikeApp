@@ -25,6 +25,10 @@ class TrackViewModel:BaseViewModel() {
         },error = {
             if(!TextUtils.isEmpty(it.code) && TextUtils.equals("VALUEADDEDSERVICE",it.code)){
                 notBuyServiceEvent.call()
+            }else{
+                if(!TextUtils.isEmpty(it.errMsg)){
+                    defUI.toastEvent.postValue(it.errMsg)
+                }
             }
         })
     }

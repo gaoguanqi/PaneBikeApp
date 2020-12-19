@@ -52,7 +52,6 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
     private var ebikeList: MutableList<UserInfoEntity.EbikeListBean>? = null
     private val ebikeAdapter by lazy { EBikeListAdapter(requireContext()) }
     private val ebikePopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EBikeListPopu<EBikeListAdapter.ViewHolder,EBikeListAdapter>(requireContext(),ebikeAdapter).apply {
-        this.popupGravity = Gravity.BOTTOM
         this.setOnPopupWindowShowListener { ivArrowIcon?.background = UIUtils.getDrawable(CR.drawable.ic_arrow_up) }
         this.onDismissListener = object :BasePopupWindow.OnDismissListener(){ override fun onDismiss() { ivArrowIcon?.background = UIUtils.getDrawable(CR.drawable.ic_arrow_down) } } }
     }
@@ -228,10 +227,10 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
 
 
     private val markerAnim by lazy {
-        ScaleAnimation(1f, 1.2f, 1f).apply {
+        ScaleAnimation(1f, 1.1f, 1f).apply {
             this.setDuration(2000L)
             this.setRepeatMode(Animation.RepeatMode.RESTART)
-            this.setRepeatCount(2)
+            this.setRepeatCount(0)
         }
     }
 

@@ -68,7 +68,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
             CommonDialog.OnClickListener{
             override fun onCancleClick() {
                 //关闭
-                onFinish()
+                //onFinish()
             }
             override fun onConfirmClick() {
                 //立即购买
@@ -81,7 +81,6 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
     private val ebikeAdapter by lazy { EbikeNoAdapter(this)}
 
     private val ebikePopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EBikeListPopu<EbikeNoAdapter.ViewHolder, EbikeNoAdapter>(this,ebikeAdapter).apply {
-        this.popupGravity = Gravity.BOTTOM
         this.setOnPopupWindowShowListener { ivArrowIcon?.background = UIUtils.getDrawable(CR.drawable.ic_arrow_up) }
         this.onDismissListener = object : BasePopupWindow.OnDismissListener(){ override fun onDismiss() { ivArrowIcon?.background = UIUtils.getDrawable(
             CR.drawable.ic_arrow_down) } } }
@@ -382,7 +381,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
         if(resultCode == Activity.RESULT_OK){
             when(requestCode){
                 EventCode.EVENT_CODE_TRACK ->{
-                   // queryEbikeTrack()
+                   queryEbikeTrack()
                 }
             }
         }

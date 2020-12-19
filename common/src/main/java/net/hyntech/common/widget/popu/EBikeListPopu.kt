@@ -1,6 +1,7 @@
 package net.hyntech.common.widget.popu
 
 import android.content.Context
+import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
@@ -37,6 +38,7 @@ class EBikeListPopu<VH:BaseViewHolder,T : BaseAdapter<VH>>(
 
     override fun onViewCreated(contentView: View) {
         super.onViewCreated(contentView)
+        this.setPopupGravity(Gravity.BOTTOM or Gravity.CENTER)
         contentView.findViewById<RecyclerView>(R.id.rv_ebike)?.apply {
             this.layoutManager = LinearLayoutManager(mContext)
             this.addItemDecoration(SimpleItemDecoration(mContext))

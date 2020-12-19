@@ -43,7 +43,6 @@ class EbikeInfoActivity : BaseActivity() {
     private val ebikeAdapter by lazy { EBikeListAdapter(this) }
 
     private val ebikePopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EBikeListPopu<EBikeListAdapter.ViewHolder, EBikeListAdapter>(this,ebikeAdapter).apply {
-        this.popupGravity = Gravity.BOTTOM
         this.setOnPopupWindowShowListener { ivArrowIcon?.background = UIUtils.getDrawable(CR.drawable.ic_arrow_up) }
         this.onDismissListener = object : BasePopupWindow.OnDismissListener(){ override fun onDismiss() { ivArrowIcon?.background = UIUtils.getDrawable(CR.drawable.ic_arrow_down) } } }
     }
