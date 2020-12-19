@@ -92,4 +92,13 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_ADDVAL_SERVICE)
     suspend fun getAddValServiceList(@Body requestBody: RequestBody): AddValServiceEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_ADDVAL_DETAIL)
+    suspend fun getAddValServiceDetails(@Body requestBody: RequestBody): AddValDetailEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_ADDVAL_INFO)
+    suspend fun getAddValInfo(@Body requestBody: RequestBody): AddValInfoEntity
+
+
 }

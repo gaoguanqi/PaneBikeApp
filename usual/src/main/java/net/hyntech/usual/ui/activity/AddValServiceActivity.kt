@@ -1,5 +1,6 @@
 package net.hyntech.usual.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -24,10 +25,9 @@ class AddValServiceActivity:BaseViewActivity<ActivityAddvalServiceBinding,AddVal
     private val addValServiceAdapter by lazy { AddValServiceAdapter(this).apply {
         this.setListener(object : AddValServiceAdapter.OnClickListener{ override fun onItemClick(item: AddValServiceEntity.ValueAddedServiceListBean?) {
             item?.let {
-                item?.let {
-                    ToastUtil.showToast(it.serviceName)
-                }
-            } } }) } }
+                startActivity(Intent(this@AddValServiceActivity,AddValDetailActivity::class.java).putExtra(Constants.BundleKey.EXTRA_ID,id).putExtra(Constants.BundleKey.EXTRA_ID_S,item.valueAddedServiceId))
+            }
+        } }) } }
 
     override fun getLayoutId(): Int = R.layout.activity_addval_service
 

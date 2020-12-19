@@ -67,6 +67,8 @@
     <string name="common_title_safe_info">保障信息</string>
     <string name="common_title_conver_service">便民服务</string>
     <string name="common_title_addval_service">增值服务</string>
+    <string name="common_title_addval_detail">服务详情</string>
+    <string name="common_title_addval_info">车辆服务信息</string>
 
 
     <string name="common_car_info">车辆轨迹</string>
@@ -103,4 +105,6 @@
     <string name="common_safe_t4">保障服务\t\t\t\t</string>
     <string name="common_range_t4">服务周期\t\t\t\t</string>
     <string name="common_limit_t4">服务额度\t\t\t\t</string>
+    <string name="common_addval_t4">增值服务\t\t\t\t</string>
+    <string name="common_service_price_t4">服务费用\t\t\t\t</string>
 </resources>

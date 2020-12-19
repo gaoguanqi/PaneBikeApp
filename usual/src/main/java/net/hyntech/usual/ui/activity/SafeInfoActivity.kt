@@ -1,5 +1,6 @@
 package net.hyntech.usual.ui.activity
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
@@ -144,6 +145,7 @@ class SafeInfoActivity:BaseViewActivity<ActivitySafeInfoBinding,ControllerViewMo
 
     private fun onSubmit(bean: SafeInfoEntity.ListBean) {
 
-
+        val price = (bean.insurancePrice/100).toString()
+        startActivity(Intent(this,PayActivity::class.java).putExtra(Constants.BundleKey.EXTRA_PRICE,price))
     }
 }

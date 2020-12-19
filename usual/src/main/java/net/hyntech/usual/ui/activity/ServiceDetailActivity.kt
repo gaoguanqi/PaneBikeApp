@@ -63,7 +63,7 @@ class ServiceDetailActivity:BaseViewActivity<ActivityServiceDetailBinding,Contro
 
             ImageLoader.getInstance().loadImage(
                 BaseApp.instance,
-                GlideImageConfig(it.insurancePic, binding.ivPic).also { it.type = TransType.NORMAL })
+                GlideImageConfig(it.insurancePic, binding.ivPic).also { config-> config.type = TransType.NORMAL })
         })
 
         viewModel.claimProcess.observe(this, Observer {

@@ -72,6 +72,10 @@ class ApiURL {
         const val URL_LOCATION_SEARCH = "${EXT}/v2/ebike/usual/location_search.thtml"
         //民用版 增值服务列表
         const val URL_ADDVAL_SERVICE = "${EXT}/v2/valueAddedService/usual/list.thtml"
+        //民用版 增值服务详情
+        const val URL_ADDVAL_DETAIL = "${EXT}/v2/valueAddedService/usual/detail.thtml"
+        //民用版 增值服务的车辆服务信息
+        const val URL_ADDVAL_INFO = "${EXT}/v2/valueAddedServiceOrder/usual/pre_order.thtml"
 
         //web url
 

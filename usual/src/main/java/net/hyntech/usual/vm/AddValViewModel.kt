@@ -2,8 +2,7 @@ package net.hyntech.usual.vm
 
 import androidx.lifecycle.MutableLiveData
 import net.hyntech.baselib.base.BaseViewModel
-import net.hyntech.common.model.entity.AddValServiceEntity
-import net.hyntech.common.model.entity.EbikeErrorEntity
+import net.hyntech.common.model.entity.*
 import net.hyntech.common.model.repository.CommonRepository
 import java.util.*
 
@@ -62,11 +61,11 @@ class AddValViewModel:BaseViewModel() {
         },isShowDialog = false,isShowToast = false)
     }
 
-    fun onAddValServiceLoadMore(id:String?) {
+    fun onAddValServiceLoadMore(ebikeId:String?) {
         pageNo +=1
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
-            params.put("ebikeId",id)
+            params.put("ebikeId",ebikeId)
             params.put("PrmPageNo",pageNo)
             params.put("PrmItemsPerPage",pageSize)
             repository.getAddValServiceList(params)
@@ -76,6 +75,35 @@ class AddValViewModel:BaseViewModel() {
                 addValServiceLoadMore.postValue(data.valueAddedServiceList)
             }
         },isShowDialog = false,isShowToast = false)
+    }
+//------------------增值服务详情-------------------
+    val serviceDetail: MutableLiveData<AddValDetailEntity> = MutableLiveData()
+
+    fun getServiceDetails(ebikeId: String?, valueAddedServiceId: String?) {
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("ebikeId",ebikeId)
+            params.put("valueAddedServiceId",valueAddedServiceId)
+            repository.getAddValServiceDetails(params)
+        }, success = {
+            it?.let { data ->
+                serviceDetail.postValue(data)
+            }
+        })
+    }
+
+    val addValInfo: MutableLiveData<AddValInfoEntity> = MutableLiveData()
+    fun getAddValInfo(ebikeId: String?, valueAddedServiceId: String?) {
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("ebikeId",ebikeId)
+            params.put("valueAddedServiceId",valueAddedServiceId)
+            repository.getAddValInfo(params)
+        }, success = {
+            it?.let { data ->
+                addValInfo.postValue(data)
+            }
+        })
     }
 
 }

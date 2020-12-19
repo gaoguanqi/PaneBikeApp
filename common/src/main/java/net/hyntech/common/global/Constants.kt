@@ -49,6 +49,7 @@ class Constants {
         const val EXTRA_CONTENT = "content"
         const val EXTRA_PRICE = "price"
         const val EXTRA_ID = "id"
+        const val EXTRA_ID_S = "id_S"
         const val EXTRA_LAT = "lat"
         const val EXTRA_LNG = "lng"
     }
