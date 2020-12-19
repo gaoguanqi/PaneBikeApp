@@ -28,6 +28,12 @@ import razerdp.basepopup.BasePopupWindow
 import java.util.*
 import net.hyntech.common.R as CR
 
+/**
+ * 查看车辆轨迹时用户首先需要购买防盗保障、增值服务，
+ * 如果没有购买的话，会提示用户去购买，
+ * 购买之后就可以查看车辆轨迹了。
+ * 车辆轨迹只能查看七天之内
+ */
 class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewModel>() {
 
     private var tvTitle:TextView? = null
@@ -61,11 +67,16 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
             CR.drawable.ic_arrow_down) } } }
     }
 
-
+    private val startCalendar = Calendar.getInstance()
+    private val endCalendar = Calendar.getInstance()
+    //开始时间范围 当前时间的上一周
     private val startTimePickerView: TimePickerView by lazy {
         TimePickerBuilder(this, object :OnTimeSelectListener{
             override fun onTimeSelect(date: Date?, v: View?) {
-                tvStartTime?.text = TimeUtils.date2String(date)
+                if(checkDate(date,endDate)){
+                    startDate = date
+                    tvStartTime?.text = TimeUtils.date2String(date)
+                }
             }
         }).setType(booleanArrayOf(true, true, true, true, true, true))
             .setTitleText("开始时间")
@@ -75,13 +86,18 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
             .setTitleColor(UIUtils.getColor(CR.color.common_black))
             .setTextColorOut(UIUtils.getColor(CR.color.common_color_gray))
             .setBgColor(UIUtils.getColor(CR.color.common_default_background))
+            .setRangDate(startCalendar,Calendar.getInstance())
             .build()
     }
 
+    //结束时间范围 当前时间的上一周 而且结束时间不能小于 开始时间
     private val endTimePickerView: TimePickerView by lazy {
         TimePickerBuilder(this, object :OnTimeSelectListener{
             override fun onTimeSelect(date: Date?, v: View?) {
-                tvEndTime?.text = TimeUtils.date2String(date)
+                if(checkDate(startDate,date)){
+                    endDate = date
+                    tvEndTime?.text = TimeUtils.date2String(date)
+                }
             }
         }).setType(booleanArrayOf(true, true, true, true, true, true))
             .setTitleText("结束时间")
@@ -91,6 +107,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
             .setTitleColor(UIUtils.getColor(CR.color.common_black))
             .setTextColorOut(UIUtils.getColor(CR.color.common_color_gray))
             .setBgColor(UIUtils.getColor(CR.color.common_default_background))
+            .setRangDate(endCalendar,Calendar.getInstance())
             .build()
     }
 
@@ -102,13 +119,17 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
         binding.viewModel = viewModel
     }
 
-    private var startTime:String = ""
-    private var endTime:String = ""
+    private var startDate:Date? = null
+    private var endDate:Date? = null
+
     override fun initData(savedInstanceState: Bundle?) {
         tvTitle = findViewById(R.id.tv_title)
         ivArrowIcon = findViewById(R.id.iv_arrow_icon)
         tvStartTime = findViewById(R.id.tv_start_time)
         tvEndTime = findViewById(R.id.tv_end_time)
+
+        startCalendar.add(Calendar.DAY_OF_MONTH,-7)
+        endCalendar.add(Calendar.DAY_OF_MONTH,-7)
 
         viewModel.defUI.showDialog.observe(this, Observer {
             showLoading()
@@ -144,14 +165,13 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
             }
         }
 
-
-
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH,-1)
-        startTime = TimeUtils.date2String(calendar.time)
-        tvStartTime?.text = startTime
-        endTime = TimeUtils.getNowString()
-        tvEndTime?.text = endTime
+        startDate = calendar.time
+        tvStartTime?.text = TimeUtils.date2String(startDate)
+
+        endDate = TimeUtils.getNowDate()
+        tvEndTime?.text = TimeUtils.date2String(endDate)
 
         val bundle = intent.extras
         bundle?.let {
@@ -193,7 +213,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
         this.currentEbike = vo
         tvTitle?.text = vo.ebikeNo
 
-        viewModel.locationSearch(vo.ebikeNo,startTime,endTime)
+        viewModel.locationSearch(vo.ebikeNo,TimeUtils.date2String(startDate),TimeUtils.date2String(endDate))
     }
 
     private fun onClickTitle() {
@@ -211,5 +231,33 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
         if(!buyDialog.isShowing){
             buyDialog.show()
         }
+    }
+
+    private fun checkDate(startDate:Date?,endDate: Date?):Boolean{
+        if(startDate == null || endDate == null){
+            ToastUtil.showToast("您选择的日期有误！")
+            return false
+        }
+        if(TextUtils.isEmpty(ebikeId)){
+            ToastUtil.showToast("车牌号不能为空")
+            return false
+        }
+
+        if(endDate.before(startDate)){
+            ToastUtil.showToast("结束时间不能大于开始时间")
+            return false
+        }
+
+        if(endDate.after(Calendar.getInstance().time)){
+            ToastUtil.showToast("结束时间不能大于当前时间")
+            return false
+        }
+
+        if(startDate.time == endDate.time){
+            ToastUtil.showToast("开始时间和结束时间不能相同")
+            return false
+        }
+
+        return true
     }
 }
