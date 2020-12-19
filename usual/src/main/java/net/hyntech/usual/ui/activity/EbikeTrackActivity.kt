@@ -1,5 +1,6 @@
 package net.hyntech.usual.ui.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -22,12 +23,16 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.listener.OnTimeSelectListener
 import com.bigkoo.pickerview.view.TimePickerView
 import com.blankj.utilcode.util.TimeUtils
+import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
+import net.hyntech.common.global.EventCode
 import net.hyntech.common.global.handler.MapViewHandler
 import net.hyntech.common.model.vo.BundleEbikeVo
+import net.hyntech.common.ui.activity.OrgActivity
 import net.hyntech.common.ui.adapter.EbikeNoAdapter
 import net.hyntech.common.widget.baidumap.MyLocationListener
 import net.hyntech.common.widget.dialog.CommonDialog
@@ -67,7 +72,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
             }
             override fun onConfirmClick() {
                 //立即购买
-                startActivity(Intent(this@EbikeTrackActivity,AddValServiceActivity::class.java).putExtra(Constants.BundleKey.EXTRA_ID,ebikeId))
+                startActivityForResult(Intent(this@EbikeTrackActivity,AddValServiceActivity::class.java).putExtra(Constants.BundleKey.EXTRA_ID,ebikeId),EventCode.EVENT_CODE_TRACK)
             } }) }
 
     private lateinit var ebikeId:String
@@ -370,6 +375,17 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
     //查询车辆轨迹
     private fun queryEbikeTrack(){
         viewModel.locationSearch(ebikeNo!!,TimeUtils.date2String(startDate),TimeUtils.date2String(endDate))
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                EventCode.EVENT_CODE_TRACK ->{
+                   // queryEbikeTrack()
+                }
+            }
+        }
     }
 
     override fun onDestroy() {

@@ -37,7 +37,7 @@ class AddValServiceActivity:BaseViewActivity<ActivityAddvalServiceBinding,AddVal
 
     override fun initData(savedInstanceState: Bundle?) {
         setTitle<AddValServiceActivity>(UIUtils.getString(CR.string.common_title_addval_service)).onBack<AddValServiceActivity> {
-            onFinish()
+            onFinish(true)
         }
 
         id = getBundleString(Constants.BundleKey.EXTRA_ID)
@@ -115,6 +115,13 @@ class AddValServiceActivity:BaseViewActivity<ActivityAddvalServiceBinding,AddVal
         refreshLayout?.let {
             if(it.isLoading) it.finishLoadMore(300)
         }
+    }
+
+    override fun hasEventKeyBack(): Boolean = true
+
+    override fun onKeyBack() {
+        super.onKeyBack()
+        onFinish(true)
     }
 
 }
