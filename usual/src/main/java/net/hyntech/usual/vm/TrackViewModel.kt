@@ -3,7 +3,6 @@ package net.hyntech.usual.vm
 import android.text.TextUtils
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
-import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.common.model.repository.CommonRepository
 import java.util.*
 

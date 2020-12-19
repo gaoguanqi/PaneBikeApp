@@ -2,37 +2,45 @@ package net.hyntech.usual.ui.activity
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewStub
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_alarm_record.*
+import kotlinx.android.synthetic.main.activity_addval_service.*
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
-import net.hyntech.common.model.entity.AlarmRecordEntity
+import net.hyntech.common.global.Constants
+import net.hyntech.common.model.entity.AddValServiceEntity
 import net.hyntech.usual.R
 import net.hyntech.common.R as CR
-import net.hyntech.usual.databinding.ActivityAlarmRecordBinding
-import net.hyntech.usual.ui.adapter.AlarmRecordAdapter
-import net.hyntech.usual.vm.ControllerViewModel
+import net.hyntech.usual.databinding.ActivityAddvalServiceBinding
+import net.hyntech.usual.ui.adapter.AddValServiceAdapter
+import net.hyntech.usual.vm.AddValViewModel
 
-class AlarmRecordActivity:BaseViewActivity<ActivityAlarmRecordBinding,ControllerViewModel>() {
+//增值服务列表
+class AddValServiceActivity:BaseViewActivity<ActivityAddvalServiceBinding,AddValViewModel>() {
 
-    private val viewModel by viewModels<ControllerViewModel>()
+    private val viewModel by viewModels<AddValViewModel>()
+    private var id:String? = ""
+    private val addValServiceAdapter by lazy { AddValServiceAdapter(this).apply {
+        this.setListener(object : AddValServiceAdapter.OnClickListener{ override fun onItemClick(item: AddValServiceEntity.ValueAddedServiceListBean?) {
+            item?.let {
+                item?.let {
+                    ToastUtil.showToast(it.serviceName)
+                }
+            } } }) } }
 
-    private val alarmRecordAdapter by lazy { AlarmRecordAdapter(this).apply {
-        this.setListener(object : AlarmRecordAdapter.OnClickListener{ override fun onItemClick(item: AlarmRecordEntity.AtAlarmListBean?) {} }) } }
-
-    override fun getLayoutId(): Int = R.layout.activity_alarm_record
+    override fun getLayoutId(): Int = R.layout.activity_addval_service
 
     override fun bindViewModel() {
         binding.viewModel = viewModel
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        setTitle<AlarmRecordActivity>(UIUtils.getString(CR.string.common_title_alarm_record)).onBack<AlarmRecordActivity> {
+        setTitle<AddValServiceActivity>(UIUtils.getString(CR.string.common_title_addval_service)).onBack<AddValServiceActivity> {
             onFinish()
         }
+
+        id = getBundleString(Constants.BundleKey.EXTRA_ID)
 
         refreshLayout.setEnableRefresh(true)//是否启用下拉刷新功能
         refreshLayout.setEnableLoadMore(true)//是否启用上拉加载功能
@@ -45,7 +53,7 @@ class AlarmRecordActivity:BaseViewActivity<ActivityAlarmRecordBinding,Controller
         }
 
         rv.layoutManager = LinearLayoutManager(this)
-        rv.adapter = alarmRecordAdapter
+        rv.adapter = addValServiceAdapter
 
         viewModel.defUI.showDialog.observe(this, Observer {
             showLoading()
@@ -65,33 +73,33 @@ class AlarmRecordActivity:BaseViewActivity<ActivityAlarmRecordBinding,Controller
             vsEmpty.inflate()
         })
 
-        viewModel.alarmRecordList.observe(this, Observer {
-            alarmRecordAdapter.setData(it)
+        viewModel.addValServiceList.observe(this, Observer {
+            addValServiceAdapter.setData(it)
         })
-        viewModel.alarmListRefresh.observe(this, Observer {
-            alarmRecordAdapter.setData(it)
+        viewModel.addValServiceRefresh.observe(this, Observer {
+            addValServiceAdapter.setData(it)
             finishRefresh()
         })
-        viewModel.alarmListLoadMore.observe(this, Observer {
+        viewModel.addValServiceLoadMore.observe(this, Observer {
             if(!it.isNullOrEmpty()){
-                alarmRecordAdapter.updataList(it)
+                addValServiceAdapter.updataList(it)
             }
             finishLoadMore()
         })
 
-        viewModel.getAlarmRecordList()
+        viewModel.getAddValServiceList(id)
+
     }
 
-
     private fun onRefreshData(){
-        viewModel.onAlarmRefresh()
+        viewModel.onAddValServiceRefresh(id)
     }
 
     private fun onLoadMoreData(){
         if(viewModel.lastPage){
             finishLoadMore()
         }else{
-            viewModel.onAlarmLoadMore()
+            viewModel.onAddValServiceLoadMore(id)
         }
     }
 
@@ -108,4 +116,5 @@ class AlarmRecordActivity:BaseViewActivity<ActivityAlarmRecordBinding,Controller
             if(it.isLoading) it.finishLoadMore(300)
         }
     }
+
 }

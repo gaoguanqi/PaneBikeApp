@@ -70,6 +70,8 @@ class ApiURL {
         const val URL_CONVER_SERVICE = "${EXT}/v1/service_shop/usual/list.thtml"
         //民用版 车辆位置搜索(民用版V2新接口，带增值服务)
         const val URL_LOCATION_SEARCH = "${EXT}/v2/ebike/usual/location_search.thtml"
+        //民用版 增值服务列表
+        const val URL_ADDVAL_SERVICE = "${EXT}/v2/valueAddedService/usual/list.thtml"
 
         //web url
 

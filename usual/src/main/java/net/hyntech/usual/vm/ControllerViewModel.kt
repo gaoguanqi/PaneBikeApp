@@ -44,7 +44,7 @@ class ControllerViewModel:CommonViewModel() {
         })
     }
 
-    fun onEbikeRefreshData() {
+    fun onEbikeRefresh() {
         pageNo = 1
         lastPage = true
         launchOnlyResult({
@@ -64,7 +64,7 @@ class ControllerViewModel:CommonViewModel() {
         },isShowDialog = false,isShowToast = false)
     }
 
-    fun onEbikeLoadMoreData() {
+    fun onEbikeLoadMore() {
         pageNo +=1
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
@@ -118,7 +118,7 @@ class ControllerViewModel:CommonViewModel() {
         })
     }
 
-    fun onAlarmRefreshData() {
+    fun onAlarmRefresh() {
         pageNo = 1
         lastPage = true
         launchOnlyResult({
@@ -138,7 +138,7 @@ class ControllerViewModel:CommonViewModel() {
         },isShowDialog = false,isShowToast = false)
     }
 
-    fun onAlarmLoadMoreData() {
+    fun onAlarmLoadMore() {
         pageNo +=1
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
@@ -199,7 +199,7 @@ class ControllerViewModel:CommonViewModel() {
         })
     }
 
-    fun onMyOrderRefreshData() {
+    fun onMyOrderRefresh() {
         pageNo = 1
         lastPage = true
         launchOnlyResult({
@@ -219,7 +219,7 @@ class ControllerViewModel:CommonViewModel() {
         },isShowDialog = false,isShowToast = false)
     }
 
-    fun onMyOrderLoadMoreData() {
+    fun onMyOrderLoadMore() {
         pageNo +=1
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
@@ -268,7 +268,7 @@ class ControllerViewModel:CommonViewModel() {
         })
     }
 
-    fun onServiceRefreshData(orgId:String?) {
+    fun onServiceRefresh(orgId:String?) {
         pageNo = 1
         lastPage = true
         launchOnlyResult({
@@ -289,7 +289,7 @@ class ControllerViewModel:CommonViewModel() {
         },isShowDialog = false,isShowToast = false)
     }
 
-    fun onServiceLoadMoreData(orgId:String?) {
+    fun onServiceLoadMore(orgId:String?) {
         pageNo +=1
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()

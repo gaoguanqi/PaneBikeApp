@@ -1,5 +1,6 @@
 package net.hyntech.usual.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.Gravity
@@ -45,9 +46,10 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
             }
             override fun onConfirmClick() {
                 //立即购买
-
+                startActivity(Intent(this@EbikeTrackActivity,AddValServiceActivity::class.java).putExtra(Constants.BundleKey.EXTRA_ID,ebikeId))
             } }) }
 
+    private lateinit var ebikeId:String
     private lateinit var ebikeList:List<BundleEbikeVo>
 
     private val ebikeAdapter by lazy { EbikeNoAdapter(this)}
@@ -72,7 +74,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
             .setTitleBgColor(UIUtils.getColor(CR.color.common_white))
             .setTitleColor(UIUtils.getColor(CR.color.common_black))
             .setTextColorOut(UIUtils.getColor(CR.color.common_color_gray))
-            .setBgColor(UIUtils.getColor(CR.color.common_color_line))
+            .setBgColor(UIUtils.getColor(CR.color.common_default_background))
             .build()
     }
 
@@ -88,7 +90,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
             .setTitleBgColor(UIUtils.getColor(CR.color.common_white))
             .setTitleColor(UIUtils.getColor(CR.color.common_black))
             .setTextColorOut(UIUtils.getColor(CR.color.common_color_gray))
-            .setBgColor(UIUtils.getColor(CR.color.common_color_line))
+            .setBgColor(UIUtils.getColor(CR.color.common_default_background))
             .build()
     }
 
@@ -187,6 +189,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
 
     private var currentEbike:BundleEbikeVo? = null
     private fun setData(vo: BundleEbikeVo) {
+        this.ebikeId = vo.ebikeId
         this.currentEbike = vo
         tvTitle?.text = vo.ebikeNo
 

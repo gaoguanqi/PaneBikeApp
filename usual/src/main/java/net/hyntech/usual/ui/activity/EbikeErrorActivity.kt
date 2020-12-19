@@ -135,21 +135,21 @@ class EbikeErrorActivity:BaseViewActivity<ActivityEbikeErrorBinding,ControllerVi
         })
         viewModel.ignoreEvent.observe(this, Observer {
             //忽略后刷新数据
-            viewModel.onEbikeRefreshData()
+            viewModel.onEbikeRefresh()
         })
 
         viewModel.getEbikeErrorList()
     }
 
     private fun onRefreshData(){
-        viewModel.onEbikeRefreshData()
+        viewModel.onEbikeRefresh()
     }
 
     private fun onLoadMoreData(){
         if(viewModel.lastPage){
             finishLoadMore()
         }else{
-            viewModel.onEbikeLoadMoreData()
+            viewModel.onEbikeLoadMore()
         }
     }
 

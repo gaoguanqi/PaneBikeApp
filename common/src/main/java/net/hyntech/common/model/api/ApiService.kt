@@ -87,4 +87,9 @@ interface ApiService:BaseApi {
     @Headers("urlname:hyntech")
     @POST(ApiURL.URL_LOCATION_SEARCH)
     suspend fun locationSearch(@Body requestBody: RequestBody): CommonEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_ADDVAL_SERVICE)
+    suspend fun getAddValServiceList(@Body requestBody: RequestBody): AddValServiceEntity
+
 }

@@ -92,14 +92,14 @@ class TheSafeActivity:BaseViewActivity<ActivityTheSafeBinding,ControllerViewMode
 
 
     private fun onRefreshData(){
-        viewModel.onServiceRefreshData(orgId)
+        viewModel.onServiceRefresh(orgId)
     }
 
     private fun onLoadMoreData(){
         if(viewModel.lastPage){
             finishLoadMore()
         }else{
-            viewModel.onServiceLoadMoreData(orgId)
+            viewModel.onServiceLoadMore(orgId)
         }
     }
 

@@ -99,14 +99,14 @@ class MyOrderActivity:BaseViewActivity<ActivityMyOrderBinding,ControllerViewMode
 
 
     private fun onRefreshData(){
-        viewModel.onMyOrderRefreshData()
+        viewModel.onMyOrderRefresh()
     }
 
     private fun onLoadMoreData(){
         if(viewModel.lastPage){
             finishLoadMore()
         }else{
-            viewModel.onMyOrderLoadMoreData()
+            viewModel.onMyOrderLoadMore()
         }
     }
 

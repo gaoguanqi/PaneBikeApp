@@ -96,6 +96,9 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.locationSearch(params2Body(params))
     }
 
+    suspend fun getAddValServiceList(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getAddValServiceList(params2Body(params))
+    }
 
 
 }
