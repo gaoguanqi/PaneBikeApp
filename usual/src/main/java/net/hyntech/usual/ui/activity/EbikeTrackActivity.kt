@@ -4,35 +4,28 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.Gravity
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
-import com.baidu.mapapi.cloud.CloudManager
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
-import com.baidu.mapapi.utils.CoordinateConverter
 import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.listener.OnTimeSelectListener
 import com.bigkoo.pickerview.view.TimePickerView
 import com.blankj.utilcode.util.TimeUtils
-import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
-import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
 import net.hyntech.common.global.EventCode
 import net.hyntech.common.global.handler.MapViewHandler
 import net.hyntech.common.model.vo.BundleEbikeVo
-import net.hyntech.common.ui.activity.OrgActivity
 import net.hyntech.common.ui.adapter.EbikeNoAdapter
 import net.hyntech.common.widget.baidumap.MyLocationListener
 import net.hyntech.common.widget.dialog.CommonDialog
@@ -171,7 +164,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
         tvEndTime = findViewById(R.id.tv_end_time)
         mapView = findViewById(R.id.bmap_view)
         mapView?.let {
-            it.showZoomControls(false) //设置隐藏放大缩小按钮
+           // it.showZoomControls(false) //设置隐藏放大缩小按钮
             baiduMap = it.map
             baiduMap?.uiSettings?.isRotateGesturesEnabled = true
             // 开启定位图层
