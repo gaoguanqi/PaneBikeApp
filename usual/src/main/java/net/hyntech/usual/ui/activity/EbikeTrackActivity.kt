@@ -5,10 +5,19 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
+import com.baidu.location.BDLocation
+import com.baidu.location.LocationClient
+import com.baidu.location.LocationClientOption
+import com.baidu.mapapi.cloud.CloudManager
+import com.baidu.mapapi.map.*
+import com.baidu.mapapi.model.LatLng
+import com.baidu.mapapi.utils.CoordinateConverter
 import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.listener.OnTimeSelectListener
 import com.bigkoo.pickerview.view.TimePickerView
@@ -17,8 +26,10 @@ import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
+import net.hyntech.common.global.handler.MapViewHandler
 import net.hyntech.common.model.vo.BundleEbikeVo
 import net.hyntech.common.ui.adapter.EbikeNoAdapter
+import net.hyntech.common.widget.baidumap.MyLocationListener
 import net.hyntech.common.widget.dialog.CommonDialog
 import net.hyntech.common.widget.popu.EBikeListPopu
 import net.hyntech.usual.R
@@ -40,6 +51,9 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
     private var ivArrowIcon: ImageView? = null
     private var tvStartTime:TextView? = null
     private var tvEndTime:TextView? = null
+
+    private var mapView: TextureMapView? = null
+    private var baiduMap: BaiduMap? = null
 
     private val buyDialog: CommonDialog by lazy { CommonDialog(this,UIUtils.getString(CR.string.common_warm),
         UIUtils.getString(CR.string.common_content_nobuy_service),
@@ -122,11 +136,41 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
     private var startDate:Date? = null
     private var endDate:Date? = null
 
+    private val locClient: LocationClient by lazy { LocationClient(this) }
+    private val locListener: MyLocationListener by lazy {
+        MyLocationListener(object :
+            MyLocationListener.LocationListener {
+            override fun onReceive(bdLocation: BDLocation) {
+                receiveLocation(bdLocation)
+            }
+        })
+    }
+
+    private val locClientOption: LocationClientOption by lazy {
+        LocationClientOption().apply {
+            this.isOpenGps = true //打开gps
+            this.locationMode = LocationClientOption.LocationMode.Hight_Accuracy
+            this.coorType = "bd09ll" //设置坐标类型
+            this.setIsNeedAddress(true) //必须设置之后才能获取到详细的地址信息
+            this.scanSpan = 0 //可选3000，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+            this.setIsNeedLocationDescribe(true)
+        }
+    }
+
     override fun initData(savedInstanceState: Bundle?) {
         tvTitle = findViewById(R.id.tv_title)
         ivArrowIcon = findViewById(R.id.iv_arrow_icon)
         tvStartTime = findViewById(R.id.tv_start_time)
         tvEndTime = findViewById(R.id.tv_end_time)
+        mapView = findViewById(R.id.bmap_view)
+        mapView?.let {
+            it.showZoomControls(false) //设置隐藏放大缩小按钮
+            baiduMap = it.map
+            baiduMap?.uiSettings?.isRotateGesturesEnabled = true
+            // 开启定位图层
+            baiduMap?.isMyLocationEnabled = true
+            MapViewHandler(this).setMapView(it)
+        }
 
         startCalendar.add(Calendar.DAY_OF_MONTH,-7)
         endCalendar.add(Calendar.DAY_OF_MONTH,-7)
@@ -154,6 +198,25 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
         findViewById<LinearLayout>(R.id.ll_title)?.setOnClickListener {
             onClickTitle()
         }
+
+        findViewById<ImageButton>(R.id.ibtn_play)?.setOnClickListener {
+            if(!UIUtils.isFastDoubleClick()){
+                onEbikePlay()
+            }
+        }
+
+        findViewById<ImageButton>(R.id.ibtn_replay)?.setOnClickListener {
+            if(!UIUtils.isFastDoubleClick()){
+                onEbikeReplay()
+            }
+        }
+
+        findViewById<ImageButton>(R.id.ibtn_fast)?.setOnClickListener {
+            if(!UIUtils.isFastDoubleClick()){
+                onEbikeFast()
+            }
+        }
+
         tvStartTime?.setOnClickListener {
             if(!startTimePickerView.isShowing){
                 startTimePickerView.show()
@@ -164,6 +227,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
                 endTimePickerView.show()
             }
         }
+
 
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_MONTH,-1)
@@ -205,6 +269,34 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
                 ebikePopu.dismiss()
             }
         })
+
+        initLocation()
+    }
+    private fun initLocation() {
+        locClient.registerLocationListener(locListener)
+        locClient.locOption = locClientOption
+        locClient.start()
+    }
+
+    private fun receiveLocation(bdLocation: BDLocation?) {
+        bdLocation?.let {
+            val mapStatus: MapStatus = MapStatus.Builder()
+                .target(LatLng(it.latitude,it.longitude))
+                .zoom(18f)
+                .build()
+
+            val locData:MyLocationData = MyLocationData.Builder()
+                .accuracy(it.radius)
+                //此处设置开发者获取到的方向信息，顺时针0-360
+                .direction(it.direction).latitude(it.latitude)
+                .longitude(it.longitude)
+                .build()
+            //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+            val mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus)
+            baiduMap?.setMyLocationData(locData)
+            //改变地图状态
+            baiduMap?.setMapStatus(mapStatusUpdate)
+        }
     }
 
     private var currentEbike:BundleEbikeVo? = null
@@ -259,5 +351,23 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
         }
 
         return true
+    }
+
+
+    private fun onEbikePlay(){
+        ToastUtil.showToast("onEbikePlay")
+    }
+    private fun onEbikeReplay(){
+        ToastUtil.showToast("onEbikeReplay")
+    }
+    private fun onEbikeFast(){
+        ToastUtil.showToast("onEbikeFast")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 退出时销毁定位
+        locClient.unRegisterLocationListener(locListener)
+        locClient.stop()
     }
 }
