@@ -2,6 +2,7 @@ package net.hyntech.usual.ui.activity
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -25,6 +26,7 @@ import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
 import net.hyntech.common.global.EventCode
 import net.hyntech.common.global.handler.MapViewHandler
+import net.hyntech.common.model.entity.EbikeTrackEntity
 import net.hyntech.common.model.vo.BundleEbikeVo
 import net.hyntech.common.ui.adapter.EbikeNoAdapter
 import net.hyntech.common.widget.baidumap.MyLocationListener
@@ -49,10 +51,16 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
     private var ivArrowIcon: ImageView? = null
     private var tvStartTime:TextView? = null
     private var tvEndTime:TextView? = null
+    private var ibtnPlay:ImageButton? = null
+
     private var ebikeNo:String? = ""
 
     private var mapView: TextureMapView? = null
     private var baiduMap: BaiduMap? = null
+
+    private val draPlay:Drawable by lazy { UIUtils.getDrawable(CR.drawable.selector_map_play) }
+    private val draPause:Drawable by lazy { UIUtils.getDrawable(CR.drawable.selector_map_pause) }
+    private var isPlay:Boolean = false
 
     private val buyDialog: CommonDialog by lazy { CommonDialog(this,UIUtils.getString(CR.string.common_warm),
         UIUtils.getString(CR.string.common_content_nobuy_service),
@@ -157,11 +165,15 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
         }
     }
 
+
     override fun initData(savedInstanceState: Bundle?) {
         tvTitle = findViewById(R.id.tv_title)
         ivArrowIcon = findViewById(R.id.iv_arrow_icon)
         tvStartTime = findViewById(R.id.tv_start_time)
         tvEndTime = findViewById(R.id.tv_end_time)
+        ibtnPlay = findViewById(R.id.ibtn_play)
+        ibtnPlay?.background = draPlay
+
         mapView = findViewById(R.id.bmap_view)
         mapView?.let {
            // it.showZoomControls(false) //设置隐藏放大缩小按钮
@@ -189,6 +201,13 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
 
         viewModel.notBuyServiceEvent.observe(this, Observer {
             showBuyDialog()
+        })
+
+        //轨迹数据
+        viewModel.ebikeTrack.observe(this, Observer {
+            it.trajectoryList?.let { list ->
+                onPlay(list)
+            }
         })
 
         findViewById<LinearLayout>(R.id.ll_left)?.setOnClickListener {
@@ -272,6 +291,12 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
 
         initLocation()
     }
+
+
+    private fun onPlay(list: List<EbikeTrackEntity.TrajectoryListBean>) {
+
+    }
+
     private fun initLocation() {
         locClient.registerLocationListener(locListener)
         locClient.locOption = locClientOption
@@ -355,7 +380,15 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
 
 
     private fun onEbikePlay(){
-        ToastUtil.showToast("onEbikePlay")
+        if(isPlay){
+            //暂停
+            isPlay = false
+            ibtnPlay?.background = draPause
+
+        }else{
+            isPlay = true
+            ibtnPlay?.background = draPlay
+        }
     }
     private fun onEbikeReplay(){
         ToastUtil.showToast("onEbikeReplay")
@@ -385,5 +418,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
         // 退出时销毁定位
         locClient.unRegisterLocationListener(locListener)
         locClient.stop()
+
     }
+
 }
