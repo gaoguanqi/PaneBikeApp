@@ -48,6 +48,7 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
         }
 
         etInput = findViewById(R.id.et_input)
+        etInput?.hint = "请输入公安局名称"
 //        etInput?.setListener(object :ClearEditText.OnClickListener{
 //            override fun onClearClick() {
 //                viewModel.searchRecover()
@@ -96,7 +97,7 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
                             Global.BASE_URL = it.apiUrl!!
                             Global.BASE_WEB_URL = it.appwebUrl!!
 
-                            Global.BASE_URL = "http://39.98.135.139:8080"
+//                            Global.BASE_URL = "http://39.98.135.139:8080"
 //                            Global.BASE_URL = "http://192.168.0.112:8080"
 //                            Global.BASE_WEB_URL = ""
                             this.updateUser(it)

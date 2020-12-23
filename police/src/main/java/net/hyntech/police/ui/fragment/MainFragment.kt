@@ -1,5 +1,6 @@
 package net.hyntech.police.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.lifecycle.Observer
@@ -21,6 +22,7 @@ import net.hyntech.common.widget.decoration.GridItemDecoration
 import net.hyntech.police.R
 import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.FragmentMainBinding
+import net.hyntech.police.ui.activity.DeviceInfoActivity
 import net.hyntech.police.vm.HomeViewModel
 import java.util.ArrayList
 
@@ -78,12 +80,18 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         adapter.setListener(object :SeverListAdapter.OnClickListener{
             override fun onItemClick(pos: Int,item: SeverInfoEntity?) {
                 item?.let {
-                    ToastUtil.showToast(it.name)
+                    when(it.menu){
+                        "collectorList" ->{  dotManage() } //点位管理
+                        "collector" ->{ deviceInfo() }  //设备信息
+                        "serviceShop" ->{ converService() } //便民服务
+                        "ebikeReg" ->{ ebikeRegister() } // 车辆登记
+                        "regList" ->{ regRecord() } //登记记录
+                        "location_search" ->{ ebikeSearch() } // 车辆查找
+                    }
                 }
             }
         })
         binding.rvMain.adapter = adapter
-
 
         //用户数据
         viewModel.userInfo.observe(this, Observer {userInfo ->
@@ -95,6 +103,29 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         viewModel.getUserInfo(true)
     }
 
+    private fun dotManage(){
+
+    }
+
+    private fun deviceInfo(){
+        startActivity(Intent(requireActivity(),DeviceInfoActivity::class.java))
+    }
+
+    private fun converService(){
+
+    }
+
+    private fun ebikeRegister(){
+
+    }
+
+    private fun regRecord(){
+
+    }
+
+    private fun ebikeSearch(){
+
+    }
 
     override fun lazyLoadData() {
         super.lazyLoadData()

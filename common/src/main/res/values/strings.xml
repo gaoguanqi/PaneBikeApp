@@ -70,6 +70,11 @@
     <string name="common_title_addval_detail">服务详情</string>
     <string name="common_title_addval_info">车辆服务信息</string>
 
+    <string name="common_title_device_info">设备信息</string>
+
+
+
+
 
     <string name="common_car_info">车辆轨迹</string>
     <string name="common_conve_service">便民服务</string>

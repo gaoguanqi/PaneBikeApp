@@ -107,4 +107,9 @@ open class CommonRepository:BaseRepository() {
     suspend fun getAddValInfo(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
         retrofitClient.getAddValInfo(params2Body(params))
     }
+
+    //--------警用端--------------------------------
+    suspend fun searchDecive(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.searchDecive(params2Body(params))
+    }
 }

@@ -100,5 +100,10 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_ADDVAL_INFO)
     suspend fun getAddValInfo(@Body requestBody: RequestBody): AddValInfoEntity
 
+    //---------警用端开始-----------------------
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_SEARCH_DEVICE)
+    suspend fun searchDecive(@Body requestBody: RequestBody): DeviceInfoEntity
+    //---------警用端结束-----------------------
 
 }

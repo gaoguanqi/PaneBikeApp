@@ -2,6 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.hyntech.police">
 
+    <!-- Required -->
+    <permission
+        android:name="${applicationId}.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
+    <permission
+        android:name="${applicationId}.permission.MIPUSH_RECEIVE"
+        android:protectionLevel="signature" />
+    <!-- Required  一些系统要求的权限，如访问网络等-->
+    <uses-permission android:name="${applicationId}.permission.MIPUSH_RECEIVE" />
+    <uses-permission android:name="${applicationId}.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="com.coloros.mcs.permission.RECIEVE_MCS_MESSAGE" />
+    <!--since 3.4.0 oppo need-->
+    <uses-permission android:name="com.heytap.mcs.permission.RECIEVE_MCS_MESSAGE" />
+    <!--华为角标-->
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE " />
+
     <application
         android:name="net.hyntech.police.app.PoliceApplication"
         android:allowBackup="true"
@@ -28,6 +44,8 @@
         <activity android:name=".ui.activity.HomeActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".ui.activity.DeviceInfoActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
