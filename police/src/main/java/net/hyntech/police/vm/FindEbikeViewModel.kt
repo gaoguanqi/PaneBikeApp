@@ -10,9 +10,9 @@ class FindEbikeViewModel:BaseViewModel() {
 
     private val repository by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { CommonRepository() }
 
-    val ebikeInfo: MutableLiveData<EbikeTrackEntity.EbikeBean> = MutableLiveData()
+    val ebikeTrack: MutableLiveData<EbikeTrackEntity> = MutableLiveData()
 
-    fun onFindEbike(ebikeNo: String,startTime:String = "",endTime:String = "") {
+    fun onFindEbike(ebikeNo: String,startTime:String,endTime:String) {
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
             params.put("ebikeNo",ebikeNo)
@@ -21,7 +21,7 @@ class FindEbikeViewModel:BaseViewModel() {
             repository.findEbike(params)
         }, success = {
             it?.let {data ->
-                ebikeInfo.postValue(data.ebike)
+                ebikeTrack.postValue(data)
             }
         })
     }
@@ -35,7 +35,7 @@ class FindEbikeViewModel:BaseViewModel() {
             repository.commitFindEbike(params)
         }, success = {
             it?.let {
-                defUI.toastEvent.postValue(it.msg)
+                defUI.toastEvent.postValue("操作成功")
             }
         })
     }

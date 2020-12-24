@@ -17,8 +17,12 @@ import com.baidu.mapapi.animation.Animation
 import com.baidu.mapapi.animation.ScaleAnimation
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
+import com.bigkoo.pickerview.builder.TimePickerBuilder
+import com.bigkoo.pickerview.listener.OnTimeSelectListener
+import com.bigkoo.pickerview.view.TimePickerView
 import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.SizeUtils
+import com.blankj.utilcode.util.TimeUtils
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
@@ -39,6 +43,7 @@ import net.hyntech.police.R
 import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.ActivityFindEbikeBinding
 import net.hyntech.police.vm.FindEbikeViewModel
+import java.util.*
 
 class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewModel>(),BaiduMap.OnMarkerClickListener {
 
@@ -53,6 +58,9 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
 
     private var llRight:LinearLayout? = null
     private var tvRight:TextView? = null
+
+    private var tvStartTime:TextView? = null
+    private var tvEndTime:TextView? = null
 
     private var etInput:ClearEditText? = null
 
@@ -106,6 +114,57 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             override fun onItemDel(pos: Int, item: PhotoEntity?) {}
         })
     } }
+
+
+    private val startCalendar = Calendar.getInstance()
+    private val endCalendar = Calendar.getInstance()
+    private var startDate:Date? = null
+    private var endDate:Date? = null
+    //开始时间范围 当前时间的上一周
+    private val startTimePickerView: TimePickerView by lazy {
+        TimePickerBuilder(this, object : OnTimeSelectListener {
+            override fun onTimeSelect(date: Date?, v: View?) {
+                if(checkDate(date,endDate)){
+                    startDate = date
+                    tvStartTime?.text = TimeUtils.date2String(date)
+                    val input = etInput?.text.toString().trim()
+                    onFindEbike(input,TimeUtils.date2String(startDate),TimeUtils.date2String(endDate))
+                }
+            }
+        }).setType(booleanArrayOf(true, true, true, true, true, true))
+            .setTitleText("开始时间")
+            .setCancelColor(UIUtils.getColor(CR.color.common_color_gray))
+            .setSubmitColor(UIUtils.getColor(CR.color.common_colorTheme))
+            .setTitleBgColor(UIUtils.getColor(CR.color.common_white))
+            .setTitleColor(UIUtils.getColor(CR.color.common_black))
+            .setTextColorOut(UIUtils.getColor(CR.color.common_color_gray))
+            .setBgColor(UIUtils.getColor(CR.color.common_default_background))
+            .setRangDate(startCalendar, Calendar.getInstance())
+            .build()
+    }
+
+    //结束时间范围 当前时间的上一周 而且结束时间不能小于 开始时间
+    private val endTimePickerView: TimePickerView by lazy {
+        TimePickerBuilder(this, object : OnTimeSelectListener {
+            override fun onTimeSelect(date: Date?, v: View?) {
+                if(checkDate(startDate,date)){
+                    endDate = date
+                    tvEndTime?.text = TimeUtils.date2String(date)
+                    val input = etInput?.text.toString().trim()
+                    onFindEbike(input,TimeUtils.date2String(startDate),TimeUtils.date2String(endDate))
+                }
+            }
+        }).setType(booleanArrayOf(true, true, true, true, true, true))
+            .setTitleText("结束时间")
+            .setCancelColor(UIUtils.getColor(CR.color.common_color_gray))
+            .setSubmitColor(UIUtils.getColor(CR.color.common_colorTheme))
+            .setTitleBgColor(UIUtils.getColor(CR.color.common_white))
+            .setTitleColor(UIUtils.getColor(CR.color.common_black))
+            .setTextColorOut(UIUtils.getColor(CR.color.common_color_gray))
+            .setBgColor(UIUtils.getColor(CR.color.common_default_background))
+            .setRangDate(endCalendar, Calendar.getInstance())
+            .build()
+    }
 
     private val viewModel by viewModels<FindEbikeViewModel>()
 
@@ -169,6 +228,33 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
                 showFindDialog()
             }
         }
+        tvStartTime = findViewById(R.id.tv_start_time)
+        tvEndTime = findViewById(R.id.tv_end_time)
+
+        tvStartTime?.setOnClickListener {
+            if(!startTimePickerView.isShowing){
+                startTimePickerView.show()
+            }
+        }
+        tvEndTime?.setOnClickListener {
+            if(!endTimePickerView.isShowing){
+                endTimePickerView.show()
+            }
+        }
+//        startCalendar.add(Calendar.DAY_OF_MONTH,-28)
+//        endCalendar.add(Calendar.DAY_OF_MONTH,-28)
+
+        startCalendar.add(Calendar.MONTH,-1)
+        startCalendar.add(Calendar.MONTH,-1)
+
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_MONTH,-1)
+        startDate = calendar.time
+        tvStartTime?.text = TimeUtils.date2String(startDate)
+
+        endDate = TimeUtils.getNowDate()
+        tvEndTime?.text = TimeUtils.date2String(endDate)
+
 
         etInput?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
@@ -187,13 +273,25 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
                 val input = etInput?.text.toString().trim()
                 if(TextUtils.isEmpty(input)){
                    ToastUtil.showToast("请输入车牌号")
+                    return@setOnClickListener
                 }
-                viewModel.onFindEbike(input)
+
+                if(startDate == null || endDate == null){
+                    onFindEbike(input,"","")
+                }else{
+                    onFindEbike(input,TimeUtils.date2String(startDate),TimeUtils.date2String(endDate))
+                }
             }
         }
 
         findViewById<ImageButton>(R.id.ibtn_track).setOnClickListener {
             showPlayView(true)
+            val input = etInput?.text.toString().trim()
+            if(TextUtils.isEmpty(input)){
+                ToastUtil.showToast("请输入车牌号")
+                return@setOnClickListener
+            }
+            onFindEbike(input,TimeUtils.date2String(startDate),TimeUtils.date2String(endDate))
         }
 
         findViewById<ImageButton>(R.id.ibtn_ding).setOnClickListener {
@@ -230,8 +328,8 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             MapViewHandler(this).setMapView(it)
         }
 
-        viewModel.ebikeInfo.observe(this, Observer {
-            it?.let { ebike ->
+        viewModel.ebikeTrack.observe(this, Observer {
+            it.ebike?.let { ebike ->
                 ebikeInfo = ebike
                 addMarkers(ebike)
                 if(!TextUtils.isEmpty(ebike.alarmId) && TextUtils.equals("alarm_confrim",ebike.state)){
@@ -242,7 +340,14 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
                     llRight?.visibility = View.GONE
                 }
             }
+
+            it.trajectoryList?.let { list ->
+                if(!list.isNullOrEmpty()){
+                    LogUtils.logGGQ("list---->>>>${list.size}")
+                }
+            }
         })
+
 
         initLocation()
     }
@@ -352,6 +457,38 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             baiduMap?.showInfoWindow(infoWindow)
         }
         return false
+    }
+    private fun checkDate(startDate:Date?,endDate: Date?):Boolean{
+        if(startDate == null || endDate == null){
+            ToastUtil.showToast("您选择的日期有误！")
+            return false
+        }
+        val input = etInput?.text.toString().trim()
+        if(TextUtils.isEmpty(input)){
+            ToastUtil.showToast("请输入车牌号")
+            return false
+        }
+
+        if(endDate.before(startDate)){
+            ToastUtil.showToast("结束时间不能大于开始时间")
+            return false
+        }
+
+        if(endDate.after(Calendar.getInstance().time)){
+            ToastUtil.showToast("结束时间不能大于当前时间")
+            return false
+        }
+
+        if(startDate.time == endDate.time){
+            ToastUtil.showToast("开始时间和结束时间不能相同")
+            return false
+        }
+
+        return true
+    }
+
+    private fun onFindEbike(ebikeNo:String,startTime:String,endTime:String){
+        viewModel.onFindEbike(ebikeNo,startTime,endTime)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
