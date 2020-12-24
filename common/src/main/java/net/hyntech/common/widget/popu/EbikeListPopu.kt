@@ -16,7 +16,7 @@ import razerdp.basepopup.BasePopupWindow
 import razerdp.util.animation.AnimationHelper
 import razerdp.util.animation.ScaleConfig
 
-class EBikeListPopu<VH:BaseViewHolder,T : BaseAdapter<VH>>(
+class EbikeListPopu<VH:BaseViewHolder,T : BaseAdapter<VH>>(
     val mContext: Context,
     val mAdapter: T,
     val mWidth: Int = WindowManager.LayoutParams.WRAP_CONTENT,

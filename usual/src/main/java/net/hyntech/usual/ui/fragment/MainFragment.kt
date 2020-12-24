@@ -3,7 +3,6 @@ package net.hyntech.usual.ui.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -26,7 +25,7 @@ import net.hyntech.common.model.entity.UserInfoEntity
 import net.hyntech.common.model.vo.BundleEbikeVo
 import net.hyntech.common.ui.adapter.EBikeListAdapter
 import net.hyntech.common.ui.adapter.SeverListAdapter
-import net.hyntech.common.widget.popu.EBikeListPopu
+import net.hyntech.common.widget.popu.EbikeListPopu
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.FragmentMainBinding
 import net.hyntech.usual.ui.activity.*
@@ -51,7 +50,7 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
 
     private var ebikeList: MutableList<UserInfoEntity.EbikeListBean>? = null
     private val ebikeAdapter by lazy { EBikeListAdapter(requireContext()) }
-    private val ebikePopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EBikeListPopu<EBikeListAdapter.ViewHolder,EBikeListAdapter>(requireContext(),ebikeAdapter).apply {
+    private val ebikePopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EbikeListPopu<EBikeListAdapter.ViewHolder,EBikeListAdapter>(requireContext(),ebikeAdapter).apply {
         this.setOnPopupWindowShowListener { ivArrowIcon?.background = UIUtils.getDrawable(CR.drawable.ic_arrow_up) }
         this.onDismissListener = object :BasePopupWindow.OnDismissListener(){ override fun onDismiss() { ivArrowIcon?.background = UIUtils.getDrawable(CR.drawable.ic_arrow_down) } } }
     }

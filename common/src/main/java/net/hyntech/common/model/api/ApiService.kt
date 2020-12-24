@@ -104,6 +104,10 @@ interface ApiService:BaseApi {
     @Headers("urlname:hyntech")
     @POST(ApiURL.URL_SEARCH_DEVICE)
     suspend fun searchDecive(@Body requestBody: RequestBody): DeviceInfoEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_FIND_EBIKE)
+    suspend fun findEbike(@Body requestBody: RequestBody): EbikeTrackEntity
     //---------警用端结束-----------------------
 
 }

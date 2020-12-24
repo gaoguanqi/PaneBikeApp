@@ -43,7 +43,7 @@ class ApiURL {
         //修改头像
         const val URL_EDIT_HEADIMGURL = "${PREFIX_URL}/edit_headimgurl.thtml"
 
-
+        //----------民用版--------------------------------------------------------------------------------------------------
         //民用版 锁车/解锁 车辆
         const val URL_EBIKE_LOCK = "${EXT}/v1/ebike/usual/ebike_lock.thtml"
         //民用版 车辆异常信息
@@ -76,9 +76,12 @@ class ApiURL {
         const val URL_ADDVAL_DETAIL = "${EXT}/v2/valueAddedService/usual/detail.thtml"
         //民用版 增值服务的车辆服务信息
         const val URL_ADDVAL_INFO = "${EXT}/v2/valueAddedServiceOrder/usual/pre_order.thtml"
+
         //----------警用版--------------------------------------------------------------------------------------------------
         //警用版 搜索设备
         const val URL_SEARCH_DEVICE = "${EXT}/v1/collector/police/search.thtml"
+        //警用版 车辆查找
+        const val URL_FIND_EBIKE = "${EXT}/v1/ebike/police/location_search.thtml"
 
 
         //web url

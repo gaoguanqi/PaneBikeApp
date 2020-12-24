@@ -1,20 +1,34 @@
 package net.hyntech.police.ui.activity
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
+import androidx.lifecycle.Observer
+import com.alibaba.android.arouter.launcher.ARouter
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
+import com.blankj.utilcode.util.ScreenUtils
+import com.blankj.utilcode.util.SizeUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.global.Constants
 import net.hyntech.common.global.handler.MapViewHandler
+import net.hyntech.common.model.entity.EbikeTrackEntity
+import net.hyntech.common.model.entity.PhotoEntity
+import net.hyntech.common.provider.ARouterConstants
+import net.hyntech.common.ui.adapter.EBikeListAdapter
+import net.hyntech.common.ui.adapter.PhotoAdapter
 import net.hyntech.common.widget.baidumap.MyLocationListener
+import net.hyntech.common.widget.dialog.FindEbikeDialog
+import net.hyntech.common.widget.popu.EbikeInfoPopu
+import net.hyntech.common.widget.view.ClearEditText
 import net.hyntech.police.R
 import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.ActivityFindEbikeBinding
@@ -25,10 +39,66 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
     private var mapView: TextureMapView? = null
     private var baiduMap: BaiduMap? = null
 
+    private var llSearch:LinearLayout? = null
     private var llTime:LinearLayout? = null
     private var llPlay:LinearLayout? = null
     private var llTrack:LinearLayout? = null
     private var ibtnInfo:ImageButton? = null
+
+    private var llRight:LinearLayout? = null
+    private var tvRight:TextView? = null
+
+    private var etInput:ClearEditText? = null
+
+    private var ebikeInfo:EbikeTrackEntity.EbikeBean? = null
+
+
+    private val ebikeInfoPopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EbikeInfoPopu(this,
+        mWidth = (ScreenUtils.getScreenWidth() * 0.86).toInt(),
+        mHeight = (ScreenUtils.getScreenHeight() * 0.42).toInt()).apply {
+        this.setListener(object :EbikeInfoPopu.OnClickListener{
+            override fun onLabelImgClick(url: String) {
+                val pos:Int = 0
+                val bundle = Bundle()
+                val array = java.util.ArrayList<String>()
+                array.add(url)
+                bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,array)
+                bundle.putInt(Constants.BundleKey.EXTRA_INDEX,pos)
+                ARouter.getInstance().build(ARouterConstants.PREVIEW_PAGE)
+                    .with(bundle)
+                    .navigation()
+            } }) } }
+
+    private val findEbikeDialog: FindEbikeDialog by lazy { FindEbikeDialog(listener = object :FindEbikeDialog.OnClickListener{
+        override fun onConfirmClick() {
+        }
+
+        override fun onAddressClick() {
+
+        }
+    }) }
+
+    private val photoList:MutableList<PhotoEntity> = mutableListOf()
+
+    private val photoAdapter by lazy { PhotoAdapter(this,CR.layout.item_photo).apply {
+        this.setListener(object : PhotoAdapter.OnClickListener{
+            override fun onItemClick(pos:Int, item: PhotoEntity?, list:MutableList<PhotoEntity>) {
+                item?.let {
+                    val bundle = Bundle()
+                    val array = java.util.ArrayList<String>()
+                    list.forEach {
+                        array.add(it.url)
+                    }
+                    bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,array)
+                    bundle.putInt(Constants.BundleKey.EXTRA_INDEX,pos)
+                    ARouter.getInstance().build(ARouterConstants.PREVIEW_PAGE)
+                        .with(bundle)
+                        .navigation()
+                }
+            }
+            override fun onItemDel(pos: Int, item: PhotoEntity?) {}
+        })
+    } }
 
     private val viewModel by viewModels<FindEbikeViewModel>()
 
@@ -66,14 +136,63 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             onFinish()
         }
 
+        llSearch = findViewById(R.id.ll_search)
+        etInput = findViewById(R.id.et_input)
+        etInput?.hint = "请输入车牌号"
         llTime = findViewById(R.id.ll_time)
         llPlay = findViewById(R.id.ll_play)
         llTrack = findViewById(R.id.ll_track)
         ibtnInfo = findViewById(R.id.ibtn_info)
-        ibtnInfo?.visibility = View.VISIBLE
+        ibtnInfo?.visibility = View.GONE
         ibtnInfo?.setOnClickListener {
-            ToastUtil.showToast("请输入车牌号")
+            if(ebikeInfo == null || ebikeInfoPopu.isShowing){
+                ToastUtil.showToast("未查询到车辆信息")
+            }else{
+                showInfoPopu(ebikeInfo!!)
+            }
         }
+
+        llRight = findViewById(R.id.ll_right)
+        tvRight = findViewById(R.id.tv_right)
+        tvRight?.text = "已找回"
+        llRight?.visibility = View.GONE
+        llRight?.setOnClickListener {
+
+        }
+
+        etInput?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(TextUtils.isEmpty(s)){
+                    if(ibtnInfo?.visibility == View.VISIBLE) ibtnInfo?.visibility = View.GONE
+                }else{
+                    if(ibtnInfo?.visibility == View.GONE) ibtnInfo?.visibility = View.VISIBLE
+                }
+            }
+        })
+
+        findViewById<Button>(R.id.btn_search)?.setOnClickListener {
+            if(!UIUtils.isFastDoubleClick()){
+                val input = etInput?.text.toString().trim()
+                if(TextUtils.isEmpty(input)){
+                   ToastUtil.showToast("请输入车牌号")
+                }
+                viewModel.onFindEbike(input)
+            }
+        }
+
+        viewModel.defUI.showDialog.observe(this, Observer {
+            showLoading()
+        })
+
+        viewModel.defUI.dismissDialog.observe(this, Observer {
+            dismissLoading()
+        })
+
+        viewModel.defUI.toastEvent.observe(this, Observer {
+            ToastUtil.showToast(it)
+        })
 
         showPlayView(false)
 
@@ -89,7 +208,16 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             MapViewHandler(this).setMapView(it)
         }
 
+        viewModel.ebikeInfo.observe(this, Observer {
+            ebikeInfo = it
+        })
+
         initLocation()
+    }
+
+    private fun showInfoPopu(ebike: EbikeTrackEntity.EbikeBean) {
+        ebikeInfoPopu.setInfo(ebike)
+        ebikeInfoPopu.showPopupWindow(llSearch)
     }
 
     private fun initLocation() {

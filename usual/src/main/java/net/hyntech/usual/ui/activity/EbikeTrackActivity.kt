@@ -31,7 +31,7 @@ import net.hyntech.common.model.vo.BundleEbikeVo
 import net.hyntech.common.ui.adapter.EbikeNoAdapter
 import net.hyntech.common.widget.baidumap.MyLocationListener
 import net.hyntech.common.widget.dialog.CommonDialog
-import net.hyntech.common.widget.popu.EBikeListPopu
+import net.hyntech.common.widget.popu.EbikeListPopu
 import net.hyntech.usual.R
 import net.hyntech.usual.databinding.ActivityEbikeTrackBinding
 import net.hyntech.usual.vm.TrackViewModel
@@ -81,7 +81,7 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
 
     private val ebikeAdapter by lazy { EbikeNoAdapter(this)}
 
-    private val ebikePopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EBikeListPopu<EbikeNoAdapter.ViewHolder, EbikeNoAdapter>(this,ebikeAdapter).apply {
+    private val ebikePopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EbikeListPopu<EbikeNoAdapter.ViewHolder, EbikeNoAdapter>(this,ebikeAdapter).apply {
         this.setOnPopupWindowShowListener { ivArrowIcon?.background = UIUtils.getDrawable(CR.drawable.ic_arrow_up) }
         this.onDismissListener = object : BasePopupWindow.OnDismissListener(){ override fun onDismiss() { ivArrowIcon?.background = UIUtils.getDrawable(
             CR.drawable.ic_arrow_down) } } }

@@ -112,4 +112,8 @@ open class CommonRepository:BaseRepository() {
     suspend fun searchDecive(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
         retrofitClient.searchDecive(params2Body(params))
     }
+
+    suspend fun findEbike(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.findEbike(params2Body(params))
+    }
 }

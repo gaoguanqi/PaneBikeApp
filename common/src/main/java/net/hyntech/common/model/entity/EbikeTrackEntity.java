@@ -152,6 +152,7 @@ public class EbikeTrackEntity extends BaseResponse<EbikeTrackEntity> {
         private String state;
         private int termRange;
         private int type;
+        private String typeName;
         private String updateId;
         private int updateIdFlag;
         private String updateTime;
@@ -606,6 +607,14 @@ public class EbikeTrackEntity extends BaseResponse<EbikeTrackEntity> {
 
         public void setUpdateId(String updateId) {
             this.updateId = updateId;
+        }
+
+        public String getTypeName() {
+            return typeName;
+        }
+
+        public void setTypeName(String typeName) {
+            this.typeName = typeName;
         }
 
         public int getUpdateIdFlag() {

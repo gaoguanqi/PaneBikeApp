@@ -3,7 +3,6 @@ package net.hyntech.usual.ui.activity
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -27,7 +26,7 @@ import net.hyntech.common.provider.ARouterConstants
 import net.hyntech.common.ui.adapter.EBikeListAdapter
 import net.hyntech.common.ui.adapter.MyBannerAdapter
 import net.hyntech.common.ui.adapter.PhotoAdapter
-import net.hyntech.common.widget.popu.EBikeListPopu
+import net.hyntech.common.widget.popu.EbikeListPopu
 import net.hyntech.usual.R
 import razerdp.basepopup.BasePopupWindow
 import net.hyntech.common.R as CR
@@ -42,7 +41,7 @@ class EbikeInfoActivity : BaseActivity() {
 
     private val ebikeAdapter by lazy { EBikeListAdapter(this) }
 
-    private val ebikePopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EBikeListPopu<EBikeListAdapter.ViewHolder, EBikeListAdapter>(this,ebikeAdapter).apply {
+    private val ebikePopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EbikeListPopu<EBikeListAdapter.ViewHolder, EBikeListAdapter>(this,ebikeAdapter).apply {
         this.setOnPopupWindowShowListener { ivArrowIcon?.background = UIUtils.getDrawable(CR.drawable.ic_arrow_up) }
         this.onDismissListener = object : BasePopupWindow.OnDismissListener(){ override fun onDismiss() { ivArrowIcon?.background = UIUtils.getDrawable(CR.drawable.ic_arrow_down) } } }
     }

@@ -64,6 +64,7 @@
                 android:paddingLeft="@dimen/common_padding"
                 android:paddingRight="@dimen/common_padding"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -71,13 +72,13 @@
                 <TextView
                     android:id="@+id/tv_right"
                     style="@style/common_style_title_txt"
-                    android:visibility="gone"
                     tools:text="@string/common_name" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <LinearLayout
+            android:id="@+id/ll_search"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_marginBottom="8dp"
