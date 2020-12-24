@@ -11,6 +11,8 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
+import com.baidu.mapapi.animation.Animation
+import com.baidu.mapapi.animation.ScaleAnimation
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
 import com.blankj.utilcode.util.ScreenUtils
@@ -20,6 +22,7 @@ import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
 import net.hyntech.common.global.handler.MapViewHandler
+import net.hyntech.common.model.entity.DeviceInfoEntity
 import net.hyntech.common.model.entity.EbikeTrackEntity
 import net.hyntech.common.model.entity.PhotoEntity
 import net.hyntech.common.provider.ARouterConstants
@@ -52,6 +55,7 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
 
     private var ebikeInfo:EbikeTrackEntity.EbikeBean? = null
 
+    private val ebikeMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.icon_marker_car) }
 
     private val ebikeInfoPopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EbikeInfoPopu(this,
         mWidth = (ScreenUtils.getScreenWidth() * 0.86).toInt(),
@@ -208,7 +212,10 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
         }
 
         viewModel.ebikeInfo.observe(this, Observer {
-            ebikeInfo = it
+            it?.let { ebike ->
+                ebikeInfo = ebike
+                addMarkers(ebike)
+            }
         })
 
         initLocation()
@@ -257,7 +264,45 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
         }
     }
 
+    private fun addMarkers(ebike: EbikeTrackEntity.EbikeBean) {
+        val latLng:LatLng? = LatLng(ebike.lastLat, ebike.lastLng)
+        latLng?.let {ll ->
+            val marker = baiduMap?.run {
+                val bundle:Bundle = Bundle()
+                bundle.putString("id",ebike.ebikeNo)
+                //添加之前删除 marker
+                this.clear()
+                val markerOptions = MarkerOptions().position(ll).icon(ebikeMarker)
+                markerOptions?.alpha(0.9f);//marker图标透明度，0~1.0，默认为1.0
+//                markerOptions?.animateType(MarkerOptions.MarkerAnimateType.drop) ////marker出现的方式，从天上掉下
+                markerOptions?.extraInfo(bundle)
+                this.addOverlay(markerOptions)
+            } as? Marker
 
+            marker?.setAnimation(markerAnim)
+            marker?.startAnimation()
+        }
+
+
+        //定义地图状态
+        val mapStatus: MapStatus = MapStatus.Builder()
+            .target(latLng)
+            .zoom(18f)
+            .overlook(0f)
+            .build()
+        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+        val mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus)
+        //改变地图状态
+        baiduMap?.setMapStatus(mapStatusUpdate)
+    }
+
+    private val markerAnim by lazy {
+        ScaleAnimation(1f, 1.1f, 1f).apply {
+            this.setDuration(2000L)
+            this.setRepeatMode(Animation.RepeatMode.RESTART)
+            this.setRepeatCount(0)
+        }
+    }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
         marker?.let {
@@ -265,7 +310,7 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             val id:String = bundle.getString("id","")
             val view = View.inflate(this,R.layout.window_marker_info,null)
             view?.findViewById<TextView>(R.id.tv_info)?.text = id
-            val infoWindow:InfoWindow = InfoWindow(view,marker.position,-100)
+            val infoWindow:InfoWindow = InfoWindow(view,marker.position,-158)
             baiduMap?.showInfoWindow(infoWindow)
         }
         return false
