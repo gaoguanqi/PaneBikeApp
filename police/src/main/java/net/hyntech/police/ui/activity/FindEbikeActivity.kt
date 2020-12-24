@@ -56,6 +56,7 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
     private val ebikeInfoPopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EbikeInfoPopu(this,
         mWidth = (ScreenUtils.getScreenWidth() * 0.86).toInt(),
         mHeight = (ScreenUtils.getScreenHeight() * 0.42).toInt()).apply {
+        this.setEbikeImgAdapter(photoAdapter)
         this.setListener(object :EbikeInfoPopu.OnClickListener{
             override fun onLabelImgClick(url: String) {
                 val pos:Int = 0
@@ -77,8 +78,6 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
 
         }
     }) }
-
-    private val photoList:MutableList<PhotoEntity> = mutableListOf()
 
     private val photoAdapter by lazy { PhotoAdapter(this,CR.layout.item_photo).apply {
         this.setListener(object : PhotoAdapter.OnClickListener{

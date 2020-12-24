@@ -1,17 +1,23 @@
 package net.hyntech.common.widget.popu
 
 import android.content.Context
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.model.entity.EbikeTrackEntity
+import net.hyntech.common.model.entity.PhotoEntity
 import net.hyntech.common.model.entity.SeverInfoEntity
+import net.hyntech.common.ui.adapter.PhotoAdapter
 import net.hyntech.common.ui.adapter.SeverListAdapter
 import net.hyntech.common.widget.imgloader.ImageLoader
 import net.hyntech.common.widget.imgloader.TransType
@@ -28,6 +34,11 @@ class EbikeInfoPopu(
 ) : BaseLazyPopupWindow(mContext) {
 
     private var ebike: EbikeTrackEntity.EbikeBean? = null
+
+    private var ebikeImgAdapter:PhotoAdapter? = null
+
+    private val photoList:MutableList<PhotoEntity> = mutableListOf()
+
 
     override fun onCreateContentView(): View {
         return createPopupById(R.layout.popu_ebike_info)
@@ -65,6 +76,30 @@ class EbikeInfoPopu(
                         BaseApp.instance,
                         GlideImageConfig(it.locatorPic, iv).also { config-> config.type = TransType.NORMAL })
                 }
+                photoList.clear()
+                if(!TextUtils.isEmpty(it.ebikePic1)){
+                    photoList.add(PhotoEntity(it.ebikePic1))
+                }
+                if(!TextUtils.isEmpty(it.ebikePic2)){
+                    photoList.add(PhotoEntity(it.ebikePic2))
+                }
+                if(!TextUtils.isEmpty(it.ebikePic3)){
+                    photoList.add(PhotoEntity(it.ebikePic3))
+                }
+                if(!TextUtils.isEmpty(it.ebikePic4)){
+                    photoList.add(PhotoEntity(it.ebikePic4))
+                }
+                if(!TextUtils.isEmpty(it.ebikePic5)){
+                    photoList.add(PhotoEntity(it.ebikePic5))
+                }
+                if(!TextUtils.isEmpty(it.ebikePic6)){
+                    photoList.add(PhotoEntity(it.ebikePic6))
+                }
+                this.findViewById<RecyclerView>(R.id.rv_ebike_img).apply {
+                    this.layoutManager = GridLayoutManager(mContext,2)
+                    this.adapter = ebikeImgAdapter
+                    ebikeImgAdapter?.setData(photoList)
+                }
             }
         }
     }
@@ -86,6 +121,9 @@ class EbikeInfoPopu(
         this.ebike = ebike
     }
 
+    fun setEbikeImgAdapter(adapter: PhotoAdapter) {
+        this.ebikeImgAdapter = adapter
+    }
     private var listener: OnClickListener? = null
 
     fun setListener(listener: OnClickListener?){
