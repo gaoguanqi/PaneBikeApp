@@ -108,6 +108,11 @@ interface ApiService:BaseApi {
     @Headers("urlname:hyntech")
     @POST(ApiURL.URL_FIND_EBIKE)
     suspend fun findEbike(@Body requestBody: RequestBody): EbikeTrackEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_EBIKE_FOUND)
+    suspend fun commitFindEbike(@Body requestBody: RequestBody): CommonEntity
+
     //---------警用端结束-----------------------
 
 }

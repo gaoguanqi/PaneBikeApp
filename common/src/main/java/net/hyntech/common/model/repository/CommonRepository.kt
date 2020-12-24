@@ -116,4 +116,8 @@ open class CommonRepository:BaseRepository() {
     suspend fun findEbike(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
         retrofitClient.findEbike(params2Body(params))
     }
+
+    suspend fun commitFindEbike(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.commitFindEbike(params2Body(params))
+    }
 }

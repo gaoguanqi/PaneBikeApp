@@ -1,5 +1,6 @@
 package net.hyntech.police.vm
 
+import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.common.model.entity.DeviceInfoEntity
@@ -23,6 +24,20 @@ class FindEbikeViewModel:BaseViewModel() {
         }, success = {
             it?.let {data ->
                 ebikeInfo.postValue(data.ebike)
+            }
+        })
+    }
+
+    fun commitFindEbike(alarmId: String, address: String, remark: String) {
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("alarmId",alarmId)
+            params.put("foundAddr",address)
+            params.put("foundRemark",remark)
+            repository.commitFindEbike(params)
+        }, success = {
+            it?.let {
+                defUI.toastEvent.postValue(it.msg)
             }
         })
     }

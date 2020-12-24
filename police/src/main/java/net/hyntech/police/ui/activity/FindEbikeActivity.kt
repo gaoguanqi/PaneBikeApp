@@ -1,5 +1,7 @@
 package net.hyntech.police.ui.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -17,6 +19,7 @@ import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
 import com.blankj.utilcode.util.ScreenUtils
 import com.blankj.utilcode.util.SizeUtils
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
@@ -75,11 +78,12 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             } }) } }
 
     private val findEbikeDialog: FindEbikeDialog by lazy { FindEbikeDialog(listener = object :FindEbikeDialog.OnClickListener{
-        override fun onConfirmClick() {
+        override fun onConfirmClick(address:String,remark:String) {
+            viewModel.commitFindEbike(alarmId!!,address,remark)
         }
 
         override fun onAddressClick() {
-
+            ARouter.getInstance().build(ARouterConstants.BAIDU_MAP_PAGE).navigation(this@FindEbikeActivity,102)
         }
     }) }
 
@@ -133,7 +137,7 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
         binding.viewModel = viewModel
     }
 
-
+    private var alarmId:String? = ""
     override fun initData(savedInstanceState: Bundle?) {
         setTitle<FindEbikeActivity>(UIUtils.getString(CR.string.common_title_find_ebike)).onBack<FindEbikeActivity> {
             onFinish()
@@ -160,7 +164,10 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
         tvRight?.text = "已找回"
         llRight?.visibility = View.GONE
         llRight?.setOnClickListener {
-
+            //提交已找回
+            if(!TextUtils.isEmpty(alarmId) && !UIUtils.isFastDoubleClick() && ebikeInfo != null){
+                showFindDialog()
+            }
         }
 
         etInput?.addTextChangedListener(object : TextWatcher {
@@ -215,6 +222,13 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             it?.let { ebike ->
                 ebikeInfo = ebike
                 addMarkers(ebike)
+                if(!TextUtils.isEmpty(ebike.alarmId) && TextUtils.equals("alarm_confrim",ebike.state)){
+                    this.alarmId = ebike.alarmId
+                    llRight?.visibility = View.VISIBLE
+                }else{
+                    this.alarmId = ""
+                    llRight?.visibility = View.GONE
+                }
             }
         })
 
@@ -226,16 +240,28 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
         ebikeInfoPopu.showPopupWindow(llSearch)
     }
 
+    private fun showFindDialog(){
+        findEbikeDialog.apply {
+            this.showNow(supportFragmentManager,"FindEbikeDialog")
+            this.setNoText(ebikeInfo!!.ebikeNo)
+            this.setAddText(currentAddr)
+        }
+    }
+
     private fun initLocation() {
         locClient.registerLocationListener(locListener)
         locClient.locOption = locClientOption
         locClient.start()
     }
 
+    private var currentAddr:String = ""
+    private var latLng:LatLng? = null
     private fun receiveLocation(bdLocation: BDLocation?){
         bdLocation?.let {
+            currentAddr = it.addrStr
+            latLng = LatLng(it.latitude,it.longitude)
             val mapStatus: MapStatus = MapStatus.Builder()
-                .target(LatLng(it.latitude,it.longitude))
+                .target(latLng)
                 .zoom(18f)
                 .build()
 
@@ -314,6 +340,21 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             baiduMap?.showInfoWindow(infoWindow)
         }
         return false
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                102 ->{
+                    val content = data?.getStringExtra(Constants.BundleKey.EXTRA_CONTENT)
+                    LogUtils.logGGQ("跳转返回-->>${content}")
+                    if(!TextUtils.isEmpty(content)){
+                        findEbikeDialog.setAddText("${content}")
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroy() {

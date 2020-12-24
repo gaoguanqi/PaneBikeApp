@@ -82,8 +82,8 @@ class ApiURL {
         const val URL_SEARCH_DEVICE = "${EXT}/v1/collector/police/search.thtml"
         //警用版 车辆查找
         const val URL_FIND_EBIKE = "${EXT}/v1/ebike/police/location_search.thtml"
-
-
+        //警用版 已找回提交
+        const val URL_EBIKE_FOUND = "${EXT}/v1/alarm/police/found.thtml"
         //web url
 
         //我的保单
