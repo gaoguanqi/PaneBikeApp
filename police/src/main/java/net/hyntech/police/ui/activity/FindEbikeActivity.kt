@@ -192,6 +192,18 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             }
         }
 
+        findViewById<ImageButton>(R.id.ibtn_track).setOnClickListener {
+            showPlayView(true)
+        }
+
+        findViewById<ImageButton>(R.id.ibtn_ding).setOnClickListener {
+            //返回到当前位置
+            latLng?.let {
+                val mapStatusUpdate = MapStatusUpdateFactory.newLatLng(latLng)
+                baiduMap?.animateMapStatus(mapStatusUpdate)
+            }
+        }
+
         viewModel.defUI.showDialog.observe(this, Observer {
             showLoading()
         })

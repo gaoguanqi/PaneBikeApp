@@ -1,9 +1,7 @@
 package net.hyntech.police.vm
 
-import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import net.hyntech.baselib.base.BaseViewModel
-import net.hyntech.common.model.entity.DeviceInfoEntity
 import net.hyntech.common.model.entity.EbikeTrackEntity
 import net.hyntech.common.model.repository.CommonRepository
 import java.util.*
