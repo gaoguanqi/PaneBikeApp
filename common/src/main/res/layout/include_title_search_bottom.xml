@@ -79,7 +79,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="38dp"
+            android:layout_height="36dp"
             android:layout_marginBottom="8dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -88,7 +88,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 android:background="@drawable/shape_search"
@@ -105,7 +105,8 @@
 
                 <net.hyntech.common.widget.view.ClearEditText
                     android:id="@+id/et_input"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:ellipsize="end"
@@ -113,6 +114,16 @@
                     android:textSize="@dimen/common_font_text"
                     android:paddingEnd="10dp"
                     android:singleLine="true" />
+
+                <ImageButton
+                    android:id="@+id/ibtn_info"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_ebike_info"
+                    android:visibility="gone"
+                    android:background="@color/common_trans" />
             </LinearLayout>
 
             <Button
@@ -121,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_radius"
                 android:text="@string/common_search"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="16dp"
                 android:textColor="@color/common_color_text"
                 android:textSize="@dimen/common_font_text" />
         </LinearLayout>

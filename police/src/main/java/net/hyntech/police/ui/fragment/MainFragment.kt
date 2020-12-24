@@ -23,6 +23,7 @@ import net.hyntech.police.R
 import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.FragmentMainBinding
 import net.hyntech.police.ui.activity.DeviceInfoActivity
+import net.hyntech.police.ui.activity.FindEbikeActivity
 import net.hyntech.police.vm.HomeViewModel
 import java.util.ArrayList
 
@@ -124,7 +125,7 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
     }
 
     private fun ebikeSearch(){
-
+        startActivity(Intent(requireActivity(),FindEbikeActivity::class.java))
     }
 
     override fun lazyLoadData() {

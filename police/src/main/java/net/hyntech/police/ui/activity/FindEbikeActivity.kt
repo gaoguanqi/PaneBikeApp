@@ -1,44 +1,36 @@
 package net.hyntech.police.ui.activity
 
 import android.os.Bundle
-import android.text.TextUtils
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.lifecycle.Observer
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
-import com.baidu.mapapi.animation.Animation
-import com.baidu.mapapi.animation.ScaleAnimation
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.handler.MapViewHandler
-import net.hyntech.common.model.entity.DeviceInfoEntity
 import net.hyntech.common.widget.baidumap.MyLocationListener
-import net.hyntech.common.widget.view.ClearEditText
 import net.hyntech.police.R
-import net.hyntech.police.databinding.ActivityDeviceInfoBinding
-import net.hyntech.police.vm.DeviceInfoViewModel
 import net.hyntech.common.R as CR
+import net.hyntech.police.databinding.ActivityFindEbikeBinding
+import net.hyntech.police.vm.FindEbikeViewModel
 
-class DeviceInfoActivity:BaseViewActivity<ActivityDeviceInfoBinding,DeviceInfoViewModel>(),
-    BaiduMap.OnMarkerClickListener {
-
-    private var etInput:ClearEditText? = null
+class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewModel>(),BaiduMap.OnMarkerClickListener {
 
     private var mapView: TextureMapView? = null
     private var baiduMap: BaiduMap? = null
 
-    private val myMarker by lazy { BitmapDescriptorFactory.fromResource(net.hyntech.common.R.drawable.icon_my_location) }
+    private var llTime:LinearLayout? = null
+    private var llPlay:LinearLayout? = null
+    private var llTrack:LinearLayout? = null
+    private var ibtnInfo:ImageButton? = null
 
-
-    private val viewModel by viewModels<DeviceInfoViewModel>()
+    private val viewModel by viewModels<FindEbikeViewModel>()
 
     private val locClient: LocationClient by lazy { LocationClient(this) }
     private val locListener: MyLocationListener by lazy {
@@ -61,18 +53,30 @@ class DeviceInfoActivity:BaseViewActivity<ActivityDeviceInfoBinding,DeviceInfoVi
         }
     }
 
-    override fun getLayoutId(): Int = R.layout.activity_device_info
+
+    override fun getLayoutId(): Int = R.layout.activity_find_ebike
 
     override fun bindViewModel() {
         binding.viewModel = viewModel
     }
 
+
     override fun initData(savedInstanceState: Bundle?) {
-        setTitle<DeviceInfoActivity>(UIUtils.getString(CR.string.common_title_device_info)).onBack<DeviceInfoActivity> {
+        setTitle<FindEbikeActivity>(UIUtils.getString(CR.string.common_title_find_ebike)).onBack<FindEbikeActivity> {
             onFinish()
         }
-        etInput = findViewById(R.id.et_input)
-        etInput?.hint = "请输入设备ID号"
+
+        llTime = findViewById(R.id.ll_time)
+        llPlay = findViewById(R.id.ll_play)
+        llTrack = findViewById(R.id.ll_track)
+        ibtnInfo = findViewById(R.id.ibtn_info)
+        ibtnInfo?.visibility = View.VISIBLE
+        ibtnInfo?.setOnClickListener {
+            ToastUtil.showToast("请输入车牌号")
+        }
+
+        showPlayView(false)
+
         mapView = findViewById(R.id.bmap_view)
         mapView?.let {
             // it.showZoomControls(false) //设置隐藏放大缩小按钮
@@ -85,38 +89,6 @@ class DeviceInfoActivity:BaseViewActivity<ActivityDeviceInfoBinding,DeviceInfoVi
             MapViewHandler(this).setMapView(it)
         }
 
-        viewModel.defUI.showDialog.observe(this, Observer {
-            showLoading()
-        })
-
-        viewModel.defUI.dismissDialog.observe(this, Observer {
-            dismissLoading()
-        })
-
-        viewModel.defUI.toastEvent.observe(this, Observer {
-            ToastUtil.showToast(it)
-        })
-
-        viewModel.deviceList.observe(this, Observer {
-            if(it.isNullOrEmpty()){
-                ToastUtil.showToast("未搜索到设备")
-            } else {
-                it.first()?.let { device ->
-                    addMarkers(device)
-                }
-            }
-        })
-
-        findViewById<Button>(net.hyntech.common.R.id.btn_search).setOnClickListener {
-            onClickProxy {
-                val input:String? = etInput?.getText().toString().trim()
-                if(TextUtils.isEmpty(input)){
-                    ToastUtil.showToast("请输入设备ID")
-                }else{
-                    viewModel.searchDecive(input!!)
-                }
-            }
-        }
         initLocation()
     }
 
@@ -147,54 +119,18 @@ class DeviceInfoActivity:BaseViewActivity<ActivityDeviceInfoBinding,DeviceInfoVi
         }
     }
 
-    private val markerAnim by lazy {
-        ScaleAnimation(1f, 1.1f, 1f).apply {
-            this.setDuration(2000L)
-            this.setRepeatMode(Animation.RepeatMode.RESTART)
-            this.setRepeatCount(0)
+    //控制播放控件和日期控件的显示和隐藏
+    private fun showPlayView(isShow:Boolean){
+        if(isShow){
+            if(llTime?.visibility == View.GONE) llTime?.visibility = View.VISIBLE
+            if(llPlay?.visibility == View.GONE) llPlay?.visibility = View.VISIBLE
+        }else{
+            if(llTime?.visibility == View.VISIBLE) llTime?.visibility = View.GONE
+            if(llPlay?.visibility == View.VISIBLE) llPlay?.visibility = View.GONE
         }
     }
 
 
-    private fun addMarkers(device:DeviceInfoEntity.AtCollectorListBean) {
-        val latLng:LatLng? = LatLng(device.lat, device.lng)
-        latLng?.let {ll ->
-            val marker = baiduMap?.run {
-                val bundle:Bundle = Bundle()
-                bundle.putString("id",device.collectorId)
-                //添加之前删除 marker
-                this.clear()
-                val markerOptions = MarkerOptions().position(ll).icon(myMarker)
-                markerOptions?.alpha(0.9f);//marker图标透明度，0~1.0，默认为1.0
-                markerOptions?.animateType(MarkerOptions.MarkerAnimateType.drop) ////marker出现的方式，从天上掉下
-                markerOptions?.extraInfo(bundle)
-                this.addOverlay(markerOptions)
-            } as? Marker
-
-            marker?.setAnimation(markerAnim)
-            marker?.startAnimation()
-        }
-
-
-        //定义地图状态
-        val mapStatus: MapStatus = MapStatus.Builder()
-            .target(latLng)
-            .zoom(18f)
-            .overlook(0f)
-            .build()
-        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-        val mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus)
-        //改变地图状态
-        baiduMap?.setMapStatus(mapStatusUpdate)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // 退出时销毁定位
-        locClient.unRegisterLocationListener(locListener)
-        locClient.stop()
-
-    }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
         marker?.let {
@@ -207,4 +143,13 @@ class DeviceInfoActivity:BaseViewActivity<ActivityDeviceInfoBinding,DeviceInfoVi
         }
         return false
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 退出时销毁定位
+        locClient.unRegisterLocationListener(locListener)
+        locClient.stop()
+
+    }
+
 }
