@@ -120,17 +120,17 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
             this.orientation = LinearLayoutManager.HORIZONTAL
         }
         iv_add.setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
+            onClickProxy {
                 applyCamera()
             }
         }
         btn_no_down.setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
+            onClickProxy {
                 showPicker()
             }
         }
         btn_position.setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
+            onClickProxy {
                 ARouter.getInstance().build(ARouterConstants.BAIDU_MAP_PAGE)
                     .navigation(this,101)
             }

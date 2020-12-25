@@ -26,6 +26,22 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
         }.setRightTxt<EbikeRegisterActivity>("已有信息在册").onSide<EbikeRegisterActivity> {
             ToastUtil.showToast("已有信息在册")
         }
+
+        binding.ivIdcardA.setOnClickListener {
+            onClickProxy {
+
+            }
+        }
+        binding.ivIdcardB.setOnClickListener {
+            onClickProxy {
+
+            }
+        }
+
+        binding.btnNext.setOnClickListener {
+
+        }
+
     }
 
 }

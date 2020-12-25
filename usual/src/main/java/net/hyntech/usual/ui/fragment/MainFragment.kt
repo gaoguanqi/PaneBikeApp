@@ -94,10 +94,11 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         adapter.setListener(object :SeverListAdapter.OnClickListener{
             override fun onItemClick(pos:Int,item: SeverInfoEntity?) {
                 when(pos){
-                    0 -> if(!UIUtils.isFastDoubleClick()) onCarInfo()
-                    1 -> if(!UIUtils.isFastDoubleClick()) onConverService()
-                    2 -> if(!UIUtils.isFastDoubleClick()) onAkeyAlarm()
-                    3 -> if(!UIUtils.isFastDoubleClick()) onTheSafe()
+
+                    0 -> onClickProxy { onCarInfo() }
+                    1 -> onClickProxy { onConverService() }
+                    2 -> onClickProxy { onAkeyAlarm() }
+                    3 -> onClickProxy { onTheSafe() }
                 }
             }
         })

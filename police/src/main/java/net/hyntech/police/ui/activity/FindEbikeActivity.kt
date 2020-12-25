@@ -269,19 +269,19 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
         })
 
         findViewById<Button>(R.id.btn_search)?.setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
-                val input = etInput?.text.toString().trim()
-                if(TextUtils.isEmpty(input)){
+           onClickProxy {
+               val input = etInput?.text.toString().trim()
+               if(TextUtils.isEmpty(input)){
                    ToastUtil.showToast("请输入车牌号")
-                    return@setOnClickListener
-                }
+                   return@onClickProxy
+               }
 
-                if(startDate == null || endDate == null){
-                    onFindEbike(input,"","")
-                }else{
-                    onFindEbike(input,TimeUtils.date2String(startDate),TimeUtils.date2String(endDate))
-                }
-            }
+               if(startDate == null || endDate == null){
+                   onFindEbike(input,"","")
+               }else{
+                   onFindEbike(input,TimeUtils.date2String(startDate),TimeUtils.date2String(endDate))
+               }
+           }
         }
 
         findViewById<ImageButton>(R.id.ibtn_track).setOnClickListener {

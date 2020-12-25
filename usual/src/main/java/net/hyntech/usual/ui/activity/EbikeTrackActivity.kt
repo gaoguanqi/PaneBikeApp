@@ -219,19 +219,19 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
         }
 
         findViewById<ImageButton>(R.id.ibtn_play)?.setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
+            onClickProxy {
                 onEbikePlay()
             }
         }
 
         findViewById<ImageButton>(R.id.ibtn_replay)?.setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
+            onClickProxy {
                 onEbikeReplay()
             }
         }
 
         findViewById<ImageButton>(R.id.ibtn_fast)?.setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
+            onClickProxy {
                 onEbikeFast()
             }
         }

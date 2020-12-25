@@ -75,7 +75,7 @@ class ServiceDetailActivity:BaseViewActivity<ActivityServiceDetailBinding,Contro
         })
 
         binding.btnBuy.setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
+            onClickProxy {
                 val content:String? = viewModel.insuranceCoverange.value
                 startActivity(Intent(this,SafeInfoActivity::class.java).putExtra(Constants.BundleKey.EXTRA_ID,id).putExtra(Constants.BundleKey.EXTRA_CONTENT,content))
             }

@@ -53,7 +53,7 @@ class PayActivity:BaseViewActivity<ActivityPayBinding,ControllerViewModel>() {
         }
 
         binding.btnPay.setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
+            onClickProxy {
                 if(payOption == 1){
                     //微信支付
                     ToastUtil.showToast("微信支付${price}")

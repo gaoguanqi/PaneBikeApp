@@ -71,7 +71,7 @@ class AddValDetailActivity:BaseViewActivity<ActivityAddvalDetailBinding,AddValVi
         })
 
         binding.btnBuy.setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
+            onClickProxy {
                 startActivity(Intent(this,AddValInfoActivity::class.java).putExtra(Constants.BundleKey.EXTRA_ID,ebikeId).putExtra(Constants.BundleKey.EXTRA_ID_S,valueAddedServiceId))
             }
         }

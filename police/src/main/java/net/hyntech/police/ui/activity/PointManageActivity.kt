@@ -67,18 +67,18 @@ class PointManageActivity:BaseViewActivity<ActivityPointManageBinding,PointManag
         btnSearch = findViewById(R.id.btn_search)
         btnSearch?.visibility = View.GONE
         etInput?.setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
-                startActivity(Intent(this@PointManageActivity,SearchPointActivity::class.java))
-            }
+          onClickProxy {
+              startActivity(Intent(this@PointManageActivity,SearchPointActivity::class.java))
+          }
         }
 
         findViewById<Button>(R.id.btn_add)?.setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
-                val bundle = Bundle()
-                // 0 - add  1 edit
-                bundle.putInt(Constants.BundleKey.EXTRA_TYPE,0)
-                startActivityForResult(Intent(this@PointManageActivity,PointEditActivity::class.java).putExtras(bundle),EventCode.EVENT_CODE_POINT)
-            }
+           onClickProxy {
+               val bundle = Bundle()
+               // 0 - add  1 edit
+               bundle.putInt(Constants.BundleKey.EXTRA_TYPE,0)
+               startActivityForResult(Intent(this@PointManageActivity,PointEditActivity::class.java).putExtras(bundle),EventCode.EVENT_CODE_POINT)
+           }
         }
 
         refreshLayout.setEnableRefresh(true)//是否启用下拉刷新功能

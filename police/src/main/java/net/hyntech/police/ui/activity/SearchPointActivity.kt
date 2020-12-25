@@ -62,15 +62,15 @@ class SearchPointActivity:BaseViewActivity<ActivitySearchPointBinding,PointManag
         tvRight = findViewById(R.id.tv_right)
         tvRight?.text = "搜索"
         llRight?.setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
-                val input:String? = etInput?.text.toString().trim()
-                if(TextUtils.isEmpty(input)){
-                    ToastUtil.showToast("请输入设备ID号、地址")
-                    return@setOnClickListener
-                }
-                keyword = input!!
-                viewModel.getCollectorList(keyword)
-            }
+           onClickProxy {
+               val input:String? = etInput?.text.toString().trim()
+               if(TextUtils.isEmpty(input)){
+                   ToastUtil.showToast("请输入设备ID号、地址")
+                   return@onClickProxy
+               }
+               keyword = input!!
+               viewModel.getCollectorList(keyword)
+           }
         }
 
 

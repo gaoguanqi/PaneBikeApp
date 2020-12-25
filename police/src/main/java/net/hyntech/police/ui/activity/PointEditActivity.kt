@@ -92,16 +92,16 @@ class PointEditActivity:BaseViewActivity<ActivityPointEditBinding,PointManageVie
 
             btnSubmit?.text = submit
             btnSubmit?.setOnClickListener {
-                if(!UIUtils.isFastDoubleClick()){
+                onClickProxy {
                     onSubmit(type)
                 }
             }
         }
 
         findViewById<ImageButton>(R.id.btn_position)?.setOnClickListener {
-            if(!UIUtils.isFastDoubleClick()){
-                ARouter.getInstance().build(ARouterConstants.BAIDU_MAP_PAGE).navigation(this@PointEditActivity,103)
-            }
+           onClickProxy {
+               ARouter.getInstance().build(ARouterConstants.BAIDU_MAP_PAGE).navigation(this@PointEditActivity,103)
+           }
         }
         viewModel.defUI.showDialog.observe(this, Observer {
             showLoading()
