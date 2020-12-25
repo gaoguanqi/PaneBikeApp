@@ -69,13 +69,23 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
         binding.btnNext.setOnClickListener {
             onClickProxy {
                 if(TextUtils.isEmpty(idcardAPath)){
-                    ToastUtil.showToast("请")
+                    ToastUtil.showToast("请选择身份证正面照")
                     return@onClickProxy
                 }
+
+                if(TextUtils.isEmpty(idcardBPath)){
+                    ToastUtil.showToast("请选择身份证反面照")
+                    return@onClickProxy
+                }
+
+                imgList.add(idcardAPath!!)
+                imgList.add(idcardBPath!!)
+               viewModel.uploadImageList(imgList)
             }
         }
-
     }
+
+    private val imgList = java.util.ArrayList<String>()
 
 
     private fun applyCamera(type:Int){
@@ -134,7 +144,11 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
                         }
                         //上传图片
                         if(!TextUtils.isEmpty(picPath)){
-                            uploadImage(type,picPath!!)
+                            if(type == 1){
+                                idcardAPath = picPath
+                            }else if(type == 2){
+                                idcardBPath = picPath
+                            }
                         }else{
                             ToastUtil.showToast("选择照片出错,请重新选择！")
                         }
@@ -147,19 +161,4 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
                 }
             })
     }
-
-    private fun uploadImage(type: Int,path:String){
-        if(type == 1){
-            idcardAPath = path
-            ImageLoader.getInstance().loadImage(
-                BaseApp.instance,
-                GlideImageConfig(path, binding.ivIdcardA).also { config -> config.type = TransType.NORMAL })
-        }else if(type == 2){
-            idcardBPath = path
-            ImageLoader.getInstance().loadImage(
-                BaseApp.instance,
-                GlideImageConfig(path, binding.ivIdcardB).also { config -> config.type = TransType.NORMAL})
-        }
-    }
-
 }
