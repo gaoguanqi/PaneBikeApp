@@ -33,6 +33,16 @@ class Constants {
 
         const val IMAGE_TYPE_USUAL = "usual" //普通图片上传标识
         const val IMAGE_TYPE_ID_NO = "idNo" //身份证图片上传标识
+
+
+
+        //身份证图片宽高比
+        const val IDCARD_WIDTH = 16
+        const val IDCARD_HEIGHT = 10
+
+
+
+
     }
 
     object BundleKey {

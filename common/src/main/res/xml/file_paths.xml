@@ -3,4 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     tools:ignore="ResourceName">
     <external-path name="external_files" path="."/>
+    <external-path name="camera_photos" path="" />
+    <external-path name="UsualUpdate" path="" />
+    <external-path name="PoliceUpdate" path="" />
 </paths>

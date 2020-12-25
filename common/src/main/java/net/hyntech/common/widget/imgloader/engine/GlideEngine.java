@@ -25,6 +25,12 @@ import com.luck.picture.lib.widget.longimage.SubsamplingScaleImageView;
 import net.hyntech.common.R;
 
 public class GlideEngine implements ImageEngine{
+    private float multiplier = 0.5f;
+
+    private int overrideWidth = 180;
+
+    private int overrideHeight = 180;
+
     /**
      * 加载图片
      *
@@ -87,6 +93,7 @@ public class GlideEngine implements ImageEngine{
                                 // 加载长图
                                 longImageView.setQuickScaleEnabled(true);
                                 longImageView.setZoomEnabled(true);
+                                longImageView.setPanEnabled(true);
                                 longImageView.setDoubleTapZoomDuration(100);
                                 longImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP);
                                 longImageView.setDoubleTapZoomDpi(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER);
@@ -130,6 +137,7 @@ public class GlideEngine implements ImageEngine{
                                 // 加载长图
                                 longImageView.setQuickScaleEnabled(true);
                                 longImageView.setZoomEnabled(true);
+                                longImageView.setPanEnabled(true);
                                 longImageView.setDoubleTapZoomDuration(100);
                                 longImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP);
                                 longImageView.setDoubleTapZoomDpi(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER);
@@ -156,9 +164,9 @@ public class GlideEngine implements ImageEngine{
         Glide.with(context)
                 .asBitmap()
                 .load(url)
-                .override(180, 180)
+                .override(overrideWidth, overrideHeight)
                 .centerCrop()
-                .sizeMultiplier(0.5f)
+                .sizeMultiplier(this.multiplier)
                 .apply(new RequestOptions().placeholder(R.drawable.picture_image_placeholder))
                 .into(new BitmapImageViewTarget(imageView) {
                     @Override
@@ -200,7 +208,7 @@ public class GlideEngine implements ImageEngine{
     public void loadGridImage(@NonNull Context context, @NonNull String url, @NonNull ImageView imageView) {
         Glide.with(context)
                 .load(url)
-                .override(200, 200)
+                .override(overrideWidth, overrideHeight)
                 .centerCrop()
                 .apply(new RequestOptions().placeholder(R.drawable.picture_image_placeholder))
                 .into(imageView);
@@ -221,5 +229,14 @@ public class GlideEngine implements ImageEngine{
             }
         }
         return instance;
+    }
+
+    public void sizeMultiplier(float multiplier) {
+        this.multiplier = multiplier;
+    }
+
+    public void glideOverride(int overrideWidth, int overrideHeight) {
+        this.overrideWidth = overrideWidth;
+        this.overrideHeight = overrideHeight;
     }
 }
