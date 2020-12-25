@@ -109,7 +109,7 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
             .isGif(false)
             .isPreviewImage(true)
             .isEnablePreviewAudio(false) // 是否可播放音频
-            .isCamera(true)// 是否显示拍照按钮
+            .isCamera(false)// 是否显示拍照按钮
             .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
             .isEnableCrop(true)// 是否裁剪
             .withAspectRatio(Constants.GlobalValue.IDCARD_WIDTH, Constants.GlobalValue.IDCARD_HEIGHT)// 裁剪
@@ -143,7 +143,7 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
                     }
                 }
                 override fun onCancel() {
-                    ToastUtil.showToast("取消")
+                    //ToastUtil.showToast("取消")
                 }
             })
     }
@@ -160,10 +160,6 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
                 BaseApp.instance,
                 GlideImageConfig(path, binding.ivIdcardB).also { config -> config.type = TransType.NORMAL})
         }
-
-
-
-
     }
 
 }
