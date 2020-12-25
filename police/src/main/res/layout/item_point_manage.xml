@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="@color/common_white"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="2dp"
+    tools:ignore="ResourceName">
+
+    <LinearLayout
+        android:id="@+id/item_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingTop="@dimen/common_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/common_padding">
+
+            <TextView
+                android:id="@+id/tv_collector_no"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/common_color_text"
+                android:textSize="@dimen/common_font_text"
+                app:drawableStartCompat="@drawable/ic_collector"
+                tools:text="测试文本" />
+
+            <TextView
+                android:id="@+id/tv_collector_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="未安装"
+                android:textColor="@color/common_color_badge"
+                android:textSize="@dimen/common_font_text" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="@dimen/common_padding"
+            android:layout_marginEnd="@dimen/common_padding"
+            android:background="@drawable/shape_dashgap"
+            android:layerType="software" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/common_padding"
+            android:paddingTop="8dp"
+            android:paddingEnd="@dimen/common_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="20dp"
+                android:text="@string/common_look_no_t1"
+                android:textColor="@color/common_gray_text"
+                android:textSize="@dimen/common_font_text" />
+
+            <TextView
+                android:id="@+id/tv_look_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/common_black"
+                android:textSize="@dimen/common_font_text"
+                tools:text="测试文本" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/common_padding"
+            android:paddingTop="8dp"
+            android:paddingEnd="@dimen/common_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="20dp"
+                android:text="@string/common_address_t2"
+                android:textColor="@color/common_gray_text"
+                android:textSize="@dimen/common_font_text" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/common_black"
+                android:textSize="@dimen/common_font_text"
+                tools:text="测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/common_padding"
+            android:paddingTop="8dp"
+            android:paddingEnd="@dimen/common_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="20dp"
+                android:text="@string/common_latlng_t1"
+                android:textColor="@color/common_gray_text"
+                android:textSize="@dimen/common_font_text" />
+
+            <TextView
+                android:id="@+id/tv_latlng"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/common_black"
+                android:textSize="@dimen/common_font_text"
+                tools:text="测试文本" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/common_padding"
+            android:paddingTop="8dp"
+            android:paddingEnd="@dimen/common_padding"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/tv_time_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="20dp"
+                android:text="上传时间"
+                android:textColor="@color/common_gray_text"
+                android:textSize="@dimen/common_font_text" />
+
+            <TextView
+                android:id="@+id/tv_upload_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/common_black"
+                android:textSize="@dimen/common_font_text"
+                tools:text="测试文本" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="@dimen/common_padding"
+            android:layout_marginEnd="@dimen/common_padding"
+            android:background="@drawable/shape_dashgap"
+            android:layerType="software" />
+        <TextView
+            android:id="@+id/tv_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_confirm"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="8dp"
+            android:paddingStart="28dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="28dp"
+            android:paddingBottom="6dp"
+            android:layout_gravity="end"
+            android:text="编辑"
+            android:textColor="@color/common_white"
+            android:textSize="@dimen/common_font_common" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

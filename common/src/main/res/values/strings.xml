@@ -72,6 +72,7 @@
 
     <string name="common_title_device_info">设备信息</string>
     <string name="common_title_find_ebike">车辆查找</string>
+    <string name="common_title_point_manage">点位管理</string>
 
 
 
@@ -113,5 +114,9 @@
     <string name="common_limit_t4">服务额度\t\t\t\t</string>
     <string name="common_addval_t4">增值服务\t\t\t\t</string>
     <string name="common_service_price_t4">服务费用\t\t\t\t</string>
+
+    <string name="common_look_no_t1">识别码\t\t</string>
+    <string name="common_address_t2">地址\t\t\t\t</string>
+    <string name="common_latlng_t1">经纬度\t\t</string>
 
 </resources>

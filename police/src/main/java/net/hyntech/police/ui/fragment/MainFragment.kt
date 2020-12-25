@@ -24,6 +24,7 @@ import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.FragmentMainBinding
 import net.hyntech.police.ui.activity.DeviceInfoActivity
 import net.hyntech.police.ui.activity.FindEbikeActivity
+import net.hyntech.police.ui.activity.PointManageActivity
 import net.hyntech.police.vm.HomeViewModel
 import java.util.ArrayList
 
@@ -82,7 +83,7 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
             override fun onItemClick(pos: Int,item: SeverInfoEntity?) {
                 item?.let {
                     when(it.menu){
-                        "collectorList" ->{  dotManage() } //点位管理
+                        "collectorList" ->{  pointManage() } //点位管理
                         "collector" ->{ deviceInfo() }  //设备信息
                         "serviceShop" ->{ converService() } //便民服务
                         "ebikeReg" ->{ ebikeRegister() } // 车辆登记
@@ -104,12 +105,13 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         viewModel.getUserInfo(true)
     }
 
-    private fun dotManage(){
-
+    private fun pointManage(){
+        startActivity(Intent(requireActivity(),PointManageActivity::class.java))
     }
 
     private fun deviceInfo(){
-        startActivity(Intent(requireActivity(),DeviceInfoActivity::class.java))
+       // startActivity(Intent(requireActivity(),DeviceInfoActivity::class.java))
+        startActivity(Intent(requireActivity(),PointManageActivity::class.java))
     }
 
     private fun converService(){

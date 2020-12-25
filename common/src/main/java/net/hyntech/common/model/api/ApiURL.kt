@@ -84,6 +84,8 @@ class ApiURL {
         const val URL_FIND_EBIKE = "${EXT}/v1/ebike/police/location_search.thtml"
         //警用版 已找回提交
         const val URL_EBIKE_FOUND = "${EXT}/v1/alarm/police/found.thtml"
+        //警用版 点位管理 采集器列表
+        const val URL_COLLECTOR_LIST = "${EXT}/v1/collector/police/list.thtml"
         //web url
 
         //我的保单

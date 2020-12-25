@@ -113,6 +113,10 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_EBIKE_FOUND)
     suspend fun commitFindEbike(@Body requestBody: RequestBody): CommonEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_COLLECTOR_LIST)
+    suspend fun getCollectorList(@Body requestBody: RequestBody): CollectorListEntity
+
     //---------警用端结束-----------------------
 
 }
