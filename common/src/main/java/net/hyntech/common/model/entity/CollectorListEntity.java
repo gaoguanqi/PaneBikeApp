@@ -2,6 +2,7 @@ package net.hyntech.common.model.entity;
 
 import net.hyntech.baselib.http.BaseResponse;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class CollectorListEntity extends BaseResponse<CollectorListEntity> {
@@ -127,7 +128,7 @@ public class CollectorListEntity extends BaseResponse<CollectorListEntity> {
         }
     }
 
-    public static class AtCollectorListBean {
+    public static class AtCollectorListBean implements Serializable {
         /**
          * addr : 河南省开封市尉氏县后冯村附近43米
          * collectorId : 138510B004E0022

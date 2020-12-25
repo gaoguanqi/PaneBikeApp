@@ -3,6 +3,7 @@ package net.hyntech.police.vm
 import android.text.TextUtils
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.baidu.location.BDLocation
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
@@ -17,6 +18,8 @@ class HomeViewModel:BaseViewModel() {
     private val repository by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { CommonRepository() }
 
     val messageCount: ObservableField<String> = ObservableField("0")
+    
+    val currentLatLng:MutableLiveData<BDLocation> = MutableLiveData()
 
     val userInfo: MutableLiveData<UserInfoEntity> = MutableLiveData()
 

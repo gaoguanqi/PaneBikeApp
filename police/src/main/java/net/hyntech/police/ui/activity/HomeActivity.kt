@@ -7,13 +7,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.baidu.location.BDLocation
+import com.baidu.location.LocationClient
+import com.baidu.location.LocationClientOption
 import net.hyntech.baselib.utils.Event
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.global.Constants
 import net.hyntech.common.global.EventCode
 import net.hyntech.common.provider.ARouterConstants
 import net.hyntech.common.ui.adapter.MyFragmentStateAdapter
+import net.hyntech.common.widget.baidumap.MyLocationListener
 import net.hyntech.police.R
 import net.hyntech.police.databinding.ActivityHomeBinding
 import net.hyntech.police.ui.fragment.MainFragment
@@ -25,6 +30,24 @@ class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>() {
 
 
     private var lastBackPressedMillis: Long = 0
+
+    private val locClient: LocationClient by lazy { LocationClient(this) }
+    private val locListener: MyLocationListener by lazy { MyLocationListener(object :
+        MyLocationListener.LocationListener{
+        override fun onReceive(bdLocation: BDLocation) {
+            Constants.Location.address = bdLocation.addrStr
+            Constants.Location.latitude = bdLocation.latitude
+            Constants.Location.longitude = bdLocation.longitude
+            viewModel.currentLatLng.postValue(bdLocation)
+        }
+    }) }
+    private val locClientOption: LocationClientOption by lazy { LocationClientOption().apply {
+        this.isOpenGps = true //打开gps
+        this.coorType = "bd09ll" //设置坐标类型
+        this.setIsNeedAddress(true) //必须设置之后才能获取到详细的地址信息
+//        this.scanSpan = 0 //可选3000，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+    } }
+
 
     private val viewModel by viewModels<HomeViewModel>()
 
@@ -82,8 +105,16 @@ class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>() {
             }
             false
         }
+
+        initLocation()
     }
 
+
+    private fun initLocation() {
+        locClient.registerLocationListener(locListener)
+        locClient.locOption = locClientOption
+        locClient.start()
+    }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -110,5 +141,12 @@ class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 退出时销毁定位
+        locClient.unRegisterLocationListener(locListener)
+        locClient.stop()
     }
 }

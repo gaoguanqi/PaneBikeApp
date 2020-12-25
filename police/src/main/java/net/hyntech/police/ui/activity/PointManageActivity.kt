@@ -1,5 +1,6 @@
 package net.hyntech.police.ui.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -13,6 +14,8 @@ import kotlinx.android.synthetic.main.activity_point_manage.*
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.global.Constants
+import net.hyntech.common.global.EventCode
 import net.hyntech.common.model.entity.CollectorListEntity
 import net.hyntech.common.widget.view.ClearEditText
 import net.hyntech.police.R
@@ -33,7 +36,13 @@ class PointManageActivity:BaseViewActivity<ActivityPointManageBinding,PointManag
     private val pointManageAdapter by lazy { PointManageAdapter(this).apply {
         this.setListener(object : PointManageAdapter.OnClickListener{
             override fun onEditClick(item: CollectorListEntity.AtCollectorListBean?) {
-
+                item?.let {
+                    val bundle = Bundle()
+                    bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,it)
+                    // 0 - add  1 edit
+                    bundle.putInt(Constants.BundleKey.EXTRA_TYPE,1)
+                    startActivityForResult(Intent(this@PointManageActivity,PointEditActivity::class.java).putExtras(bundle),EventCode.EVENT_CODE_POINT)
+                }
             } }) } }
 
 
@@ -63,6 +72,15 @@ class PointManageActivity:BaseViewActivity<ActivityPointManageBinding,PointManag
             }
         }
 
+        findViewById<Button>(R.id.btn_add)?.setOnClickListener {
+            if(!UIUtils.isFastDoubleClick()){
+                val bundle = Bundle()
+                // 0 - add  1 edit
+                bundle.putInt(Constants.BundleKey.EXTRA_TYPE,0)
+                startActivityForResult(Intent(this@PointManageActivity,PointEditActivity::class.java).putExtras(bundle),EventCode.EVENT_CODE_POINT)
+            }
+        }
+
         refreshLayout.setEnableRefresh(true)//是否启用下拉刷新功能
         refreshLayout.setEnableLoadMore(true)//是否启用上拉加载功能
         refreshLayout.setOnRefreshListener { ref ->
@@ -86,12 +104,6 @@ class PointManageActivity:BaseViewActivity<ActivityPointManageBinding,PointManag
 
         viewModel.defUI.toastEvent.observe(this, Observer {
             ToastUtil.showToast(it)
-        })
-
-        viewModel.defUI.emptyEvent.observe(this, Observer {
-            finishRefresh()
-            refreshLayout.visibility = View.GONE
-            vsEmpty.inflate()
         })
 
         viewModel.collectorList.observe(this, Observer {
@@ -133,6 +145,18 @@ class PointManageActivity:BaseViewActivity<ActivityPointManageBinding,PointManag
     private fun finishLoadMore() {
         refreshLayout?.let {
             if(it.isLoading) it.finishLoadMore(300)
+        }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                EventCode.EVENT_CODE_POINT ->{
+                    viewModel.getCollectorList(keyword)
+                }
+            }
         }
     }
 }

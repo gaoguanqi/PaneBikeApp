@@ -119,4 +119,7 @@
     <string name="common_address_t2">地址\t\t\t\t</string>
     <string name="common_latlng_t1">经纬度\t\t</string>
 
+    <string name="common_device_t1">设备ID\t\t</string>
+
+
 </resources>

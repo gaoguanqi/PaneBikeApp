@@ -5,6 +5,7 @@ class EventCode {
         // for result
         const val EVENT_CODE_ORG = 500
         const val EVENT_CODE_TRACK = 501
+        const val EVENT_CODE_POINT = 502
 
         //event
         const val EVENT_CODE_EBIKES = 600

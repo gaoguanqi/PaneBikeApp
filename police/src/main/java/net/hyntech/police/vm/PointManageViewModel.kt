@@ -3,6 +3,7 @@ package net.hyntech.police.vm
 import androidx.lifecycle.MutableLiveData
 import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.common.model.entity.CollectorListEntity
+import net.hyntech.common.model.entity.DeviceInfoEntity
 import net.hyntech.common.model.entity.EbikeErrorEntity
 import net.hyntech.common.model.repository.CommonRepository
 import java.util.*
@@ -79,5 +80,17 @@ class PointManageViewModel:BaseViewModel() {
             }
         },isShowDialog = false,isShowToast = false)
     }
-
+//---------------点位（采集器）添加、修改-----------------------------------
+    val collectorSuccess: MutableLiveData<String> = MutableLiveData()
+    fun collectorSave(type: Int,params:WeakHashMap<String, Any>){
+        launchOnlyResult({
+            repository.collectorSave(params)
+        }, success = {
+            if(type == 1){
+                collectorSuccess.postValue("保存成功")
+            }else{
+                collectorSuccess.postValue("上传成功")
+            }
+        })
+    }
 }

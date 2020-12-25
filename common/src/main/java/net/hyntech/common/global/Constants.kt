@@ -14,8 +14,7 @@ class Constants {
     }
 
     object ApiParams {
-        const val phone = "phone"
-        const val pwd = "pwd"
+
     }
 
     object SaveInfoKey {
@@ -52,6 +51,13 @@ class Constants {
         const val EXTRA_ID_S = "id_S"
         const val EXTRA_LAT = "lat"
         const val EXTRA_LNG = "lng"
+    }
+
+
+    object Location{
+        var address:String? = ""
+        var latitude:Double? = 0.0
+        var longitude:Double? = 0.0
     }
 
 }

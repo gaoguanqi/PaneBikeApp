@@ -117,6 +117,10 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_COLLECTOR_LIST)
     suspend fun getCollectorList(@Body requestBody: RequestBody): CollectorListEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_COLLECTOR_SAVE)
+    suspend fun collectorSave(@Body requestBody: RequestBody): CommonEntity
+
     //---------警用端结束-----------------------
 
 }

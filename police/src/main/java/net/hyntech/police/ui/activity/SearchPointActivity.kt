@@ -1,5 +1,7 @@
 package net.hyntech.police.ui.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -8,9 +10,12 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_search_point.*
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.global.Constants
+import net.hyntech.common.global.EventCode
 import net.hyntech.common.model.entity.CollectorListEntity
 import net.hyntech.common.widget.view.ClearEditText
 import net.hyntech.police.R
@@ -30,7 +35,13 @@ class SearchPointActivity:BaseViewActivity<ActivitySearchPointBinding,PointManag
     private val pointManageAdapter by lazy { PointManageAdapter(this).apply {
         this.setListener(object : PointManageAdapter.OnClickListener{
             override fun onEditClick(item: CollectorListEntity.AtCollectorListBean?) {
-
+                item?.let {
+                    val bundle = Bundle()
+                    bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,it)
+                    // 0 - add  1 edit
+                    bundle.putInt(Constants.BundleKey.EXTRA_TYPE,1)
+                    startActivityForResult(Intent(this@SearchPointActivity,PointEditActivity::class.java).putExtras(bundle),EventCode.EVENT_CODE_POINT)
+                }
             } }) } }
 
 
@@ -46,6 +57,7 @@ class SearchPointActivity:BaseViewActivity<ActivitySearchPointBinding,PointManag
         }
 
         etInput = findViewById(R.id.et_input)
+        etInput?.hint = "请输入设备ID号、地址"
         llRight = findViewById(R.id.ll_right)
         tvRight = findViewById(R.id.tv_right)
         tvRight?.text = "搜索"
@@ -135,6 +147,18 @@ class SearchPointActivity:BaseViewActivity<ActivitySearchPointBinding,PointManag
     private fun finishLoadMore() {
         refreshLayout?.let {
             if(it.isLoading) it.finishLoadMore(300)
+        }
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                EventCode.EVENT_CODE_POINT ->{
+                    viewModel.getCollectorList(keyword)
+                }
+            }
         }
     }
 }

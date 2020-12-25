@@ -55,6 +55,9 @@
 
         <activity android:name=".ui.activity.SearchPointActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".ui.activity.PointEditActivity"
+            android:screenOrientation="portrait" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"

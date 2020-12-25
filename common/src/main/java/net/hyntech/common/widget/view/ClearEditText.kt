@@ -29,9 +29,9 @@ class ClearEditText:AppCompatEditText {
 
 
     private val blackClearDrawable =
-        ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_cancel_24, null) as Drawable
+        ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_cancel_20, null) as Drawable
     private val opaqueClearDrawable =
-        ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_cancel_24, null) as Drawable
+        ResourcesCompat.getDrawable(resources, R.drawable.ic_baseline_cancel_20, null) as Drawable
 
     private var clearButtonImage: Drawable = opaqueClearDrawable
 

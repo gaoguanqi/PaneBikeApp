@@ -124,4 +124,7 @@ open class CommonRepository:BaseRepository() {
     suspend fun getCollectorList(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
         retrofitClient.getCollectorList(params2Body(params))
     }
+    suspend fun collectorSave(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.collectorSave(params2Body(params))
+    }
 }

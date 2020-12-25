@@ -18,6 +18,7 @@ import net.hyntech.baselib.utils.Event
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.global.Constants
 import net.hyntech.common.global.EventCode
 import net.hyntech.common.model.entity.UserInfoEntity
 import net.hyntech.common.provider.ARouterConstants
@@ -36,6 +37,9 @@ class HomeActivity : BaseViewActivity<ActivityHomeBinding,HomeViewModel>(), Sens
     private val locClient: LocationClient by lazy { LocationClient(this) }
     private val locListener: MyLocationListener by lazy { MyLocationListener(object :MyLocationListener.LocationListener{
         override fun onReceive(bdLocation: BDLocation) {
+            Constants.Location.address = bdLocation.addrStr
+            Constants.Location.latitude = bdLocation.latitude
+            Constants.Location.longitude = bdLocation.longitude
             viewModel.currentLatLng.postValue(bdLocation)
         }
     }) }
