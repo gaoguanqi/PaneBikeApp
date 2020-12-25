@@ -110,8 +110,7 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
     }
 
     private fun deviceInfo(){
-       // startActivity(Intent(requireActivity(),DeviceInfoActivity::class.java))
-        startActivity(Intent(requireActivity(),PointManageActivity::class.java))
+        startActivity(Intent(requireActivity(),DeviceInfoActivity::class.java))
     }
 
     private fun converService(){
