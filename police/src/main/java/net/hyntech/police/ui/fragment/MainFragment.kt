@@ -23,6 +23,7 @@ import net.hyntech.police.R
 import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.FragmentMainBinding
 import net.hyntech.police.ui.activity.DeviceInfoActivity
+import net.hyntech.police.ui.activity.EbikeRegisterActivity
 import net.hyntech.police.ui.activity.FindEbikeActivity
 import net.hyntech.police.ui.activity.PointManageActivity
 import net.hyntech.police.vm.HomeViewModel
@@ -105,29 +106,38 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         viewModel.getUserInfo(true)
     }
 
+    //点位管理
     private fun pointManage(){
         startActivity(Intent(requireActivity(),PointManageActivity::class.java))
     }
 
+    //设备信息
     private fun deviceInfo(){
         startActivity(Intent(requireActivity(),DeviceInfoActivity::class.java))
     }
 
+    //便民服务
     private fun converService(){
 
     }
 
+    //车辆登记
     private fun ebikeRegister(){
-
+        startActivity(Intent(requireActivity(),EbikeRegisterActivity::class.java))
     }
 
+    //登记记录
     private fun regRecord(){
 
     }
 
+    //车辆查找
     private fun ebikeSearch(){
         startActivity(Intent(requireActivity(),FindEbikeActivity::class.java))
     }
+
+
+
 
     override fun lazyLoadData() {
         super.lazyLoadData()
