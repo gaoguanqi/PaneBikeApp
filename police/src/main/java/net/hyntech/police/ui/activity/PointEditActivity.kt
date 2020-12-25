@@ -44,6 +44,8 @@ class PointEditActivity:BaseViewActivity<ActivityPointEditBinding,PointManageVie
 
     override fun initData(savedInstanceState: Bundle?) {
 
+        btnSubmit = findViewById(R.id.btn_submit)
+
         this.intent?.extras?.let {
             val type:Int = it.getInt(Constants.BundleKey.EXTRA_TYPE,0)
             var title:String = ""
@@ -79,8 +81,10 @@ class PointEditActivity:BaseViewActivity<ActivityPointEditBinding,PointManageVie
                     binding.tvOrgName.text = "${bean.orgName}"
                 }
             }
-            binding.etAddress.setText("${addr}")
-            binding.tvLatlng.text = "(${lat},${lng})"
+            if(!TextUtils.isEmpty(addr)){
+                binding.etAddress.setText("${addr}")
+                binding.tvLatlng.text = "(${lat},${lng})"
+            }
 
             setTitle<PointEditActivity>(title).onBack<PointEditActivity> {
                 onFinish()
@@ -124,6 +128,8 @@ class PointEditActivity:BaseViewActivity<ActivityPointEditBinding,PointManageVie
             return
         }
 
+        addr = binding.etAddress.text.toString().trim()
+
         if(TextUtils.isEmpty(addr) || TextUtils.isEmpty(lat) || TextUtils.isEmpty(lng)){
             ToastUtil.showToast("请选择地址")
             return
@@ -131,10 +137,14 @@ class PointEditActivity:BaseViewActivity<ActivityPointEditBinding,PointManageVie
 
         collectorNo110 = binding.etLookNo.text.toString().trim()
         val params: WeakHashMap<String, Any> = WeakHashMap()
+        params.put("collectorUuid",collectorUuid)
+        params.put("collectorId",collectorId)
+        params.put("collectorNo110",collectorNo110)
+        params.put("addr",addr)
+        params.put("lat",lat)
+        params.put("lng",lng)
+        params.put("orgId",orgId)
         viewModel.collectorSave(type,params)
-
-
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
