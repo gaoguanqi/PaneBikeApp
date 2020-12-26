@@ -1,8 +1,10 @@
 package net.hyntech.police.ui.fragment
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseFragment
 import net.hyntech.police.R
@@ -33,16 +35,25 @@ class RegOwnerInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
                     act.onBack()
                 }
             }
-        }
 
-        viewModel.userInfo.value?.let {user ->
-            binding.tvType.text = "${user.idType}"
-            binding.tvOrgName.text = "${user.orgName}"
-
-
+            this.findViewById<Button>(R.id.btn_next).setOnClickListener {
+                onClickProxy {
+                    act.onNextByIndex(2)
+                }
+            }
         }
 
     }
+
+
+    override fun refReshData() {
+        super.refReshData()
+        viewModel.userInfo.value?.let {
+            binding.tvType.text = "${it.idType}"
+            binding.tvOrgName.text = "${it.orgName}"
+        }
+    }
+
 
     override fun bindViewModel() {
         binding.viewModel = viewModel

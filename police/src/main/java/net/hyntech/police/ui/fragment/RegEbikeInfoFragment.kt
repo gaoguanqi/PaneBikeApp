@@ -1,6 +1,7 @@
 package net.hyntech.police.ui.fragment
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import net.hyntech.baselib.utils.UIUtils
@@ -31,6 +32,11 @@ class RegEbikeInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
                 onClickProxy {
                     //返回
                     act.onBack()
+                }
+            }
+            this.findViewById<Button>(R.id.btn_commit).setOnClickListener {
+                onClickProxy {
+
                 }
             }
         }

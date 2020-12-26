@@ -1,15 +1,9 @@
 package net.hyntech.police.vm
 
-import android.text.TextUtils
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.blankj.utilcode.util.GsonUtils
-import com.blankj.utilcode.util.SPUtils
-import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.common.global.Constants
-import net.hyntech.common.model.entity.DeviceInfoEntity
 import net.hyntech.common.model.entity.EbikeRegInfoEntity
 import net.hyntech.common.model.entity.ServiceSafeEntity
 import net.hyntech.common.model.entity.UserInfoEntity
