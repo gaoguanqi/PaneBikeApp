@@ -1,13 +1,18 @@
 package net.hyntech.police.vm
 
 import android.text.TextUtils
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.SPUtils
 import net.hyntech.baselib.app.BaseApp
+import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.common.global.Constants
-import net.hyntech.common.model.entity.AddValServiceEntity
+import net.hyntech.common.model.entity.DeviceInfoEntity
+import net.hyntech.common.model.entity.EbikeRegInfoEntity
+import net.hyntech.common.model.entity.ServiceSafeEntity
+import net.hyntech.common.model.entity.UserInfoEntity
 import net.hyntech.common.model.repository.CommonRepository
 import net.hyntech.common.utils.CommonUtils
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -15,7 +20,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import org.jetbrains.anko.collections.forEachWithIndex
-import org.json.JSONObject
 import java.io.File
 import java.util.*
 
@@ -23,7 +27,10 @@ class EbikeRegisterViewModel:BaseViewModel() {
 
     private val repository by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { CommonRepository() }
 
-
+    val idCardImgList:MutableLiveData<List<String>> = MutableLiveData()
+    val idcardAPath: MutableLiveData<String> = MutableLiveData()
+    val idcardBPath: MutableLiveData<String> = MutableLiveData()
+    val userInfo: MutableLiveData<UserInfoEntity.UserBean> = MutableLiveData()
     //上传图片
     fun uploadImageList(imegList: List<String>) {
         defUI.showDialog.call()
@@ -48,6 +55,7 @@ class EbikeRegisterViewModel:BaseViewModel() {
             it?.let { data ->
                 val urlList = CommonUtils.splitPicList(data.imgUrl)
                 if(urlList.isNotEmpty() && urlList.size >= 2){
+                    idCardImgList.postValue(urlList)
                     idCardDistinguish(data.idNoPic1,data.idNoPic2,urlList.get(0),urlList.get(1))
                 }else{
                     defUI.dismissDialog.call()
@@ -61,6 +69,8 @@ class EbikeRegisterViewModel:BaseViewModel() {
     }
 
 
+    val idCardNextEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+
     private fun idCardDistinguish(idNoPic1:String,idNoPic2:String,imgUrl1:String,imgUrl2:String){
         val params: WeakHashMap<String, Any> = WeakHashMap()
         params.put("idNoPic1",idNoPic1)
@@ -70,44 +80,35 @@ class EbikeRegisterViewModel:BaseViewModel() {
         launchOnlyResult({
             repository.idCardDistinguish(params)
         }, success = {
-            it?.let { userInfo ->
-
+            it?.let { user ->
+                userInfo.postValue(user.user)
+                idCardNextEvent.call()
             }
         },complete = {
             defUI.dismissDialog.call()
         },isShowDialog = false)
     }
 
-    var isSaveServicePackage: Boolean = false
-
+    var servicePackage: ServiceSafeEntity? = null
     fun getServicePackage() {
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
             repository.getServicePackage(params)
         }, success = {
             it?.let {data ->
-                val servicePackage = GsonUtils.toJson(data)
-                if(!TextUtils.isEmpty(servicePackage)){
-                    SPUtils.getInstance(BaseApp.instance.getAppPackage()).put(Constants.SaveInfoKey.SERVICE_PACKAGE,servicePackage)
-                    isSaveServicePackage = true
-                }
+                servicePackage = data
             }
         },isShowDialog = false,isShowToast = false)
     }
 
-    var isSaveEbikeRegInfo: Boolean = false
-
+    var ebikeRegInfo: EbikeRegInfoEntity? = null
     fun getEbikeRegInfo() {
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
             repository.getEbikeRegInfo(params)
         }, success = {
             it?.let {data ->
-                val ebikeRegInfo = GsonUtils.toJson(data)
-                if(!TextUtils.isEmpty(ebikeRegInfo)){
-                    SPUtils.getInstance(BaseApp.instance.getAppPackage()).put(Constants.SaveInfoKey.EBIKE_REG_INFO,ebikeRegInfo)
-                    isSaveEbikeRegInfo = true
-                }
+                ebikeRegInfo = data
             }
         },isShowDialog = false,isShowToast = false)
     }

@@ -20,8 +20,8 @@ import net.hyntech.common.ui.adapter.MyBannerAdapter
 import net.hyntech.common.ui.adapter.SeverListAdapter
 import net.hyntech.common.widget.decoration.GridItemDecoration
 import net.hyntech.police.R
-import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.FragmentMainBinding
+import net.hyntech.common.R as CR
 import net.hyntech.police.ui.activity.DeviceInfoActivity
 import net.hyntech.police.ui.activity.EbikeRegisterActivity
 import net.hyntech.police.ui.activity.FindEbikeActivity

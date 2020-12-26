@@ -37,7 +37,7 @@
                 android:id="@+id/et_input"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@color/common_default_background"
+                android:background="@drawable/shape_remark"
                 android:gravity="top"
                 android:hint="请输入备注信息"
                 android:maxLines="3"

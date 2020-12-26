@@ -11,7 +11,6 @@ import com.alibaba.android.arouter.launcher.ARouter
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
-import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants

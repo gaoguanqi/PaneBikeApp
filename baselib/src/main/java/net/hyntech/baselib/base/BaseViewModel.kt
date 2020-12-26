@@ -107,7 +107,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
                     if(isShowToast) error(it)
                 },
                 {
-                    defUI.dismissDialog.call()
+                    if (isShowDialog) defUI.dismissDialog.call()
                     complete()
                 }
             )

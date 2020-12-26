@@ -3,7 +3,9 @@ package net.hyntech.police.ui.activity
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.viewpager2.widget.ViewPager2
 import com.blankj.utilcode.util.AppUtils
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -11,34 +13,40 @@ import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.listener.OnResultCallbackListener
 import com.tbruyelle.rxpermissions2.RxPermissions
-import net.hyntech.baselib.app.BaseApp
-import net.hyntech.baselib.utils.*
+import net.hyntech.baselib.utils.PermissionUtil
+import net.hyntech.baselib.utils.RequestPermission
+import net.hyntech.baselib.utils.ToastUtil
+import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
+import net.hyntech.common.ui.adapter.MyFragmentStateAdapter
 import net.hyntech.common.widget.dialog.CommonDialog
-import net.hyntech.common.widget.imgloader.ImageLoader
-import net.hyntech.common.widget.imgloader.TransType
 import net.hyntech.common.widget.imgloader.engine.GlideEngine
-import net.hyntech.common.widget.imgloader.glide.GlideImageConfig
 import net.hyntech.police.R
-import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.ActivityEbikeRegisterBinding
+import net.hyntech.police.ui.fragment.RegEbikeInfoFragment
+import net.hyntech.police.ui.fragment.RegIdcardFragment
+import net.hyntech.police.ui.fragment.RegOwnerInfoFragment
 import net.hyntech.police.vm.EbikeRegisterViewModel
+import net.hyntech.common.R as CR
 
-class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeRegisterViewModel>() {
+class EbikeRegisterActivity : BaseViewActivity<ActivityEbikeRegisterBinding, EbikeRegisterViewModel>() {
 
-    private var idcardAPath:String? = ""
-    private var idcardBPath:String? = ""
 
     private val rxPermissions: RxPermissions = RxPermissions(this)
 
-    private val applyDialog: CommonDialog by lazy { CommonDialog(this,UIUtils.getString(CR.string.common_permissions_title),
-        UIUtils.getString(CR.string.common_permissions_camera),
-        UIUtils.getString(CR.string.common_permissions_cancle),
-        UIUtils.getString(CR.string.common_permissions_confirm),object :
-            CommonDialog.OnClickListener{
-            override fun onCancleClick() {}
-            override fun onConfirmClick() { AppUtils.launchAppDetailsSettings() } }) }
+    private val applyDialog: CommonDialog by lazy {
+        CommonDialog(this, UIUtils.getString(CR.string.common_permissions_title),
+            UIUtils.getString(CR.string.common_permissions_camera),
+            UIUtils.getString(CR.string.common_permissions_cancle),
+            UIUtils.getString(CR.string.common_permissions_confirm), object :
+                CommonDialog.OnClickListener {
+                override fun onCancleClick() {}
+                override fun onConfirmClick() {
+                    AppUtils.launchAppDetailsSettings()
+                }
+            })
+    }
 
     private val viewModel by viewModels<EbikeRegisterViewModel>()
 
@@ -50,12 +58,6 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        setTitle<EbikeRegisterActivity>(UIUtils.getString(CR.string.common_title_ebike_register)).onBack<EbikeRegisterActivity> {
-            onFinish()
-        }.setRightTxt<EbikeRegisterActivity>("已有信息在册").onSide<EbikeRegisterActivity> {
-            ToastUtil.showToast("已有信息在册")
-        }
-
         viewModel.defUI.showDialog.observe(this, Observer {
             showLoading()
         })
@@ -68,50 +70,23 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
             ToastUtil.showToast(it)
         })
 
-        binding.ivIdcardA.setOnClickListener {
-            onClickProxy {
-                applyCamera(1)
-            }
-        }
-        binding.ivIdcardB.setOnClickListener {
-            onClickProxy {
-                applyCamera(2)
-            }
-        }
+        val list: List<Fragment> = listOf(
+            RegIdcardFragment.getInstance(viewModel),
+            RegOwnerInfoFragment.getInstance(viewModel),
+            RegEbikeInfoFragment.getInstance(viewModel)
+        )
 
-        binding.btnNext.setOnClickListener {
-            onClickProxy {
-                imgList.clear()
-
-                if(!viewModel.isSaveServicePackage || !viewModel.isSaveEbikeRegInfo){
-                    ToastUtil.showToast("用户字典获取失败,请返回重试")
-                    return@onClickProxy
-                }
-
-                if(TextUtils.isEmpty(idcardAPath)){
-                    ToastUtil.showToast("请选择身份证正面照")
-                    return@onClickProxy
-                }
-
-                if(TextUtils.isEmpty(idcardBPath)){
-                    ToastUtil.showToast("请选择身份证反面照")
-                    return@onClickProxy
-                }
-
-                imgList.add(idcardAPath!!)
-                imgList.add(idcardBPath!!)
-               viewModel.uploadImageList(imgList)
-            }
-        }
+        binding.pager.isUserInputEnabled = false
+        val adapter: MyFragmentStateAdapter = MyFragmentStateAdapter(this, list)
+        binding.pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        binding.pager.adapter = adapter
+        binding.pager.currentItem = 2
 
         viewModel.getServicePackage()
         viewModel.getEbikeRegInfo()
     }
 
-    private val imgList = java.util.ArrayList<String>()
-
-
-    private fun applyCamera(type:Int){
+    fun applyCamera(type: Int) {
         PermissionUtil.applyCamera(object : RequestPermission {
             override fun onRequestPermissionSuccess() {
                 openPhoto(type)
@@ -127,13 +102,13 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
         }, rxPermissions)
     }
 
-    private fun showApplyDialog(){
-        if(!applyDialog.isShowing){
+    private fun showApplyDialog() {
+        if (!applyDialog.isShowing) {
             applyDialog.show()
         }
     }
 
-    private fun openPhoto(type: Int){
+    private fun openPhoto(type: Int) {
         PictureSelector.create(this)
             .openGallery(PictureMimeType.ofImage())
             .imageEngine(GlideEngine.createGlideEngine())
@@ -145,33 +120,36 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
             .isCamera(false)// 是否显示拍照按钮
             .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
             .isEnableCrop(true)// 是否裁剪
-            .withAspectRatio(Constants.GlobalValue.IDCARD_WIDTH, Constants.GlobalValue.IDCARD_HEIGHT)// 裁剪
+            .withAspectRatio(
+                Constants.GlobalValue.IDCARD_WIDTH,
+                Constants.GlobalValue.IDCARD_HEIGHT
+            )// 裁剪
             .forResult(object : OnResultCallbackListener<LocalMedia> {
                 override fun onResult(result: MutableList<LocalMedia>?) {
                     result?.last()?.let {
-                        var picPath:String? = ""
-                        if(it.isCut && !TextUtils.isEmpty(it.cutPath)){
+                        var picPath: String? = ""
+                        if (it.isCut && !TextUtils.isEmpty(it.cutPath)) {
                             picPath = it.cutPath
                         }
 
-                        if(TextUtils.isEmpty(picPath) && it.isCompressed && !TextUtils.isEmpty(it.compressPath)){
+                        if (TextUtils.isEmpty(picPath) && it.isCompressed && !TextUtils.isEmpty(it.compressPath)) {
                             picPath = it.compressPath
                         }
 
-                        if(TextUtils.isEmpty(picPath)){
-                            picPath =  if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                        if (TextUtils.isEmpty(picPath)) {
+                            picPath = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                                 it.androidQToPath
-                            }else{
+                            } else {
                                 it.path
                             }
                         }
                         //显示图片
-                        if(!TextUtils.isEmpty(picPath)){
-                            loadImgPath(type,picPath!!)
-                        }else{
+                        if (!TextUtils.isEmpty(picPath)) {
+                            loadImgPath(type, picPath!!)
+                        } else {
                             ToastUtil.showToast("选择照片出错,请重新选择！")
                         }
-                    }?:let {
+                    } ?: let {
                         ToastUtil.showToast("选择照片出错,请重新选择！！")
                     }
                 }
@@ -182,16 +160,18 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
     }
 
     private fun loadImgPath(type: Int, picPath: String) {
-        if(type == 1){
-            idcardAPath = picPath
-            ImageLoader.getInstance().loadImage(
-                BaseApp.instance,
-                GlideImageConfig(picPath, binding.ivIdcardA).also { it.type = TransType.NORMAL })
-        }else if(type == 2){
-            idcardBPath = picPath
-            ImageLoader.getInstance().loadImage(
-                BaseApp.instance,
-                GlideImageConfig(picPath, binding.ivIdcardB).also { it.type = TransType.NORMAL })
+        if (type == 1) {
+            viewModel.idcardAPath.postValue(picPath)
+        } else if (type == 2) {
+            viewModel.idcardBPath.postValue(picPath)
         }
+    }
+
+    fun onNextByIndex(index:Int){
+        binding.pager.currentItem = index
+    }
+
+    fun onBack(){
+        binding.pager.currentItem -= 1
     }
 }
