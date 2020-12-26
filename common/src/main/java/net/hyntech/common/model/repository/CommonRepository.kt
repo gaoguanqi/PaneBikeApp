@@ -44,6 +44,10 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.uploadImageList(partList)
     }
 
+    suspend fun idCardDistinguish(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO){
+        retrofitClient.idCardDistinguish(params2Body(params))
+    }
+
     suspend fun editHeadImage(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO){
         retrofitClient.editHeadImage(params2Body(params))
     }
@@ -124,7 +128,16 @@ open class CommonRepository:BaseRepository() {
     suspend fun getCollectorList(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
         retrofitClient.getCollectorList(params2Body(params))
     }
+
     suspend fun collectorSave(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
         retrofitClient.collectorSave(params2Body(params))
+    }
+
+    suspend fun getServicePackage(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getServicePackage(params2Body(params))
+    }
+
+    suspend fun getEbikeRegInfo(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getEbikeRegInfo(params2Body(params))
     }
 }

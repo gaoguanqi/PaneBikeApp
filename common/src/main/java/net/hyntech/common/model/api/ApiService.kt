@@ -37,6 +37,10 @@ interface ApiService:BaseApi {
     suspend fun uploadImageList(@Part partList: List<MultipartBody.Part>): UploadImgEntity
 
     @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_IDCARD_DISTINGUISH)
+    suspend fun idCardDistinguish(@Body requestBody: RequestBody): UserInfoEntity
+
+    @Headers("urlname:hyntech")
     @POST(ApiURL.URL_EDIT_HEADIMGURL)
     suspend fun editHeadImage(@Body requestBody: RequestBody): CommonEntity
 
@@ -61,7 +65,7 @@ interface ApiService:BaseApi {
     suspend fun getMyOrderList(@Body requestBody: RequestBody): MyOrderEntity
 
     @Headers("urlname:hyntech")
-    @POST(ApiURL.URL_SERVICE_PACKAGE)
+    @POST(ApiURL.URL_USUAL_SERVICE_PACKAGE)
     suspend fun getServiceList(@Body requestBody: RequestBody): ServiceSafeEntity
 
     @Headers("urlname:hyntech")
@@ -120,6 +124,14 @@ interface ApiService:BaseApi {
     @Headers("urlname:hyntech")
     @POST(ApiURL.URL_COLLECTOR_SAVE)
     suspend fun collectorSave(@Body requestBody: RequestBody): CommonEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_POLICE_SERVICE_PACKAGE)
+    suspend fun getServicePackage(@Body requestBody: RequestBody): ServiceSafeEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_EBIKE_REG_INFO)
+    suspend fun getEbikeRegInfo(@Body requestBody: RequestBody): EbikeRegInfoEntity
 
     //---------警用端结束-----------------------
 

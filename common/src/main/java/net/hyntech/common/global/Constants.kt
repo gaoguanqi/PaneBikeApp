@@ -25,6 +25,10 @@ class Constants {
 
         const val SEARCH = "search"
 
+        const val EBIKE_REG_INFO = "ebikeRegInfo"
+        const val SERVICE_PACKAGE = "servicePackage"
+
+
     }
 
 

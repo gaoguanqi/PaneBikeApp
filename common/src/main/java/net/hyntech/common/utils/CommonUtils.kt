@@ -36,6 +36,18 @@ class CommonUtils {
             }
         }
 
+        fun splitPicList(url: String?):List<String>{
+            val list:MutableList<String> = mutableListOf()
+            if(!TextUtils.isEmpty(url)){
+                if(url?.contains(",")?:false){
+                    list.addAll(url!!.split(","))
+                }else{
+                    list.add(url!!)
+                }
+            }
+            return list
+        }
+
         //便民服务
         fun filterShopType(type:String,shopType:String?):Boolean{
             if(TextUtils.isEmpty(shopType)){

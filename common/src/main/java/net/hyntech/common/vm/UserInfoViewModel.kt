@@ -8,6 +8,7 @@ import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.common.global.Constants
 import net.hyntech.common.model.repository.CommonRepository
+import net.hyntech.common.utils.CommonUtils
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -57,17 +58,16 @@ class UserInfoViewModel : BaseViewModel() {
         val partsList: List<MultipartBody.Part> = builder.build().parts
         launchOnlyResult({
             repository.uploadImageList(partsList)
-        }, success = { data ->
-            data?.imgUrl?.let {urls ->
-                val urlList:MutableList<String> = mutableListOf()
-                if(urls.contains(",")){
-                    urlList.addAll(urls.split(","))
-                }else{
-                    urlList.add(urls)
-                }
+        }, success = {
+            it?.imgUrl?.let {urls ->
+               val urlList = CommonUtils.splitPicList(urls)
                if(urlList.isNotEmpty()){
                    editHeadImage(urlList.first())
+               }else{
+                   defUI.dismissDialog.call()
                }
+            }?:let {
+                defUI.dismissDialog.call()
             }
         },error = {
             defUI.dismissDialog.call()

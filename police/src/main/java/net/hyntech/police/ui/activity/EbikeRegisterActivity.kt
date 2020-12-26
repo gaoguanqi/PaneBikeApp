@@ -3,6 +3,7 @@ package net.hyntech.police.ui.activity
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import androidx.lifecycle.Observer
 import com.blankj.utilcode.util.AppUtils
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
@@ -55,6 +56,18 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
             ToastUtil.showToast("已有信息在册")
         }
 
+        viewModel.defUI.showDialog.observe(this, Observer {
+            showLoading()
+        })
+
+        viewModel.defUI.dismissDialog.observe(this, Observer {
+            dismissLoading()
+        })
+
+        viewModel.defUI.toastEvent.observe(this, Observer {
+            ToastUtil.showToast(it)
+        })
+
         binding.ivIdcardA.setOnClickListener {
             onClickProxy {
                 applyCamera(1)
@@ -68,6 +81,13 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
 
         binding.btnNext.setOnClickListener {
             onClickProxy {
+                imgList.clear()
+
+                if(!viewModel.isSaveServicePackage || !viewModel.isSaveEbikeRegInfo){
+                    ToastUtil.showToast("用户字典获取失败,请返回重试")
+                    return@onClickProxy
+                }
+
                 if(TextUtils.isEmpty(idcardAPath)){
                     ToastUtil.showToast("请选择身份证正面照")
                     return@onClickProxy
@@ -83,6 +103,9 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
                viewModel.uploadImageList(imgList)
             }
         }
+
+        viewModel.getServicePackage()
+        viewModel.getEbikeRegInfo()
     }
 
     private val imgList = java.util.ArrayList<String>()
@@ -142,13 +165,9 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
                                 it.path
                             }
                         }
-                        //上传图片
+                        //显示图片
                         if(!TextUtils.isEmpty(picPath)){
-                            if(type == 1){
-                                idcardAPath = picPath
-                            }else if(type == 2){
-                                idcardBPath = picPath
-                            }
+                            loadImgPath(type,picPath!!)
                         }else{
                             ToastUtil.showToast("选择照片出错,请重新选择！")
                         }
@@ -160,5 +179,19 @@ class EbikeRegisterActivity:BaseViewActivity<ActivityEbikeRegisterBinding,EbikeR
                     //ToastUtil.showToast("取消")
                 }
             })
+    }
+
+    private fun loadImgPath(type: Int, picPath: String) {
+        if(type == 1){
+            idcardAPath = picPath
+            ImageLoader.getInstance().loadImage(
+                BaseApp.instance,
+                GlideImageConfig(picPath, binding.ivIdcardA).also { it.type = TransType.NORMAL })
+        }else if(type == 2){
+            idcardBPath = picPath
+            ImageLoader.getInstance().loadImage(
+                BaseApp.instance,
+                GlideImageConfig(picPath, binding.ivIdcardB).also { it.type = TransType.NORMAL })
+        }
     }
 }

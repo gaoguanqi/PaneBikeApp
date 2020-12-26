@@ -39,9 +39,9 @@ class ApiURL {
         const val URL_USER_INFO = "${PREFIX_URL}/get_user_info.thtml"
         //上传图片
         const val URL_UPLOAD_IMG = "${PREFIX_OSS_URL}/img_upload.thtml"
-
         //修改头像
         const val URL_EDIT_HEADIMGURL = "${PREFIX_URL}/edit_headimgurl.thtml"
+
 
         //----------民用版--------------------------------------------------------------------------------------------------
         //民用版 锁车/解锁 车辆
@@ -57,7 +57,7 @@ class ApiURL {
         //民用版 我的保单
         const val URL_MY_ORDER = "${EXT}/v1/service_package/usual/my_list.thtml"
         //民用版 服务包列表
-        const val URL_SERVICE_PACKAGE = "${EXT}/v1/service_package/usual/list.thtml"
+        const val URL_USUAL_SERVICE_PACKAGE = "${EXT}/v1/service_package/usual/list.thtml"
         //民用版 服务详情
         const val URL_SERVICE_DETAIL = "${EXT}/v1/service_package/usual/detail.thtml"
         //民用版 理赔流程
@@ -88,7 +88,16 @@ class ApiURL {
         const val URL_COLLECTOR_LIST = "${EXT}/v1/collector/police/list.thtml"
         //警用版 点位（采集器）添加、修改
         const val URL_COLLECTOR_SAVE = "${EXT}/v1/collector/police/save.thtml"
+        //警用版 身份证信息识别
+        const val URL_IDCARD_DISTINGUISH = "${EXT}/v1/ebike/police/idCard_distinguish.thtml"
+        //警用版 服务包列表
+        const val URL_POLICE_SERVICE_PACKAGE = "${EXT}/v1/service_package/police/list.thtml"
+        //警用版 车辆登记相关数据(车主身份、车辆类型、品牌型号、车辆颜色、保险保额)
+        const val URL_EBIKE_REG_INFO = "${EXT}/v1/ebike/police/get_ebike_reg_info.thtml"
         //web url
+
+
+
 
         //我的保单
          val WEB_URL_MY_ORDER = "${Global.BASE_WEB_URL}/page/my/grxx/wdbd.html"
