@@ -80,7 +80,7 @@ class EbikeRegisterActivity : BaseViewActivity<ActivityEbikeRegisterBinding, Ebi
         val adapter: MyFragmentStateAdapter = MyFragmentStateAdapter(this, list)
         binding.pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         binding.pager.adapter = adapter
-        binding.pager.currentItem = 0
+        binding.pager.currentItem = 2
 
         viewModel.getServicePackage()
         viewModel.getEbikeRegInfo()

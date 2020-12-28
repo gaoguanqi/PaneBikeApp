@@ -94,6 +94,8 @@ class ApiURL {
         const val URL_POLICE_SERVICE_PACKAGE = "${EXT}/v1/service_package/police/list.thtml"
         //警用版 车辆登记相关数据(车主身份、车辆类型、品牌型号、车辆颜色、保险保额)
         const val URL_EBIKE_REG_INFO = "${EXT}/v1/ebike/police/get_ebike_reg_info.thtml"
+        //警用版  选择品牌
+        const val URL_EBIKE_BRAND = "${EXT}/v2/ebike/police/get_ebike_type.thtml"
         //web url
 
 

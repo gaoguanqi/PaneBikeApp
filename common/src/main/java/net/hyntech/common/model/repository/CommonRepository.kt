@@ -140,4 +140,8 @@ open class CommonRepository:BaseRepository() {
     suspend fun getEbikeRegInfo(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
         retrofitClient.getEbikeRegInfo(params2Body(params))
     }
+
+    suspend fun getEbikeBrand(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getEbikeBrand(params2Body(params))
+    }
 }

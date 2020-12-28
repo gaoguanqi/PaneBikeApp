@@ -1,9 +1,12 @@
 package net.hyntech.police.vm
 
+import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.common.global.Constants
+import net.hyntech.common.model.entity.EbikeBrandEntity
 import net.hyntech.common.model.entity.EbikeRegInfoEntity
 import net.hyntech.common.model.entity.ServiceSafeEntity
 import net.hyntech.common.model.entity.UserInfoEntity
@@ -16,11 +19,21 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import org.jetbrains.anko.collections.forEachWithIndex
 import java.io.File
 import java.util.*
+import kotlin.collections.HashMap
 
 class EbikeRegisterViewModel:BaseViewModel() {
 
     private val repository by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { CommonRepository() }
 
+    val ownerInfoMap:MutableMap<String,String> = mutableMapOf()
+    val ebikeInfoMap:HashMap<String,String> = hashMapOf()
+
+    init {
+        ownerInfoMap.put("birthday","")
+        ownerInfoMap.put("userWork","")
+        ownerInfoMap.put("crashName","")
+        ownerInfoMap.put("crashPhone","")
+    }
     val idCardImgList:MutableLiveData<List<String>> = MutableLiveData()
     val idcardAPath: MutableLiveData<String> = MutableLiveData()
     val idcardBPath: MutableLiveData<String> = MutableLiveData()
@@ -105,5 +118,42 @@ class EbikeRegisterViewModel:BaseViewModel() {
                 ebikeRegInfo = data
             }
         },isShowDialog = false,isShowToast = false)
+    }
+//--------------选择品牌----------------------------
+    val ebikeBrandList: MutableLiveData<List<EbikeBrandEntity.EbikeTypeListBean>> = MutableLiveData()
+
+    fun getEbikeBrand() {
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("keyword","")
+            repository.getEbikeBrand(params)
+        }, success = {
+            ebikeBrandList.postValue(it?.ebikeTypeList)
+        })
+    }
+
+    val serchBrandList: MutableLiveData<List<EbikeBrandEntity.EbikeTypeListBean>> = MutableLiveData()
+    private val serchBrands:MutableList<EbikeBrandEntity.EbikeTypeListBean> = mutableListOf()
+
+    fun searchByBrand(keyword: String){
+        ebikeBrandList.value?.let {
+            serchBrands.clear()
+            if(TextUtils.isEmpty(keyword)){
+                serchBrands.addAll(it)
+            }else{
+                it.forEach {item ->
+                    if(item.name.contains(keyword)){
+                        serchBrands.add(item)
+                    }
+                }
+            }
+            if(serchBrands.isEmpty()){
+                defUI.emptyEvent.call()
+            }else{
+                serchBrandList.postValue(serchBrands)
+            }
+        }?:let {
+            defUI.emptyEvent.call()
+        }
     }
 }

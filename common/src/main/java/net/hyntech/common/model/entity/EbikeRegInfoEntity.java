@@ -1,5 +1,7 @@
 package net.hyntech.common.model.entity;
 
+import com.contrarywind.interfaces.IPickerViewData;
+
 import net.hyntech.baselib.http.BaseResponse;
 
 import java.util.List;
@@ -60,7 +62,7 @@ public class EbikeRegInfoEntity extends BaseResponse<EbikeRegInfoEntity> {
         this.ebikeColor = ebikeColor;
     }
 
-    public static class UserIdTypeBean {
+    public static class UserIdTypeBean implements IPickerViewData {
         /**
          * name : 普通用户
          * value : 1
@@ -84,9 +86,14 @@ public class EbikeRegInfoEntity extends BaseResponse<EbikeRegInfoEntity> {
         public void setValue(String value) {
             this.value = value;
         }
+
+        @Override
+        public String getPickerViewText() {
+            return this.name;
+        }
     }
 
-    public static class TypeBean {
+    public static class TypeBean implements IPickerViewData{
         /**
          * name : 电动自行车
          * value : 0
@@ -109,6 +116,11 @@ public class EbikeRegInfoEntity extends BaseResponse<EbikeRegInfoEntity> {
 
         public void setValue(String value) {
             this.value = value;
+        }
+
+        @Override
+        public String getPickerViewText() {
+            return this.name;
         }
     }
 
