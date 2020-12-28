@@ -54,9 +54,9 @@ class RegOwnerInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
         TimePickerBuilder(act, object : OnTimeSelectListener {
             override fun onTimeSelect(date: Date?, v: View?) {
                 if(date != null){
-                    val birthday = TimeUtils.date2String(date,TimeUtils.getSafeDateFormat("yyyy-MM-dd"))
-                    binding.tvBirthday.text = birthday
-                    viewModel.ownerInfoMap.put("birthday",birthday)
+                    val time = TimeUtils.date2String(date,TimeUtils.getSafeDateFormat("yyyy-MM-dd"))
+                    binding.tvBirthday.text = time
+                    viewModel.ownerInfoMap.put("birthday",time)
                 }
             }
         }).setType(booleanArrayOf(true, true, true, false, false, false))

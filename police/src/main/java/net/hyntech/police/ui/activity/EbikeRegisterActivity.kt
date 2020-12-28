@@ -1,5 +1,7 @@
 package net.hyntech.police.ui.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
@@ -13,12 +15,10 @@ import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.listener.OnResultCallbackListener
 import com.tbruyelle.rxpermissions2.RxPermissions
-import net.hyntech.baselib.utils.PermissionUtil
-import net.hyntech.baselib.utils.RequestPermission
-import net.hyntech.baselib.utils.ToastUtil
-import net.hyntech.baselib.utils.UIUtils
+import net.hyntech.baselib.utils.*
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
+import net.hyntech.common.global.EventCode
 import net.hyntech.common.ui.adapter.MyFragmentStateAdapter
 import net.hyntech.common.widget.dialog.CommonDialog
 import net.hyntech.common.widget.imgloader.engine.GlideEngine
@@ -80,7 +80,7 @@ class EbikeRegisterActivity : BaseViewActivity<ActivityEbikeRegisterBinding, Ebi
         val adapter: MyFragmentStateAdapter = MyFragmentStateAdapter(this, list)
         binding.pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         binding.pager.adapter = adapter
-        binding.pager.currentItem = 2
+        binding.pager.currentItem = 0
 
         viewModel.getServicePackage()
         viewModel.getEbikeRegInfo()
@@ -164,6 +164,14 @@ class EbikeRegisterActivity : BaseViewActivity<ActivityEbikeRegisterBinding, Ebi
             viewModel.idcardAPath.postValue(picPath)
         } else if (type == 2) {
             viewModel.idcardBPath.postValue(picPath)
+        }else if(type == 3){
+            viewModel.ebikeAPath.postValue(picPath)
+        }else if(type == 4){
+            viewModel.ebikeBPath.postValue(picPath)
+        }else if(type == 5){
+            viewModel.labelPath.postValue(picPath)
+        }else if(type == 6){
+            viewModel.invoicePath.postValue(picPath)
         }
     }
 
@@ -173,5 +181,26 @@ class EbikeRegisterActivity : BaseViewActivity<ActivityEbikeRegisterBinding, Ebi
 
     fun onBack(){
         binding.pager.currentItem -= 1
+    }
+
+
+    fun startEbikeBrand(){
+        startActivityForResult(Intent(this,EbikeBrandActivity::class.java),EventCode.EVENT_CODE_BRAND)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                EventCode.EVENT_CODE_BRAND ->{
+                    val name = data?.getStringExtra(Constants.BundleKey.EXTRA_CONTENT)
+                    name?.let {
+                        viewModel.brandName.postValue(it)
+                        viewModel.ebikeInfoMap.put("brandName",it)
+                    }
+                }
+            }
+        }
     }
 }

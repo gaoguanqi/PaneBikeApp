@@ -37,6 +37,12 @@ class EbikeRegisterViewModel:BaseViewModel() {
     val idCardImgList:MutableLiveData<List<String>> = MutableLiveData()
     val idcardAPath: MutableLiveData<String> = MutableLiveData()
     val idcardBPath: MutableLiveData<String> = MutableLiveData()
+
+    val ebikeAPath: MutableLiveData<String> = MutableLiveData()
+    val ebikeBPath: MutableLiveData<String> = MutableLiveData()
+    val labelPath: MutableLiveData<String> = MutableLiveData()
+    val invoicePath: MutableLiveData<String> = MutableLiveData()
+
     val userInfo: MutableLiveData<UserInfoEntity.UserBean> = MutableLiveData()
     //上传图片
     fun uploadImageList(imegList: List<String>) {
@@ -120,6 +126,8 @@ class EbikeRegisterViewModel:BaseViewModel() {
         },isShowDialog = false,isShowToast = false)
     }
 //--------------选择品牌----------------------------
+    val brandName:MutableLiveData<String> = MutableLiveData()
+
     val ebikeBrandList: MutableLiveData<List<EbikeBrandEntity.EbikeTypeListBean>> = MutableLiveData()
 
     fun getEbikeBrand() {

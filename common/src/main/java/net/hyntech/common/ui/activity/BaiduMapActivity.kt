@@ -84,8 +84,7 @@ class BaiduMapActivity : BaseActivity(), OnGetGeoCoderResultListener, OnGetPoiSe
         intent.putExtra(Constants.BundleKey.EXTRA_CONTENT,item?.name)
         intent.putExtra(Constants.BundleKey.EXTRA_LAT,item?.location?.latitude?.toString())
         intent.putExtra(Constants.BundleKey.EXTRA_LNG,item?.location?.longitude?.toString())
-        setResult(Activity.RESULT_OK,intent)
-        this.finish()
+        onFinishByIntent(intent)
     }
 
 

@@ -1,5 +1,7 @@
 package net.hyntech.common.model.entity;
 
+import com.contrarywind.interfaces.IPickerViewData;
+
 import net.hyntech.baselib.http.BaseResponse;
 
 import java.util.List;
@@ -126,7 +128,7 @@ public class ServiceSafeEntity extends BaseResponse<ServiceSafeEntity> {
         }
     }
 
-    public static class ServicePackageListBean {
+    public static class ServicePackageListBean implements IPickerViewData {
         /**
          * companyId : 2018EBPfeAIaVf
          * createId : 1
@@ -161,7 +163,7 @@ public class ServiceSafeEntity extends BaseResponse<ServiceSafeEntity> {
         private String insuranceId;
         private String insuranceName;
         private String insurancePic;
-        private int insurancePrice;
+        private long insurancePrice;
         private String loginUserId;
         private String orgId;
         private String orgName;
@@ -174,6 +176,7 @@ public class ServiceSafeEntity extends BaseResponse<ServiceSafeEntity> {
         private String updateId;
         private String updateTime;
         private String uuserName;
+
 
         public String getCompanyId() {
             return companyId;
@@ -247,11 +250,11 @@ public class ServiceSafeEntity extends BaseResponse<ServiceSafeEntity> {
             this.insurancePic = insurancePic;
         }
 
-        public int getInsurancePrice() {
+        public long getInsurancePrice() {
             return insurancePrice;
         }
 
-        public void setInsurancePrice(int insurancePrice) {
+        public void setInsurancePrice(long insurancePrice) {
             this.insurancePrice = insurancePrice;
         }
 
@@ -349,6 +352,11 @@ public class ServiceSafeEntity extends BaseResponse<ServiceSafeEntity> {
 
         public void setUuserName(String uuserName) {
             this.uuserName = uuserName;
+        }
+
+        @Override
+        public String getPickerViewText() {
+            return this.insuranceName+" "+termRange+"年版"+"("+(insurancePrice/100)+")";
         }
     }
 }

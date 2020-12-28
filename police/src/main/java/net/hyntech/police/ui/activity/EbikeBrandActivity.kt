@@ -1,5 +1,7 @@
 package net.hyntech.police.ui.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -13,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_ebike_brand.*
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.global.Constants
 import net.hyntech.common.model.entity.EbikeBrandEntity
 import net.hyntech.common.widget.view.ClearEditText
 import net.hyntech.police.R
@@ -30,7 +33,9 @@ class EbikeBrandActivity :BaseViewActivity<ActivityEbikeBrandBinding, EbikeRegis
             this.setListener(object :EbikeBrandAdapter.OnClickListener{
                 override fun onItemClick(item: EbikeBrandEntity.EbikeTypeListBean?) {
                     item?.let {
-
+                        val intent: Intent = Intent()
+                        intent.putExtra(Constants.BundleKey.EXTRA_CONTENT,it.name)
+                        onFinishByIntent(intent)
                     }
                 }
             })

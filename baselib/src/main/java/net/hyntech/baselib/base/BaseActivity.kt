@@ -1,6 +1,7 @@
 package net.hyntech.baselib.base
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -112,6 +113,11 @@ abstract class BaseActivity : AppCompatActivity(), IView {
         if(isResultOK){
             setResult(Activity.RESULT_OK)
         }
+        this.finish()
+    }
+
+    open fun onFinishByIntent(intent:Intent) {
+        setResult(Activity.RESULT_OK,intent)
         this.finish()
     }
 

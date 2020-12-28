@@ -150,7 +150,7 @@
                     android:layout_marginEnd="@dimen/common_padding" />
 
                 <LinearLayout
-                    android:id="@+id/ll_branch"
+                    android:id="@+id/ll_brand"
                     android:layout_width="match_parent"
                     android:layout_height="46dp"
                     android:gravity="center_vertical"
@@ -168,7 +168,7 @@
                         app:textColor="@color/common_gray_text" />
 
                     <TextView
-                        android:id="@+id/tv_branch"
+                        android:id="@+id/tv_brand"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.5"
@@ -427,6 +427,8 @@
                     android:gravity="center_vertical"
                     android:minHeight="46dp"
                     android:orientation="horizontal"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
                     android:paddingStart="@dimen/common_padding"
                     android:paddingEnd="@dimen/common_padding">
 
