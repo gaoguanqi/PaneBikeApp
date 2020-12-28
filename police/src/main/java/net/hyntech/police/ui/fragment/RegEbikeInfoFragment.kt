@@ -89,7 +89,7 @@ class RegEbikeInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
             LogUtils.logGGQ("options1-->${options1}")
             binding.tvService.text = serviceList.get(options1).pickerViewText
         }).apply {
-            this.setContentTextSize(22)
+            this.setContentTextSize(20)
             this.setTitleColor(UIUtils.getColor(CR.color.common_color_text))
             this.setCancelColor(UIUtils.getColor(CR.color.common_color_text))
             this.setSubmitColor(UIUtils.getColor(CR.color.common_color_text))
