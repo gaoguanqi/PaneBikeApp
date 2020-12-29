@@ -2,6 +2,7 @@ package net.hyntech.police.ui.activity
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_register_edit.*
@@ -31,7 +32,7 @@ class RegisterEditActivity :BaseViewActivity<ActivityRegisterEditBinding,Registe
     private val ebikeAdapter by lazy { EbikeInfoAdapter(this).apply {
         this.setListener(object :EbikeInfoAdapter.OnClickListener{
             override fun onEditClick(item: UserInfoEntity.EbikeListBean?) {
-
+                ToastUtil.showToast("编辑->>${item?.ebikeNo}")
             } }) } }
     private val viewModel by viewModels<RegisterEditViewModel>()
 
@@ -49,6 +50,17 @@ class RegisterEditActivity :BaseViewActivity<ActivityRegisterEditBinding,Registe
 
         etInput = findViewById(R.id.et_input)
         etInput?.hint = "请输入车主身份证号"
+        this.findViewById<Button>(R.id.btn_search)?.setOnClickListener {
+            onClickProxy {
+                val input = etInput?.text.toString().trim()
+                if(TextUtils.isEmpty(input)){
+                    ToastUtil.showToast("请输入车主身份证号")
+                    return@onClickProxy
+                }
+                idNo = input
+                viewModel.getUserInfo(idNo!!)
+            }
+        }
 
 
 
