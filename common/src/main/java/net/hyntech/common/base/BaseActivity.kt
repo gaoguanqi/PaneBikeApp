@@ -45,6 +45,7 @@ abstract class BaseActivity : B() {
     }
 
     inline fun <reified T : BaseActivity> setRightTxt(txt: String): T {
+        ll_right?.visibility = View.VISIBLE
         tv_right?.visibility = View.VISIBLE
         tv_right?.text = txt
         return this as T

@@ -21,11 +21,8 @@ import net.hyntech.common.ui.adapter.SeverListAdapter
 import net.hyntech.common.widget.decoration.GridItemDecoration
 import net.hyntech.police.R
 import net.hyntech.police.databinding.FragmentMainBinding
+import net.hyntech.police.ui.activity.*
 import net.hyntech.common.R as CR
-import net.hyntech.police.ui.activity.DeviceInfoActivity
-import net.hyntech.police.ui.activity.EbikeRegisterActivity
-import net.hyntech.police.ui.activity.FindEbikeActivity
-import net.hyntech.police.ui.activity.PointManageActivity
 import net.hyntech.police.vm.HomeViewModel
 import java.util.ArrayList
 
@@ -128,7 +125,7 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
 
     //登记记录
     private fun regRecord(){
-
+        startActivity(Intent(requireActivity(), RecordPendingActivity::class.java))
     }
 
     //车辆查找

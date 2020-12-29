@@ -17,7 +17,7 @@ import net.hyntech.police.R
 import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.FragmentRegIdcardBinding
 import net.hyntech.police.ui.activity.EbikeRegisterActivity
-import net.hyntech.police.ui.activity.PendingPaymentActivity
+import net.hyntech.police.ui.activity.RecordPendingActivity
 import net.hyntech.police.vm.EbikeRegisterViewModel
 
 class RegIdcardFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<FragmentRegIdcardBinding,EbikeRegisterViewModel>(){
@@ -49,8 +49,6 @@ class RegIdcardFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<Frag
             this.findViewById<LinearLayout>(R.id.ll_right).setOnClickListener {
                 onClickProxy {
                     ToastUtil.showToast("已有信息在册")
-                    //TODO
-                    startActivity(Intent(requireContext(), PendingPaymentActivity::class.java))
                 }
             }
         }

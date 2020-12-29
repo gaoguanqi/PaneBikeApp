@@ -142,7 +142,7 @@ interface ApiService:BaseApi {
     suspend fun registerEbike(@Body requestBody: RequestBody): EbikeRegEntity
 
     @Headers("urlname:hyntech")
-    @POST(ApiURL.URL_EBIKE_REG)
+    @POST(ApiURL.URL_MARK_PAY)
     suspend fun paymentConfirm(@Body requestBody: RequestBody): PaymentConfirmEntity
 
     @Headers("urlname:hyntech")

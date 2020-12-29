@@ -68,7 +68,13 @@
         <activity android:name=".ui.activity.PaymentConfirmActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".ui.activity.PendingPaymentActivity"
+        <activity android:name=".ui.activity.RecordPendingActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".ui.activity.RecordInstalledActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".ui.activity.RecordSearchActivity"
             android:screenOrientation="portrait" />
 
         <provider

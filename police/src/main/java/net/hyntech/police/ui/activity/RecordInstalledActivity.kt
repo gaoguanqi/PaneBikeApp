@@ -10,30 +10,28 @@ import kotlinx.android.synthetic.main.activity_payment_state.*
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.global.Constants
 import net.hyntech.common.model.entity.RegisterListEntity
 import net.hyntech.common.widget.view.ClearEditText
 import net.hyntech.police.R
+import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.ActivityPaymentStateBinding
 import net.hyntech.police.ui.adapter.EbikeRegisterAdapter
 import net.hyntech.police.vm.PaymentViewModel
-import net.hyntech.common.R as CR
-
 /**
- * 登记记录(待付款)
+ * 登记记录(已安装)
  */
-class PendingPaymentActivity : BaseViewActivity<ActivityPaymentStateBinding, PaymentViewModel>() {
+class RecordInstalledActivity:BaseViewActivity<ActivityPaymentStateBinding,PaymentViewModel>() {
 
+    private val state: Int = 1
     private val keyword: String = ""
 
     private var etInput: ClearEditText? = null
 
     private val registerAdapter by lazy {
-        EbikeRegisterAdapter(this).apply {
+        EbikeRegisterAdapter(this,state).apply {
             this.setListener(object : EbikeRegisterAdapter.OnClickListener {
-                override fun onEditClick(item: RegisterListEntity.AtEbikeListBean?) {
-
-                }
-            })
+                override fun onEditClick(item: RegisterListEntity.AtEbikeListBean?) {} })
         }
     }
 
@@ -48,10 +46,9 @@ class PendingPaymentActivity : BaseViewActivity<ActivityPaymentStateBinding, Pay
 
     override fun initData(savedInstanceState: Bundle?) {
 
-        setTitle<PendingPaymentActivity>(UIUtils.getString(CR.string.common_title_register_list)).onBack<PendingPaymentActivity> {
+        setTitle<RecordInstalledActivity>(UIUtils.getString(CR.string.common_title_register_list)).onBack<RecordInstalledActivity> {
             onFinish()
         }
-
 
         etInput = findViewById(R.id.et_input)
         etInput?.hint = "请输入车牌号、姓名"
@@ -64,7 +61,7 @@ class PendingPaymentActivity : BaseViewActivity<ActivityPaymentStateBinding, Pay
 
         etInput?.setOnClickListener {
             onClickProxy {
-
+                startActivity(Intent(this,RecordSearchActivity::class.java).putExtra(Constants.BundleKey.EXTRA_CONTENT,state.toString()))
             }
         }
 
@@ -125,19 +122,19 @@ class PendingPaymentActivity : BaseViewActivity<ActivityPaymentStateBinding, Pay
             finishLoadMore()
         })
 
-        viewModel.getRegisterList("0", keyword)
+        viewModel.getRegisterList(state.toString(), keyword)
     }
 
 
     private fun onRefreshData() {
-        viewModel.onRegisterListRefresh("0", keyword)
+        viewModel.onRegisterListRefresh(state.toString(), keyword)
     }
 
     private fun onLoadMoreData() {
         if (viewModel.lastPage) {
             finishLoadMore()
         } else {
-            viewModel.onRegisterListLoadMore("0", keyword)
+            viewModel.onRegisterListLoadMore(state.toString(), keyword)
         }
     }
 
@@ -154,4 +151,5 @@ class PendingPaymentActivity : BaseViewActivity<ActivityPaymentStateBinding, Pay
             if (it.isLoading) it.finishLoadMore(300)
         }
     }
+
 }

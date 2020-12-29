@@ -13,8 +13,8 @@ import net.hyntech.common.model.entity.RegisterListEntity
 import net.hyntech.common.utils.CommonUtils
 import net.hyntech.police.R
 import net.hyntech.common.R as CR
-//type = 0 已安装，1待缴费
-class EbikeRegisterAdapter(val context: Context,val type:Int = 0) : BaseAdapter<EbikeRegisterAdapter.ViewHolder>() {
+//type = 0 待付款，1已安装
+class EbikeRegisterAdapter(val context: Context,val type:Int) : BaseAdapter<EbikeRegisterAdapter.ViewHolder>() {
 
     private val installColor = UIUtils.getColor(CR.color.common_color_green)
     private val pendingColor = UIUtils.getColor(CR.color.common_color_badge)
@@ -80,7 +80,7 @@ class EbikeRegisterAdapter(val context: Context,val type:Int = 0) : BaseAdapter<
                 tvEbikeTel.text = "${it.phone}"
                 tvIdCard.text = "${it.idNo}"
                 tvService.text = "${it.insuranceProductName}"
-                if(type == 0){
+                if(type == 1){
                     tvEbikeState.text = "已安装"
                     tvEbikeState.setTextColor(installColor)
                     tvTimeTitle.text = "安装日期"

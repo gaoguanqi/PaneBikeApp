@@ -51,10 +51,12 @@
 
             <net.hyntech.common.widget.view.ClearEditText
                 android:id="@+id/et_password"
-                style="@style/common_style_account_input"
-                android:background="@drawable/layer_bottom_line"
-                android:hint="请输入密码"
-                android:inputType="textPassword" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/common_font_common"
+                android:inputType="textPassword"
+                android:background="@null"
+                android:hint="请输入密码" />
         </LinearLayout>
 
         <View

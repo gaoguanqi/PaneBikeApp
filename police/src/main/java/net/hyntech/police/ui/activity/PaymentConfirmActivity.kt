@@ -54,7 +54,7 @@ class PaymentConfirmActivity:BaseViewActivity<ActivityPaymentConfirmBinding,Paym
         })
 
         viewModel.paymentEvent.observe(this, Observer {
-            startActivity(Intent(this,PendingPaymentActivity::class.java))
+            startActivity(Intent(this,RecordPendingActivity::class.java))
             onFinish()
         })
 
