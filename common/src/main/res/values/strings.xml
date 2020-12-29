@@ -76,6 +76,8 @@
     <string name="common_title_ebike_register">车辆登记</string>
     <string name="common_title_owner_info">车主信息</string>
     <string name="common_title_ebike_info">车辆信息</string>
+    <string name="common_title_payment_confirm">缴费确认</string>
+    <string name="common_title_register_list">登记记录</string>
 
 
 

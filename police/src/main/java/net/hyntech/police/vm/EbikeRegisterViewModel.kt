@@ -5,11 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.baselib.utils.LogUtils
+import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.common.global.Constants
-import net.hyntech.common.model.entity.EbikeBrandEntity
-import net.hyntech.common.model.entity.EbikeRegInfoEntity
-import net.hyntech.common.model.entity.ServiceSafeEntity
-import net.hyntech.common.model.entity.UserInfoEntity
+import net.hyntech.common.model.entity.*
 import net.hyntech.common.model.repository.CommonRepository
 import net.hyntech.common.utils.CommonUtils
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -34,7 +32,6 @@ class EbikeRegisterViewModel:BaseViewModel() {
         ownerInfoMap.put("crashName","")
         ownerInfoMap.put("crashPhone","")
     }
-    val idCardImgList:MutableLiveData<List<String>> = MutableLiveData()
     val idcardAPath: MutableLiveData<String> = MutableLiveData()
     val idcardBPath: MutableLiveData<String> = MutableLiveData()
 
@@ -45,7 +42,8 @@ class EbikeRegisterViewModel:BaseViewModel() {
 
     val userInfo: MutableLiveData<UserInfoEntity.UserBean> = MutableLiveData()
     //上传图片
-    fun uploadImageList(imegList: List<String>) {
+    val idNoPics:MutableList<String> = mutableListOf()
+    fun uploadIDCardImageList(imegList: List<String>) {
         defUI.showDialog.call()
         val builder: MultipartBody.Builder = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
@@ -68,7 +66,6 @@ class EbikeRegisterViewModel:BaseViewModel() {
             it?.let { data ->
                 val urlList = CommonUtils.splitPicList(data.imgUrl)
                 if(urlList.isNotEmpty() && urlList.size >= 2){
-                    idCardImgList.postValue(urlList)
                     idCardDistinguish(data.idNoPic1,data.idNoPic2,urlList.get(0),urlList.get(1))
                 }else{
                     defUI.dismissDialog.call()
@@ -84,6 +81,7 @@ class EbikeRegisterViewModel:BaseViewModel() {
 
     val idCardNextEvent: SingleLiveEvent<Any> = SingleLiveEvent()
 
+
     private fun idCardDistinguish(idNoPic1:String,idNoPic2:String,imgUrl1:String,imgUrl2:String){
         val params: WeakHashMap<String, Any> = WeakHashMap()
         params.put("idNoPic1",idNoPic1)
@@ -91,6 +89,8 @@ class EbikeRegisterViewModel:BaseViewModel() {
         params.put("imgUrl1",imgUrl1)
         params.put("imgUrl2",imgUrl2)
         launchOnlyResult({
+            idNoPics.add(idNoPic1)
+            idNoPics.add(idNoPic2)
             repository.idCardDistinguish(params)
         }, success = {
             it?.let { user ->
@@ -127,6 +127,7 @@ class EbikeRegisterViewModel:BaseViewModel() {
     }
 //--------------选择品牌----------------------------
     val brandName:MutableLiveData<String> = MutableLiveData()
+    val scanCode:MutableLiveData<String> = MutableLiveData()
 
     val ebikeBrandList: MutableLiveData<List<EbikeBrandEntity.EbikeTypeListBean>> = MutableLiveData()
 
@@ -163,5 +164,100 @@ class EbikeRegisterViewModel:BaseViewModel() {
         }?:let {
             defUI.emptyEvent.call()
         }
+    }
+
+    //--------------------
+    fun uploadEbikeImageList(imegList: List<String>){
+        defUI.showDialog.call()
+        val builder: MultipartBody.Builder = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+        builder.addFormDataPart("imgType", Constants.GlobalValue.IMAGE_TYPE_USUAL)
+        for (param in repository.getPublicParams(true)) {
+            builder.addFormDataPart(param.key, param.value.toString())
+        }
+        imegList.forEachWithIndex { index, path ->
+            val file = File(path)
+            if (file.exists()) {
+                val body: RequestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                builder.addFormDataPart("pic${index+1}", file.name, body)
+            }
+        }
+
+        val partsList: List<MultipartBody.Part> = builder.build().parts
+        launchOnlyResult({
+            repository.uploadImageList(partsList)
+        }, success = {
+            it?.let { data ->
+                val urlList = CommonUtils.splitPicList(data.imgUrl)
+                if(urlList.isNotEmpty() && urlList.size >= 4){
+                    registerEbike(urlList)
+                }else{
+                    defUI.dismissDialog.call()
+                }
+            }?:let {
+                defUI.dismissDialog.call()
+            }
+        },error = {
+            defUI.dismissDialog.call()
+        },isShowDialog = false,isShowToast = false)
+    }
+
+    //
+    val regEbikeResult: MutableLiveData<String> = MutableLiveData()
+
+    private fun registerEbike(urlList:List<String>){
+        val params: WeakHashMap<String, Any> = WeakHashMap()
+        params.put("dataSource","reg") //新增车辆的标识
+
+        //车主信息
+        val userId:String? = userInfo.value?.userId
+        if(TextUtils.isEmpty(userId)){ //用户id不存在则需要添加车主信息
+            params.put("userId","")
+            params.put("idNo",ownerInfoMap.get("idNo"))
+            params.put("name",ownerInfoMap.get("name"))
+            params.put("phone",ownerInfoMap.get("phone"))
+            params.put("sex",ownerInfoMap.get("sex"))
+            params.put("birthdate",ownerInfoMap.get("birthdate"))
+            params.put("addr",ownerInfoMap.get("addr"))
+            params.put("idType",ownerInfoMap.get("idType"))
+            params.put("company",ownerInfoMap.get("company"))
+            params.put("name2",ownerInfoMap.get("name2"))
+            params.put("phone2",ownerInfoMap.get("phone2"))
+            //身份证
+            params.put("idNoPic1",idNoPics.get(0))
+            params.put("idNoPic2",idNoPics.get(1))
+        }else{ //用户id存在则直接绑定用户id
+            params.put("userId",userId)
+        }
+
+        //车辆信息
+        params.put("locatorNo",ebikeInfoMap.get("locatorNo"))
+        params.put("servicePackageOrgId",ebikeInfoMap.get("servicePackageOrgId"))
+        params.put("ebikeNo",ebikeInfoMap.get("ebikeNo"))
+        params.put("frameNo",ebikeInfoMap.get("frameNo"))
+        params.put("ebikeType",ebikeInfoMap.get("ebikeType"))
+        params.put("type",ebikeInfoMap.get("type"))
+        params.put("engineNo",ebikeInfoMap.get("engineNo"))
+        params.put("ebikeColor",ebikeInfoMap.get("ebikeColor"))
+        params.put("price",ebikeInfoMap.get("price"))
+        params.put("buyTime",ebikeInfoMap.get("buyTime"))
+        params.put("remark",ebikeInfoMap.get("remark"))
+
+        //车辆照片
+        params.put("ebikePic1",urlList.get(0))
+        params.put("ebikePic2",urlList.get(1))
+        params.put("locatorPic",urlList.get(2))
+        params.put("invoicePic",urlList.get(3))
+
+        launchOnlyResult({
+            repository.registerEbike(params)
+        }, success = {
+            //打开缴费确认
+            it?.let {data ->
+                regEbikeResult.postValue(data.ebikeId)
+            }
+        },complete = {
+            defUI.dismissDialog.call()
+        },isShowDialog = false)
     }
 }

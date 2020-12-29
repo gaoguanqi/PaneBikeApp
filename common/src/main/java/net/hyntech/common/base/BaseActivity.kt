@@ -33,29 +33,29 @@ abstract class BaseActivity : B() {
     }
 
 
-    fun <T : BaseActivity> setTitle(txt: String): T {
+    inline fun <reified T : BaseActivity> setTitle(txt: String): T {
         tv_title?.text = txt
         return this as T
     }
 
-    fun <T : BaseActivity> setLeftTxt(txt: String): T {
+    inline fun <reified T : BaseActivity> setLeftTxt(txt: String): T {
         tv_left?.visibility = View.VISIBLE
         tv_left?.text = txt
         return this as T
     }
 
-    fun <T : BaseActivity> setRightTxt(txt: String): T {
+    inline fun <reified T : BaseActivity> setRightTxt(txt: String): T {
         tv_right?.visibility = View.VISIBLE
         tv_right?.text = txt
         return this as T
     }
 
-    fun <T : BaseActivity> onBack(m: () -> Unit): T {
+    inline fun <reified T : BaseActivity> onBack(crossinline m: () -> Unit): T {
         ll_left?.setOnClickListener { if(!UIUtils.isFastDoubleClick()){m()} }
         return this as T
     }
 
-    fun <T : BaseActivity> onSide(m: () -> Unit): T {
+    inline fun <reified T : BaseActivity> onSide(crossinline m: () -> Unit): T {
         ll_right?.setOnClickListener { if(!UIUtils.isFastDoubleClick()){m()} }
         return this as T
     }

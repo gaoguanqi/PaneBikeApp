@@ -1,6 +1,7 @@
 package net.hyntech.police.ui.fragment
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.*
 import androidx.lifecycle.Observer
@@ -33,7 +34,9 @@ class RegEbikeInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
     private val ebikeColorPickerView by lazy {
         OptionsPickerBuilder(act, OnOptionsSelectListener { options1, options2, options3, v ->
             LogUtils.logGGQ("options1-->${options1}")
-            binding.tvColor.text = ebikeColorList.get(options1)
+            val color = ebikeColorList.get(options1)
+            binding.tvColor.text = color
+            viewModel.ebikeInfoMap.put("ebikeColor",color)
         }).apply {
             this.setContentTextSize(22)
             this.setTitleColor(UIUtils.getColor(CR.color.common_color_text))
@@ -50,7 +53,9 @@ class RegEbikeInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
     private val ebikeTypePickerView by lazy {
         OptionsPickerBuilder(act, OnOptionsSelectListener { options1, options2, options3, v ->
             LogUtils.logGGQ("options1-->${options1}")
-            binding.tvType.text = ebikeTypeList.get(options1).name
+            val entity = ebikeTypeList.get(options1)
+            binding.tvType.text = entity.name
+            viewModel.ebikeInfoMap.put("type",entity.value)
         }).apply {
             this.setContentTextSize(22)
             this.setTitleColor(UIUtils.getColor(CR.color.common_color_text))
@@ -69,6 +74,7 @@ class RegEbikeInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
                 if(date != null){
                     val time = TimeUtils.date2String(date, TimeUtils.getSafeDateFormat("yyyy-MM-dd"))
                     binding.tvBuyTime.text = time
+                    viewModel.ebikeInfoMap.put("buyTime",time)
                 }
             }
         }).setType(booleanArrayOf(true, true, true, false, false, false))
@@ -88,6 +94,9 @@ class RegEbikeInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
         OptionsPickerBuilder(act, OnOptionsSelectListener { options1, options2, options3, v ->
             LogUtils.logGGQ("options1-->${options1}")
             binding.tvService.text = serviceList.get(options1).pickerViewText
+            //servicePackageOrgId
+            viewModel.ebikeInfoMap.put("servicePackageOrgId",serviceList.get(options1).servicePackageOrgId)
+
         }).apply {
             this.setContentTextSize(20)
             this.setTitleColor(UIUtils.getColor(CR.color.common_color_text))
@@ -122,7 +131,7 @@ class RegEbikeInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
             //扫一扫
             this.findViewById<ImageButton>(R.id.btn_scan).setOnClickListener {
                 onClickProxy {
-
+                    act.startScan()
                 }
             }
 
@@ -201,13 +210,17 @@ class RegEbikeInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
 
             this.findViewById<Button>(R.id.btn_commit).setOnClickListener {
                 onClickProxy {
-
+                    onEbikeInfoCommit()
                 }
             }
         }
 
         viewModel.brandName.observe(this, Observer {
             binding.tvBrand.text = it
+        })
+
+        viewModel.scanCode.observe(this, Observer {
+            binding.etLabel.setText(it)
         })
 
         viewModel.ebikeAPath.observe(this, Observer {
@@ -246,6 +259,116 @@ class RegEbikeInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
         }
     }
 
+
+    private val imegList = mutableListOf<String>()
+    private fun onEbikeInfoCommit(){
+        val label =  binding.etLabel.text.toString().trim()
+        if(TextUtils.isEmpty(label)){
+            ToastUtil.showToast("请输入绑定的标签号")
+            return
+        }
+        viewModel.ebikeInfoMap.put("locatorNo",label)
+
+        val ebikeNo =  binding.etEbikeNo.text.toString().trim()
+        if(TextUtils.isEmpty(ebikeNo)){
+            ToastUtil.showToast("请输入车牌号")
+            return
+        }
+        viewModel.ebikeInfoMap.put("ebikeNo",ebikeNo)
+
+        val frameNo =  binding.etFrameNo.text.toString().trim()
+        if(TextUtils.isEmpty(frameNo)){
+            ToastUtil.showToast("请输入车架号")
+            return
+        }
+        viewModel.ebikeInfoMap.put("frameNo",frameNo)
+
+
+        val brandName = viewModel.brandName.value
+        if(TextUtils.isEmpty(brandName)){
+            ToastUtil.showToast("请选择品牌型号")
+            return
+        }
+        viewModel.ebikeInfoMap.put("ebikeType",brandName!!)
+
+
+
+        val engine =  binding.etEngine.text.toString().trim()
+        if(TextUtils.isEmpty(engine)){
+            ToastUtil.showToast("请输入电机号")
+            return
+        }
+        viewModel.ebikeInfoMap.put("engineNo",engine)
+
+
+        if(TextUtils.isEmpty(viewModel.ebikeInfoMap.get("ebikeColor"))){
+            ToastUtil.showToast("请选择车辆颜色")
+            return
+        }
+
+        if(TextUtils.isEmpty(viewModel.ebikeInfoMap.get("type"))){
+            ToastUtil.showToast("请选择车辆类型")
+            return
+        }
+
+        val buyPrice = binding.etPrice.text.toString().trim()
+        if(TextUtils.isEmpty(buyPrice)){
+            ToastUtil.showToast("请输入购买价格")
+            return
+        }
+        //用户输入的购买价格(用户输入的是元,后台需要传分)
+        val price = buyPrice.toDouble()*100
+        viewModel.ebikeInfoMap.put("price",(price.toLong()).toString())
+
+
+        if(TextUtils.isEmpty(viewModel.ebikeInfoMap.get("buyTime"))){
+            ToastUtil.showToast("请选择购买日期")
+            return
+        }
+
+        if(TextUtils.isEmpty(viewModel.ebikeInfoMap.get("servicePackageOrgId"))){
+            ToastUtil.showToast("请选择保障服务")
+            return
+        }
+
+        val remark= binding.etRemark.text.toString().trim()
+        if(TextUtils.isEmpty(remark)){
+            viewModel.ebikeInfoMap.put("remark","")
+        }else{
+            viewModel.ebikeInfoMap.put("remark",remark)
+        }
+
+        val ebikeAPath = viewModel.ebikeAPath.value
+        if(TextUtils.isEmpty(ebikeAPath)){
+            ToastUtil.showToast("请上传车辆正面照")
+            return
+        }
+        val ebikeBPath = viewModel.ebikeBPath.value
+        if(TextUtils.isEmpty(ebikeBPath)){
+            ToastUtil.showToast("请上传车辆反面照")
+            return
+        }
+
+        val labelPath = viewModel.labelPath.value
+        if(TextUtils.isEmpty(labelPath)){
+            ToastUtil.showToast("请上传标签安装位置照片")
+            return
+        }
+
+        val invoicePath = viewModel.invoicePath.value
+        if(TextUtils.isEmpty(invoicePath)){
+            ToastUtil.showToast("请上传购车发票/其他凭证")
+            return
+        }
+
+        imegList.clear()
+        imegList.add(ebikeAPath!!)
+        imegList.add(ebikeBPath!!)
+        imegList.add(labelPath!!)
+        imegList.add(invoicePath!!)
+
+        viewModel.uploadEbikeImageList(imegList.toList())
+    }
 
 
 }

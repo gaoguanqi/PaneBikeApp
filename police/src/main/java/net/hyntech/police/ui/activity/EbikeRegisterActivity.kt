@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.blankj.utilcode.util.AppUtils
+import com.king.zxing.CaptureActivity
+import com.king.zxing.Intents
+import com.king.zxing.util.CodeUtils
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
@@ -68,6 +71,12 @@ class EbikeRegisterActivity : BaseViewActivity<ActivityEbikeRegisterBinding, Ebi
 
         viewModel.defUI.toastEvent.observe(this, Observer {
             ToastUtil.showToast(it)
+        })
+
+        viewModel.regEbikeResult.observe(this, Observer {
+            //缴费确认
+            startActivity(Intent(this,PaymentConfirmActivity::class.java).putExtra(Constants.BundleKey.EXTRA_ID,it))
+            onFinish()
         })
 
         val list: List<Fragment> = listOf(
@@ -197,10 +206,21 @@ class EbikeRegisterActivity : BaseViewActivity<ActivityEbikeRegisterBinding, Ebi
                     val name = data?.getStringExtra(Constants.BundleKey.EXTRA_CONTENT)
                     name?.let {
                         viewModel.brandName.postValue(it)
-                        viewModel.ebikeInfoMap.put("brandName",it)
+                    }
+                }
+
+                EventCode.EVENT_CODE_SCAN ->{
+                    val result = data?.getStringExtra(Intents.Scan.RESULT)
+                    result?.let {
+                        LogUtils.logGGQ("result-->${result}")
+                        viewModel.scanCode.postValue(it)
                     }
                 }
             }
         }
+    }
+
+    fun startScan() {
+        startActivityForResult(Intent(this, CaptureActivity::class.java),EventCode.EVENT_CODE_SCAN)
     }
 }

@@ -96,6 +96,10 @@ class ApiURL {
         const val URL_EBIKE_REG_INFO = "${EXT}/v1/ebike/police/get_ebike_reg_info.thtml"
         //警用版  选择品牌
         const val URL_EBIKE_BRAND = "${EXT}/v2/ebike/police/get_ebike_type.thtml"
+        //警用版  车辆登记
+        const val URL_EBIKE_REG = "${EXT}/v1/ebike/police/reg.thtml"
+        //警用版  车辆登记列表
+        const val URL_REG_LIST = "${EXT}/v1/ebike/police/reg_list.thtml"
         //web url
 
 

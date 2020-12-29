@@ -17,8 +17,7 @@ class DeviceInfoViewModel:BaseViewModel() {
         //201811131014741
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
-//            params.put("collectorId",id)
-            params.put("collectorId","201811131014741")
+            params.put("collectorId",id)
             repository.searchDecive(params)
         }, success = {
             it?.let {data ->

@@ -317,7 +317,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="horizontal"
-                        app:iconShow="false"
                         app:text="购买价格(元)"
                         app:textAlignment="center"
                         app:textColor="@color/common_gray_text" />

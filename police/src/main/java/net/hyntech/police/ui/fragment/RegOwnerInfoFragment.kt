@@ -37,7 +37,7 @@ class RegOwnerInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
             LogUtils.logGGQ("options1-->${options1}")
             val entity:GenderEntity = genderList.get(options1)
             binding.tvGender.text = entity.key.toString()
-            viewModel.ownerInfoMap.put("gender",entity.value)
+            viewModel.ownerInfoMap.put("sex",entity.value)
         }).apply {
             this.setContentTextSize(22)
             this.setTitleColor(UIUtils.getColor(CR.color.common_color_text))
@@ -56,7 +56,7 @@ class RegOwnerInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
                 if(date != null){
                     val time = TimeUtils.date2String(date,TimeUtils.getSafeDateFormat("yyyy-MM-dd"))
                     binding.tvBirthday.text = time
-                    viewModel.ownerInfoMap.put("birthday",time)
+                    viewModel.ownerInfoMap.put("birthdate",time)
                 }
             }
         }).setType(booleanArrayOf(true, true, true, false, false, false))
@@ -76,7 +76,7 @@ class RegOwnerInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
             LogUtils.logGGQ("options1-->${options1}")
             val entity:EbikeRegInfoEntity.UserIdTypeBean = userTypeList.get(options1)
             binding.tvType.text = entity.name
-            viewModel.ownerInfoMap.put("userType",entity.value)
+            viewModel.ownerInfoMap.put("idType",entity.value)
         }).apply {
             this.setContentTextSize(22)
             this.setTitleColor(UIUtils.getColor(CR.color.common_color_text))
@@ -147,7 +147,7 @@ class RegOwnerInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
             return
         }
 
-        viewModel.ownerInfoMap.put("idCard",idCard)
+        viewModel.ownerInfoMap.put("idNo",idCard)
 
 
         val userName =  binding.etName.text.toString().trim()
@@ -155,10 +155,10 @@ class RegOwnerInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
             ToastUtil.showToast("请输入车主姓名")
             return
         }
-        viewModel.ownerInfoMap.put("userName",userName)
+        viewModel.ownerInfoMap.put("name",userName)
 
 
-        if(TextUtils.isEmpty(viewModel.ownerInfoMap.get("gender"))){
+        if(TextUtils.isEmpty(viewModel.ownerInfoMap.get("sex"))){
             ToastUtil.showToast("请选择车主性别")
             return
         }
@@ -168,17 +168,17 @@ class RegOwnerInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
             ToastUtil.showToast("请输入现居住地址")
             return
         }
-        viewModel.ownerInfoMap.put("address",address)
+        viewModel.ownerInfoMap.put("addr",address)
 
         val userPhone =  binding.etPhone.text.toString().trim()
         if(TextUtils.isEmpty(userPhone) || !RegexUtils.isMobileSimple(userPhone)){
             ToastUtil.showToast("请输入有效的手机号码")
             return
         }
-        viewModel.ownerInfoMap.put("userPhone",userPhone)
+        viewModel.ownerInfoMap.put("phone",userPhone)
 
 
-        if(TextUtils.isEmpty(viewModel.ownerInfoMap.get("userType"))){
+        if(TextUtils.isEmpty(viewModel.ownerInfoMap.get("idType"))){
             ToastUtil.showToast("请选择车主身份")
             return
         }
@@ -186,17 +186,17 @@ class RegOwnerInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
 
         val userWork =  binding.etWork.text.toString().trim()
         if(!TextUtils.isEmpty(userWork)){
-            viewModel.ownerInfoMap.put("userWork",userWork)
+            viewModel.ownerInfoMap.put("company",userWork)
         }
 
         val crashName =  binding.etCrashName.text.toString().trim()
         if(!TextUtils.isEmpty(userWork)){
-            viewModel.ownerInfoMap.put("crashName",crashName)
+            viewModel.ownerInfoMap.put("name2",crashName)
         }
 
         val crashPhone =  binding.etCrashPhone.text.toString().trim()
         if(!TextUtils.isEmpty(crashPhone)){
-            viewModel.ownerInfoMap.put("crashPhone",crashPhone)
+            viewModel.ownerInfoMap.put("phone2",crashPhone)
         }
 
         viewModel.ownerInfoMap.forEach {
@@ -217,7 +217,7 @@ class RegOwnerInfoFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<F
         viewModel.ebikeRegInfo?.let { ebike ->
             val userTpye = ebike.userIdType.first()
             binding.tvType.text = userTpye.name
-            viewModel.ownerInfoMap.put("userType",userTpye.value)
+            viewModel.ownerInfoMap.put("idType",userTpye.value)
 
             userTypeList.addAll(ebike.userIdType)
         }

@@ -122,19 +122,44 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="20dp"
-                android:text="报警地点"
+                android:text="身份证号"
                 android:textColor="@color/common_gray_text"
                 android:textSize="@dimen/common_font_text" />
 
             <TextView
-                android:id="@+id/tv_alarm_address"
+                android:id="@+id/tv_idcard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
                 android:textColor="@color/common_black"
                 android:textSize="@dimen/common_font_text"
-                tools:text="测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本测试文本" />
+                tools:text="测试文本" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/common_padding"
+            android:paddingTop="8dp"
+            android:paddingEnd="@dimen/common_padding"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="20dp"
+                android:text="保障服务"
+                android:textColor="@color/common_gray_text"
+                android:textSize="@dimen/common_font_text" />
+
+            <TextView
+                android:id="@+id/tv_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/common_black"
+                android:textSize="@dimen/common_font_text"
+                tools:text="测试文本" />
         </LinearLayout>
 
         <LinearLayout
@@ -147,6 +172,7 @@
             android:paddingBottom="@dimen/common_padding">
 
             <TextView
+                android:id="@+id/tv_time_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="20dp"
@@ -155,7 +181,7 @@
                 android:textSize="@dimen/common_font_text" />
 
             <TextView
-                android:id="@+id/tv_alarm_time"
+                android:id="@+id/tv_time_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -166,6 +192,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/view_line"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginStart="@dimen/common_padding"
@@ -173,7 +200,9 @@
             android:background="@drawable/shape_dashgap"
             android:layerType="software" />
 
+
         <LinearLayout
+            android:id="@+id/ll_pay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
@@ -184,33 +213,20 @@
             android:paddingBottom="@dimen/common_padding">
 
             <TextView
-                android:id="@+id/tv_ignore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:background="@drawable/selector_cancel"
-                android:paddingStart="28dp"
-                android:paddingTop="6dp"
-                android:paddingEnd="28dp"
-                android:paddingBottom="6dp"
-                android:text="忽略"
-                android:textColor="@color/common_color_text"
-                android:textSize="@dimen/common_font_common" />
-
-            <TextView
-                android:id="@+id/tv_alarm"
+                android:id="@+id/tv_pay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:background="@drawable/selector_confirm"
-                android:paddingStart="28dp"
+                android:paddingStart="20dp"
                 android:paddingTop="6dp"
-                android:paddingEnd="28dp"
+                android:paddingEnd="20dp"
                 android:paddingBottom="6dp"
-                android:text="报警"
+                android:text="线下缴费"
                 android:textColor="@color/common_white"
                 android:textSize="@dimen/common_font_common" />
         </LinearLayout>
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

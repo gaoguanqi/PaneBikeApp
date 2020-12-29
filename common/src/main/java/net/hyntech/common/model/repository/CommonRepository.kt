@@ -144,4 +144,16 @@ open class CommonRepository:BaseRepository() {
     suspend fun getEbikeBrand(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
         retrofitClient.getEbikeBrand(params2Body(params))
     }
+
+    suspend fun registerEbike(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.registerEbike(params2Body(params))
+    }
+
+    suspend fun paymentConfirm(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.paymentConfirm(params2Body(params))
+    }
+
+    suspend fun getRegisterList(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getRegisterList(params2Body(params))
+    }
 }

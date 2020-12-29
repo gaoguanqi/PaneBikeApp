@@ -137,6 +137,18 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_EBIKE_BRAND)
     suspend fun getEbikeBrand(@Body requestBody: RequestBody): EbikeBrandEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_EBIKE_REG)
+    suspend fun registerEbike(@Body requestBody: RequestBody): EbikeRegEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_EBIKE_REG)
+    suspend fun paymentConfirm(@Body requestBody: RequestBody): PaymentConfirmEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_REG_LIST)
+    suspend fun getRegisterList(@Body requestBody: RequestBody): RegisterListEntity
+
     //---------警用端结束-----------------------
 
 }
