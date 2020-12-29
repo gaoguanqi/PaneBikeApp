@@ -77,6 +77,9 @@
         <activity android:name=".ui.activity.RecordSearchActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".ui.activity.RegisterEditActivity"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"

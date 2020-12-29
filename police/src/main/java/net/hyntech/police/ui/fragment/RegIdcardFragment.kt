@@ -49,6 +49,7 @@ class RegIdcardFragment(val viewModel: EbikeRegisterViewModel):BaseFragment<Frag
             this.findViewById<LinearLayout>(R.id.ll_right).setOnClickListener {
                 onClickProxy {
                     ToastUtil.showToast("已有信息在册")
+                    act.startEdit()
                 }
             }
         }

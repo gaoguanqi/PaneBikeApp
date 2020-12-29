@@ -751,7 +751,7 @@ public class UserInfoEntity extends BaseResponse<UserInfoEntity> {
         private String idNoPic2;
         private int installState;
         private long insuranceCoverage;
-        private int insurancePrice;
+        private long insurancePrice;
         private String insuranceProductName;
         private String insuranceState;
         private String insuranceTime;
@@ -1040,11 +1040,11 @@ public class UserInfoEntity extends BaseResponse<UserInfoEntity> {
             this.insuranceCoverage = insuranceCoverage;
         }
 
-        public int getInsurancePrice() {
+        public long getInsurancePrice() {
             return insurancePrice;
         }
 
-        public void setInsurancePrice(int insurancePrice) {
+        public void setInsurancePrice(long insurancePrice) {
             this.insurancePrice = insurancePrice;
         }
 

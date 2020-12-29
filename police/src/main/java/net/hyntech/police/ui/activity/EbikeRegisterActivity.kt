@@ -223,4 +223,9 @@ class EbikeRegisterActivity : BaseViewActivity<ActivityEbikeRegisterBinding, Ebi
     fun startScan() {
         startActivityForResult(Intent(this, CaptureActivity::class.java),EventCode.EVENT_CODE_SCAN)
     }
+
+
+    fun startEdit(){
+        startActivity(Intent(this,RegisterEditActivity::class.java))
+    }
 }
