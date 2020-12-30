@@ -13,8 +13,7 @@
         android:background="@color/common_default_background"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingStart="16dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,11 +24,11 @@
 
         <TextView
             android:id="@+id/tv_edit_ebike"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="end"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="编辑"
+            android:paddingEnd="16dp"
+            android:gravity="end|center_vertical"
             android:textColor="@color/common_color_text"
             android:textSize="@dimen/common_font_text" />
     </LinearLayout>

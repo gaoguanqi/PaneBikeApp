@@ -1,5 +1,6 @@
 package net.hyntech.police.app
 
+import androidx.lifecycle.ViewModelStore
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
 import com.scwang.smart.refresh.footer.ClassicsFooter
@@ -46,6 +47,10 @@ class PoliceApplication : BaseApp() {
         instance = this
         initSDK()
         //initX5Web()
+    }
+
+    override fun getViewModelStore(): ViewModelStore {
+        return ViewModelStore()
     }
 
     private fun initX5Web(){

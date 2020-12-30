@@ -1,12 +1,13 @@
 package net.hyntech.baselib.app
 
 import android.app.Application
+import androidx.lifecycle.ViewModelStoreOwner
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.Utils
 import me.jessyan.autosize.utils.AutoSizeLog
 
-abstract class BaseApp : Application() {
+abstract class BaseApp : Application(), ViewModelStoreOwner {
 
     companion object {
         @JvmStatic

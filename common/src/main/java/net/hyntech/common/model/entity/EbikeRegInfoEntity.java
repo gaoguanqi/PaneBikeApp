@@ -4,6 +4,7 @@ import com.contrarywind.interfaces.IPickerViewData;
 
 import net.hyntech.baselib.http.BaseResponse;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class EbikeRegInfoEntity extends BaseResponse<EbikeRegInfoEntity> {
@@ -62,7 +63,7 @@ public class EbikeRegInfoEntity extends BaseResponse<EbikeRegInfoEntity> {
         this.ebikeColor = ebikeColor;
     }
 
-    public static class UserIdTypeBean implements IPickerViewData {
+    public static class UserIdTypeBean implements IPickerViewData, Serializable {
         /**
          * name : 普通用户
          * value : 1

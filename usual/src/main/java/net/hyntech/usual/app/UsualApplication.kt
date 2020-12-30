@@ -1,5 +1,6 @@
 package net.hyntech.usual.app
 
+import androidx.lifecycle.ViewModelStore
 import cn.jpush.android.api.JPushInterface
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
@@ -53,6 +54,10 @@ class UsualApplication : BaseApp() {
         instance = this
         initSDK()
 //        initX5Web()
+    }
+
+    override fun getViewModelStore(): ViewModelStore {
+        return ViewModelStore()
     }
 
     private fun initX5Web(){

@@ -31,6 +31,8 @@ import net.hyntech.police.ui.fragment.RegEbikeInfoFragment
 import net.hyntech.police.ui.fragment.RegIdcardFragment
 import net.hyntech.police.ui.fragment.RegOwnerInfoFragment
 import net.hyntech.police.vm.EbikeRegisterViewModel
+import org.w3c.dom.Text
+import java.io.Serializable
 import net.hyntech.common.R as CR
 
 class EbikeRegisterActivity : BaseViewActivity<ActivityEbikeRegisterBinding, EbikeRegisterViewModel>() {
@@ -226,6 +228,13 @@ class EbikeRegisterActivity : BaseViewActivity<ActivityEbikeRegisterBinding, Ebi
 
 
     fun startEdit(){
-        startActivity(Intent(this,RegisterEditActivity::class.java))
+        if(viewModel.ebikeRegInfo?.userIdType != null){
+            val bundle:Bundle = Bundle()
+            bundle.putString(Constants.BundleKey.EXTRA_ID,viewModel.userInfo.value?.idNo)
+            bundle.putSerializable(Constants.BundleKey.EXTRA_OBJ,viewModel.ebikeRegInfo?.userIdType as Serializable)
+            startActivity(Intent(this,RegisterEditActivity::class.java).putExtras(bundle))
+        }else{
+            ToastUtil.showToast("数据加载中,请稍后！")
+        }
     }
 }

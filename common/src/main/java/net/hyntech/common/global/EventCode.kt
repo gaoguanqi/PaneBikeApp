@@ -7,6 +7,7 @@ class EventCode {
         const val EVENT_CODE_TRACK = 501
         const val EVENT_CODE_POINT = 502
         const val EVENT_CODE_BRAND = 503
+        const val EVENT_CODE_OWNER = 504
 
         //扫一扫
         const val EVENT_CODE_SCAN = 777

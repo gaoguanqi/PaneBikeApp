@@ -1,5 +1,4 @@
 package net.hyntech.common.base
-
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
@@ -21,6 +20,7 @@ abstract class BaseViewActivity<VB : ViewDataBinding, VM : BaseViewModel> : net.
         }
         return ViewModelLazy(VM::class, { viewModelStore }, factoryPromise)
     }
+
 
     protected val binding: VB by lazy { DataBindingUtil.setContentView(this, getLayoutId()) as VB }
     abstract fun bindViewModel()

@@ -43,7 +43,6 @@
                     android:gravity="center_vertical"
                     android:background="@color/common_default_background"
                     android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
                     android:orientation="horizontal">
                     <TextView
                         android:layout_width="wrap_content"
@@ -54,11 +53,11 @@
 
                     <TextView
                         android:id="@+id/tv_edit_owner"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:text="编辑"
-                        android:gravity="end"
+                        android:paddingEnd="16dp"
+                        android:gravity="end|center_vertical"
                         android:textColor="@color/common_color_text"
                         android:textSize="@dimen/common_font_text" />
                 </LinearLayout>
