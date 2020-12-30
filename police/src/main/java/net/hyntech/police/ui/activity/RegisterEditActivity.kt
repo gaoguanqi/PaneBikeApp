@@ -1,12 +1,16 @@
 package net.hyntech.police.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
 import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateViewModelFactory
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_register_edit.*
 import net.hyntech.baselib.app.BaseApp
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
@@ -34,11 +38,13 @@ class RegisterEditActivity :BaseViewActivity<ActivityRegisterEditBinding,Registe
             override fun onEditClick(item: UserInfoEntity.EbikeListBean?) {
                 ToastUtil.showToast("编辑->>${item?.ebikeNo}")
             } }) } }
+
     private val viewModel by viewModels<RegisterEditViewModel>()
 
     override fun getLayoutId(): Int = R.layout.activity_register_edit
 
     override fun bindViewModel() {
+        LogUtils.logGGQ("vm1->${viewModel}")
         binding.viewModel = viewModel
     }
 
@@ -62,6 +68,13 @@ class RegisterEditActivity :BaseViewActivity<ActivityRegisterEditBinding,Registe
             }
         }
 
+        this.findViewById<Button>(R.id.btn_add)?.setOnClickListener {
+            onClickProxy {
+                //新增车辆
+//                startActivity(Intent(this,EbikeRegisterActivity::class.java))
+                startActivity(Intent(this,OwnerInfoEditActivity::class.java))
+            }
+        }
 
 
         AppDatabase.getInstance(BaseApp.instance).userDao().apply {
