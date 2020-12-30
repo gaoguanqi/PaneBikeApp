@@ -44,6 +44,10 @@ class RegisterEditActivity :BaseViewActivity<ActivityRegisterEditBinding,Registe
         this.setListener(object :EbikeInfoAdapter.OnClickListener{
             override fun onEditClick(item: UserInfoEntity.EbikeListBean?) {
                 ToastUtil.showToast("编辑->>${item?.ebikeNo}")
+
+
+
+                startActivity(Intent(this@RegisterEditActivity,EbikeInfoEditActivity::class.java))
             } }) } }
 
     private val viewModel by viewModels<RegisterEditViewModel>()

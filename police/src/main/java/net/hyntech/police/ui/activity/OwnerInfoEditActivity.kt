@@ -92,7 +92,7 @@ class OwnerInfoEditActivity:BaseViewActivity<ActivityOwnerInfoEditBinding, Regis
 
     override fun initData(savedInstanceState: Bundle?) {
 
-        setTitle<OwnerInfoEditActivity>(UIUtils.getString(CR.string.common_title_owner_info)).onBack<OwnerInfoEditActivity> {
+        setTitle<OwnerInfoEditActivity>(UIUtils.getString(CR.string.common_title_edit_info)).onBack<OwnerInfoEditActivity> {
             onFinish()
         }
 
