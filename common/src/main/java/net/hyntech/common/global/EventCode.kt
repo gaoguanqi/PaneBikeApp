@@ -8,6 +8,7 @@ class EventCode {
         const val EVENT_CODE_POINT = 502
         const val EVENT_CODE_BRAND = 503
         const val EVENT_CODE_OWNER = 504
+        const val EVENT_CODE_EBIKE = 505
 
         //扫一扫
         const val EVENT_CODE_SCAN = 777
@@ -16,5 +17,6 @@ class EventCode {
         const val EVENT_CODE_EBIKES = 600
         const val EVENT_CODE_AVATAR = 601
         const val EVENT_CODE_SEARCH = 602
+        const val EVENT_CODE_EDIT = 603
     }
 }

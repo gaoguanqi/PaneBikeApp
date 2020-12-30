@@ -21,7 +21,7 @@ import net.hyntech.baselib.utils.*
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
 import net.hyntech.common.model.entity.EbikeRegInfoEntity
-import net.hyntech.common.model.vo.BundleUserVo
+import net.hyntech.common.model.vo.BundleUserEditVo
 import net.hyntech.common.widget.dialog.CommonDialog
 import net.hyntech.common.widget.imgloader.ImageLoader
 import net.hyntech.common.widget.imgloader.TransType
@@ -99,7 +99,7 @@ class OwnerInfoEditActivity:BaseViewActivity<ActivityOwnerInfoEditBinding, Regis
 
         val bundle = intent.extras
         bundle?.let {
-            val userInfo = it.getSerializable(Constants.BundleKey.EXTRA_OBJ) as BundleUserVo
+            val userInfo = it.getSerializable(Constants.BundleKey.EXTRA_OBJ) as BundleUserEditVo
             userInfo?.let { info ->
                 userId = info.userId
                  binding.etName.setText("${info.name}")

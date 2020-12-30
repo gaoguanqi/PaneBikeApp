@@ -40,7 +40,7 @@ class EbikeInfoAdapter (val context: Context) : BaseAdapter<EbikeInfoAdapter.Vie
         val holder: ViewHolder = ViewHolder(view)
         holder.tvEditEbike.setOnClickListener {
             if (!UIUtils.isFastDoubleClick()) {
-                listener?.onEditClick(list.get(holder.adapterPosition))
+                listener?.onEditClick(holder.adapterPosition,list)
             }
         }
         return holder
@@ -101,7 +101,7 @@ class EbikeInfoAdapter (val context: Context) : BaseAdapter<EbikeInfoAdapter.Vie
     }
 
     interface OnClickListener {
-        fun onEditClick(item: UserInfoEntity.EbikeListBean?)
+        fun onEditClick(pos:Int,list: List<UserInfoEntity.EbikeListBean>)
     }
 
 

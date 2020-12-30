@@ -65,6 +65,9 @@ class Constants {
         const val EXTRA_ID_S = "id_S"
         const val EXTRA_LAT = "lat"
         const val EXTRA_LNG = "lng"
+        const val EXTRA_USER_TYPE = "userIdType"
+        const val EXTRA_EBIKE_COLOR = "ebikeColor"
+        const val EXTRA_SERVICE = "service"
     }
 
 

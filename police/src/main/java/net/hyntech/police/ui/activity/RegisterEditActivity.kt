@@ -7,21 +7,18 @@ import android.text.TextUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.SavedStateViewModelFactory
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_register_edit.*
 import net.hyntech.baselib.app.BaseApp
-import net.hyntech.baselib.utils.LogUtils
-import net.hyntech.baselib.utils.ToastUtil
-import net.hyntech.baselib.utils.UIUtils
+import net.hyntech.baselib.utils.*
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
 import net.hyntech.common.global.EventCode
 import net.hyntech.common.model.entity.EbikeRegInfoEntity
 import net.hyntech.common.model.entity.UserInfoEntity
-import net.hyntech.common.model.vo.BundleUserVo
+import net.hyntech.common.model.vo.BundleEbikeEditVo
+import net.hyntech.common.model.vo.BundleUserEditVo
 import net.hyntech.common.widget.imgloader.ImageLoader
 import net.hyntech.common.widget.imgloader.TransType
 import net.hyntech.common.widget.imgloader.glide.GlideImageConfig
@@ -31,7 +28,6 @@ import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.ActivityRegisterEditBinding
 import net.hyntech.police.ui.adapter.EbikeInfoAdapter
 import net.hyntech.police.vm.RegisterEditViewModel
-import org.apache.http.client.UserTokenHandler
 
 
 //已有信息在册
@@ -42,13 +38,19 @@ class RegisterEditActivity :BaseViewActivity<ActivityRegisterEditBinding,Registe
 
     private val ebikeAdapter by lazy { EbikeInfoAdapter(this).apply {
         this.setListener(object :EbikeInfoAdapter.OnClickListener{
-            override fun onEditClick(item: UserInfoEntity.EbikeListBean?) {
-                ToastUtil.showToast("编辑->>${item?.ebikeNo}")
+            override fun onEditClick(pos: Int, list: List<UserInfoEntity.EbikeListBean>) {
+                val bundle:Bundle? = this@RegisterEditActivity.intent.extras
+                bundle?.let { b ->
+                    val vo:BundleEbikeEditVo = BundleEbikeEditVo()
+                    vo.pos = pos
+                    vo.service = b.getString(Constants.BundleKey.EXTRA_SERVICE)
+                    vo.colorList = b.getSerializable(Constants.BundleKey.EXTRA_EBIKE_COLOR) as List<String>
+                    vo.ebikeList = list
 
-
-
-                startActivity(Intent(this@RegisterEditActivity,EbikeInfoEditActivity::class.java))
-            } }) } }
+                    val event: Event<BundleEbikeEditVo> = Event(EventCode.EVENT_CODE_EDIT,vo)
+                    EventBusUtils.sendStickyEvent(event)
+                    startActivityForResult(Intent(this@RegisterEditActivity, EbikeInfoEditActivity::class.java),EventCode.EVENT_CODE_EBIKE)
+                } } }) } }
 
     private val viewModel by viewModels<RegisterEditViewModel>()
 
@@ -99,7 +101,8 @@ class RegisterEditActivity :BaseViewActivity<ActivityRegisterEditBinding,Registe
                 val bundle:Bundle? = this@RegisterEditActivity.intent.extras
                 bundle?.let {b ->
                     //410223196712136512
-                    val vo:BundleUserVo = BundleUserVo()
+                    val vo: BundleUserEditVo =
+                        BundleUserEditVo()
                     vo.userId = user.userId
                     vo.name = user.name
                     vo.phone = user.phone
@@ -108,7 +111,7 @@ class RegisterEditActivity :BaseViewActivity<ActivityRegisterEditBinding,Registe
                     vo.orgName = user.policeName
                     vo.idCardAPath = user.idNoPic1
                     vo.idCardBPath = user.idNoPic2
-                    vo.userIdType = b.getSerializable(Constants.BundleKey.EXTRA_OBJ) as List<EbikeRegInfoEntity.UserIdTypeBean>
+                    vo.userIdType = b.getSerializable(Constants.BundleKey.EXTRA_USER_TYPE) as List<EbikeRegInfoEntity.UserIdTypeBean>
                     b.putSerializable(Constants.BundleKey.EXTRA_OBJ,vo)
                     startActivityForResult(Intent(this,OwnerInfoEditActivity::class.java).putExtras(bundle),EventCode.EVENT_CODE_OWNER)
                 }
@@ -164,7 +167,8 @@ class RegisterEditActivity :BaseViewActivity<ActivityRegisterEditBinding,Registe
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK){
             when(requestCode){
-                EventCode.EVENT_CODE_OWNER ->{
+                EventCode.EVENT_CODE_OWNER,
+                EventCode.EVENT_CODE_EBIKE ->{
                     //刷新
                     if(!TextUtils.isEmpty(idNo)){
                         viewModel.getUserInfo(idNo!!)

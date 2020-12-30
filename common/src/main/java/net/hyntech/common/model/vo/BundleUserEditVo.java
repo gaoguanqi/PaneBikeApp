@@ -5,7 +5,7 @@ import net.hyntech.common.model.entity.EbikeRegInfoEntity;
 import java.io.Serializable;
 import java.util.List;
 
-public class BundleUserVo implements Serializable {
+public class BundleUserEditVo implements Serializable {
     public String userId = "";
     public String name = "";
     public String phone = "";
