@@ -363,6 +363,11 @@ class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, Regis
             }
         }
 
+        viewModel.saveEvent.observe(this, androidx.lifecycle.Observer {
+            //成功返回
+            onFinish(true)
+        })
+
     }
 
 
