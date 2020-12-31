@@ -4,7 +4,9 @@ import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.common.global.Constants
+import net.hyntech.common.model.entity.UpImgEntity
 import net.hyntech.common.model.entity.UserInfoEntity
 import net.hyntech.common.model.repository.CommonRepository
 import net.hyntech.common.utils.CommonUtils
@@ -12,8 +14,10 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import org.jetbrains.anko.collections.forEachReversedWithIndex
 import org.jetbrains.anko.collections.forEachWithIndex
 import java.io.File
+import java.lang.Exception
 import java.util.*
 
 class RegisterEditViewModel:BaseViewModel() {
@@ -36,7 +40,7 @@ class RegisterEditViewModel:BaseViewModel() {
     }
 
 
-    private val imageList:MutableList<String> = mutableListOf()
+    private val imageList:MutableList<UpImgEntity> = mutableListOf()
 
 
     //-----------车主信息修改----------------
@@ -44,11 +48,11 @@ class RegisterEditViewModel:BaseViewModel() {
         //如果 身份证 A面 或 B面 有值,说明需要修改上传身份证照片
         imageList.clear()
         if(!TextUtils.isEmpty(idCardAPath)){
-            imageList.add(idCardAPath)
+            imageList.add(UpImgEntity("idNoPic1",idCardAPath))
         }
 
         if(!TextUtils.isEmpty(idCardBPath)){
-            imageList.add(idCardBPath)
+            imageList.add(UpImgEntity("idNoPic2",idCardBPath))
         }
 
         if(imageList.isNotEmpty()){
@@ -63,7 +67,7 @@ class RegisterEditViewModel:BaseViewModel() {
 
 
 
-   private fun uploadImageList(imgType:String,params: WeakHashMap<String, Any>,imegList: List<String>) {
+   private fun uploadImageList(imgType:String,params: WeakHashMap<String, Any>,imegList: List<UpImgEntity>) {
        defUI.showDialog.call()
        val builder: MultipartBody.Builder = MultipartBody.Builder()
            .setType(MultipartBody.FORM)
@@ -72,7 +76,7 @@ class RegisterEditViewModel:BaseViewModel() {
            builder.addFormDataPart(param.key, param.value.toString())
        }
        imegList.forEachWithIndex { index, path ->
-           val file = File(path)
+           val file = File(path.path)
            if (file.exists()) {
                val body: RequestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                builder.addFormDataPart("pic${index+1}", file.name, body)
@@ -95,15 +99,16 @@ class RegisterEditViewModel:BaseViewModel() {
                }else if(TextUtils.equals(Constants.GlobalValue.IMAGE_TYPE_USUAL,imgType)){ //上传车辆 照片
                    val urlList = CommonUtils.splitPicList(data.imgUrl)
                    if(urlList.isNotEmpty()){
-                       urlList.forEachWithIndex { i, s ->
-                           when(i){
-                               0 ->{params.put("ebikePic1",s)}
-                               1 ->{params.put("ebikePic2",s)}
-                               2 ->{params.put("locatorPic",s)}
-                               3 ->{params.put("invoicePic",s)}
-                           }
-                       }
-                       saveSubmit(false,params)
+                        try {
+                            urlList.forEachWithIndex { i, s ->
+                                params.put(imegList.get(i).key,s)
+                            }
+                            saveSubmit(false,params)
+                        }catch (e:Exception){
+                            e.fillInStackTrace()
+                            defUI.dismissDialog.call()
+                            LogUtils.logGGQ("上传照片异常---->>修改车辆信息")
+                        }
                    }else{
                        defUI.dismissDialog.call()
                    }
@@ -135,22 +140,20 @@ class RegisterEditViewModel:BaseViewModel() {
         //如果 车辆 A面 或 B面 或 标签 或 发票 有值,说明需要修改上传车辆照片
         imageList.clear()
         if(!TextUtils.isEmpty(ebikeAPath)){
-            imageList.add(ebikeAPath)
+            imageList.add(UpImgEntity("ebikePic1",ebikeAPath))
         }
 
         if(!TextUtils.isEmpty(ebikeBPath)){
-            imageList.add(ebikeBPath)
+            imageList.add(UpImgEntity("ebikePic2",ebikeBPath))
         }
 
         if(!TextUtils.isEmpty(labelLocPath)){
-            imageList.add(labelLocPath)
+            imageList.add(UpImgEntity("locatorPic",labelLocPath))
         }
 
         if(!TextUtils.isEmpty(invoicePath)){
-            imageList.add(invoicePath)
+            imageList.add(UpImgEntity("invoicePic",invoicePath))
         }
-
-
         if(imageList.isNotEmpty()){
             //先上传照片再提交
             uploadImageList(Constants.GlobalValue.IMAGE_TYPE_USUAL,params,imageList)

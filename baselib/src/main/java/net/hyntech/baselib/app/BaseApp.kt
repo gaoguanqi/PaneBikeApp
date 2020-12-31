@@ -3,9 +3,11 @@ package net.hyntech.baselib.app
 import android.app.Application
 import androidx.lifecycle.ViewModelStoreOwner
 import com.alibaba.android.arouter.launcher.ARouter
+import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.Utils
 import me.jessyan.autosize.utils.AutoSizeLog
+import net.hyntech.baselib.app.config.Config
 import net.hyntech.baselib.error.GlobalCrashHandler
 
 abstract class BaseApp : Application(), ViewModelStoreOwner {
@@ -27,7 +29,9 @@ abstract class BaseApp : Application(), ViewModelStoreOwner {
 
     override fun onCreate() {
         super.onCreate()
-        GlobalCrashHandler.init(this, "307590625@qq.com")
+        if(!Config.CONFIG_DEBUG){
+            GlobalCrashHandler.init(this, "307590625@qq.com")
+        }
         instance = this
         Utils.init(this)
         SPUtils.getInstance(getAppPackage())
