@@ -38,8 +38,10 @@ class RegisterEditViewModel:BaseViewModel() {
 
     private val imageList:MutableList<String> = mutableListOf()
 
+
+    //-----------车主信息修改----------------
     fun editOwnerInfo(params: WeakHashMap<String, Any>, idCardAPath: String, idCardBPath: String) {
-        //如果 A面 或 B面 有值,说明需要修改上传身份证照片
+        //如果 身份证 A面 或 B面 有值,说明需要修改上传身份证照片
         imageList.clear()
         if(!TextUtils.isEmpty(idCardAPath)){
             imageList.add(idCardAPath)
@@ -51,7 +53,7 @@ class RegisterEditViewModel:BaseViewModel() {
 
         if(imageList.isNotEmpty()){
             //先上传照片再提交
-            uploadIDCardImageList(params,imageList)
+            uploadImageList(Constants.GlobalValue.IMAGE_TYPE_ID_NO,params,imageList)
         }else{
             //直接提交
             saveSubmit(true,params)
@@ -61,11 +63,11 @@ class RegisterEditViewModel:BaseViewModel() {
 
 
 
-   private fun uploadIDCardImageList(params: WeakHashMap<String, Any>,imegList: List<String>) {
+   private fun uploadImageList(imgType:String,params: WeakHashMap<String, Any>,imegList: List<String>) {
        defUI.showDialog.call()
        val builder: MultipartBody.Builder = MultipartBody.Builder()
            .setType(MultipartBody.FORM)
-       builder.addFormDataPart("imgType", Constants.GlobalValue.IMAGE_TYPE_ID_NO)
+       builder.addFormDataPart("imgType", imgType)
        for (param in repository.getPublicParams(true)) {
            builder.addFormDataPart(param.key, param.value.toString())
        }
@@ -82,18 +84,31 @@ class RegisterEditViewModel:BaseViewModel() {
            repository.uploadImageList(partsList)
        }, success = {
            it?.let { data ->
-               val urlList = CommonUtils.splitPicList(data.imgUrl)
-               if(urlList.isNotEmpty()){
+               if(TextUtils.equals(Constants.GlobalValue.IMAGE_TYPE_ID_NO,imgType)){ //上传身份证 照片
                    if(!TextUtils.isEmpty(data.idNoPic1)){
-                        params.put("idNoPic1",data.idNoPic1)
+                       params.put("idNoPic1",data.idNoPic1)
                    }
                    if(!TextUtils.isEmpty(data.idNoPic2)){
                        params.put("idNoPic2",data.idNoPic2)
                    }
                    saveSubmit(false,params)
-               }else{
-                   defUI.dismissDialog.call()
+               }else if(TextUtils.equals(Constants.GlobalValue.IMAGE_TYPE_USUAL,imgType)){ //上传车辆 照片
+                   val urlList = CommonUtils.splitPicList(data.imgUrl)
+                   if(urlList.isNotEmpty()){
+                       urlList.forEachWithIndex { i, s ->
+                           when(i){
+                               0 ->{params.put("ebikePic1",s)}
+                               1 ->{params.put("ebikePic2",s)}
+                               2 ->{params.put("locatorPic",s)}
+                               3 ->{params.put("invoicePic",s)}
+                           }
+                       }
+                       saveSubmit(false,params)
+                   }else{
+                       defUI.dismissDialog.call()
+                   }
                }
+               defUI.dismissDialog.call()
            }?:let {
                defUI.dismissDialog.call()
            }
@@ -112,6 +127,37 @@ class RegisterEditViewModel:BaseViewModel() {
         },complete = {
             defUI.dismissDialog.call()
         },isShowDialog = isShow)
+    }
+
+
+    //-----------车辆信息修改-------------------
+    fun editEbikeInfo(params: WeakHashMap<String, Any>, ebikeAPath: String, ebikeBPath: String, labelLocPath: String, invoicePath: String) {
+        //如果 车辆 A面 或 B面 或 标签 或 发票 有值,说明需要修改上传车辆照片
+        imageList.clear()
+        if(!TextUtils.isEmpty(ebikeAPath)){
+            imageList.add(ebikeAPath)
+        }
+
+        if(!TextUtils.isEmpty(ebikeBPath)){
+            imageList.add(ebikeBPath)
+        }
+
+        if(!TextUtils.isEmpty(labelLocPath)){
+            imageList.add(labelLocPath)
+        }
+
+        if(!TextUtils.isEmpty(invoicePath)){
+            imageList.add(invoicePath)
+        }
+
+
+        if(imageList.isNotEmpty()){
+            //先上传照片再提交
+            uploadImageList(Constants.GlobalValue.IMAGE_TYPE_USUAL,params,imageList)
+        }else{
+            //直接提交
+            saveSubmit(true,params)
+        }
     }
 
 

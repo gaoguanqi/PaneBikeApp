@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
@@ -24,6 +25,7 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.listener.OnResultCallbackListener
 import com.tbruyelle.rxpermissions2.RxPermissions
 import net.hyntech.baselib.app.BaseApp
+import net.hyntech.baselib.http.t
 import net.hyntech.baselib.utils.*
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
@@ -48,9 +50,11 @@ import java.util.*
  * 车辆信息修改
  */
 class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, RegisterEditViewModel>() {
+    private val params: WeakHashMap<String, Any> = WeakHashMap()
 
-    private var idCardAPath:String = ""
-    private var idCardBPath:String = ""
+    private var ebikeId:String = ""
+    private var ebikeAPath:String = ""
+    private var ebikeBPath:String = ""
     private var labelLocPath:String = ""
     private var invoicePath:String = ""
 
@@ -70,11 +74,13 @@ class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, Regis
     }
 
     //车牌号
+    private var ebikeNo:String? = ""
     private val ebikeList:MutableList<UserInfoEntity.EbikeListBean> = mutableListOf()
     private val ebikePickerView by lazy {
         OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             LogUtils.logGGQ("options1-->${options1}")
             val ebike = ebikeList.get(options1)
+            ebikeNo = ebike.ebikeNo
             setEbikeInfo(ebike)
         }).apply {
             this.setContentTextSize(22)
@@ -89,13 +95,14 @@ class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, Regis
 
 
     //车辆颜色
+    private var ebikeColor:String? = ""
     private val ebikeColorList:MutableList<String> = mutableListOf()
     private val ebikeColorPickerView by lazy {
         OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             LogUtils.logGGQ("options1-->${options1}")
             val color = ebikeColorList.get(options1)
+            ebikeColor = color
             binding.tvColor.text = color
-
         }).apply {
             this.setContentTextSize(22)
             this.setTitleColor(UIUtils.getColor(CR.color.common_color_text))
@@ -108,13 +115,14 @@ class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, Regis
     }
 
     //车辆类型
+    private var ebikeType:String? = ""
     private val ebikeTypeList:MutableList<EbikeRegInfoEntity.TypeBean> = mutableListOf()
     private val ebikeTypePickerView by lazy {
         OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             LogUtils.logGGQ("options1-->${options1}")
             val entity = ebikeTypeList.get(options1)
             binding.tvEbikeType.text = entity.name
-
+            ebikeType = entity.value
         }).apply {
             this.setContentTextSize(22)
             this.setTitleColor(UIUtils.getColor(CR.color.common_color_text))
@@ -127,13 +135,14 @@ class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, Regis
     }
 
     //购买日期
+    private var buyTime:String? = ""
     private val buyTimePickerView: TimePickerView by lazy {
         TimePickerBuilder(this, object : OnTimeSelectListener {
             override fun onTimeSelect(date: Date?, v: View?) {
                 if(date != null){
                     val time = TimeUtils.date2String(date, TimeUtils.getSafeDateFormat("yyyy-MM-dd"))
                     binding.tvBuyTime.text = time
-
+                    buyTime = time
                 }
             }
         }).setType(booleanArrayOf(true, true, true, false, false, false))
@@ -149,12 +158,14 @@ class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, Regis
 
 
     //保障服务
+    private var service:String? = ""
     private val serviceList:MutableList<ServiceSafeEntity.ServicePackageListBean> = mutableListOf()
     private val servicePickerView by lazy {
         OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             LogUtils.logGGQ("options1-->${options1}")
-            binding.tvService.text = serviceList.get(options1).pickerViewText
-
+            val entity = serviceList.get(options1)
+            binding.tvService.text = entity.pickerViewText
+            service = entity.servicePackageOrgId
         }).apply {
             this.setContentTextSize(20)
             this.setTitleColor(UIUtils.getColor(CR.color.common_color_text))
@@ -165,6 +176,9 @@ class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, Regis
             this.setPicker(serviceList)
         }
     }
+
+    //品牌型号
+    private var ebikeBrand:String? = ""
 
     private val viewModel by viewModels<RegisterEditViewModel>()
 
@@ -274,6 +288,81 @@ class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, Regis
             }
         }
 
+        //保存
+        this.findViewById<Button>(R.id.btn_save)?.setOnClickListener {
+            onClickProxy {
+                params.clear()
+                params.put("dataSource","editEbike")
+                params.put("ebikeId",ebikeId)
+
+                val labelNo = binding.etLabelNo.text.toString().trim()
+                val frameNo = binding.etFrameNo.text.toString().trim()
+                val buyPrice = binding.etBuyPrice.text.toString().trim()
+                val remark = binding.etRemark.text.toString().trim()
+                params.put("remark",remark)
+                val engineNo = binding.etEngineNo.text.toString().trim()
+                params.put("engineNo",engineNo)
+
+                if(TextUtils.isEmpty(ebikeNo)){
+                    ToastUtil.showToast("请选择车牌号")
+                    return@onClickProxy
+                }
+                params.put("ebikeNo",ebikeNo)
+
+                if(TextUtils.isEmpty(labelNo)){
+                    ToastUtil.showToast("请输入标签号")
+                    return@onClickProxy
+                }
+                params.put("locatorNo",labelNo)
+
+
+                if(TextUtils.isEmpty(frameNo)){
+                    ToastUtil.showToast("请输入车架号")
+                    return@onClickProxy
+                }
+                params.put("frameNo",frameNo)
+
+                if(TextUtils.isEmpty(ebikeBrand)){
+                    ToastUtil.showToast("请选择品牌型号")
+                    return@onClickProxy
+                }
+                params.put("ebikeType",ebikeBrand)
+
+                if(TextUtils.isEmpty(ebikeColor)){
+                    ToastUtil.showToast("请选择车辆颜色")
+                    return@onClickProxy
+                }
+                params.put("ebikeColor",ebikeColor)
+
+
+                if(TextUtils.isEmpty(ebikeType)){
+                    ToastUtil.showToast("请选择车辆类型")
+                    return@onClickProxy
+                }
+                params.put("type",ebikeType)
+
+                if(TextUtils.isEmpty(buyPrice)){
+                    ToastUtil.showToast("请输入购买价格")
+                    return@onClickProxy
+                }
+                //用户输入的购买价格(用户输入的是元,后台需要传分)
+                params.put("price",(buyPrice.toInt()*100).toString())
+
+                if(TextUtils.isEmpty(buyTime)){
+                    ToastUtil.showToast("请选择购买日期")
+                    return@onClickProxy
+                }
+                params.put("buyTime",buyTime)
+
+                if(!TextUtils.isEmpty(service)){
+                    //修改了服务包
+                    params.put("servicePackageOrgId",service)
+                }
+
+                viewModel.editEbikeInfo(params,ebikeAPath,ebikeBPath,labelLocPath,invoicePath)
+            }
+        }
+
     }
 
 
@@ -307,6 +396,13 @@ class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, Regis
 
 
     private fun setEbikeInfo(info:UserInfoEntity.EbikeListBean){
+        ebikeId = info.ebikeId
+        ebikeNo = info.ebikeNo
+        ebikeBrand = info.ebikeType
+        ebikeColor = info.ebikeColor
+        ebikeType = info.type.toString()
+
+
         binding.tvEbikeNo.text = "${info.ebikeNo}"
         binding.etLabelNo.setText("${info.locatorNo}")
         binding.etFrameNo.setText("${info.frameNo}")
@@ -316,8 +412,12 @@ class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, Regis
         binding.tvEbikeType.text = "${info.typeName}"
         binding.etRemark.setText("${info.remark}")
         binding.etBuyPrice.setText("${info.price/100}")
-        binding.tvBuyTime.text = "${CommonUtils.splitDate(info.buyTime)}"
+        val time = CommonUtils.splitDate(info.buyTime)
+        binding.tvBuyTime.text = "${time}"
+        buyTime = time
+
         binding.tvService.text = "${info.insuranceProductName} ${info.termRange}年版(${info.insurancePrice/100}元)"
+
         ImageLoader.getInstance().apply {
             //车辆照片
             this.loadImage(BaseApp.instance, GlideImageConfig(info.ebikePic1, binding.ivEbikeA).also { config-> config.type = TransType.NORMAL })
@@ -341,6 +441,7 @@ class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, Regis
                     val name = data?.getStringExtra(Constants.BundleKey.EXTRA_CONTENT)
                     name?.let {
                         binding.tvBrand.text = name
+                        ebikeBrand = name
                     }
                 }
             }
@@ -426,11 +527,11 @@ class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, Regis
 
     private fun loadImgPath(type: Int, picPath: String) {
         if (type == 1) {
-            idCardAPath = picPath
-            ImageLoader.getInstance().loadImage(BaseApp.instance, GlideImageConfig(idCardAPath, binding.ivEbikeA).also { config-> config.type = TransType.NORMAL })
+            ebikeAPath = picPath
+            ImageLoader.getInstance().loadImage(BaseApp.instance, GlideImageConfig(ebikeAPath, binding.ivEbikeA).also { config-> config.type = TransType.NORMAL })
         } else if (type == 2) {
-            idCardBPath = picPath
-            ImageLoader.getInstance().loadImage(BaseApp.instance, GlideImageConfig(idCardBPath, binding.ivEbikeB).also { config-> config.type = TransType.NORMAL })
+            ebikeBPath = picPath
+            ImageLoader.getInstance().loadImage(BaseApp.instance, GlideImageConfig(ebikeBPath, binding.ivEbikeB).also { config-> config.type = TransType.NORMAL })
         }else if(type == 3){
             labelLocPath = picPath
             ImageLoader.getInstance().loadImage(BaseApp.instance, GlideImageConfig(labelLocPath, binding.ivLabelLoc).also { config-> config.type = TransType.NORMAL })

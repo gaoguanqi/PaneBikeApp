@@ -123,7 +123,7 @@ class EbikeRegisterViewModel:BaseViewModel() {
             it?.let {data ->
                 ebikeRegInfo = data
             }
-        },isShowDialog = false,isShowToast = false)
+        })
     }
 //--------------选择品牌----------------------------
     val brandName:MutableLiveData<String> = MutableLiveData()

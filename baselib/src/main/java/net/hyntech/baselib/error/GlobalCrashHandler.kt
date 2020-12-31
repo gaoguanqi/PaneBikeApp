@@ -105,11 +105,14 @@ class GlobalCrashHandler:Thread.UncaughtExceptionHandler {
      * 当UncaughtException发生时会转入该函数来处理
      */
     override fun uncaughtException(t: Thread?, throwable: Throwable?) {
-        if (!handleException(throwable) && mDefaultHandler != null) {
-            // 如果用户没有处理(收集设备信息、保存日志文件等)则让系统默认的异常处理器来处
-            mDefaultHandler!!.uncaughtException(t, throwable)
-        } else {
-            // 跳转到崩溃提示Activity
+        LogUtils.logGGQ("<<<<<<--全局异常捕获-->>>>>")
+        Toast.makeText(context,"数据异常,请稍后重试！",Toast.LENGTH_SHORT).show()
+
+//        if (!handleException(throwable) && mDefaultHandler != null) {
+//            // 如果用户没有处理(收集设备信息、保存日志文件等)则让系统默认的异常处理器来处
+//            mDefaultHandler!!.uncaughtException(t, throwable)
+//        } else {
+//            // 跳转到崩溃提示Activity
 //            var intent = Intent(context, CrashDialog::class.java)
 //            intent.putExtra("Exception", exception)
 //            intent.putExtra("DeviceInfo", deviceInfo)
@@ -118,10 +121,10 @@ class GlobalCrashHandler:Thread.UncaughtExceptionHandler {
 //            context?.startActivity(intent)
 ////            System.exit(0)// 关闭已奔溃的app进程
 //            android.os.Process.killProcess(android.os.Process.myPid())
-
-            LogUtils.logGGQ("异常---》》》》")
-            Toast.makeText(context,"数据异常,请稍后重试！",Toast.LENGTH_SHORT).show()
-        }
+//
+//            LogUtils.logGGQ("异常---》》》》")
+//            Toast.makeText(context,"数据异常,请稍后重试！",Toast.LENGTH_SHORT).show()
+//        }
     }
 
     private fun handleException(throwable: Throwable?): Boolean {
@@ -129,9 +132,9 @@ class GlobalCrashHandler:Thread.UncaughtExceptionHandler {
             return false
         }
         //收集设备信息
-        //collectDeviceInfo(context!!)
+        collectDeviceInfo(context!!)
         //保存日志文件
-        //saveCrashInfo2File(throwable)
+        saveCrashInfo2File(throwable)
         //弹出异常对话框
 
         return true
