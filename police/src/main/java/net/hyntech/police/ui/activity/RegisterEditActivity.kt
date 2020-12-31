@@ -16,6 +16,7 @@ import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.global.Constants
 import net.hyntech.common.global.EventCode
 import net.hyntech.common.model.entity.EbikeRegInfoEntity
+import net.hyntech.common.model.entity.ServiceSafeEntity
 import net.hyntech.common.model.entity.UserInfoEntity
 import net.hyntech.common.model.vo.BundleEbikeEditVo
 import net.hyntech.common.model.vo.BundleUserEditVo
@@ -43,8 +44,9 @@ class RegisterEditActivity :BaseViewActivity<ActivityRegisterEditBinding,Registe
                 bundle?.let { b ->
                     val vo:BundleEbikeEditVo = BundleEbikeEditVo()
                     vo.pos = pos
-                    vo.service = b.getString(Constants.BundleKey.EXTRA_SERVICE)
+                    vo.serviceList = b.getSerializable(Constants.BundleKey.EXTRA_SERVICE) as List<ServiceSafeEntity.ServicePackageListBean>
                     vo.colorList = b.getSerializable(Constants.BundleKey.EXTRA_EBIKE_COLOR) as List<String>
+                    vo.typeList = b.getSerializable(Constants.BundleKey.EXTRA_TYPE) as List<EbikeRegInfoEntity.TypeBean>
                     vo.ebikeList = list
 
                     val event: Event<BundleEbikeEditVo> = Event(EventCode.EVENT_CODE_EDIT,vo)

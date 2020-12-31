@@ -25,6 +25,7 @@ class RegisterEditViewModel:BaseViewModel() {
     fun getUserInfo(idNo: String) {
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
+            //idNo 410223200003264537
             params.put("idNo",idNo)
             repository.getUserInfo(params)
         }, success = {

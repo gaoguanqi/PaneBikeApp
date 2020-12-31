@@ -1,5 +1,7 @@
 package net.hyntech.common.model.entity;
 
+import com.contrarywind.interfaces.IPickerViewData;
+
 import net.hyntech.baselib.http.BaseResponse;
 
 import java.io.Serializable;
@@ -648,7 +650,7 @@ public class UserInfoEntity extends BaseResponse<UserInfoEntity> {
         }
     }
 
-    public static class EbikeListBean implements Serializable {
+    public static class EbikeListBean implements IPickerViewData,Serializable {
         /**
          * alarmId :
          * beginTimeInsurance : 2020-12-03
@@ -1350,6 +1352,11 @@ public class UserInfoEntity extends BaseResponse<UserInfoEntity> {
 
         public void setUserSex(int userSex) {
             this.userSex = userSex;
+        }
+
+        @Override
+        public String getPickerViewText() {
+            return this.ebikeNo;
         }
     }
 }

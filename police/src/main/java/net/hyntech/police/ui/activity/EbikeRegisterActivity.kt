@@ -228,12 +228,13 @@ class EbikeRegisterActivity : BaseViewActivity<ActivityEbikeRegisterBinding, Ebi
 
 
     fun startEdit(){
-        if(viewModel.ebikeRegInfo?.userIdType != null){
+        if(viewModel.ebikeRegInfo != null && viewModel.servicePackage != null){
             val bundle:Bundle = Bundle()
             bundle.putString(Constants.BundleKey.EXTRA_ID,viewModel.userInfo.value?.idNo)
             bundle.putSerializable(Constants.BundleKey.EXTRA_USER_TYPE,viewModel.ebikeRegInfo?.userIdType as Serializable)
             bundle.putSerializable(Constants.BundleKey.EXTRA_EBIKE_COLOR,viewModel.ebikeRegInfo?.ebikeColor as Serializable)
-            bundle.putString(Constants.BundleKey.EXTRA_SERVICE,viewModel.ebikeRegInfo?.insurance_coverange)
+            bundle.putSerializable(Constants.BundleKey.EXTRA_TYPE,viewModel.ebikeRegInfo?.type as Serializable)
+            bundle.putSerializable(Constants.BundleKey.EXTRA_SERVICE,viewModel.servicePackage?.servicePackageList as Serializable)
             startActivity(Intent(this,RegisterEditActivity::class.java).putExtras(bundle))
         }else{
             ToastUtil.showToast("数据加载中,请稍后！")

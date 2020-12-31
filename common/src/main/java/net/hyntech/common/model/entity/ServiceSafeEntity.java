@@ -4,6 +4,7 @@ import com.contrarywind.interfaces.IPickerViewData;
 
 import net.hyntech.baselib.http.BaseResponse;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ServiceSafeEntity extends BaseResponse<ServiceSafeEntity> {
@@ -128,7 +129,7 @@ public class ServiceSafeEntity extends BaseResponse<ServiceSafeEntity> {
         }
     }
 
-    public static class ServicePackageListBean implements IPickerViewData {
+    public static class ServicePackageListBean implements IPickerViewData, Serializable {
         /**
          * companyId : 2018EBPfeAIaVf
          * createId : 1
@@ -356,7 +357,7 @@ public class ServiceSafeEntity extends BaseResponse<ServiceSafeEntity> {
 
         @Override
         public String getPickerViewText() {
-            return this.insuranceName+" "+termRange+"年版"+"("+(insurancePrice/100)+")";
+            return this.insuranceName+" "+termRange+"年版"+"("+(insurancePrice/100)+"元)";
         }
     }
 }

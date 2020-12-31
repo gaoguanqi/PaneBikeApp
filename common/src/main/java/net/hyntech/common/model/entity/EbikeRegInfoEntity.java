@@ -94,7 +94,7 @@ public class EbikeRegInfoEntity extends BaseResponse<EbikeRegInfoEntity> {
         }
     }
 
-    public static class TypeBean implements IPickerViewData{
+    public static class TypeBean implements IPickerViewData,Serializable{
         /**
          * name : 电动自行车
          * value : 0
