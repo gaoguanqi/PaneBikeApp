@@ -2,8 +2,11 @@ package net.hyntech.police.ui.activity
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder
@@ -11,13 +14,17 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener
 import com.bigkoo.pickerview.listener.OnTimeSelectListener
 import com.bigkoo.pickerview.view.TimePickerView
+import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.TimeUtils
 import com.king.zxing.Intents
+import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.config.PictureConfig
+import com.luck.picture.lib.config.PictureMimeType
+import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.listener.OnResultCallbackListener
+import com.tbruyelle.rxpermissions2.RxPermissions
 import net.hyntech.baselib.app.BaseApp
-import net.hyntech.baselib.utils.Event
-import net.hyntech.baselib.utils.LogUtils
-import net.hyntech.baselib.utils.ToastUtil
-import net.hyntech.baselib.utils.UIUtils
+import net.hyntech.baselib.utils.*
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
 import net.hyntech.common.global.EventCode
@@ -26,8 +33,10 @@ import net.hyntech.common.model.entity.ServiceSafeEntity
 import net.hyntech.common.model.entity.UserInfoEntity
 import net.hyntech.common.model.vo.BundleEbikeEditVo
 import net.hyntech.common.utils.CommonUtils
+import net.hyntech.common.widget.dialog.CommonDialog
 import net.hyntech.common.widget.imgloader.ImageLoader
 import net.hyntech.common.widget.imgloader.TransType
+import net.hyntech.common.widget.imgloader.engine.GlideEngine
 import net.hyntech.common.widget.imgloader.glide.GlideImageConfig
 import net.hyntech.police.R
 import net.hyntech.common.R as CR
@@ -39,6 +48,26 @@ import java.util.*
  * 车辆信息修改
  */
 class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, RegisterEditViewModel>() {
+
+    private var idCardAPath:String = ""
+    private var idCardBPath:String = ""
+    private var labelLocPath:String = ""
+    private var invoicePath:String = ""
+
+    private val rxPermissions: RxPermissions = RxPermissions(this)
+
+    private val applyDialog: CommonDialog by lazy {
+        CommonDialog(this, UIUtils.getString(CR.string.common_permissions_title),
+            UIUtils.getString(CR.string.common_permissions_camera),
+            UIUtils.getString(CR.string.common_permissions_cancle),
+            UIUtils.getString(CR.string.common_permissions_confirm), object :
+                CommonDialog.OnClickListener {
+                override fun onCancleClick() {}
+                override fun onConfirmClick() {
+                    AppUtils.launchAppDetailsSettings()
+                }
+            })
+    }
 
     //车牌号
     private val ebikeList:MutableList<UserInfoEntity.EbikeListBean> = mutableListOf()
@@ -221,6 +250,30 @@ class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, Regis
             }
         }
 
+        this.findViewById<ImageView>(R.id.iv_ebike_a)?.setOnClickListener {
+            onClickProxy {
+                applyCamera(1)
+            }
+        }
+
+        this.findViewById<ImageView>(R.id.iv_ebike_b)?.setOnClickListener {
+            onClickProxy {
+                applyCamera(2)
+            }
+        }
+
+        this.findViewById<ImageView>(R.id.iv_label_loc)?.setOnClickListener {
+            onClickProxy {
+                applyCamera(3)
+            }
+        }
+
+        this.findViewById<ImageView>(R.id.iv_invoice)?.setOnClickListener {
+            onClickProxy {
+                applyCamera(4)
+            }
+        }
+
     }
 
 
@@ -291,6 +344,99 @@ class EbikeInfoEditActivity:BaseViewActivity<ActivityEbikeInfoEditBinding, Regis
                     }
                 }
             }
+        }
+    }
+
+
+
+    fun applyCamera(type: Int) {
+        PermissionUtil.applyCamera(object : RequestPermission {
+            override fun onRequestPermissionSuccess() {
+                openPhoto(type)
+            }
+
+            override fun onRequestPermissionFailure(permissions: List<String>) {
+                showApplyDialog()
+            }
+
+            override fun onRequestPermissionFailureWithAskNeverAgain(permissions: List<String>) {
+                showApplyDialog()
+            }
+        }, rxPermissions)
+    }
+
+    private fun showApplyDialog() {
+        if (!applyDialog.isShowing) {
+            applyDialog.show()
+        }
+    }
+
+    private fun openPhoto(type: Int) {
+        PictureSelector.create(this)
+            .openGallery(PictureMimeType.ofImage())
+            .imageEngine(GlideEngine.createGlideEngine())
+            .selectionMode(PictureConfig.SINGLE)
+            .isCompress(true)// 是否压缩
+            .isGif(false)
+            .isPreviewImage(true)
+            .isEnablePreviewAudio(false) // 是否可播放音频
+            .isCamera(false)// 是否显示拍照按钮
+            .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
+            .isEnableCrop(true)// 是否裁剪
+            .withAspectRatio(
+                Constants.GlobalValue.IDCARD_WIDTH,
+                Constants.GlobalValue.IDCARD_HEIGHT
+            )// 裁剪
+            .forResult(object : OnResultCallbackListener<LocalMedia> {
+                override fun onResult(result: MutableList<LocalMedia>?) {
+                    result?.last()?.let {
+                        var picPath: String? = ""
+                        if (it.isCut && !TextUtils.isEmpty(it.cutPath)) {
+                            picPath = it.cutPath
+                        }
+
+                        if (TextUtils.isEmpty(picPath) && it.isCompressed && !TextUtils.isEmpty(it.compressPath)) {
+                            picPath = it.compressPath
+                        }
+
+                        if (TextUtils.isEmpty(picPath)) {
+                            picPath = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                it.androidQToPath
+                            } else {
+                                it.path
+                            }
+                        }
+                        //显示图片
+                        if (!TextUtils.isEmpty(picPath)) {
+                            loadImgPath(type, picPath!!)
+                        } else {
+                            ToastUtil.showToast("选择照片出错,请重新选择！")
+                        }
+                    } ?: let {
+                        ToastUtil.showToast("选择照片出错,请重新选择！！")
+                    }
+                }
+                override fun onCancel() {
+                    //ToastUtil.showToast("取消")
+                }
+            })
+    }
+
+
+
+    private fun loadImgPath(type: Int, picPath: String) {
+        if (type == 1) {
+            idCardAPath = picPath
+            ImageLoader.getInstance().loadImage(BaseApp.instance, GlideImageConfig(idCardAPath, binding.ivEbikeA).also { config-> config.type = TransType.NORMAL })
+        } else if (type == 2) {
+            idCardBPath = picPath
+            ImageLoader.getInstance().loadImage(BaseApp.instance, GlideImageConfig(idCardBPath, binding.ivEbikeB).also { config-> config.type = TransType.NORMAL })
+        }else if(type == 3){
+            labelLocPath = picPath
+            ImageLoader.getInstance().loadImage(BaseApp.instance, GlideImageConfig(labelLocPath, binding.ivLabelLoc).also { config-> config.type = TransType.NORMAL })
+        }else if(type == 4){
+            invoicePath = picPath
+            ImageLoader.getInstance().loadImage(BaseApp.instance, GlideImageConfig(invoicePath, binding.ivInvoice).also { config-> config.type = TransType.NORMAL })
         }
     }
 
