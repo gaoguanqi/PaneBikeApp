@@ -30,11 +30,12 @@ class HomeViewModel:BaseViewModel() {
     val changePwdEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val logoutEvent: SingleLiveEvent<Any> = SingleLiveEvent()
     val initLoadingEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    val noticeEvent: SingleLiveEvent<Any> = SingleLiveEvent()
 
 
     fun onClickNotice(){
         onClickProxy {
-            ToastUtil.showToast("点击消息")
+            noticeEvent.call()
         }
     }
 

@@ -86,6 +86,9 @@
         <activity android:name=".ui.activity.EbikeInfoEditActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".ui.activity.AlarmListActivity"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"

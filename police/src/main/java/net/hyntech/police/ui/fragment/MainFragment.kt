@@ -93,6 +93,10 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         })
         binding.rvMain.adapter = adapter
 
+        viewModel.noticeEvent.observe(this, Observer {
+            startActivity(Intent(requireActivity(),AlarmListActivity::class.java))
+        })
+
         //用户数据
         viewModel.userInfo.observe(this, Observer {userInfo ->
             LogUtils.logGGQ("用户数据：${userInfo.user}")
