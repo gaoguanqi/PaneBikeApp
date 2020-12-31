@@ -6,6 +6,7 @@ import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.app.config.Config
+import net.hyntech.baselib.http.conver.MyGsonConverterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -62,10 +63,18 @@ abstract class BaseRetrofitClient {
      fun <S> getService(serviceClass: Class<S>, baseUrl: String): S {
         return Retrofit.Builder()
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(jsonConverterFactory)
             .baseUrl(baseUrl)
             .build()
             .create(serviceClass)
+    }
+
+
+    private val jsonConverterFactory by lazy {
+//        GsonConverterFactory.create()
+        MyGsonConverterFactory.create()
+
+
     }
 }
 

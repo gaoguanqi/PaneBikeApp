@@ -8,7 +8,7 @@ import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.TimeUtils
 import net.hyntech.baselib.app.BaseApp
-import net.hyntech.baselib.error.AppException
+import net.hyntech.baselib.error.ApiException
 import net.hyntech.common.global.Constants
 import java.util.*
 
@@ -55,7 +55,7 @@ class HttpParamsUtils {
             try {
                 val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
                 networkType = tm.networkType
-            }catch (e:AppException){
+            }catch (e:ApiException){
                 e.fillInStackTrace()
             }
             when(networkType){
