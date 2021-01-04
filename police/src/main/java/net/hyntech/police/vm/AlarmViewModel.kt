@@ -1,5 +1,6 @@
 package net.hyntech.police.vm
 
+import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
@@ -40,9 +41,12 @@ class AlarmViewModel:BaseViewModel() {
     }
 
 
-    fun getAlarmInfoList() {
+    fun getAlarmInfoList(keyword:String) {
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
+            if(!TextUtils.isEmpty(keyword)){
+                params.put("keyword",keyword)
+            }
             params.put("PrmPageNo",pageNo)
             params.put("PrmItemsPerPage",pageSize)
             repository.getAlarmInfoList(params)
@@ -59,11 +63,14 @@ class AlarmViewModel:BaseViewModel() {
         })
     }
 
-    fun onAlarmInfoRefresh() {
+    fun onAlarmInfoRefresh(keyword:String) {
         pageNo = 1
         lastPage = true
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
+            if(!TextUtils.isEmpty(keyword)){
+                params.put("keyword",keyword)
+            }
             params.put("PrmPageNo",pageNo)
             params.put("PrmItemsPerPage",pageSize)
             repository.getAlarmInfoList(params)
@@ -79,10 +86,13 @@ class AlarmViewModel:BaseViewModel() {
         },isShowDialog = false,isShowToast = false)
     }
 
-    fun onAlarmInfoLoadMore() {
+    fun onAlarmInfoLoadMore(keyword:String) {
         pageNo +=1
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
+            if(!TextUtils.isEmpty(keyword)){
+                params.put("keyword",keyword)
+            }
             params.put("PrmPageNo",pageNo)
             params.put("PrmItemsPerPage",pageSize)
             repository.getAlarmInfoList(params)

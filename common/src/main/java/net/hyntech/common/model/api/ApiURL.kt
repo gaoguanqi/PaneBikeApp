@@ -102,7 +102,7 @@ class ApiURL {
         const val URL_MARK_PAY = "${EXT}/v1/ebike/police/mark_pay.thtml"
         //警用版  车辆登记列表
         const val URL_REG_LIST = "${EXT}/v1/ebike/police/reg_list.thtml"
-        //警用版  报警信息列表
+        //警用版  报警信息列表 (可搜索)
         const val URL_ALARM_LIST = "${EXT}/v1/alarm_info/police/list.thtml"
         //警用版  报警信息标记已读
         const val URL_ALARM_MARK_READ = "${EXT}/v1/alarm_info/police/mark_read.thtml"
