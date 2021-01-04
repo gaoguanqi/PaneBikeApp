@@ -156,4 +156,8 @@ open class CommonRepository:BaseRepository() {
     suspend fun getRegisterList(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
         retrofitClient.getRegisterList(params2Body(params))
     }
+
+    suspend fun getAlarmInfoList(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getAlarmInfoList(params2Body(params))
+    }
 }

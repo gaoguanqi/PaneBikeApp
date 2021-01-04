@@ -25,6 +25,16 @@ class CommonUtils {
             return ""
         }
 
+        fun splitDateArray(date:String?):List<String>{
+            if(TextUtils.isEmpty(date)){
+                return emptyList()
+            }
+            if(date?.contains(" ")?:false){
+                return date?.split(" ")?:emptyList()
+            }
+            return emptyList()
+        }
+
         fun splitPic(url:String?):String{
             if(TextUtils.isEmpty(url)){
                 return ""

@@ -9,14 +9,25 @@ import kotlinx.android.synthetic.main.activity_payment_state.*
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.model.entity.AlarmInfoEntity
 import net.hyntech.police.R
 import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.ActivityAlarmListBinding
+import net.hyntech.police.ui.adapter.AlarmInfoAdapter
 import net.hyntech.police.vm.AlarmViewModel
 
 //报警信息(消息)
 class AlarmListActivity:BaseViewActivity<ActivityAlarmListBinding,AlarmViewModel>() {
 
+    private val alarmInfoAdapter:AlarmInfoAdapter by lazy {
+        AlarmInfoAdapter(this).apply {
+            this.setListener(object :AlarmInfoAdapter.OnClickListener{
+                override fun onItemClick(item: AlarmInfoEntity.AlarmInfoListBean?) {
+
+                }
+            })
+        }
+    }
     private val viewModel by viewModels<AlarmViewModel>()
 
 
@@ -45,10 +56,8 @@ class AlarmListActivity:BaseViewActivity<ActivityAlarmListBinding,AlarmViewModel
             onLoadMoreData()
         }
 
-       // rv.layoutManager = LinearLayoutManager(this)
-       // rv.adapter = registerAdapter
-
-
+        rv.layoutManager = LinearLayoutManager(this)
+        rv.adapter = alarmInfoAdapter
 
         viewModel.defUI.showDialog.observe(this, Observer {
             showLoading()
@@ -73,40 +82,40 @@ class AlarmListActivity:BaseViewActivity<ActivityAlarmListBinding,AlarmViewModel
             refreshLayout.setEnableRefresh(false)//是否启用下拉刷新功能
         })
 
-//        viewModel.registerList.observe(this, Observer {
-//            if (refreshLayout.visibility == View.GONE) {
-//                refreshLayout.visibility = View.VISIBLE
-//            }
-//            if (vsEmpty.visibility == View.VISIBLE) {
-//                vsEmpty.visibility = View.GONE
-//            }
-//            registerAdapter.setData(it)
-//            refreshLayout.setEnableRefresh(true)//是否启用下拉刷新功能
-//        })
-//        viewModel.registerListRefresh.observe(this, Observer {
-//            registerAdapter.setData(it)
-//            finishRefresh()
-//        })
-//        viewModel.registerListLoadMore.observe(this, Observer {
-//            if (!it.isNullOrEmpty()) {
-//                registerAdapter.updataList(it)
-//            }
-//            finishLoadMore()
-//        })
+        viewModel.alarmInfoList.observe(this, Observer {
+            if (refreshLayout.visibility == View.GONE) {
+                refreshLayout.visibility = View.VISIBLE
+            }
+            if (vsEmpty.visibility == View.VISIBLE) {
+                vsEmpty.visibility = View.GONE
+            }
+            alarmInfoAdapter.setData(it)
+            refreshLayout.setEnableRefresh(true)//是否启用下拉刷新功能
+        })
+        viewModel.alarmInfoRefresh.observe(this, Observer {
+            alarmInfoAdapter.setData(it)
+            finishRefresh()
+        })
+        viewModel.alarmInfoLoadMore.observe(this, Observer {
+            if (!it.isNullOrEmpty()) {
+                alarmInfoAdapter.updataList(it)
+            }
+            finishLoadMore()
+        })
 
         viewModel.getAlarmInfoList()
     }
 
 
     private fun onRefreshData() {
-        //viewModel.onRegisterListRefresh(state.toString(), keyword)
+        viewModel.onAlarmInfoRefresh()
     }
 
     private fun onLoadMoreData() {
         if (viewModel.lastPage) {
             finishLoadMore()
         } else {
-            //viewModel.onRegisterListLoadMore(state.toString(), keyword)
+            viewModel.onAlarmInfoLoadMore()
         }
     }
 

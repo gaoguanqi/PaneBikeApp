@@ -1,6 +1,9 @@
 package net.hyntech.police.vm
 
+import androidx.lifecycle.MutableLiveData
 import net.hyntech.baselib.base.BaseViewModel
+import net.hyntech.common.model.entity.AddValServiceEntity
+import net.hyntech.common.model.entity.AlarmInfoEntity
 import net.hyntech.common.model.repository.CommonRepository
 import java.util.*
 
@@ -12,22 +15,64 @@ class AlarmViewModel:BaseViewModel() {
     private var pageSize: Int = 10
     var lastPage: Boolean = true
 
+    val alarmInfoList: MutableLiveData<List<AlarmInfoEntity.AlarmInfoListBean>> = MutableLiveData()
+    val alarmInfoRefresh: MutableLiveData<List<AlarmInfoEntity.AlarmInfoListBean>> = MutableLiveData()
+    val alarmInfoLoadMore: MutableLiveData<List<AlarmInfoEntity.AlarmInfoListBean>> = MutableLiveData()
 
-    /**
-     * | 字段        |类型  |必须 |描述| 取值 |
-    | --------   | -----  | :---- |:----  |
-    | messageId     | String|  否  |消息id|-|
-    | messageType     | String|  否  |消息类型|alarm车主报警，move位移变化，enclosure围栏报警|
-     */
-    fun getAlarmInfoList(messageId:String,messageType:String) {
+
+
+    fun getAlarmInfoList() {
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
-            params.put("messageId",messageId)
-            params.put("messageType",messageType)
-            repository.searchDecive(params)
+            params.put("PrmPageNo",pageNo)
+            params.put("PrmItemsPerPage",pageSize)
+            repository.getAlarmInfoList(params)
         }, success = {
-
+            it?.let {data ->
+                lastPage = data.page?.isLastPage?:true
+                if(data.alarmInfoList.isNullOrEmpty()){
+                    defUI.emptyEvent.call()
+                    defUI.toastEvent.postValue("暂无数据！")
+                }else{
+                    alarmInfoList.postValue(data.alarmInfoList)
+                }
+            }
         })
+    }
+
+    fun onAlarmInfoRefresh() {
+        pageNo = 1
+        lastPage = true
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("PrmPageNo",pageNo)
+            params.put("PrmItemsPerPage",pageSize)
+            repository.getAlarmInfoList(params)
+        }, success = {
+            it?.let {data ->
+                lastPage = data.page?.isLastPage?:true
+                if(!data.alarmInfoList.isNullOrEmpty()){
+                    alarmInfoRefresh.postValue(data.alarmInfoList)
+                }else{
+                    defUI.emptyEvent.call()
+                }
+            }
+        },isShowDialog = false,isShowToast = false)
+    }
+
+    fun onAlarmInfoLoadMore() {
+        pageNo +=1
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("PrmPageNo",pageNo)
+            params.put("PrmItemsPerPage",pageSize)
+            repository.getAlarmInfoList(params)
+        }, success = {
+            it?.let {data ->
+                lastPage = data.page?.isLastPage?:true
+                alarmInfoLoadMore.postValue(data.alarmInfoList)
+            }
+        },isShowDialog = false,isShowToast = false)
     }
 
 }

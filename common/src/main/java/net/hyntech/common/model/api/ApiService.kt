@@ -149,6 +149,10 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_REG_LIST)
     suspend fun getRegisterList(@Body requestBody: RequestBody): RegisterListEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_ALARM_LIST)
+    suspend fun getAlarmInfoList(@Body requestBody: RequestBody): AlarmInfoEntity
+
     //---------警用端结束-----------------------
 
 }
