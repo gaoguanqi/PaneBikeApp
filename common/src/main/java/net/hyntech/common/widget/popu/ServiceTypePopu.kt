@@ -30,6 +30,12 @@ class ServiceTypePopu(
         return createPopupById(R.layout.popu_service_type)
     }
 
+    private var listener: OnClickListener? = null
+
+    fun setListener(listener: OnClickListener?){
+        this.listener = listener
+    }
+
     override fun setWidth(width: Int): BasePopupWindow {
         return super.setWidth(mWidth)
     }
@@ -69,20 +75,22 @@ class ServiceTypePopu(
                 //重置
                 mLoaderAdapter.resetList()
                 mTypeAdapter.resetList()
+                listener?.onResetClick()
             }
         }
 
         contentView.findViewById<TextView>(R.id.tv_finish)?.setOnClickListener {
             if(!UIUtils.isFastDoubleClick()){
-
+                this.dismiss()
+                listener?.onFinishClick(mLoaderAdapter.getSelectValue(),mTypeAdapter.getSelectValue())
             }
         }
     }
 
 
     interface OnClickListener{
-        fun onResetClick(item: ServiceTypeEntity)
-        fun onFinishClick(item: ServiceTypeEntity)
+        fun onResetClick()
+        fun onFinishClick(createId:String,shopType: String)
     }
 
 }

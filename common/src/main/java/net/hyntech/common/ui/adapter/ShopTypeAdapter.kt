@@ -40,6 +40,16 @@ class ShopTypeAdapter (val context: Context) :
         this.notifyDataSetChanged()
     }
 
+    fun getSelectValue():String{
+        var value:String = ""
+        list.forEach {
+            if(it.isSelected){
+                value = it.type
+            }
+        }
+        return value
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View = context.layoutInflater.inflate(R.layout.item_service_type, parent, false)
         val holder: ViewHolder = ViewHolder(view)
