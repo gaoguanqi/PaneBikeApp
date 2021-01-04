@@ -168,4 +168,8 @@ open class CommonRepository:BaseRepository() {
     suspend fun serviceUploader(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
         retrofitClient.serviceUploader(params2Body(params))
     }
+
+    suspend fun deleteServiceShop(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.deleteServiceShop(params2Body(params))
+    }
 }

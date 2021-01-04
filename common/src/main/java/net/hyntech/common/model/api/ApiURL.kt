@@ -113,6 +113,8 @@ class ApiURL {
         const val URL_ALARM_MARK_READ = "${EXT}/v1/alarm_info/police/mark_read.thtml"
         //警用版  便民服务 上传人信息
         const val URL_SERVICE_UPLOADER = "${EXT}/v1/service_shop/police/uploader_list.thtml"
+        //警用版  便民服务 删除网点
+        const val URL_SERVICE_DELETE = "${EXT}/v1/service_shop/police/delete.thtml"
         //web url
 
 

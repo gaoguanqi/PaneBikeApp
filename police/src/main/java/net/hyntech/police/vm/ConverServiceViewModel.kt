@@ -1,10 +1,8 @@
 package net.hyntech.police.vm
 
-import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
-import net.hyntech.common.model.entity.AlarmInfoEntity
 import net.hyntech.common.model.entity.ConverServiceEntity
 import net.hyntech.common.model.entity.ServiceLoaderEntity
 import net.hyntech.common.model.repository.CommonRepository
@@ -27,8 +25,18 @@ class ConverServiceViewModel:BaseViewModel() {
     }
 
 
-
     //---------便民服务------------------
+    val deleteEvent: SingleLiveEvent<Any> = SingleLiveEvent()
+    fun deleteServiceShop(serviceShopId:String){
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("serviceShopId",serviceShopId)
+            repository.deleteServiceShop(params)
+        }, success = {
+            deleteEvent.call()
+        })
+    }
+
     private var pageNo:Int = 1
     private var pageSize:Int = 10
     var lastPage:Boolean = true

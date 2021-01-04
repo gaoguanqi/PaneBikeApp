@@ -161,6 +161,10 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_SERVICE_UPLOADER)
     suspend fun serviceUploader(@Body requestBody: RequestBody): ServiceLoaderEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_SERVICE_DELETE)
+    suspend fun deleteServiceShop(@Body requestBody: RequestBody): ServiceLoaderEntity
+
     //---------警用端结束-----------------------
 
 }

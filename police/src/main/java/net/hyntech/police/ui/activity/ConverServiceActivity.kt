@@ -18,10 +18,12 @@ import kotlinx.android.synthetic.main.activity_payment_state.*
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.model.entity.ConverServiceEntity
 import net.hyntech.common.model.entity.ServiceLoaderEntity
 import net.hyntech.common.model.entity.ServiceTypeEntity
 import net.hyntech.common.ui.adapter.ShopLoaderAdapter
 import net.hyntech.common.ui.adapter.ShopTypeAdapter
+import net.hyntech.common.widget.dialog.CommonDialog
 import net.hyntech.common.widget.popu.ServiceTypePopu
 import net.hyntech.common.widget.view.ClearEditText
 import net.hyntech.police.R
@@ -38,7 +40,39 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
 
     private var etInput: ClearEditText? = null
     private var layoutTitle: ConstraintLayout? = null
-    private val serviceAdapter:ConverServiceAdapter by lazy { ConverServiceAdapter(this) }
+
+
+    private var serviceShopId:String? = ""
+    private val commonDialog by lazy {
+        CommonDialog(this,UIUtils.getString(CR.string.common_tip),
+            "您确定要删除该网点信息？？",
+            UIUtils.getString(CR.string.common_text_cancle),
+            UIUtils.getString(CR.string.common_text_confirm),object :
+                CommonDialog.OnClickListener{
+                override fun onCancleClick() { serviceShopId = "" }
+                override fun onConfirmClick() {
+                    if(!TextUtils.isEmpty(serviceShopId)){
+                        viewModel.deleteServiceShop(serviceShopId!!)
+                    }
+                } }) }
+
+    private val serviceAdapter:ConverServiceAdapter by lazy { ConverServiceAdapter(this).apply {
+        this.setListener(object :ConverServiceAdapter.OnClickListener{
+            override fun onDeleteClick(item: ConverServiceEntity.AtServiceShopListBean?) {
+                //删除
+                item?.let {
+                    if(!commonDialog.isShowing){
+                        serviceShopId = item.serviceShopId
+                        commonDialog.show()
+                    }
+                }
+            }
+
+            override fun onEditClick(item: ConverServiceEntity.AtServiceShopListBean?) {
+
+            }
+        })
+    } }
 
     private val loaderAdapter by lazy { ShopLoaderAdapter(this).apply {
         this.setListener(object :ShopLoaderAdapter.OnClickListener{
@@ -188,6 +222,10 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
                 serviceAdapter.updataList(it)
             }
             finishLoadMore()
+        })
+
+        viewModel.deleteEvent.observe(this, Observer {
+            viewModel.getServiceList(keyword,shopType,createId)
         })
 
         viewModel.getServiceUploader()
