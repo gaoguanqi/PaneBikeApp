@@ -41,7 +41,6 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
     private var etInput: ClearEditText? = null
     private var layoutTitle: ConstraintLayout? = null
 
-
     private var serviceShopId:String? = ""
     private val commonDialog by lazy {
         CommonDialog(this,UIUtils.getString(CR.string.common_tip),
@@ -58,8 +57,8 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
 
     private val serviceAdapter:ConverServiceAdapter by lazy { ConverServiceAdapter(this).apply {
         this.setListener(object :ConverServiceAdapter.OnClickListener{
+            //删除
             override fun onDeleteClick(item: ConverServiceEntity.AtServiceShopListBean?) {
-                //删除
                 item?.let {
                     if(!commonDialog.isShowing){
                         serviceShopId = item.serviceShopId
@@ -68,7 +67,13 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
                 }
             }
 
+            //编辑
             override fun onEditClick(item: ConverServiceEntity.AtServiceShopListBean?) {
+
+            }
+
+            //详情
+            override fun onItemClick(item: ConverServiceEntity.AtServiceShopListBean?) {
 
             }
         })
@@ -76,11 +81,7 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
 
     private val loaderAdapter by lazy { ShopLoaderAdapter(this).apply {
         this.setListener(object :ShopLoaderAdapter.OnClickListener{
-            override fun onItemClick(item: ServiceLoaderEntity.UploaderListBean) {
-                ToastUtil.showToast("-->>${item.createName}")
-            }
-        })
-    } }
+            override fun onItemClick(item: ServiceLoaderEntity.UploaderListBean) {} }) } }
     private val typeAdapter by lazy { ShopTypeAdapter(this).apply {
         val list:List<ServiceTypeEntity> = listOf(
             ServiceTypeEntity("销售门店","1",false),
@@ -88,11 +89,7 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
             ServiceTypeEntity("充电站","3",false))
         this.setData(list)
         this.setListener(object :ShopTypeAdapter.OnClickListener{
-            override fun onItemClick(item: ServiceTypeEntity) {
-                ToastUtil.showToast("-->>${item.name}")
-            }
-        })
-    } }
+            override fun onItemClick(item: ServiceTypeEntity) {} }) } }
     private val serviceTypePopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { ServiceTypePopu(this,
         loaderAdapter,
         typeAdapter,
@@ -104,8 +101,9 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
                 createId = ""
             }
             override fun onFinishClick(createId: String, shopType: String) {
-
-                ToastUtil.showToast("createId->>${createId} -- shopType->>${shopType}")
+                if(!TextUtils.isEmpty(createId) && !TextUtils.isEmpty(shopType)){
+                    viewModel.getServiceList(keyword,shopType,createId)
+                }
             }
         })
     } }

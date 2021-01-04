@@ -48,6 +48,12 @@ class ConverServiceAdapter(val context: Context) : BaseAdapter<ConverServiceAdap
                 listener?.onEditClick(list.get(holder.adapterPosition))
             }
         }
+
+        holder.itemRoot.setOnClickListener {
+            if(!UIUtils.isFastDoubleClick()){
+                listener?.onItemClick(list.get(holder.adapterPosition))
+            }
+        }
         return holder
     }
 
@@ -84,6 +90,7 @@ class ConverServiceAdapter(val context: Context) : BaseAdapter<ConverServiceAdap
     interface OnClickListener {
         fun onDeleteClick(item: ConverServiceEntity.AtServiceShopListBean?)
         fun onEditClick(item: ConverServiceEntity.AtServiceShopListBean?)
+        fun onItemClick(item: ConverServiceEntity.AtServiceShopListBean?)
     }
 
 
