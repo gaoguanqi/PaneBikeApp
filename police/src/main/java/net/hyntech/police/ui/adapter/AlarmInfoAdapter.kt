@@ -104,9 +104,9 @@ class AlarmInfoAdapter(val context: Context) : BaseAdapter<AlarmInfoAdapter.View
                 tvDes.text = "${it.remark}"
 
                 val state = it.state
-                if(state == 0){
+                if(state == 0){//未读
                     dot.setColor(redColor)
-                }else{
+                }else{ //已读
                     dot.setColor(grayColor)
                 }
 

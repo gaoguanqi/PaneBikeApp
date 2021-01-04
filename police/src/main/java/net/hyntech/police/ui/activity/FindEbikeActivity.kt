@@ -29,6 +29,7 @@ import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
 import net.hyntech.common.global.handler.MapViewHandler
+import net.hyntech.common.model.entity.AlarmInfoEntity
 import net.hyntech.common.model.entity.DeviceInfoEntity
 import net.hyntech.common.model.entity.EbikeTrackEntity
 import net.hyntech.common.model.entity.PhotoEntity
@@ -46,6 +47,9 @@ import net.hyntech.police.vm.FindEbikeViewModel
 import java.util.*
 
 class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewModel>(),BaiduMap.OnMarkerClickListener {
+
+    //从首页消息列表传递的 车辆信息
+    private var alarmInfo:AlarmInfoEntity.AlarmInfoListBean? = null
 
     private var mapView: TextureMapView? = null
     private var baiduMap: BaiduMap? = null
@@ -173,7 +177,9 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
         MyLocationListener(object :
             MyLocationListener.LocationListener {
             override fun onReceive(bdLocation: BDLocation) {
-                receiveLocation(bdLocation)
+                if(alarmInfo == null){ //如果 传递过来的报警车辆为空，默认显示当前位置
+                    receiveLocation(bdLocation)
+                }
             }
         })
     }
@@ -348,8 +354,19 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             }
         })
 
-
         initLocation()
+
+        intent?.extras?.let {
+            alarmInfo = it.getSerializable(Constants.BundleKey.EXTRA_OBJ) as? AlarmInfoEntity.AlarmInfoListBean
+            alarmInfo?.let { info ->
+                etInput?.setText(info.ebikeNo)
+                //显示当前车辆位置
+                if(!TextUtils.isEmpty(info.ebikeNo) && !info.lat.isNaN() && !info.lng.isNaN()){
+                    val latLng:LatLng = LatLng(info.lat, info.lng)
+                    addMarkerByLocation(info.ebikeNo,latLng)
+                }
+            }
+        }
     }
 
     private fun showInfoPopu(ebike: EbikeTrackEntity.EbikeBean) {
@@ -426,6 +443,33 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             marker?.startAnimation()
         }
 
+
+        //定义地图状态
+        val mapStatus: MapStatus = MapStatus.Builder()
+            .target(latLng)
+            .zoom(18f)
+            .overlook(0f)
+            .build()
+        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+        val mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus)
+        //改变地图状态
+        baiduMap?.setMapStatus(mapStatusUpdate)
+    }
+
+    //单独处理从首页报警消息列表点击进来的车辆位置显示
+    private fun addMarkerByLocation(ebikeNo:String,latLng:LatLng) {
+        val marker = baiduMap?.run {
+            val bundle:Bundle = Bundle()
+            bundle.putString("id",ebikeNo)
+            this.clear()
+            val markerOptions = MarkerOptions().position(latLng).icon(ebikeMarker)
+            markerOptions?.alpha(0.9f);//marker图标透明度，0~1.0，默认为1.0
+            markerOptions?.extraInfo(bundle)
+            this.addOverlay(markerOptions)
+        } as? Marker
+
+        marker?.setAnimation(markerAnim)
+        marker?.startAnimation()
 
         //定义地图状态
         val mapStatus: MapStatus = MapStatus.Builder()

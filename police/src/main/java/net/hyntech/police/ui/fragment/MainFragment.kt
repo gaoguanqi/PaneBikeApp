@@ -14,6 +14,7 @@ import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseFragment
 import net.hyntech.common.db.AppDatabase
+import net.hyntech.common.global.Constants
 import net.hyntech.common.model.entity.BannerEntity
 import net.hyntech.common.model.entity.SeverInfoEntity
 import net.hyntech.common.ui.adapter.MyBannerAdapter
@@ -134,7 +135,7 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
 
     //车辆查找
     private fun ebikeSearch(){
-        startActivity(Intent(requireActivity(),FindEbikeActivity::class.java))
+        startActivity(Intent(requireActivity(),FindEbikeActivity::class.java).putExtra(Constants.BundleKey.EXTRA_OBJ,""))
     }
 
 

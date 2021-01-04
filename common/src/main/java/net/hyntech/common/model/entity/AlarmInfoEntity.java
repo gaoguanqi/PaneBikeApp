@@ -2,6 +2,7 @@ package net.hyntech.common.model.entity;
 
 import net.hyntech.baselib.http.BaseResponse;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class AlarmInfoEntity extends BaseResponse<AlarmInfoEntity> {
@@ -127,7 +128,7 @@ public class AlarmInfoEntity extends BaseResponse<AlarmInfoEntity> {
         }
     }
 
-    public static class AlarmInfoListBean {
+    public static class AlarmInfoListBean implements Serializable {
         /**
          * addr : 开封市尉氏县洧川乡鲁湾村东
          * alarmId : 2020HORa7mNWKV

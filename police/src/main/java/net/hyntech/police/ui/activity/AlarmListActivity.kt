@@ -1,5 +1,6 @@
 package net.hyntech.police.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -9,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_payment_state.*
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.global.Constants
 import net.hyntech.common.model.entity.AlarmInfoEntity
 import net.hyntech.police.R
 import net.hyntech.common.R as CR
@@ -23,7 +25,9 @@ class AlarmListActivity:BaseViewActivity<ActivityAlarmListBinding,AlarmViewModel
         AlarmInfoAdapter(this).apply {
             this.setListener(object :AlarmInfoAdapter.OnClickListener{
                 override fun onItemClick(item: AlarmInfoEntity.AlarmInfoListBean?) {
-
+                    item?.let {
+                        startActivity(Intent(this@AlarmListActivity,FindEbikeActivity::class.java).putExtra(Constants.BundleKey.EXTRA_OBJ,it))
+                    }
                 }
             })
         }
