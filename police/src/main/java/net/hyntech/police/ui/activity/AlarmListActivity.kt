@@ -24,9 +24,19 @@ class AlarmListActivity:BaseViewActivity<ActivityAlarmListBinding,AlarmViewModel
     private val alarmInfoAdapter:AlarmInfoAdapter by lazy {
         AlarmInfoAdapter(this).apply {
             this.setListener(object :AlarmInfoAdapter.OnClickListener{
-                override fun onItemClick(item: AlarmInfoEntity.AlarmInfoListBean?) {
+                override fun onItemClick(pos:Int,item: AlarmInfoEntity.AlarmInfoListBean?) {
                     item?.let {
-                        startActivity(Intent(this@AlarmListActivity,FindEbikeActivity::class.java).putExtra(Constants.BundleKey.EXTRA_OBJ,it))
+                        //按原来代码的逻辑处理
+
+                        // 点击item 时先判断消息是否为已读
+                        //如果已读 直接进去 车辆查找页面
+                        //如果是未读 先提交接口为已读 再 进入车辆查找页面
+                        val state = it.state
+                        if(state == 0){ //未读
+                            onMarkRead(pos,it)
+                        }else{
+                            startActivity(Intent(this@AlarmListActivity,FindEbikeActivity::class.java).putExtra(Constants.BundleKey.EXTRA_OBJ,it))
+                        }
                     }
                 }
             })
@@ -86,6 +96,16 @@ class AlarmListActivity:BaseViewActivity<ActivityAlarmListBinding,AlarmViewModel
             refreshLayout.setEnableRefresh(false)//是否启用下拉刷新功能
         })
 
+        viewModel.notifyPosition.observe(this, Observer {
+            if(alarmInfoAdapter.itemCount >= it){
+                alarmInfoAdapter.notifyItemChanged(it)
+            }
+        })
+
+        viewModel.markRead.observe(this, Observer {
+            startActivity(Intent(this@AlarmListActivity,FindEbikeActivity::class.java).putExtra(Constants.BundleKey.EXTRA_OBJ,it))
+        })
+
         viewModel.alarmInfoList.observe(this, Observer {
             if (refreshLayout.visibility == View.GONE) {
                 refreshLayout.visibility = View.VISIBLE
@@ -135,6 +155,12 @@ class AlarmListActivity:BaseViewActivity<ActivityAlarmListBinding,AlarmViewModel
         refreshLayout?.let {
             if (it.isLoading) it.finishLoadMore(300)
         }
+    }
+
+
+    private fun onMarkRead(pos:Int,entity:AlarmInfoEntity.AlarmInfoListBean){
+        entity.state = 1
+        viewModel.onMarkRead(pos,entity)
     }
 
 }

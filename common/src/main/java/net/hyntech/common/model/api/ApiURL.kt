@@ -104,6 +104,8 @@ class ApiURL {
         const val URL_REG_LIST = "${EXT}/v1/ebike/police/reg_list.thtml"
         //警用版  报警信息列表
         const val URL_ALARM_LIST = "${EXT}/v1/alarm_info/police/list.thtml"
+        //警用版  报警信息标记已读
+        const val URL_ALARM_MARK_READ = "${EXT}/v1/alarm_info/police/mark_read.thtml"
         //web url
 
 

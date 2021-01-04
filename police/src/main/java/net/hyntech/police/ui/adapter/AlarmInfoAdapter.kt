@@ -45,7 +45,7 @@ class AlarmInfoAdapter(val context: Context) : BaseAdapter<AlarmInfoAdapter.View
         val holder: ViewHolder = ViewHolder(view)
         holder.itemRoot.setOnClickListener {
             if(!UIUtils.isFastDoubleClick()){
-                listener?.onItemClick(list.get(holder.adapterPosition))
+                listener?.onItemClick(holder.adapterPosition,list.get(holder.adapterPosition))
             }
         }
         return holder
@@ -130,7 +130,7 @@ class AlarmInfoAdapter(val context: Context) : BaseAdapter<AlarmInfoAdapter.View
     }
 
     interface OnClickListener {
-        fun onItemClick(item: AlarmInfoEntity.AlarmInfoListBean?)
+        fun onItemClick(pos:Int,item: AlarmInfoEntity.AlarmInfoListBean?)
     }
 
 }

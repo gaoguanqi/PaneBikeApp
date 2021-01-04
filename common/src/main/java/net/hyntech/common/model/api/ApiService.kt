@@ -153,6 +153,10 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_ALARM_LIST)
     suspend fun getAlarmInfoList(@Body requestBody: RequestBody): AlarmInfoEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_ALARM_MARK_READ)
+    suspend fun alarmMarkRead(@Body requestBody: RequestBody): CommonEntity
+
     //---------警用端结束-----------------------
 
 }
