@@ -92,6 +92,9 @@
         <activity android:name=".ui.activity.AlarmSearchActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".ui.activity.ConverServiceActivity"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"

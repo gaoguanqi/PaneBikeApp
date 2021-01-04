@@ -157,6 +157,10 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_ALARM_MARK_READ)
     suspend fun alarmMarkRead(@Body requestBody: RequestBody): CommonEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_SERVICE_UPLOADER)
+    suspend fun serviceUploader(@Body requestBody: RequestBody): ServiceLoaderEntity
+
     //---------警用端结束-----------------------
 
 }

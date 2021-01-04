@@ -120,7 +120,7 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
 
     //便民服务
     private fun converService(){
-
+        startActivity(Intent(requireActivity(),ConverServiceActivity::class.java))
     }
 
     //车辆登记

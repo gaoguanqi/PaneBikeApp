@@ -164,4 +164,8 @@ open class CommonRepository:BaseRepository() {
     suspend fun alarmMarkRead(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
         retrofitClient.alarmMarkRead(params2Body(params))
     }
+
+    suspend fun serviceUploader(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.serviceUploader(params2Body(params))
+    }
 }

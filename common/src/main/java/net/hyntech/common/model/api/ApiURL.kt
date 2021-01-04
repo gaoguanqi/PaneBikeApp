@@ -29,6 +29,10 @@ class ApiURL {
         private const val PREFIX_OSS_URL = "${EXT}/v1/oss/police"
 
 
+        // 特殊的 便民服务 前缀
+//        private const val PREFIX_SHOP_URL = "${EXT}/v1/service_shop/usual"
+        private const val PREFIX_SHOP_URL = "${EXT}/v1/service_shop/police"
+
         //用户登录
         const val URL_USER_LOGIN = "${PREFIX_URL}/login.thtml"
         //获取短信验证码
@@ -41,6 +45,9 @@ class ApiURL {
         const val URL_UPLOAD_IMG = "${PREFIX_OSS_URL}/img_upload.thtml"
         //修改头像
         const val URL_EDIT_HEADIMGURL = "${PREFIX_URL}/edit_headimgurl.thtml"
+
+        //民用版 便民服务
+        const val URL_CONVER_SERVICE = "${PREFIX_SHOP_URL}/list.thtml"
 
 
         //----------民用版--------------------------------------------------------------------------------------------------
@@ -66,8 +73,6 @@ class ApiURL {
         const val URL_INSURANCE_COVERANGE = "${EXT}/v1/ebike/usual/ebike_insurance_coverange.thtml"
         //民用版 保障信息
         const val URL_TO_PAY = "${EXT}/v1/service_package/usual/to_pay.thtml"
-        //民用版 便民服务
-        const val URL_CONVER_SERVICE = "${EXT}/v1/service_shop/usual/list.thtml"
         //民用版 车辆位置搜索(民用版V2新接口，带增值服务)
         const val URL_LOCATION_SEARCH = "${EXT}/v2/ebike/usual/location_search.thtml"
         //民用版 增值服务列表
@@ -106,8 +111,9 @@ class ApiURL {
         const val URL_ALARM_LIST = "${EXT}/v1/alarm_info/police/list.thtml"
         //警用版  报警信息标记已读
         const val URL_ALARM_MARK_READ = "${EXT}/v1/alarm_info/police/mark_read.thtml"
+        //警用版  便民服务 上传人信息
+        const val URL_SERVICE_UPLOADER = "${EXT}/v1/service_shop/police/uploader_list.thtml"
         //web url
-
 
 
 
