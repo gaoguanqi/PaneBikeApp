@@ -44,7 +44,7 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
     private var serviceShopId:String? = ""
     private val commonDialog by lazy {
         CommonDialog(this,UIUtils.getString(CR.string.common_tip),
-            "您确定要删除该网点信息？？",
+            "您确定要删除该网点信息？",
             UIUtils.getString(CR.string.common_text_cancle),
             UIUtils.getString(CR.string.common_text_confirm),object :
                 CommonDialog.OnClickListener{

@@ -101,6 +101,10 @@ class AkeyAlarmActivity:BaseViewActivity<ActivityAkeyAlarmBinding,ControllerView
                 if(iv_add.visibility == View.GONE) iv_add.visibility = View.VISIBLE
             }
         }
+
+        if(photoAdapter.itemCount <= 0){
+            photoList.clear()
+        }
     }
 
     override fun getLayoutId(): Int = R.layout.activity_akey_alarm
