@@ -165,6 +165,10 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_SERVICE_DELETE)
     suspend fun deleteServiceShop(@Body requestBody: RequestBody): ServiceLoaderEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_SHOP_DETAIL)
+    suspend fun getShopDetails(@Body requestBody: RequestBody): ShopSiteEntity
+
     //---------警用端结束-----------------------
 
 }

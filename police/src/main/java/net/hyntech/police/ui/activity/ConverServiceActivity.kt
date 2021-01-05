@@ -69,12 +69,16 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
 
             //编辑
             override fun onEditClick(item: ConverServiceEntity.AtServiceShopListBean?) {
-                startActivity(Intent(this@ConverServiceActivity,ShopSiteActivity::class.java).putExtra(Constants.BundleKey.EXTRA_INDEX,1))
+                item?.let {
+                    startActivity(Intent(this@ConverServiceActivity,ShopSiteActivity::class.java).putExtra(Constants.BundleKey.EXTRA_INDEX,1).putExtra(Constants.BundleKey.EXTRA_ID,it.serviceShopId))
+                }
             }
 
             //详情
             override fun onItemClick(item: ConverServiceEntity.AtServiceShopListBean?) {
-                startActivity(Intent(this@ConverServiceActivity,ShopSiteActivity::class.java).putExtra(Constants.BundleKey.EXTRA_INDEX,2))
+                item?.let {
+                    startActivity(Intent(this@ConverServiceActivity,ShopSiteActivity::class.java).putExtra(Constants.BundleKey.EXTRA_INDEX,2).putExtra(Constants.BundleKey.EXTRA_ID,it.serviceShopId))
+                }
             }
         })
     } }
@@ -145,7 +149,7 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
             this.setOnClickListener {
                 onClickProxy {
                     // 添加
-                    startActivity(Intent(this@ConverServiceActivity,ShopSiteActivity::class.java).putExtra(Constants.BundleKey.EXTRA_INDEX,0))
+                    startActivity(Intent(this@ConverServiceActivity,ShopSiteActivity::class.java).putExtra(Constants.BundleKey.EXTRA_INDEX,0).putExtra(Constants.BundleKey.EXTRA_ID,""))
                 }
             }
         }

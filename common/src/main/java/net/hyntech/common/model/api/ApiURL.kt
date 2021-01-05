@@ -115,6 +115,8 @@ class ApiURL {
         const val URL_SERVICE_UPLOADER = "${EXT}/v1/service_shop/police/uploader_list.thtml"
         //警用版  便民服务 删除网点
         const val URL_SERVICE_DELETE = "${EXT}/v1/service_shop/police/delete.thtml"
+        //警用版  便民服务详情
+        const val URL_SHOP_DETAIL = "${EXT}/v1/service_shop/police/detail.thtml"
         //web url
 
 

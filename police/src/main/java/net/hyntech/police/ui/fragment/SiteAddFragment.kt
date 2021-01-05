@@ -41,10 +41,7 @@ class SiteAddFragment(val viewModel: ShopSiteViewModel):BaseFragment<FragmentSit
     private var shopType1:String = ""
     private var shopType2:String = ""
     private var shopType3:String = ""
-    private val defDrawable:Drawable by lazy { UIUtils.getDrawable(CR.drawable.shape_solid) }
-    private val sefDrawable:Drawable by lazy { UIUtils.getDrawable(CR.drawable.shape_stroke) }
-    private val defColor:Int by lazy { UIUtils.getColor(CR.color.common_black) }
-    private val sefColor:Int by lazy { UIUtils.getColor(CR.color.common_color_text) }
+
     override fun initData(savedInstanceState: Bundle?) {
         act = activity as ShopSiteActivity
         view?.apply {
@@ -66,12 +63,12 @@ class SiteAddFragment(val viewModel: ShopSiteViewModel):BaseFragment<FragmentSit
                 this.setOnClickListener {
                     if(TextUtils.isEmpty(shopType1)){
                         shopType1 = "1"
-                        this.background = sefDrawable
-                        this.setTextColor(sefColor)
+                        this.background = viewModel.sefDrawable
+                        this.setTextColor(viewModel.sefColor)
                     }else{
                         shopType1 = ""
-                        this.background = defDrawable
-                        this.setTextColor(defColor)
+                        this.background = viewModel.defDrawable
+                        this.setTextColor(viewModel.defColor)
                     }
                 }
             }
@@ -80,12 +77,12 @@ class SiteAddFragment(val viewModel: ShopSiteViewModel):BaseFragment<FragmentSit
                 this.setOnClickListener {
                     if(TextUtils.isEmpty(shopType2)){
                         shopType2 = "2"
-                        this.background = sefDrawable
-                        this.setTextColor(sefColor)
+                        this.background = viewModel.sefDrawable
+                        this.setTextColor(viewModel.sefColor)
                     }else{
                         shopType2 = ""
-                        this.background = defDrawable
-                        this.setTextColor(defColor)
+                        this.background = viewModel.defDrawable
+                        this.setTextColor(viewModel.defColor)
                     }
                 }
             }
@@ -94,12 +91,12 @@ class SiteAddFragment(val viewModel: ShopSiteViewModel):BaseFragment<FragmentSit
                 this.setOnClickListener {
                     if(TextUtils.isEmpty(shopType3)){
                         shopType3 = "3"
-                        this.background = sefDrawable
-                        this.setTextColor(sefColor)
+                        this.background = viewModel.sefDrawable
+                        this.setTextColor(viewModel.sefColor)
                     }else{
                         shopType3 = ""
-                        this.background = defDrawable
-                        this.setTextColor(defColor)
+                        this.background = viewModel.defDrawable
+                        this.setTextColor(viewModel.defColor)
                     }
                 }
             }
@@ -169,6 +166,8 @@ class SiteAddFragment(val viewModel: ShopSiteViewModel):BaseFragment<FragmentSit
         }
 
         ToastUtil.showToast("通过")
+
+
 
 
     }

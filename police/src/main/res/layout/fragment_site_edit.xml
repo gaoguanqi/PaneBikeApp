@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="net.hyntech.common.widget.view.ClearEditText" />
+
+        <import type="net.hyntech.common.widget.view.IconTextView" />
+
+        <variable
+            name="viewModel"
+            type="net.hyntech.police.vm.ShopSiteViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/common_default_background"
+        android:orientation="vertical">
+
+        <include layout="@layout/include_title" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/common_color_background"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/common_padding"
+                    android:paddingEnd="@dimen/common_padding">
+
+                    <net.hyntech.common.widget.view.IconTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        app:text="网站名称"
+                        app:textAlignment="center"
+                        app:textColor="@color/common_gray_text" />
+
+                    <net.hyntech.common.widget.view.ClearEditText
+                        android:id="@+id/et_site_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:background="@null"
+                        android:hint="请输入便民服务点名称"
+                        android:singleLine="true"
+                        android:textColor="@color/common_black"
+                        android:textSize="@dimen/common_font_text" />
+                </LinearLayout>
+
+                <View
+                    style="@style/common_style_line"
+                    android:layout_marginStart="@dimen/common_padding"
+                    android:layout_marginEnd="@dimen/common_padding" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/common_padding"
+                    android:paddingEnd="@dimen/common_padding">
+
+                    <net.hyntech.common.widget.view.IconTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        app:text="服务类型"
+                        app:textAlignment="center"
+                        app:textColor="@color/common_gray_text" />
+
+                    <TextView
+                        android:id="@+id/tv_type"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center_vertical|end"
+                        android:text="多选"
+                        android:textColor="@color/common_gray_text"
+                        android:textSize="@dimen/common_font_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/common_padding"
+                    android:weightSum="4">
+
+                    <TextView
+                        android:id="@+id/tv_store"
+                        android:layout_width="0dp"
+                        android:layout_height="38dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_solid"
+                        android:gravity="center"
+                        android:text="销售门店"
+                        android:textColor="@color/common_black"
+                        android:textSize="@dimen/common_font_text" />
+
+                    <TextView
+                        android:id="@+id/tv_fix"
+                        android:layout_width="0dp"
+                        android:layout_height="38dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_solid"
+                        android:gravity="center"
+                        android:text="维修站"
+                        android:textColor="@color/common_black"
+                        android:textSize="@dimen/common_font_text" />
+
+                    <TextView
+                        android:id="@+id/tv_power"
+                        android:layout_width="0dp"
+                        android:layout_height="38dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_solid"
+                        android:gravity="center"
+                        android:text="充电站"
+                        android:textColor="@color/common_black"
+                        android:textSize="@dimen/common_font_text" />
+
+                </LinearLayout>
+
+                <View
+                    style="@style/common_style_line"
+                    android:layout_marginStart="@dimen/common_padding"
+                    android:layout_marginEnd="@dimen/common_padding" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/common_padding"
+                    android:paddingEnd="@dimen/common_padding">
+
+                    <net.hyntech.common.widget.view.IconTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        app:text="联系电话"
+                        app:textAlignment="center"
+                        app:textColor="@color/common_gray_text" />
+
+                    <net.hyntech.common.widget.view.ClearEditText
+                        android:id="@+id/et_phone"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:background="@null"
+                        android:hint="请输入便民服务点电话"
+                        android:singleLine="true"
+                        android:textColor="@color/common_black"
+                        android:textSize="@dimen/common_font_text" />
+                </LinearLayout>
+
+                <View
+                    style="@style/common_style_line"
+                    android:layout_marginStart="@dimen/common_padding"
+                    android:layout_marginEnd="@dimen/common_padding" />
+
+
+                <LinearLayout
+                    android:id="@+id/ll_brand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:minHeight="46dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/common_padding"
+                    android:paddingEnd="@dimen/common_padding">
+
+                    <net.hyntech.common.widget.view.IconTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        app:text="网点地址"
+                        app:textAlignment="center"
+                        app:textColor="@color/common_gray_text" />
+
+
+                    <net.hyntech.common.widget.view.ClearEditText
+                        android:id="@+id/et_address"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.5"
+                        android:background="@null"
+                        android:hint="请输入地址"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="@color/common_black"
+                        android:textSize="@dimen/common_font_text" />
+
+                    <ImageButton
+                        android:id="@+id/btn_position"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:background="@null"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="10dp"
+                        android:src="@drawable/ic_position" />
+                </LinearLayout>
+
+                <View
+                    style="@style/common_style_line"
+                    android:layout_marginStart="@dimen/common_padding"
+                    android:layout_marginEnd="@dimen/common_padding" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:minHeight="46dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/common_padding"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="@dimen/common_padding"
+                    android:paddingBottom="6dp">
+
+                    <net.hyntech.common.widget.view.IconTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        app:iconShow="false"
+                        app:text="经纬度"
+                        app:textAlignment="center"
+                        app:textColor="@color/common_gray_text" />
+
+                    <TextView
+                        android:id="@+id/tv_latlng"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:hint="定位后自定获取"
+                        android:textColor="@color/common_black"
+                        android:textSize="@dimen/common_font_text" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/common_color_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="46dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/common_padding"
+                    android:paddingTop="@dimen/common_padding"
+                    android:paddingEnd="@dimen/common_padding"
+                    android:paddingBottom="@dimen/common_padding">
+
+                    <net.hyntech.common.widget.view.IconTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        app:text="相关照片"
+                        app:textAlignment="center"
+                        app:textColor="@color/common_gray_text" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:id="@+id/iv_add"
+                                android:layout_width="92dp"
+                                android:layout_height="92dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/pic_add"/>
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/common_color_background"
+                            android:paddingStart="@dimen/common_padding"
+                            android:paddingTop="10dp"
+                            android:paddingEnd="@dimen/common_padding"
+                            android:text="请上传jpg,png格式的图片，内容与便民服务网点有关，不超过3张"
+                            android:textColor="@color/common_gray_text"
+                            android:textSize="@dimen/common_font_text" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/btn_commit"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/selector_common"
+            android:text="保存"
+            android:textColor="@color/common_white"
+            android:textSize="@dimen/common_font_common" />
+    </LinearLayout>
+</layout>

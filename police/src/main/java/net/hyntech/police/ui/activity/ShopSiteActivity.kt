@@ -29,14 +29,17 @@ import net.hyntech.common.ui.adapter.PhotoAdapter
 import net.hyntech.common.widget.dialog.CommonDialog
 import net.hyntech.common.widget.imgloader.engine.GlideEngine
 import net.hyntech.police.R
-import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.ActivityShopSiteBinding
+import net.hyntech.common.R as CR
 import net.hyntech.police.ui.fragment.SiteAddFragment
+import net.hyntech.police.ui.fragment.SiteDetailsFragment
+import net.hyntech.police.ui.fragment.SiteEditFragment
 import net.hyntech.police.vm.ShopSiteViewModel
 
 class ShopSiteActivity:BaseViewActivity<ActivityShopSiteBinding,ShopSiteViewModel>() {
 
     private var currentItem:Int = 0
+    private var serviceShopId:String = ""
 
     val photoList:MutableList<PhotoEntity> = mutableListOf()
     private val rxPermissions: RxPermissions = RxPermissions(this)
@@ -86,6 +89,11 @@ class ShopSiteActivity:BaseViewActivity<ActivityShopSiteBinding,ShopSiteViewMode
 
         currentItem = intent?.getIntExtra(Constants.BundleKey.EXTRA_INDEX,0)?:0
 
+        intent?.let {
+            currentItem = it.getIntExtra(Constants.BundleKey.EXTRA_INDEX,0)
+            serviceShopId = it.getStringExtra(Constants.BundleKey.EXTRA_ID)?:""
+        }
+
         viewModel.defUI.showDialog.observe(this, Observer {
             showLoading()
         })
@@ -101,8 +109,8 @@ class ShopSiteActivity:BaseViewActivity<ActivityShopSiteBinding,ShopSiteViewMode
 
         val list: List<Fragment> = listOf(
             SiteAddFragment.getInstance(viewModel),
-            SiteAddFragment.getInstance(viewModel),
-            SiteAddFragment.getInstance(viewModel)
+            SiteEditFragment.getInstance(viewModel),
+            SiteDetailsFragment.getInstance(viewModel)
         )
 
         binding.pager.isUserInputEnabled = false
@@ -116,7 +124,6 @@ class ShopSiteActivity:BaseViewActivity<ActivityShopSiteBinding,ShopSiteViewMode
     fun startMap(){
         ARouter.getInstance().build(ARouterConstants.BAIDU_MAP_PAGE).navigation(this,104)
     }
-
 
 
     private var ivAdd:ImageView? = null
@@ -215,6 +222,12 @@ class ShopSiteActivity:BaseViewActivity<ActivityShopSiteBinding,ShopSiteViewMode
                 }
             }
         }
+    }
+
+
+
+    fun getShopDetails(){
+        viewModel.getShopDetails(serviceShopId)
     }
 
 
