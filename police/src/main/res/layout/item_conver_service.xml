@@ -138,6 +138,8 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+            android:paddingStart="@dimen/common_padding"
+            android:paddingEnd="@dimen/common_padding"
             android:orientation="horizontal">
 
             <TextView
@@ -148,7 +150,7 @@
                 tools:text="姓名"
                 android:layout_gravity="center"
                 android:textColor="@color/common_color_text"
-                android:textSize="@dimen/common_font_common"
+                android:textSize="@dimen/common_font_text"
                 android:drawablePadding="4dp"
                 app:drawableStartCompat="@drawable/ic_upload" />
 
@@ -156,7 +158,7 @@
                 android:id="@+id/tv_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selector_confirm"
+                android:background="@drawable/selector_cancel"
                 android:paddingStart="28dp"
                 android:paddingTop="6dp"
                 android:paddingEnd="28dp"
@@ -164,7 +166,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_gravity="center"
                 android:text="删除"
-                android:textColor="@color/common_white"
+                android:textColor="@color/common_colorTheme"
                 android:textSize="@dimen/common_font_common" />
 
             <TextView

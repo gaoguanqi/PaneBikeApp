@@ -16,13 +16,13 @@ import net.hyntech.usual.ui.adapter.ConverServiceAdapter
 import net.hyntech.usual.vm.ServiceViewModel
 
 //充电站
-class ServicePowerlFragment(val id:String, val lat:String, val lng:String, val viewModel: ServiceViewModel):BaseFragment<FragmentServicePowerBinding,ServiceViewModel>() {
+class ServicePowerFragment(val id:String, val lat:String, val lng:String, val viewModel: ServiceViewModel):BaseFragment<FragmentServicePowerBinding,ServiceViewModel>() {
 
     private val shopType:String = "3"
 
     companion object {
-        fun getInstance(id: String,lat: String,lng: String, viewModel: ServiceViewModel): ServicePowerlFragment {
-            return ServicePowerlFragment(id,lat,lng,viewModel)
+        fun getInstance(id: String,lat: String,lng: String, viewModel: ServiceViewModel): ServicePowerFragment {
+            return ServicePowerFragment(id,lat,lng,viewModel)
         }
     }
 

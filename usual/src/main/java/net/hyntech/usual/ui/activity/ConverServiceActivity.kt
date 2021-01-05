@@ -3,13 +3,11 @@ package net.hyntech.usual.ui.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
-import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.PhoneUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
 import net.hyntech.baselib.utils.*
@@ -24,7 +22,7 @@ import net.hyntech.common.R as CR
 import net.hyntech.usual.databinding.ActivityConverServiceBinding
 import net.hyntech.usual.ui.fragment.ServiceAllFragment
 import net.hyntech.usual.ui.fragment.ServiceFixFragment
-import net.hyntech.usual.ui.fragment.ServicePowerlFragment
+import net.hyntech.usual.ui.fragment.ServicePowerFragment
 import net.hyntech.usual.ui.fragment.ServiceStoreFragment
 import net.hyntech.usual.vm.ServiceViewModel
 
@@ -74,7 +72,7 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding,Servic
             ServiceAllFragment.getInstance(id!!,lat!!,lng!!,viewModel),
             ServiceStoreFragment.getInstance(id!!,lat!!,lng!!,viewModel),
             ServiceFixFragment.getInstance(id!!,lat!!,lng!!,viewModel),
-            ServicePowerlFragment.getInstance(id!!,lat!!,lng!!,viewModel)
+            ServicePowerFragment.getInstance(id!!,lat!!,lng!!,viewModel)
         )
 
         binding.pager.isUserInputEnabled = false

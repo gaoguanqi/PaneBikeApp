@@ -59,6 +59,33 @@ class ConverServiceViewModel:BaseViewModel() {
         }, success = {
             it?.let {data ->
                 lastPage = data.page?.isLastPage?:true
+                val bean = ConverServiceEntity.AtServiceShopListBean()
+                bean.addr = "开封市尉氏县"
+                bean.createId = "2019FYO6dbhfni"
+                bean.createIdFlag = 0
+                bean.createName = "李鹏"
+                bean.createTime = "2020-06-27 11:44:34"
+                bean.delFlag = 1
+                bean.distance = 0.0
+                bean.keyword = ""
+                bean.lat = 34.3741294
+                bean.lng = 114.0133395
+                bean.loginUserId = ""
+                bean.name = ""
+                bean.orgId = "2018LENoOyAYmq"
+                bean.orgName = ""
+                bean.phone = "13837865119"
+                bean.relevantPic = "http://oss-public.hyntech.net/appUpload/20200627/2018LENoOyAYmq/c0501b2dbc464ff0be809c43e68b68e1.JPEG"
+                bean.remark = ""
+                bean.serviceShopId = "2020FaLshJWvTh"
+                bean.shopName = "李鹏车行"
+                bean.shopType = "销售门店,维修站,充电站"
+                bean.state = 1
+                bean.updateId = "2019FYO6dbhfni"
+                bean.updateIdFlag = 0
+                bean.updateTime = "2020-07-16 15:25:17"
+                data.atServiceShopList.add(bean)
+
                 if(data.atServiceShopList.isNullOrEmpty()){
                     defUI.emptyEvent.call()
                     defUI.toastEvent.postValue("暂无数据！")

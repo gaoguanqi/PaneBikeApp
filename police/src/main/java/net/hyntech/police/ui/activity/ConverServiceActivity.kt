@@ -1,5 +1,6 @@
 package net.hyntech.police.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -10,14 +11,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.ScreenUtils
-import kotlinx.android.synthetic.main.activity_conver_service.*
 import kotlinx.android.synthetic.main.activity_conver_service.refreshLayout
 import kotlinx.android.synthetic.main.activity_conver_service.rv
 import kotlinx.android.synthetic.main.activity_conver_service.vsEmpty
-import kotlinx.android.synthetic.main.activity_payment_state.*
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
+import net.hyntech.common.global.Constants
 import net.hyntech.common.model.entity.ConverServiceEntity
 import net.hyntech.common.model.entity.ServiceLoaderEntity
 import net.hyntech.common.model.entity.ServiceTypeEntity
@@ -69,12 +69,12 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
 
             //编辑
             override fun onEditClick(item: ConverServiceEntity.AtServiceShopListBean?) {
-
+                startActivity(Intent(this@ConverServiceActivity,ShopSiteActivity::class.java).putExtra(Constants.BundleKey.EXTRA_INDEX,1))
             }
 
             //详情
             override fun onItemClick(item: ConverServiceEntity.AtServiceShopListBean?) {
-
+                startActivity(Intent(this@ConverServiceActivity,ShopSiteActivity::class.java).putExtra(Constants.BundleKey.EXTRA_INDEX,2))
             }
         })
     } }
@@ -144,7 +144,8 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
             this.setImageDrawable(UIUtils.getDrawable(CR.drawable.ic_add))
             this.setOnClickListener {
                 onClickProxy {
-                    ToastUtil.showToast("添加")
+                    // 添加
+                    startActivity(Intent(this@ConverServiceActivity,ShopSiteActivity::class.java).putExtra(Constants.BundleKey.EXTRA_INDEX,0))
                 }
             }
         }

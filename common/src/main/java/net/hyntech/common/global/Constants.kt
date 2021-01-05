@@ -77,4 +77,8 @@ class Constants {
         var longitude:Double? = 0.0
     }
 
+
+
+
+
 }
