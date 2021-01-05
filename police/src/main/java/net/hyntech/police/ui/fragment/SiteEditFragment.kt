@@ -163,7 +163,6 @@ class SiteEditFragment (val viewModel: ShopSiteViewModel):
                 act.photoAdapter.setData(act.photoList)
             }
         })
-
     }
 
     private fun onCommit() {
