@@ -8,8 +8,8 @@ class ApiURL {
 
 
         // https://api.hyntech.net/app/v1/user/usual/get_user_info.thtml
-//            private const val EXT = "/app"
-            private const val EXT = "/antitheft"
+            private const val EXT = "/app"
+//            private const val EXT = "/antitheft"
 
 //        private const val PREFIX_URL = "/antitheft/v1/user/usual"
 //        private const val PREFIX_URL = "/antitheft/v1/user/police"

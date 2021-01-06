@@ -15,6 +15,7 @@ class FindEbikeViewModel:BaseViewModel() {
     fun onFindEbike(ebikeNo: String,startTime:String,endTime:String) {
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
+            //ebikeNo WS113651
             params.put("ebikeNo",ebikeNo)
             params.put("beginTime",startTime)
             params.put("endTime",endTime)
