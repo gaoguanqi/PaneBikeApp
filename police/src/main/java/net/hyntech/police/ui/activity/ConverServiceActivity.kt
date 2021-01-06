@@ -1,5 +1,6 @@
 package net.hyntech.police.ui.activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -14,10 +15,12 @@ import com.blankj.utilcode.util.ScreenUtils
 import kotlinx.android.synthetic.main.activity_conver_service.refreshLayout
 import kotlinx.android.synthetic.main.activity_conver_service.rv
 import kotlinx.android.synthetic.main.activity_conver_service.vsEmpty
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
+import net.hyntech.common.global.EventCode
 import net.hyntech.common.model.entity.ConverServiceEntity
 import net.hyntech.common.model.entity.ServiceLoaderEntity
 import net.hyntech.common.model.entity.ServiceTypeEntity
@@ -70,7 +73,7 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
             //编辑
             override fun onEditClick(item: ConverServiceEntity.AtServiceShopListBean?) {
                 item?.let {
-                    startActivity(Intent(this@ConverServiceActivity,ShopSiteActivity::class.java).putExtra(Constants.BundleKey.EXTRA_INDEX,1).putExtra(Constants.BundleKey.EXTRA_ID,it.serviceShopId))
+                    startActivityForResult(Intent(this@ConverServiceActivity,ShopSiteActivity::class.java).putExtra(Constants.BundleKey.EXTRA_INDEX,1).putExtra(Constants.BundleKey.EXTRA_ID,it.serviceShopId),EventCode.EVENT_CODE_SHOP)
                 }
             }
 
@@ -149,7 +152,7 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
             this.setOnClickListener {
                 onClickProxy {
                     // 添加
-                    startActivity(Intent(this@ConverServiceActivity,ShopSiteActivity::class.java).putExtra(Constants.BundleKey.EXTRA_INDEX,0).putExtra(Constants.BundleKey.EXTRA_ID,""))
+                    startActivityForResult(Intent(this@ConverServiceActivity,ShopSiteActivity::class.java).putExtra(Constants.BundleKey.EXTRA_INDEX,0).putExtra(Constants.BundleKey.EXTRA_ID,""),EventCode.EVENT_CODE_SHOP)
                 }
             }
         }
@@ -264,6 +267,17 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
     private fun finishLoadMore() {
         refreshLayout?.let {
             if (it.isLoading) it.finishLoadMore(300)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                EventCode.EVENT_CODE_SHOP ->{
+                    viewModel.getServiceList(keyword,shopType,createId)
+                }
+            }
         }
     }
 

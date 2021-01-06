@@ -109,7 +109,7 @@ class ShopSiteActivity:BaseViewActivity<ActivityShopSiteBinding,ShopSiteViewMode
 
         val list: List<Fragment> = listOf(
             SiteAddFragment.getInstance(viewModel),
-            SiteEditFragment.getInstance(viewModel),
+            SiteEditFragment.getInstance(serviceShopId,viewModel),
             SiteDetailsFragment.getInstance(viewModel)
         )
 
@@ -128,11 +128,14 @@ class ShopSiteActivity:BaseViewActivity<ActivityShopSiteBinding,ShopSiteViewMode
 
     private var ivAdd:ImageView? = null
 
-    fun applyCamera(ivAdd:ImageView){
-        this.ivAdd = ivAdd
+    fun setAddView(iv:ImageView){
+        this.ivAdd = iv
+    }
+    
+    fun applyCamera(){
         PermissionUtil.applyCamera(object : RequestPermission {
             override fun onRequestPermissionSuccess() {
-                openPhoto(ivAdd)
+                openPhoto()
             }
 
             override fun onRequestPermissionFailure(permissions: List<String>) {
@@ -151,7 +154,7 @@ class ShopSiteActivity:BaseViewActivity<ActivityShopSiteBinding,ShopSiteViewMode
         }
     }
 
-    private fun openPhoto(ivAdd:ImageView){
+    private fun openPhoto(){
         photoList.clear()
         PictureSelector.create(this)
             .openGallery(PictureMimeType.ofImage())
@@ -176,7 +179,9 @@ class ShopSiteActivity:BaseViewActivity<ActivityShopSiteBinding,ShopSiteViewMode
                                 photoList.add(PhotoEntity(compressPath,isDelete = true))
                             }
                         }
-                        updataList(ivAdd)
+                        if(photoList.isNotEmpty()){
+                            viewModel.uploadImageList(photoList)
+                        }
                     }?:let {
                         ToastUtil.showToast("选择照片出错,请重新选择！")
                     }
@@ -188,11 +193,11 @@ class ShopSiteActivity:BaseViewActivity<ActivityShopSiteBinding,ShopSiteViewMode
     }
 
 
-    private fun updataList(ivAdd:ImageView){
+    fun updataList(item:PhotoEntity){
         if(photoList.size >= 3 || photoAdapter.getListSize() >= 3 || (photoList.size + photoAdapter.getListSize()) >= 3){
-            if(ivAdd.visibility == View.VISIBLE) ivAdd.visibility = View.GONE
+            if(ivAdd?.visibility == View.VISIBLE) ivAdd?.visibility = View.GONE
         }
-        photoAdapter.updataList(photoList)
+        photoAdapter.addItem(item)
     }
 
     private fun delPhotoItem(pos: Int) {

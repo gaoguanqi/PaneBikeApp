@@ -9,19 +9,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.PhoneUtils
+import com.blankj.utilcode.util.StringUtils
+import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseFragment
+import net.hyntech.common.model.entity.PhotoEntity
+import net.hyntech.common.utils.CommonUtils
 import net.hyntech.police.R
 import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.FragmentSiteAddBinding
 import net.hyntech.police.ui.activity.ShopSiteActivity
 import net.hyntech.police.vm.ShopSiteViewModel
+import java.util.*
 
 //增加网点
 class SiteAddFragment(val viewModel: ShopSiteViewModel):BaseFragment<FragmentSiteAddBinding, ShopSiteViewModel>() {
 
     private lateinit var act: ShopSiteActivity
+
 
     companion object {
         fun getInstance(viewModel: ShopSiteViewModel): SiteAddFragment {
@@ -41,6 +47,7 @@ class SiteAddFragment(val viewModel: ShopSiteViewModel):BaseFragment<FragmentSit
     private var shopType1:String = ""
     private var shopType2:String = ""
     private var shopType3:String = ""
+    private val shopTypeList:MutableList<String> = mutableListOf()
 
     override fun initData(savedInstanceState: Bundle?) {
         act = activity as ShopSiteActivity
@@ -109,9 +116,10 @@ class SiteAddFragment(val viewModel: ShopSiteViewModel):BaseFragment<FragmentSit
 
 
             this.findViewById<ImageView>(R.id.iv_add)?.apply {
+                act.setAddView(this)
                 this.setOnClickListener {
                     onClickProxy {
-                        act.applyCamera(this)
+                        act.applyCamera()
                     }
                 }
             }
@@ -129,6 +137,15 @@ class SiteAddFragment(val viewModel: ShopSiteViewModel):BaseFragment<FragmentSit
             binding.tvLatlng.text = "(${it.lat},${it.lng})"
         })
 
+        viewModel.picURL.observe(this, Observer {
+            //获取到图片
+            act.updataList(PhotoEntity(it,true))
+        })
+
+        viewModel.saveEvent.observe(this, Observer {
+            //添加成功,刷新列表
+            act.onFinish(true)
+        })
     }
 
     private fun onCommit() {
@@ -143,9 +160,23 @@ class SiteAddFragment(val viewModel: ShopSiteViewModel):BaseFragment<FragmentSit
             return
         }
 
+
         if(TextUtils.isEmpty(shopType1) && TextUtils.isEmpty(shopType2) && TextUtils.isEmpty(shopType3)){
             ToastUtil.showToast("请选择服务类型")
             return
+        }
+
+        shopTypeList.clear()
+        if(!TextUtils.isEmpty(shopType1)){
+            shopTypeList.add(shopType1)
+        }
+
+        if(!TextUtils.isEmpty(shopType2)){
+            shopTypeList.add(shopType2)
+        }
+
+        if(!TextUtils.isEmpty(shopType3)){
+            shopTypeList.add(shopType3)
         }
 
         val phone:String? = binding.etPhone.text.toString().trim()
@@ -160,16 +191,28 @@ class SiteAddFragment(val viewModel: ShopSiteViewModel):BaseFragment<FragmentSit
             return
         }
 
-        if(act.photoList.isEmpty()){
+        if(act.photoAdapter.getDataList().isEmpty()){
             ToastUtil.showToast("请选择照片！")
             return
         }
 
-        ToastUtil.showToast("通过")
+        val shopType = CommonUtils.listSpliceComma(shopTypeList)
+        LogUtils.logGGQ("shopType-->>${shopType}")
+        val params: WeakHashMap<String, Any> = WeakHashMap()
+        params.put("shopName",name)
+        params.put("shopType",shopType)
+        params.put("phone",phone)
+        params.put("addr",address)
+        params.put("lat",viewModel.position.value?.lat)
+        params.put("lng",viewModel.position.value?.lng)
 
-
-
-
+        val picList = act.photoAdapter.getDataList().map { it.url }
+        val pics = CommonUtils.listSpliceComma(picList)
+        LogUtils.logGGQ("---pics-->>>${pics}")
+        params.put("relevantPic",pics)
+        //先上传照片再提交参数
+        viewModel.saveServiceShop(params)
     }
+
 
 }

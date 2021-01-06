@@ -169,6 +169,10 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_SHOP_DETAIL)
     suspend fun getShopDetails(@Body requestBody: RequestBody): ShopSiteEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_SHOP_SAVE)
+    suspend fun saveServiceShop(@Body requestBody: RequestBody): CommonEntity
+
     //---------警用端结束-----------------------
 
 }

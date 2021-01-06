@@ -8,8 +8,8 @@ class ApiURL {
 
 
         // https://api.hyntech.net/app/v1/user/usual/get_user_info.thtml
-            private const val EXT = "/app"
-//            private const val EXT = "/antitheft"
+//            private const val EXT = "/app"
+            private const val EXT = "/antitheft"
 
 //        private const val PREFIX_URL = "/antitheft/v1/user/usual"
 //        private const val PREFIX_URL = "/antitheft/v1/user/police"
@@ -117,6 +117,8 @@ class ApiURL {
         const val URL_SERVICE_DELETE = "${EXT}/v1/service_shop/police/delete.thtml"
         //警用版  便民服务详情
         const val URL_SHOP_DETAIL = "${EXT}/v1/service_shop/police/detail.thtml"
+        //警用版  便民服务添加、修改
+        const val URL_SHOP_SAVE = "${EXT}/v1/service_shop/police/save.thtml"
         //web url
 
 

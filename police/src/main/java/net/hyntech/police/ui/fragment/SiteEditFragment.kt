@@ -3,6 +3,7 @@ package net.hyntech.police.ui.fragment
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,16 +19,17 @@ import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.FragmentSiteEditBinding
 import net.hyntech.police.ui.activity.ShopSiteActivity
 import net.hyntech.police.vm.ShopSiteViewModel
+import java.util.*
 
 //网点编辑
-class SiteEditFragment (val viewModel: ShopSiteViewModel):
+class SiteEditFragment (val serviceShopId:String,val viewModel: ShopSiteViewModel):
     BaseFragment<FragmentSiteEditBinding, ShopSiteViewModel>() {
 
     private lateinit var act: ShopSiteActivity
 
     companion object {
-        fun getInstance(viewModel: ShopSiteViewModel): SiteEditFragment {
-            return SiteEditFragment(viewModel)
+        fun getInstance(serviceShopId:String,viewModel: ShopSiteViewModel): SiteEditFragment {
+            return SiteEditFragment(serviceShopId,viewModel)
         }
     }
 
@@ -42,6 +44,9 @@ class SiteEditFragment (val viewModel: ShopSiteViewModel):
     private var shopType1:String = ""
     private var shopType2:String = ""
     private var shopType3:String = ""
+    private val shopTypeList:MutableList<String> = mutableListOf()
+    private val imageList:MutableList<String> = mutableListOf()
+
     override fun initData(savedInstanceState: Bundle?) {
         act = activity as ShopSiteActivity
         view?.apply {
@@ -109,9 +114,10 @@ class SiteEditFragment (val viewModel: ShopSiteViewModel):
 
 
             this.findViewById<ImageView>(R.id.iv_add)?.apply {
+                act.setAddView(this)
                 this.setOnClickListener {
                     onClickProxy {
-                        act.applyCamera(this)
+                        act.applyCamera()
                     }
                 }
             }
@@ -152,7 +158,6 @@ class SiteEditFragment (val viewModel: ShopSiteViewModel):
                 binding.tvPower.setTextColor(viewModel.sefColor)
             }
 
-
             val imgList = CommonUtils.splitPicList(it.relevantPic)
             if(imgList.isNotEmpty()){
                 act.photoList.clear()
@@ -161,7 +166,15 @@ class SiteEditFragment (val viewModel: ShopSiteViewModel):
                     act.photoList.add(photo)
                 }
                 act.photoAdapter.setData(act.photoList)
+                if(act.photoList.size >= 3 || act.photoAdapter.getListSize() >= 3 || (act.photoList.size + act.photoAdapter.getListSize()) >= 3){
+                    if(binding.ivAdd.visibility == View.VISIBLE) binding.ivAdd.visibility = View.GONE
+                }
             }
+        })
+
+        viewModel.saveEvent.observe(this, Observer {
+            //添加成功,刷新列表
+            act.onFinish(true)
         })
     }
 
@@ -182,6 +195,20 @@ class SiteEditFragment (val viewModel: ShopSiteViewModel):
             return
         }
 
+        shopTypeList.clear()
+        if(!TextUtils.isEmpty(shopType1)){
+            shopTypeList.add(shopType1)
+        }
+
+        if(!TextUtils.isEmpty(shopType2)){
+            shopTypeList.add(shopType2)
+        }
+
+        if(!TextUtils.isEmpty(shopType3)){
+            shopTypeList.add(shopType3)
+        }
+
+
         val phone:String? = binding.etPhone.text.toString().trim()
         if(TextUtils.isEmpty(phone)){
             ToastUtil.showToast("请输入联系电话！")
@@ -199,8 +226,29 @@ class SiteEditFragment (val viewModel: ShopSiteViewModel):
             return
         }
 
-        ToastUtil.showToast("通过")
 
+        act.photoAdapter.getDataList().forEach {
+            imageList.add(it.url)
+        }
+
+
+        val shopType = CommonUtils.listSpliceComma(shopTypeList)
+        LogUtils.logGGQ("shopType-->>${shopType}")
+        val params: WeakHashMap<String, Any> = WeakHashMap()
+        params.put("serviceShopId",serviceShopId)
+        params.put("shopName",name)
+        params.put("shopType",shopType)
+        params.put("phone",phone)
+        params.put("addr",address)
+        params.put("lat",viewModel.position.value?.lat)
+        params.put("lng",viewModel.position.value?.lng)
+
+        val picList = act.photoAdapter.getDataList().map { it.url }
+        val pics = CommonUtils.listSpliceComma(picList)
+        LogUtils.logGGQ("---pics-->>>${pics}")
+        params.put("relevantPic",pics)
+        //先上传照片再提交参数
+        viewModel.saveServiceShop(params)
     }
 
 

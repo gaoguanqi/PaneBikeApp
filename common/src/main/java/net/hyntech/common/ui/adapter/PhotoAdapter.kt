@@ -33,6 +33,11 @@ class PhotoAdapter(val context: Context,@LayoutRes val resId:Int):BaseAdapter<Ph
         this.notifyDataSetChanged()
     }
 
+    fun addItem(item:PhotoEntity){
+        list.add(item)
+        this.notifyItemChanged(list.size)
+    }
+
     fun getListSize():Int = list.size
 
     fun getDataList():MutableList<PhotoEntity> = list

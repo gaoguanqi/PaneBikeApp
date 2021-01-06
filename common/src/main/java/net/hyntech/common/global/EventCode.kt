@@ -9,6 +9,7 @@ class EventCode {
         const val EVENT_CODE_BRAND = 503
         const val EVENT_CODE_OWNER = 504
         const val EVENT_CODE_EBIKE = 505
+        const val EVENT_CODE_SHOP = 506
 
         //扫一扫
         const val EVENT_CODE_SCAN = 777

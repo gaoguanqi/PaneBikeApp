@@ -176,4 +176,8 @@ open class CommonRepository:BaseRepository() {
     suspend fun getShopDetails(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
         retrofitClient.getShopDetails(params2Body(params))
     }
+
+    suspend fun saveServiceShop(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.saveServiceShop(params2Body(params))
+    }
 }

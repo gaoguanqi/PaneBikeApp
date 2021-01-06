@@ -1,6 +1,7 @@
 package net.hyntech.common.utils
 
 import android.text.TextUtils
+import org.jetbrains.anko.collections.forEachWithIndex
 
 class CommonUtils {
     companion object{
@@ -64,6 +65,26 @@ class CommonUtils {
                 return false
             }
             return shopType?.contains(type)?:false
+        }
+
+        //list 拼接字符
+        private fun listSpliceChar(list:List<String>, c:String):String{
+            val sb = StringBuffer()
+            if(list.isNotEmpty()){
+                list.forEachWithIndex { i, s ->
+                    if(i < list.size -1){
+                        sb.append(list.get(i) + c)
+                    }else{
+                        sb.append(list.get(i))
+                    }
+                }
+            }
+            return sb.toString()
+        }
+
+        //list 拼接逗号
+        fun listSpliceComma(list:List<String>):String{
+            return listSpliceChar(list,",")
         }
     }
 }
