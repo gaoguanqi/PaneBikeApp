@@ -108,9 +108,7 @@ class ConverServiceActivity:BaseViewActivity<ActivityConverServiceBinding, Conve
                 createId = ""
             }
             override fun onFinishClick(createId: String, shopType: String) {
-                if(!TextUtils.isEmpty(createId) && !TextUtils.isEmpty(shopType)){
-                    viewModel.getServiceList(keyword,shopType,createId)
-                }
+                viewModel.getServiceList(keyword,shopType,createId)
             }
         })
     } }
