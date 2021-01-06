@@ -3,11 +3,17 @@ package net.hyntech.police.ui.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 import com.baidu.location.BDLocation
@@ -21,7 +27,6 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.listener.OnTimeSelectListener
 import com.bigkoo.pickerview.view.TimePickerView
 import com.blankj.utilcode.util.ScreenUtils
-import com.blankj.utilcode.util.SizeUtils
 import com.blankj.utilcode.util.TimeUtils
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.ToastUtil
@@ -30,21 +35,20 @@ import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
 import net.hyntech.common.global.handler.MapViewHandler
 import net.hyntech.common.model.entity.AlarmInfoEntity
-import net.hyntech.common.model.entity.DeviceInfoEntity
 import net.hyntech.common.model.entity.EbikeTrackEntity
 import net.hyntech.common.model.entity.PhotoEntity
 import net.hyntech.common.provider.ARouterConstants
-import net.hyntech.common.ui.adapter.EBikeListAdapter
 import net.hyntech.common.ui.adapter.PhotoAdapter
+import net.hyntech.common.utils.MarkMoveUtil
 import net.hyntech.common.widget.baidumap.MyLocationListener
 import net.hyntech.common.widget.dialog.FindEbikeDialog
 import net.hyntech.common.widget.popu.EbikeInfoPopu
 import net.hyntech.common.widget.view.ClearEditText
 import net.hyntech.police.R
-import net.hyntech.common.R as CR
 import net.hyntech.police.databinding.ActivityFindEbikeBinding
 import net.hyntech.police.vm.FindEbikeViewModel
 import java.util.*
+import net.hyntech.common.R as CR
 
 class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewModel>(),BaiduMap.OnMarkerClickListener {
 
@@ -71,6 +75,10 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
     private var ebikeInfo:EbikeTrackEntity.EbikeBean? = null
 
     private val ebikeMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.icon_marker_car) }
+    private val startMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.ic_ebike_start) }
+    private val endMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.ic_ebike_end) }
+    private val moveMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.icon_gcoding) }
+    private var marker:Marker? = null
 
     private val ebikeInfoPopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EbikeInfoPopu(this,
         mWidth = (ScreenUtils.getScreenWidth() * 0.86).toInt(),
@@ -203,6 +211,8 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
     }
 
     private var alarmId:String? = ""
+    private val pointList:MutableList<LatLng> = mutableListOf()
+    private var index:Int = 0
     override fun initData(savedInstanceState: Bundle?) {
         setTitle<FindEbikeActivity>(UIUtils.getString(CR.string.common_title_find_ebike)).onBack<FindEbikeActivity> {
             onFinish()
@@ -350,6 +360,31 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             it.trajectoryList?.let { list ->
                 if(!list.isNullOrEmpty()){
                     LogUtils.logGGQ("list---->>>>${list.size}")
+
+
+                    pointList.clear()
+                    //先画线
+                    list.forEach { i ->
+                        val latlng = LatLng(i.lat,i.lng)
+                        //LogUtils.logGGQ("位置：${latlng.latitude}--${latlng.longitude}")
+                        pointList.add(latlng)
+                    }
+                    val ooPolyline = PolylineOptions().width(5).points(pointList).color(UIUtils.getColor(CR.color.common_colorTheme))
+                    baiduMap?.apply {
+                        this.clear()
+                        this.addOverlay(ooPolyline)
+                    }
+                    //再放marker
+                    val first = list.first()
+                    val last = list.last()
+                    val start = LatLng(first.lat,first.lng)
+                    val end = LatLng(last.lat,last.lng)
+                    ebikeStartAndEndMarker(start,end)
+                    //运动
+                    //设置移动小车
+                    val option = MarkerOptions().flat(true).anchor(0.5f, 0.5f).icon(moveMarker).position(start)
+                    marker = baiduMap?.addOverlay(option) as? Marker
+                    handler.sendEmptyMessageAtTime(0,stepTime)
                 }
             }
         })
@@ -483,6 +518,27 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
         baiduMap?.setMapStatus(mapStatusUpdate)
     }
 
+    private fun ebikeStartAndEndMarker(start:LatLng,end:LatLng){
+        LogUtils.logGGQ("开始位置：${start.latitude}--${start.longitude}")
+        LogUtils.logGGQ("结束位置：${end.latitude}--${end.longitude}")
+        baiduMap?.run {
+            this.addOverlays(listOf(MarkerOptions().position(start).icon(startMarker),MarkerOptions().position(end).icon(endMarker)))
+        }
+
+        //定义地图状态
+        val mapStatus: MapStatus = MapStatus.Builder()
+            .target(start)
+            .zoom(15f)
+            .build()
+        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+        val mapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus)
+        //改变地图状态
+        baiduMap?.setMapStatus(mapStatusUpdate)
+    }
+
+
+
+
     private val markerAnim by lazy {
         ScaleAnimation(1f, 1.1f, 1f).apply {
             this.setDuration(2000L)
@@ -549,6 +605,24 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             }
         }
     }
+
+    private var stepTime:Long = 300L
+    private val handler: Handler =  object:Handler(Looper.getMainLooper()){
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            index++
+            if(index < pointList.size){
+                sendMessage()
+            }
+        }
+    }
+
+
+    private fun sendMessage(){
+        marker?.position = pointList.get(index)
+        handler.sendEmptyMessageDelayed(0,stepTime)
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
