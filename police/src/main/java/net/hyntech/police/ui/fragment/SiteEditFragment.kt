@@ -45,7 +45,7 @@ class SiteEditFragment (val serviceShopId:String,val viewModel: ShopSiteViewMode
     private var shopType2:String = ""
     private var shopType3:String = ""
     private val shopTypeList:MutableList<String> = mutableListOf()
-    private val imageList:MutableList<String> = mutableListOf()
+    private val imageList:MutableList<PhotoEntity> = mutableListOf()
 
     override fun initData(savedInstanceState: Bundle?) {
         act = activity as ShopSiteActivity
@@ -134,6 +134,16 @@ class SiteEditFragment (val serviceShopId:String,val viewModel: ShopSiteViewMode
             binding.etAddress.setText(it.address)
             binding.tvLatlng.text = "(${it.lat},${it.lng})"
         })
+
+        //获取到图片
+        viewModel.picList.observe(this, Observer {
+            imageList.clear()
+            it.forEach {
+                imageList.add(PhotoEntity(it,true))
+            }
+            act.updataList(imageList)
+        })
+
 
         viewModel.shopDetails.observe(this, Observer {
             binding.etSiteName.setText("${it.shopName}")
@@ -224,11 +234,6 @@ class SiteEditFragment (val serviceShopId:String,val viewModel: ShopSiteViewMode
         if(act.photoList.isEmpty()){
             ToastUtil.showToast("请选择照片！")
             return
-        }
-
-
-        act.photoAdapter.getDataList().forEach {
-            imageList.add(it.url)
         }
 
 

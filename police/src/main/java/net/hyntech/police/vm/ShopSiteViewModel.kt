@@ -11,6 +11,7 @@ import net.hyntech.common.model.entity.PhotoEntity
 import net.hyntech.common.model.entity.PositionData
 import net.hyntech.common.model.entity.ShopSiteEntity
 import net.hyntech.common.model.repository.CommonRepository
+import net.hyntech.common.utils.CommonUtils
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -48,7 +49,7 @@ class ShopSiteViewModel:BaseViewModel() {
 
 
     //照片上传
-    val picURL:MutableLiveData<String> = MutableLiveData()
+    val picList:MutableLiveData<List<String>> = MutableLiveData()
     fun uploadImageList(imegList: MutableList<PhotoEntity>) {
         val builder: MultipartBody.Builder = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
@@ -67,8 +68,9 @@ class ShopSiteViewModel:BaseViewModel() {
         launchOnlyResult({
             repository.uploadImageList(partsList)
         }, success = {
-            it?.imgUrl?.let {url ->
-                picURL.postValue(url)
+            it?.imgUrl?.let {urls ->
+                val urlList = CommonUtils.splitPicList(urls)
+                picList.postValue(urlList)
             }
         })
     }

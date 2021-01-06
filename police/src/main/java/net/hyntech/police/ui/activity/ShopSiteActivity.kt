@@ -131,7 +131,7 @@ class ShopSiteActivity:BaseViewActivity<ActivityShopSiteBinding,ShopSiteViewMode
     fun setAddView(iv:ImageView){
         this.ivAdd = iv
     }
-    
+
     fun applyCamera(){
         PermissionUtil.applyCamera(object : RequestPermission {
             override fun onRequestPermissionSuccess() {
@@ -193,11 +193,16 @@ class ShopSiteActivity:BaseViewActivity<ActivityShopSiteBinding,ShopSiteViewMode
     }
 
 
-    fun updataList(item:PhotoEntity){
+    fun updataList(list:List<PhotoEntity>){
+        if(list.size >= 3){
+            ivAdd?.visibility == View.GONE
+        }
+
         if(photoList.size >= 3 || photoAdapter.getListSize() >= 3 || (photoList.size + photoAdapter.getListSize()) >= 3){
             if(ivAdd?.visibility == View.VISIBLE) ivAdd?.visibility = View.GONE
         }
-        photoAdapter.addItem(item)
+
+        photoAdapter.updataList(list)
     }
 
     private fun delPhotoItem(pos: Int) {

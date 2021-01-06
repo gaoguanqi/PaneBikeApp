@@ -48,6 +48,7 @@ class SiteAddFragment(val viewModel: ShopSiteViewModel):BaseFragment<FragmentSit
     private var shopType2:String = ""
     private var shopType3:String = ""
     private val shopTypeList:MutableList<String> = mutableListOf()
+    private val imageList:MutableList<PhotoEntity> = mutableListOf()
 
     override fun initData(savedInstanceState: Bundle?) {
         act = activity as ShopSiteActivity
@@ -137,9 +138,13 @@ class SiteAddFragment(val viewModel: ShopSiteViewModel):BaseFragment<FragmentSit
             binding.tvLatlng.text = "(${it.lat},${it.lng})"
         })
 
-        viewModel.picURL.observe(this, Observer {
-            //获取到图片
-            act.updataList(PhotoEntity(it,true))
+        //获取到图片
+        viewModel.picList.observe(this, Observer {
+            imageList.clear()
+            it.forEach {
+                imageList.add(PhotoEntity(it,true))
+            }
+            act.updataList(imageList)
         })
 
         viewModel.saveEvent.observe(this, Observer {
