@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -135,6 +136,7 @@ class BaiduMapActivity : BaseActivity(), OnGetGeoCoderResultListener, OnGetPoiSe
                 }
             }
         }
+
         initLocation()
     }
 
@@ -167,13 +169,15 @@ class BaiduMapActivity : BaseActivity(), OnGetGeoCoderResultListener, OnGetPoiSe
             val u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 16.0f)
             radius = it.radius.toInt()
             baiduMap?.animateMapStatus(u)
+            keyword = it.addrStr
             searchNeayBy()
         }
     }
 
+    private var keyword:String? = ""
     private fun searchNeayBy() {
         val option: PoiNearbySearchOption = PoiNearbySearchOption()
-        option.keyword("搜索关键字")
+        option.keyword(keyword)
         option.sortType = PoiSortType.distance_from_near_to_far
         option.location(currentLatLng)
         if (radius != 0) {
@@ -181,6 +185,7 @@ class BaiduMapActivity : BaseActivity(), OnGetGeoCoderResultListener, OnGetPoiSe
         } else {
             option.mRadius = 1000
         }
+
         poiSearch?.searchNearby(option)
     }
 
@@ -200,9 +205,10 @@ class BaiduMapActivity : BaseActivity(), OnGetGeoCoderResultListener, OnGetPoiSe
 
     //接受周边地理位置结果
     override fun onGetPoiResult(result: PoiResult?) {
+
         LogUtils.logGGQ("onGetPoiResult--error>>${result?.error}")
         if (result == null || result.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {
-            ToastUtil.showToast("未找到结果")
+            //ToastUtil.showToast("未找到结果")
             return
         }
 
@@ -211,12 +217,22 @@ class BaiduMapActivity : BaseActivity(), OnGetGeoCoderResultListener, OnGetPoiSe
                 val infos = result.allPoi
                 if (!infos.isNullOrEmpty()) {
                     poiInfoList.clear()
+                    poiInfoList.addAll(infos)
                     pointAdapter.setIndex(0)
                     if (rvPoint?.visibility == View.GONE) {
                         rvPoint?.visibility = View.VISIBLE
                     }
                     pointAdapter.setData(poiInfoList)
                 }
+            }else if(result.error == SearchResult.ERRORNO.AMBIGUOUS_KEYWORD){
+                //当输入关键字在本市没有找到，但在其他城市找到时，返回包含该关键字信息的城市列表
+                val s:StringBuilder = StringBuilder()
+                s.append("在")
+                result.suggestCityList?.forEach {
+                    s.append("${it.city},")
+                }
+                s.append("找到结果")
+                ToastUtil.showToast(s.toString())
             }
         } catch (e: Exception) {
             e.fillInStackTrace()

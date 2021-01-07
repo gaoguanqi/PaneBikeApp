@@ -15,9 +15,9 @@ ext {
             versionNameUsual      : "1.0.6",
 
             //------平安电车警用--------//
-//            applicationIdPolice: "net.hyntech.electricvehiclepolice",
+            applicationIdPolice: "net.hyntech.electricvehiclepolice",
 
-            applicationIdPolice    : "net.hyntech.ebikepolice",
+//            applicationIdPolice    : "net.hyntech.ebikepolice",
             versionCodePolice      : 8,
             versionNamePolice      : "1.0.8"
     ]
