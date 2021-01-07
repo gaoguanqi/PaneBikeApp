@@ -1,6 +1,7 @@
 package net.hyntech.police.app
 
 import androidx.lifecycle.ViewModelStore
+import cn.jpush.android.api.JPushInterface
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
 import com.scwang.smart.refresh.footer.ClassicsFooter
@@ -13,6 +14,7 @@ import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.LogUtils
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
+import net.hyntech.police.jpush.TagAliasOperatorHelper
 
 
 class PoliceApplication : BaseApp() {
@@ -40,6 +42,11 @@ class PoliceApplication : BaseApp() {
         //自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
         //包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
         SDKInitializer.setCoordType(CoordType.BD09LL)
+
+        //极光推送 初始化sdk
+        JPushInterface.setDebugMode(true)//正式版的时候设置false，关闭调试
+        JPushInterface.init(this)
+        TagAliasOperatorHelper.getInstance().init(this)
     }
 
     override fun onCreate() {
