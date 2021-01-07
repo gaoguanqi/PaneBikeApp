@@ -401,6 +401,7 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
                     this.alarmId = ""
                     llRight?.visibility = View.GONE
                 }
+                showPlayView(false)
             }
 
             it.trajectoryList?.let { list ->
