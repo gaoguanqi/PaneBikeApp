@@ -39,7 +39,6 @@ import net.hyntech.common.model.entity.EbikeTrackEntity
 import net.hyntech.common.model.entity.PhotoEntity
 import net.hyntech.common.provider.ARouterConstants
 import net.hyntech.common.ui.adapter.PhotoAdapter
-import net.hyntech.common.utils.MarkMoveUtil
 import net.hyntech.common.widget.baidumap.MyLocationListener
 import net.hyntech.common.widget.dialog.FindEbikeDialog
 import net.hyntech.common.widget.popu.EbikeInfoPopu
