@@ -2,6 +2,7 @@ package net.hyntech.police.ui.activity
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -56,7 +57,7 @@ import net.hyntech.common.R as CR
 class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewModel>(),BaiduMap.OnMarkerClickListener {
 
     //ebike 档速 快  正常
-    private val stepList:List<Long> = arrayListOf(200L,50)
+    private val stepList:List<Long> = arrayListOf(200L,50L)
     private var stepTime:Long = 200L
 
     //从首页消息列表传递的 车辆信息
@@ -80,12 +81,16 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
     private var etInput:ClearEditText? = null
 
     private var ebikeInfo:EbikeTrackEntity.EbikeBean? = null
+    private var ibtnPlay:ImageButton? = null
+    private val draPlay: Drawable by lazy { UIUtils.getDrawable(CR.drawable.selector_map_play) }
+    private val draPause: Drawable by lazy { UIUtils.getDrawable(CR.drawable.selector_map_pause) }
 
     private val ebikeMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.icon_marker_car) }
     private val startMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.ic_ebike_start) }
     private val endMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.ic_ebike_end) }
     private val moveMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.ic_move) }
     private var marker:Marker? = null
+    private var isPlay:Boolean = false
 
     private val ebikeInfoPopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EbikeInfoPopu(this,
         mWidth = (ScreenUtils.getScreenWidth() * 0.86).toInt(),
@@ -230,6 +235,8 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
         etInput?.hint = "请输入车牌号"
         llTime = findViewById(R.id.ll_time)
         llPlay = findViewById(R.id.ll_play)
+        ibtnPlay = findViewById(R.id.ibtn_play)
+        ibtnPlay?.background = draPlay
         llTrack = findViewById(R.id.ll_track)
         ibtnInfo = findViewById(R.id.ibtn_info)
         ibtnInfo?.visibility = View.GONE
@@ -330,7 +337,7 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
                 if(pointList.isEmpty()){
                     ToastUtil.showToast("请先搜索车辆")
                 }else{
-                    startPlay()
+                    onEbikePlay()
                 }
             }
         }
@@ -341,7 +348,7 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
                 if(pointList.isEmpty()){
                     ToastUtil.showToast("请先搜索车辆")
                 }else{
-                    replay()
+                    onEbikeReplay()
                 }
             }
         }
@@ -351,7 +358,7 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
                 if(pointList.isEmpty()){
                     ToastUtil.showToast("请先搜索车辆")
                 }else{
-                  setStepMode()
+                    onEbikeFast()
                 }
             }
         }
@@ -640,12 +647,14 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             index++
             if(index < pointList.size){
                 sendMessage()
+            }else{
+                isPlay = false
+                ibtnPlay?.background = draPlay
             }
         }
     }
 
 
-    private var isPlay:Boolean = false
 
     private fun onDrawLine(){
         //绘制
@@ -666,19 +675,29 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
         marker = baiduMap?.addOverlay(option) as? Marker
     }
 
-    private fun startPlay(){
+    private fun onEbikePlay(){
         if(isPlay){
-            replay()
+            //暂停
+            isPlay = false
+            ibtnPlay?.background = draPlay
+            handler.removeMessages(0)
         }else{
             isPlay = true
+            ibtnPlay?.background = draPause
             handler.sendEmptyMessageAtTime(0,stepTime)
         }
     }
 
-    private fun replay(){
+    private fun onEbikeReplay(){
+        isPlay = true
+        ibtnPlay?.background = draPause
         handler.removeMessages(0)
         index = 0
         handler.sendEmptyMessageAtTime(0,stepTime)
+    }
+
+    private fun onEbikeFast(){
+        setStepMode()
     }
 
     //设置档位
