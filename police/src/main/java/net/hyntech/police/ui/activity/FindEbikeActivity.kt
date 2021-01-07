@@ -23,6 +23,7 @@ import com.baidu.mapapi.animation.Animation
 import com.baidu.mapapi.animation.ScaleAnimation
 import com.baidu.mapapi.map.*
 import com.baidu.mapapi.model.LatLng
+import com.baidu.mapapi.utils.DistanceUtil
 import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.listener.OnTimeSelectListener
 import com.bigkoo.pickerview.view.TimePickerView
@@ -41,15 +42,22 @@ import net.hyntech.common.provider.ARouterConstants
 import net.hyntech.common.ui.adapter.PhotoAdapter
 import net.hyntech.common.widget.baidumap.MyLocationListener
 import net.hyntech.common.widget.dialog.FindEbikeDialog
+import net.hyntech.common.widget.marker.MarkerUtils
 import net.hyntech.common.widget.popu.EbikeInfoPopu
 import net.hyntech.common.widget.view.ClearEditText
 import net.hyntech.police.R
 import net.hyntech.police.databinding.ActivityFindEbikeBinding
 import net.hyntech.police.vm.FindEbikeViewModel
+import org.jetbrains.anko.collections.forEachWithIndex
 import java.util.*
+import kotlin.collections.ArrayList
 import net.hyntech.common.R as CR
 
 class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewModel>(),BaiduMap.OnMarkerClickListener {
+
+    //ebike 档速 快  正常
+    private val stepList:List<Long> = arrayListOf(200L,50)
+    private var stepTime:Long = 200L
 
     //从首页消息列表传递的 车辆信息
     private var alarmInfo:AlarmInfoEntity.AlarmInfoListBean? = null
@@ -76,7 +84,7 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
     private val ebikeMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.icon_marker_car) }
     private val startMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.ic_ebike_start) }
     private val endMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.ic_ebike_end) }
-    private val moveMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.icon_gcoding) }
+    private val moveMarker by lazy { BitmapDescriptorFactory.fromResource(CR.drawable.ic_move) }
     private var marker:Marker? = null
 
     private val ebikeInfoPopu by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { EbikeInfoPopu(this,
@@ -300,13 +308,12 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
         }
 
         findViewById<ImageButton>(R.id.ibtn_track).setOnClickListener {
-            showPlayView(true)
-            val input = etInput?.text.toString().trim()
-            if(TextUtils.isEmpty(input)){
-                ToastUtil.showToast("请输入车牌号")
-                return@setOnClickListener
+            if(pointList.isEmpty()){
+                ToastUtil.showToast("请先查找车辆")
+            }else{
+                showPlayView(true)
+                onDrawLine()
             }
-            onFindEbike(input,TimeUtils.date2String(startDate),TimeUtils.date2String(endDate))
         }
 
         findViewById<ImageButton>(R.id.ibtn_ding).setOnClickListener {
@@ -316,6 +323,39 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
                 baiduMap?.animateMapStatus(mapStatusUpdate)
             }
         }
+
+        //播放
+        findViewById<ImageButton>(R.id.ibtn_play).setOnClickListener {
+            onClickProxy {
+                if(pointList.isEmpty()){
+                    ToastUtil.showToast("请先搜索车辆")
+                }else{
+                    startPlay()
+                }
+            }
+        }
+
+        //重新播放
+        findViewById<ImageButton>(R.id.ibtn_replay).setOnClickListener {
+            onClickProxy {
+                if(pointList.isEmpty()){
+                    ToastUtil.showToast("请先搜索车辆")
+                }else{
+                    replay()
+                }
+            }
+        }
+
+        findViewById<ImageButton>(R.id.ibtn_fast).setOnClickListener {
+            onClickProxy {
+                if(pointList.isEmpty()){
+                    ToastUtil.showToast("请先搜索车辆")
+                }else{
+                  setStepMode()
+                }
+            }
+        }
+
 
         viewModel.defUI.showDialog.observe(this, Observer {
             showLoading()
@@ -359,31 +399,19 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
             it.trajectoryList?.let { list ->
                 if(!list.isNullOrEmpty()){
                     LogUtils.logGGQ("list---->>>>${list.size}")
-
-
                     pointList.clear()
-                    //先画线
-                    list.forEach { i ->
-                        val latlng = LatLng(i.lat,i.lng)
-                        //LogUtils.logGGQ("位置：${latlng.latitude}--${latlng.longitude}")
-                        pointList.add(latlng)
+                    isPlay = false
+                    list.forEachWithIndex { i, bean ->
+                        val n = i + 1
+                        if(n < list.size - 1){
+                            val from = LatLng(list.get(i).lat,list.get(i).lng)
+                            val to = LatLng(list.get(n).lat,list.get(n).lng)
+                            pointList.addAll(MarkerUtils.splitDots(from,to))
+                        }else{
+                            val ll = LatLng(list.get(i).lat,list.get(i).lng)
+                            pointList.addAll(MarkerUtils.splitDots(ll,ll))
+                        }
                     }
-                    val ooPolyline = PolylineOptions().width(5).points(pointList).color(UIUtils.getColor(CR.color.common_colorTheme))
-                    baiduMap?.apply {
-                        this.clear()
-                        this.addOverlay(ooPolyline)
-                    }
-                    //再放marker
-                    val first = list.first()
-                    val last = list.last()
-                    val start = LatLng(first.lat,first.lng)
-                    val end = LatLng(last.lat,last.lng)
-                    ebikeStartAndEndMarker(start,end)
-                    //运动
-                    //设置移动小车
-                    val option = MarkerOptions().flat(true).anchor(0.5f, 0.5f).icon(moveMarker).position(start)
-                    marker = baiduMap?.addOverlay(option) as? Marker
-                    handler.sendEmptyMessageAtTime(0,stepTime)
                 }
             }
         })
@@ -605,7 +633,7 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
         }
     }
 
-    private var stepTime:Long = 300L
+
     private val handler: Handler =  object:Handler(Looper.getMainLooper()){
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
@@ -617,18 +645,91 @@ class FindEbikeActivity:BaseViewActivity<ActivityFindEbikeBinding,FindEbikeViewM
     }
 
 
+    private var isPlay:Boolean = false
+
+    private fun onDrawLine(){
+        //绘制
+        val ooPolyline = PolylineOptions().width(5).points(pointList).color(UIUtils.getColor(CR.color.common_colorTheme))
+        baiduMap?.apply {
+            this.clear()
+            this.addOverlay(ooPolyline)
+        }
+        //再放marker
+        val start = pointList.first()
+        val end = pointList.last()
+        ebikeStartAndEndMarker(start,end)
+        //运动
+        //设置移动小车
+        index = 0
+        val angle = MarkerUtils.getAngle(getFromPoint(),getToPoint())
+        val option = MarkerOptions().flat(true).anchor(0.5f, 0.5f).icon(moveMarker).position(start).rotate(angle.toFloat())
+        marker = baiduMap?.addOverlay(option) as? Marker
+    }
+
+    private fun startPlay(){
+        if(isPlay){
+            replay()
+        }else{
+            isPlay = true
+            handler.sendEmptyMessageAtTime(0,stepTime)
+        }
+    }
+
+    private fun replay(){
+        handler.removeMessages(0)
+        index = 0
+        handler.sendEmptyMessageAtTime(0,stepTime)
+    }
+
+    //设置档位
+    private var stepMode:Int = 0
+    private fun setStepMode(){
+        stepMode ++
+        if(stepMode >= stepList.size){
+            stepMode = 0
+        }
+        stepTime = stepList.get(stepMode)
+    }
+
+
     private fun sendMessage(){
+        //设置中心点和纠偏
+        baiduMap?.let {
+            val pt = it.mapStatus.targetScreen
+            val point = it.projection.toScreenLocation(pointList.get(index))
+            if(point.x < 0 || point.x > pt.x * 2 || point.y < 0 || point.y > pt.y * 2){
+                val mapStatus = MapStatus.Builder().target(marker?.position).zoom(15f).build()
+                it.animateMapStatus(MapStatusUpdateFactory.newMapStatus(mapStatus))
+            }
+        }
+
+        //设置角度
+        marker?.rotate = MarkerUtils.getAngle(getFromPoint(),getToPoint()).toFloat()
+        //移动
         marker?.position = pointList.get(index)
+        //循环发送消息
         handler.sendEmptyMessageDelayed(0,stepTime)
     }
 
 
     override fun onDestroy() {
         super.onDestroy()
+        handler.removeMessages(0)
+        handler.removeCallbacksAndMessages(null)
         // 退出时销毁定位
         locClient.unRegisterLocationListener(locListener)
         locClient.stop()
-
     }
 
+
+    private fun getFromPoint():LatLng{
+        return pointList.get(index)
+    }
+
+    private fun getToPoint():LatLng{
+        if(index >= pointList.size - 1){
+            return pointList.get(index)
+        }
+        return pointList.get(index + 1)
+    }
 }
