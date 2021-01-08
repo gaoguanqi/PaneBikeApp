@@ -110,7 +110,7 @@ interface ApiService:BaseApi {
 
     @Headers("urlname:hyntech")
     @POST(ApiURL.URL_TAKE_ORDER)
-    suspend fun takeOrder(@Body requestBody: RequestBody): CommonEntity
+    suspend fun takeOrder(@Body requestBody: RequestBody): TakeOrderEntity
 
     //---------警用端开始-----------------------
     @Headers("urlname:hyntech")

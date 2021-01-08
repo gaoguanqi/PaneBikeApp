@@ -361,6 +361,7 @@ class ControllerViewModel:CommonViewModel() {
     }
 
 
+    val takeOrder: MutableLiveData<TakeOrderEntity> = MutableLiveData()
     fun takeOrder(ebikeId: String, orderId: String, valueId: String) {
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
@@ -369,7 +370,9 @@ class ControllerViewModel:CommonViewModel() {
             params.put("valueAddedServiceId",valueId)
             repository.takeOrder(params)
         }, success = {
-
+            it?.let {data ->
+                takeOrder.postValue(data)
+            }
         },isShowDialog = false,isShowToast = false)
     }
 }

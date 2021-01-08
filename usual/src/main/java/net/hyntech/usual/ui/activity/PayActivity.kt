@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.widget.ImageView
 import android.widget.RadioButton
+import androidx.lifecycle.Observer
+import net.hyntech.baselib.http.t
 import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
@@ -33,6 +35,23 @@ class PayActivity:BaseViewActivity<ActivityPayBinding,ControllerViewModel>() {
             onFinish()
         }
 
+
+        viewModel.defUI.showDialog.observe(this, Observer {
+            showLoading()
+        })
+
+        viewModel.defUI.dismissDialog.observe(this, Observer {
+            dismissLoading()
+        })
+
+        viewModel.defUI.toastEvent.observe(this, Observer {
+            ToastUtil.showToast(it)
+        })
+
+        viewModel.takeOrder.observe(this, Observer {
+            binding.tvPrice.text = "￥${it.price}"
+        })
+
         intent?.let {
             val ebikeId = it.getStringExtra(Constants.BundleKey.EXTRA_PAY_EBIKEID)
             val orderId = it.getStringExtra(Constants.BundleKey.EXTRA_PAY_ORDERID)
@@ -41,6 +60,8 @@ class PayActivity:BaseViewActivity<ActivityPayBinding,ControllerViewModel>() {
                 viewModel.takeOrder(ebikeId!!,orderId!!,valueId!!)
             }
         }
+
+
 
         ivZfb = findViewById(R.id.iv_zfb)
         ivWx = findViewById(R.id.iv_wx)
@@ -62,12 +83,16 @@ class PayActivity:BaseViewActivity<ActivityPayBinding,ControllerViewModel>() {
 
         binding.btnPay.setOnClickListener {
             onClickProxy {
-                if(payOption == 1){
-                    //微信支付
-                    //ToastUtil.showToast("微信支付${price}")
-                }else{
-                    //支付宝支付
-                    //ToastUtil.showToast("支付宝支付${price}")
+                viewModel.takeOrder.value?.let {order ->
+                    if(payOption == 1){
+                        //微信支付
+                        ToastUtil.showToast("微信支付${order.price}")
+                    }else{
+                        //支付宝支付
+                        ToastUtil.showToast("支付宝支付${order.price}")
+                    }
+                }?:let {
+                    ToastUtil.showToast("数据异常,请稍后重试！")
                 }
             }
         }
