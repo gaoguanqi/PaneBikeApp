@@ -373,6 +373,6 @@ class ControllerViewModel:CommonViewModel() {
             it?.let {data ->
                 takeOrder.postValue(data)
             }
-        },isShowDialog = false,isShowToast = false)
+        })
     }
 }

@@ -49,7 +49,7 @@ class PayActivity:BaseViewActivity<ActivityPayBinding,ControllerViewModel>() {
         })
 
         viewModel.takeOrder.observe(this, Observer {
-            binding.tvPrice.text = "￥${it.price}"
+            binding.tvPrice.text = "￥${it.price.toInt()/100}"
         })
 
         intent?.let {
