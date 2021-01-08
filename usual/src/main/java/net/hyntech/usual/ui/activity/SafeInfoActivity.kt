@@ -143,9 +143,16 @@ class SafeInfoActivity:BaseViewActivity<ActivitySafeInfoBinding,ControllerViewMo
         }
     }
 
-    private fun onSubmit(bean: SafeInfoEntity.ListBean) {
+    private fun onSubmit(item: SafeInfoEntity.ListBean) {
 
-        val price = (bean.insurancePrice/100).toString()
-        startActivity(Intent(this,PayActivity::class.java).putExtra(Constants.BundleKey.EXTRA_PRICE,price))
+        //val price = (bean.insurancePrice/100).toString()
+        //startActivity(Intent(this,PayActivity::class.java).putExtra(Constants.BundleKey.EXTRA_PRICE,price))
+
+//        val ebikeId = item.ebike.ebikeId
+//        val orderId = item.ebike.orderId
+//        val valueId = item.s
+//        startActivity(Intent(this@SafeInfoActivity,PayActivity::class.java).putExtra(Constants.BundleKey.EXTRA_PAY_EBIKEID,ebikeId).putExtra(Constants.BundleKey.EXTRA_PAY_ORDERID,orderId).putExtra(Constants.BundleKey.EXTRA_PAY_VALUEID,valueId))
+
+        ToastUtil.showToast("去支付")
     }
 }

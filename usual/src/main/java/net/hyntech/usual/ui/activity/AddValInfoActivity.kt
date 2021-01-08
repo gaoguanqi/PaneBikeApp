@@ -94,8 +94,10 @@ class AddValInfoActivity:BaseViewActivity<ActivityAddvalInfoBinding,AddValViewMo
         }
     }
 
-    private fun onSubmit(bean: AddValInfoEntity) {
-        val price = (bean.valueAddedServiceOrder.payMoney/100).toString()
-        startActivity(Intent(this,PayActivity::class.java).putExtra(Constants.BundleKey.EXTRA_PRICE,price))
+    private fun onSubmit(item: AddValInfoEntity) {
+        val ebikeId = item.ebike.ebikeId
+        val orderId = item.ebike.orderId
+        val valueId = item.valueAddedServiceOrder.valueAddedServiceId
+        startActivity(Intent(this@AddValInfoActivity,PayActivity::class.java).putExtra(Constants.BundleKey.EXTRA_PAY_EBIKEID,ebikeId).putExtra(Constants.BundleKey.EXTRA_PAY_ORDERID,orderId).putExtra(Constants.BundleKey.EXTRA_PAY_VALUEID,valueId))
     }
 }

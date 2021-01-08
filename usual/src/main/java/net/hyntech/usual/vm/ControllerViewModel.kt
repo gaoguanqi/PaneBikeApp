@@ -235,12 +235,6 @@ class ControllerViewModel:CommonViewModel() {
     }
 
 
-
-    //-----------支付----------------------
-    fun onPay() {
-
-    }
-
     //-----------服务包列表 （服务保障）-------------------------
     val serviceList: MutableLiveData<List<ServiceSafeEntity.ServicePackageListBean>> = MutableLiveData()
     val serviceListRefresh: MutableLiveData<List<ServiceSafeEntity.ServicePackageListBean>> = MutableLiveData()
