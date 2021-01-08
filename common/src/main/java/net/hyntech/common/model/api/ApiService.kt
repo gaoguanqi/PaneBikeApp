@@ -104,6 +104,14 @@ interface ApiService:BaseApi {
     @POST(ApiURL.URL_ADDVAL_INFO)
     suspend fun getAddValInfo(@Body requestBody: RequestBody): AddValInfoEntity
 
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_MY_ADDVAL)
+    suspend fun getMyAddValServiceList(@Body requestBody: RequestBody): MyAddValServiceEntity
+
+    @Headers("urlname:hyntech")
+    @POST(ApiURL.URL_TAKE_ORDER)
+    suspend fun takeOrder(@Body requestBody: RequestBody): CommonEntity
+
     //---------警用端开始-----------------------
     @Headers("urlname:hyntech")
     @POST(ApiURL.URL_SEARCH_DEVICE)

@@ -105,5 +105,68 @@ class AddValViewModel:BaseViewModel() {
             }
         })
     }
+//----------我的增值服务---------------------------------------
+
+    val myAddValServiceList: MutableLiveData<List<MyAddValServiceEntity.ListBean>> = MutableLiveData()
+    val myAddValServiceRefresh: MutableLiveData<List<MyAddValServiceEntity.ListBean>> = MutableLiveData()
+    val myAddValServiceLoadMore: MutableLiveData<List<MyAddValServiceEntity.ListBean>> = MutableLiveData()
+
+    fun getMyAddValServiceList() {
+        pageNo = 1
+        lastPage = true
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("PrmPageNo",pageNo)
+            params.put("PrmItemsPerPage",pageSize)
+            repository.getMyAddValServiceList(params)
+        }, success = {
+            it?.let {data ->
+                lastPage = data.page?.isLastPage?:true
+                if(data.list.isNullOrEmpty()){
+                    defUI.emptyEvent.call()
+                    defUI.toastEvent.postValue("暂无数据！")
+                }else{
+                    myAddValServiceList.postValue(data.list)
+                }
+            }
+        })
+    }
+
+
+    fun onMyAddValServiceRefresh() {
+        pageNo = 1
+        lastPage = true
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("PrmPageNo",pageNo)
+            params.put("PrmItemsPerPage",pageSize)
+            repository.getMyAddValServiceList(params)
+        }, success = {
+            it?.let {data ->
+                lastPage = data.page?.isLastPage?:true
+                if(!data.list.isNullOrEmpty()){
+                    myAddValServiceRefresh.postValue(data.list)
+                }else{
+                    defUI.emptyEvent.call()
+                }
+            }
+        },isShowDialog = false,isShowToast = false)
+    }
+
+    fun onMyAddValServiceLoadMore() {
+        pageNo +=1
+        launchOnlyResult({
+            val params: WeakHashMap<String, Any> = WeakHashMap()
+            params.put("PrmPageNo",pageNo)
+            params.put("PrmItemsPerPage",pageSize)
+            repository.getMyAddValServiceList(params)
+        }, success = {
+            it?.let {data ->
+                lastPage = data.page?.isLastPage?:true
+                myAddValServiceLoadMore.postValue(data.list)
+            }
+        },isShowDialog = false,isShowToast = false)
+    }
+
 
 }

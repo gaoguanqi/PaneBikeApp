@@ -10,35 +10,33 @@ import net.hyntech.baselib.utils.ToastUtil
 import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.global.Constants
-import net.hyntech.common.model.entity.MyOrderEntity
+import net.hyntech.common.model.entity.MyAddValServiceEntity
 import net.hyntech.usual.R
-import net.hyntech.usual.databinding.ActivityMyOrderBinding
 import net.hyntech.common.R as CR
-import net.hyntech.usual.ui.adapter.MyOrderAdapter
-import net.hyntech.usual.vm.ControllerViewModel
+import net.hyntech.usual.databinding.ActivityMyAddvalServiceBinding
+import net.hyntech.usual.ui.adapter.MyAddValServiceAdapter
+import net.hyntech.usual.vm.AddValViewModel
 
-//我的保单
-class MyOrderActivity:BaseViewActivity<ActivityMyOrderBinding,ControllerViewModel>() {
+class MyAddValServiceActivity:BaseViewActivity<ActivityMyAddvalServiceBinding,AddValViewModel>() {
 
-    private val orderAdapter by lazy { MyOrderAdapter(this).apply {
-        this.setListener(object :MyOrderAdapter.OnClickListener{
-            override fun onBuyNowClick(item: MyOrderEntity.ListBean?) {
+
+    private val myAddValAdapter by lazy { MyAddValServiceAdapter(this).apply {
+        this.setListener(object : MyAddValServiceAdapter.OnClickListener{
+            override fun onBuyNowClick(item: MyAddValServiceEntity.ListBean?) {
                 item?.let {
-                    //ToastUtil.showToast(it.ebikeNo)
                     val ebikeId = item.ebikeId
                     val orderId = item.orderId
-                    val valueAddedServiceId = item.insuranceProductOrgId
-                    startActivity(Intent(this@MyOrderActivity,PayActivity::class.java).putExtra(Constants.BundleKey.EXTRA_PAY_EBIKEID,ebikeId).putExtra(Constants.BundleKey.EXTRA_PAY_ORDERID,orderId).putExtra(Constants.BundleKey.EXTRA_PAY_VALUEID,valueAddedServiceId))
+                    val valueAddedServiceId = item.valueAddedServiceId
+                    startActivity(Intent(this@MyAddValServiceActivity,PayActivity::class.java).putExtra(Constants.BundleKey.EXTRA_PAY_EBIKEID,ebikeId).putExtra(Constants.BundleKey.EXTRA_PAY_ORDERID,orderId).putExtra(Constants.BundleKey.EXTRA_PAY_VALUEID,valueAddedServiceId))
                 }
             }
         })
     } }
 
+    private val viewModel by viewModels<AddValViewModel>()
 
-    private val viewModel by viewModels<ControllerViewModel>()
 
-
-    override fun getLayoutId(): Int = R.layout.activity_my_order
+    override fun getLayoutId(): Int = R.layout.activity_my_addval_service
 
 
     override fun bindViewModel() {
@@ -47,7 +45,7 @@ class MyOrderActivity:BaseViewActivity<ActivityMyOrderBinding,ControllerViewMode
 
 
     override fun initData(savedInstanceState: Bundle?) {
-        setTitle<MyOrderActivity>(UIUtils.getString(CR.string.common_title_my_order)).onBack<MyOrderActivity> {
+        setTitle<MyAddValServiceActivity>(UIUtils.getString(CR.string.common_title_my_addval_service)).onBack<MyAddValServiceActivity> {
             onFinish()
         }
 
@@ -62,7 +60,7 @@ class MyOrderActivity:BaseViewActivity<ActivityMyOrderBinding,ControllerViewMode
         }
 
         rv.layoutManager = LinearLayoutManager(this)
-        rv.adapter = orderAdapter
+        rv.adapter = myAddValAdapter
 
         viewModel.defUI.showDialog.observe(this, Observer {
             showLoading()
@@ -82,47 +80,49 @@ class MyOrderActivity:BaseViewActivity<ActivityMyOrderBinding,ControllerViewMode
             vsEmpty.inflate()
         })
 
-        viewModel.myOrderList.observe(this, Observer {
-            orderAdapter.setData(it)
+        viewModel.myAddValServiceList.observe(this, Observer {
+            myAddValAdapter.setData(it)
         })
-        viewModel.myOrderListRefresh.observe(this, Observer {
-            orderAdapter.setData(it)
+
+
+        viewModel.myAddValServiceRefresh.observe(this, Observer {
+            myAddValAdapter.setData(it)
             finishRefresh()
         })
-        viewModel.myOrderListLoadMore.observe(this, Observer {
-            if(!it.isNullOrEmpty()){
-                orderAdapter.updataList(it)
+        viewModel.myAddValServiceLoadMore.observe(this, Observer {
+            if (!it.isNullOrEmpty()) {
+                myAddValAdapter.updataList(it)
             }
             finishLoadMore()
         })
-        viewModel.getMyOrderList()
+
+        viewModel.getMyAddValServiceList()
     }
 
 
-    private fun onRefreshData(){
-        viewModel.onMyOrderRefresh()
+    private fun onRefreshData() {
+        viewModel.onMyAddValServiceRefresh()
     }
 
-    private fun onLoadMoreData(){
-        if(viewModel.lastPage){
+    private fun onLoadMoreData() {
+        if (viewModel.lastPage) {
             finishLoadMore()
-        }else{
-            viewModel.onMyOrderLoadMore()
+        } else {
+            viewModel.onMyAddValServiceLoadMore()
         }
     }
 
     //结束下拉刷新
     private fun finishRefresh() {
         refreshLayout?.let {
-            if(it.isRefreshing)it.finishRefresh(300)
+            if (it.isRefreshing) it.finishRefresh(300)
         }
     }
 
     //结束加载更多
     private fun finishLoadMore() {
         refreshLayout?.let {
-            if(it.isLoading) it.finishLoadMore(300)
+            if (it.isLoading) it.finishLoadMore(300)
         }
     }
-
 }

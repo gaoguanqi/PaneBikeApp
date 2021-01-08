@@ -112,6 +112,14 @@ open class CommonRepository:BaseRepository() {
         retrofitClient.getAddValInfo(params2Body(params))
     }
 
+    suspend fun getMyAddValServiceList(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.getMyAddValServiceList(params2Body(params))
+    }
+
+    suspend fun takeOrder(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
+        retrofitClient.takeOrder(params2Body(params))
+    }
+
     //--------警用端--------------------------------
     suspend fun searchDecive(params: WeakHashMap<String, Any>) = withContext(Dispatchers.IO) {
         retrofitClient.searchDecive(params2Body(params))

@@ -65,7 +65,6 @@ class MyOrderAdapter(val context: Context): BaseAdapter<MyOrderAdapter.ViewHolde
         private val ivState:ImageView = itemView.findViewById(R.id.iv_state)
         val tvBuyNow:TextView = itemView.findViewById(R.id.tv_buy_now)
         private val tvTime:TextView = itemView.findViewById(R.id.tv_time)
-        private val viewLine:View = itemView.findViewById(R.id.view_line)
 
         fun setData(pos:Int,entity: MyOrderEntity.ListBean?) {
             entity?.let {
@@ -99,7 +98,6 @@ class MyOrderAdapter(val context: Context): BaseAdapter<MyOrderAdapter.ViewHolde
                     tvTime.text = "车辆丢失，已赔付"
                 }
             }
-            viewLine.visibility = if(pos + 1 == list.size) View.GONE else View.VISIBLE
         }
     }
 

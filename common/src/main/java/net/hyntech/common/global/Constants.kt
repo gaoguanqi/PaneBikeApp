@@ -68,6 +68,13 @@ class Constants {
         const val EXTRA_USER_TYPE = "userIdType"
         const val EXTRA_EBIKE_COLOR = "ebikeColor"
         const val EXTRA_SERVICE = "service"
+
+        //pay
+        const val EXTRA_PAY_EBIKEID = "ebikeId"
+        const val EXTRA_PAY_ORDERID = "orderId"
+        const val EXTRA_PAY_VALUEID = "valueId"
+
+
     }
 
 

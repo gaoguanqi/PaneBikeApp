@@ -19,7 +19,6 @@
         android:id="@+id/item_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/common_color_background"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -92,6 +91,7 @@
                     android:layout_weight="1"
                     android:textColor="@color/common_gray_text"
                     android:textSize="@dimen/common_font_text"
+                    android:visibility="invisible"
                     tools:text="服务周期 2020-12-03至2020-12-03" />
 
                 <TextView

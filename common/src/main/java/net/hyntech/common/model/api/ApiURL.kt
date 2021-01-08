@@ -8,30 +8,30 @@ class ApiURL {
 
 
         // https://api.hyntech.net/app/v1/user/usual/get_user_info.thtml
-            private const val EXT = "/app"
-//            private const val EXT = "/antitheft"
+//            private const val EXT = "/app"
+            private const val EXT = "/antitheft"
 
 //        private const val PREFIX_URL = "/antitheft/v1/user/usual"
 //        private const val PREFIX_URL = "/antitheft/v1/user/police"
 
 
         //常用前缀
-//        private const val PREFIX_URL = "${EXT}/v1/user/usual"
-        private const val PREFIX_URL = "${EXT}/v1/user/police"
+        private const val PREFIX_URL = "${EXT}/v1/user/usual"
+//        private const val PREFIX_URL = "${EXT}/v1/user/police"
 
 
         // 特殊的 获取短信 前缀
-//        private const val PREFIX_SMS_URL = "${EXT}/v1/sms/usual"
-        private const val PREFIX_SMS_URL = "${EXT}/v1/sms/police"
+        private const val PREFIX_SMS_URL = "${EXT}/v1/sms/usual"
+//        private const val PREFIX_SMS_URL = "${EXT}/v1/sms/police"
 
         // 特殊的 上传图片 前缀
-//        private const val PREFIX_OSS_URL = "${EXT}/v1/oss/usual"
-        private const val PREFIX_OSS_URL = "${EXT}/v1/oss/police"
+        private const val PREFIX_OSS_URL = "${EXT}/v1/oss/usual"
+//        private const val PREFIX_OSS_URL = "${EXT}/v1/oss/police"
 
 
         // 特殊的 便民服务 前缀
-//        private const val PREFIX_SHOP_URL = "${EXT}/v1/service_shop/usual"
-        private const val PREFIX_SHOP_URL = "${EXT}/v1/service_shop/police"
+        private const val PREFIX_SHOP_URL = "${EXT}/v1/service_shop/usual"
+//        private const val PREFIX_SHOP_URL = "${EXT}/v1/service_shop/police"
 
         //用户登录
         const val URL_USER_LOGIN = "${PREFIX_URL}/login.thtml"
@@ -81,7 +81,10 @@ class ApiURL {
         const val URL_ADDVAL_DETAIL = "${EXT}/v2/valueAddedService/usual/detail.thtml"
         //民用版 增值服务的车辆服务信息
         const val URL_ADDVAL_INFO = "${EXT}/v2/valueAddedServiceOrder/usual/pre_order.thtml"
-
+        //民用版 我的增值服务
+        const val URL_MY_ADDVAL = "${EXT}/v2/valueAddedServiceOrder/usual/my_list.thtml"
+        //民用版   支付
+        const val URL_TAKE_ORDER = "${EXT}/v2/valueAddedServiceOrder/usual/take_order.thtml"
         //----------警用版--------------------------------------------------------------------------------------------------
         //警用版 搜索设备
         const val URL_SEARCH_DEVICE = "${EXT}/v1/collector/police/search.thtml"

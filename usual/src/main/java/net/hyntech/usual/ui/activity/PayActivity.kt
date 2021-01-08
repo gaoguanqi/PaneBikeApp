@@ -1,6 +1,7 @@
 package net.hyntech.usual.ui.activity
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.widget.ImageView
 import android.widget.RadioButton
 import net.hyntech.baselib.utils.ToastUtil
@@ -32,10 +33,17 @@ class PayActivity:BaseViewActivity<ActivityPayBinding,ControllerViewModel>() {
             onFinish()
         }
 
-        val price = getBundleString(Constants.BundleKey.EXTRA_PRICE)
+        intent?.let {
+            val ebikeId = it.getStringExtra(Constants.BundleKey.EXTRA_PAY_EBIKEID)
+            val orderId = it.getStringExtra(Constants.BundleKey.EXTRA_PAY_ORDERID)
+            val valueId = it.getStringExtra(Constants.BundleKey.EXTRA_PAY_VALUEID)
+            if(!TextUtils.isEmpty(ebikeId) && !TextUtils.isEmpty(orderId) && !TextUtils.isEmpty(valueId)){
+                viewModel.takeOrder(ebikeId!!,orderId!!,valueId!!)
+            }
+        }
+
         ivZfb = findViewById(R.id.iv_zfb)
         ivWx = findViewById(R.id.iv_wx)
-        binding.tvPrice.text = "￥${price}"
         //默认选中
         ivZfb?.background = draSelected
         payOption = 0
@@ -56,10 +64,10 @@ class PayActivity:BaseViewActivity<ActivityPayBinding,ControllerViewModel>() {
             onClickProxy {
                 if(payOption == 1){
                     //微信支付
-                    ToastUtil.showToast("微信支付${price}")
+                    //ToastUtil.showToast("微信支付${price}")
                 }else{
                     //支付宝支付
-                    ToastUtil.showToast("支付宝支付${price}")
+                    //ToastUtil.showToast("支付宝支付${price}")
                 }
             }
         }
