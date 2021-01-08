@@ -41,7 +41,6 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
 
     override fun initData(savedInstanceState: Bundle?) {
 
-        ToastUtil.showToast(BaseApp.instance.getBuildType())
         setTitle<OrgActivity>(UIUtils.getString(R.string.common_title_org)).setLeftTxt<OrgActivity>(
             UIUtils.getString(R.string.common_back)
         ).onBack<OrgActivity> {
