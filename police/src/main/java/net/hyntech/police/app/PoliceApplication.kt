@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelStore
 import cn.jpush.android.api.JPushInterface
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
+import com.blankj.utilcode.util.AppUtils
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -36,6 +37,8 @@ class PoliceApplication : BaseApp() {
     }
 
     override fun getAppPackage(): String = this.packageName
+    override fun getVersionCode(): Int = AppUtils.getAppVersionCode()
+
     private fun initSDK() {
         // 在使用 SDK 各组间之前初始化 context 信息，传入 ApplicationContext
         SDKInitializer.initialize(this)

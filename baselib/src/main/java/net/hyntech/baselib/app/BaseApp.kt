@@ -3,12 +3,17 @@ package net.hyntech.baselib.app
 import android.app.Application
 import androidx.lifecycle.ViewModelStoreOwner
 import com.alibaba.android.arouter.launcher.ARouter
-import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.SPUtils
 import com.blankj.utilcode.util.Utils
+import com.xuexiang.xupdate.XUpdate
+import com.xuexiang.xupdate.entity.UpdateError
+import com.xuexiang.xupdate.listener.OnUpdateFailureListener
 import me.jessyan.autosize.utils.AutoSizeLog
 import net.hyntech.baselib.app.config.Config
 import net.hyntech.baselib.error.GlobalCrashHandler
+import net.hyntech.baselib.utils.LogUtils
+import net.hyntech.baselib.utils.OKHttpUpdateHttpService
+
 
 abstract class BaseApp : Application(), ViewModelStoreOwner {
 
@@ -27,6 +32,9 @@ abstract class BaseApp : Application(), ViewModelStoreOwner {
         this.buildType = v
     }
 
+    abstract fun getVersionCode():Int
+
+
     override fun onCreate() {
         super.onCreate()
         if(!Config.CONFIG_DEBUG){
@@ -41,7 +49,25 @@ abstract class BaseApp : Application(), ViewModelStoreOwner {
             ARouter.openDebug()   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
         }
         ARouter.init(this) // 尽可能早，推荐在Application中初始化
+        initUpdate()
     }
 
-
+    private fun initUpdate(){
+        XUpdate.get()
+            .debug(true)
+            .isWifiOnly(true)                                               //默认设置只在wifi下检查版本更新
+            .isGet(true)                                                    //默认设置使用get请求检查版本
+            .isAutoMode(false)
+            .setOnUpdateFailureListener(object :OnUpdateFailureListener{
+                override fun onFailure(error: UpdateError?) {
+                    error?.let {
+                        if(error.code != UpdateError.ERROR.CHECK_NO_NEW_VERSION){
+                            LogUtils.logGGQ(it.message)
+                        }
+                    }
+                }
+            }).supportSilentInstall(true)
+            .setIUpdateHttpService(OKHttpUpdateHttpService())
+            .init(this)
+    }
 }

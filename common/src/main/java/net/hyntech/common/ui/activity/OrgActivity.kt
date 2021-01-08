@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.widget.Button
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blankj.utilcode.util.SPUtils
 import kotlinx.android.synthetic.main.activity_org.*
@@ -47,6 +48,19 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
             onFinish()
         }
 
+        viewModel.defUI.showDialog.observe(this, Observer {
+            showLoading()
+        })
+
+        viewModel.defUI.dismissDialog.observe(this, Observer {
+            dismissLoading()
+        })
+
+        viewModel.defUI.toastEvent.observe(this, Observer {
+            ToastUtil.showToast(it)
+        })
+
+
         etInput = findViewById(R.id.et_input)
         etInput?.hint = "请输入公安局名称"
 //        etInput?.setListener(object :ClearEditText.OnClickListener{
@@ -79,7 +93,7 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
             finishLoadMore()
         }
         rv.layoutManager = LinearLayoutManager(this)
-        val adapter: OrgAdapter = OrgAdapter(this)
+        val adapter = OrgAdapter(this)
         adapter.setListener(object :OrgAdapter.OnClickListener{
             override fun onItemClick(item: CenterEntity.OrgListBean?) {
                 item?.let { org ->

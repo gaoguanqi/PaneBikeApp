@@ -159,8 +159,11 @@ dependencies {
     implementation "androidx.room:room-guava:$room_version"
     implementation 'androidx.room:room-coroutines:2.1.0-alpha04'
     androidTestImplementation "androidx.room:room-testing:$room_version"
-
+    api 'com.github.xuexiangjys:XUpdate:2.0.6'
     implementation 'com.alibaba:arouter-api:1.5.1'
     kapt 'com.alibaba:arouter-compiler:1.5.1'
+
+    //网络请求的实现一
+    implementation 'com.zhy:okhttputils:2.6.2'
 
 }

@@ -348,6 +348,16 @@ androidx.recyclerview.widget.LinearLayoutManager mLayoutManager;
 
 -dontwarn cn.jiguang.**
 -keep class cn.jiguang.** { *; }
+-keep class com.xuexiang.xupdate.entity.** { *; }
+#okhttputils
+-dontwarn com.zhy.http.**
+-keep class com.zhy.http.**{*;}
+#okhttp
+-dontwarn okhttp3.**
+-keep class okhttp3.**{*;}
+#okio
+-dontwarn okio.**
+-keep class okio.**{*;}
 
 
 

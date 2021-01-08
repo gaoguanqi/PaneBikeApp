@@ -7,10 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import cn.jpush.android.api.JPushInterface
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.SPUtils
-import com.blankj.utilcode.util.Utils
 import com.maple.player.widget.timer.MyCountDownTimerListener
 import net.hyntech.baselib.app.BaseApp
-import net.hyntech.baselib.app.config.Config
 import net.hyntech.baselib.app.manager.SingleLiveEvent
 import net.hyntech.baselib.base.BaseViewModel
 import net.hyntech.baselib.utils.LogUtils
@@ -19,13 +17,13 @@ import net.hyntech.baselib.utils.UIUtils
 import net.hyntech.common.R
 import net.hyntech.common.db.AppDatabase
 import net.hyntech.common.db.dao.User
+import net.hyntech.common.global.BuildType
 import net.hyntech.common.global.Constants
 import net.hyntech.common.global.Global
+import net.hyntech.common.model.entity.AppUpdateEntity
 import net.hyntech.common.model.entity.CenterEntity
 import net.hyntech.common.model.repository.CommonRepository
 import net.hyntech.common.widget.timer.MyCountDownTimer
-import okhttp3.internal.userAgent
-import java.lang.Exception
 import java.util.*
 
 class AccountViewModel : BaseViewModel() {
@@ -156,6 +154,7 @@ class AccountViewModel : BaseViewModel() {
         })
     }
 
+    val appUpdate:MutableLiveData<AppUpdateEntity> = MutableLiveData()
     fun getOrgList() {
         launchOnlyResult({
             repository.getOrgList()
@@ -164,14 +163,28 @@ class AccountViewModel : BaseViewModel() {
                 orgDataList.clear()
                 orgDataList.addAll(data.org_list)
                 orgData.value = orgDataList
+                val coe = BaseApp.instance.getVersionCode()
+                if(BuildType.isUsual()){
+                    val usual = data.app_update_usual.app_android
+                    //如果线上code 大于本地 code 则更新
+                    if(usual.versionCode >= coe){
+                        appUpdate.postValue(AppUpdateEntity(Constants.BundleKey.EXTRA_USUAL,usual.version,usual.versionCode,usual.url,usual.update_content,usual.update_time))
+                    }
+                }else if(BuildType.isPolice()){
+                    val police = data.app_update_police.app_android
+                    //如果线上code 大于本地 code 则更新
+                    if(police.versionCode >= coe){
+                        appUpdate.postValue(AppUpdateEntity(Constants.BundleKey.EXTRA_POLICE,police.version,police.versionCode,police.url,police.update_content,police.update_time))
+                    }
+                }
             }
-        })
+        },isShowDialog = false)
     }
 
     fun initUser() {
         AppDatabase.getInstance(BaseApp.instance).userDao().apply {
             if(this.getCurrentUser() == null){
-                val user:User = User()
+                val user = User()
                 user.orgName = UIUtils.getString(R.string.common_choose_company)
                 user.userType = "0"
                 user.accessToken = SPUtils.getInstance(BaseApp.instance.getAppPackage()).getString(Constants.SaveInfoKey.ACCESS_TOKEN,"")
