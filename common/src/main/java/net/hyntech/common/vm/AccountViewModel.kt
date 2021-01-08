@@ -167,13 +167,13 @@ class AccountViewModel : BaseViewModel() {
                 if(BuildType.isUsual()){
                     val usual = data.app_update_usual.app_android
                     //如果线上code 大于本地 code 则更新
-                    if(usual.versionCode >= coe){
+                    if(usual.versionCode > coe){
                         appUpdate.postValue(AppUpdateEntity(Constants.BundleKey.EXTRA_USUAL,usual.version,usual.versionCode,usual.url,usual.update_content,usual.update_time))
                     }
                 }else if(BuildType.isPolice()){
                     val police = data.app_update_police.app_android
                     //如果线上code 大于本地 code 则更新
-                    if(police.versionCode >= coe){
+                    if(police.versionCode > coe){
                         appUpdate.postValue(AppUpdateEntity(Constants.BundleKey.EXTRA_POLICE,police.version,police.versionCode,police.url,police.update_content,police.update_time))
                     }
                 }
