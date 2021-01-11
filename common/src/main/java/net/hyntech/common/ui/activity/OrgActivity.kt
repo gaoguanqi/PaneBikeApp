@@ -1,6 +1,5 @@
 package net.hyntech.common.ui.activity
 
-import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -8,7 +7,6 @@ import android.text.TextWatcher
 import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.blankj.utilcode.util.SPUtils
 import kotlinx.android.synthetic.main.activity_org.*
 import net.hyntech.baselib.app.BaseApp
 import net.hyntech.baselib.utils.LogUtils
@@ -18,12 +16,12 @@ import net.hyntech.common.R
 import net.hyntech.common.base.BaseViewActivity
 import net.hyntech.common.databinding.ActivityOrgBinding
 import net.hyntech.common.db.AppDatabase
-import net.hyntech.common.global.Constants
 import net.hyntech.common.global.Global
 import net.hyntech.common.model.entity.CenterEntity
 import net.hyntech.common.ui.adapter.OrgAdapter
 import net.hyntech.common.vm.AccountViewModel
 import net.hyntech.common.widget.view.ClearEditText
+
 
 class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
 
@@ -110,7 +108,7 @@ class OrgActivity : BaseViewActivity<ActivityOrgBinding, AccountViewModel>() {
                             Global.BASE_URL = it.apiUrl!!
                             Global.BASE_WEB_URL = it.appwebUrl!!
 
-                            Global.BASE_URL = "http://39.98.135.139:8080"
+//                            Global.BASE_URL = "http://39.98.135.139:8080"
 //                            Global.BASE_URL = "http://192.168.0.112:8080"
 //                            Global.BASE_WEB_URL = ""
                             this.updateUser(it)
