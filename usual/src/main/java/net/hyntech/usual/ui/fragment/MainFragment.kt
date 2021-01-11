@@ -94,7 +94,6 @@ class MainFragment(val viewModel: HomeViewModel):BaseFragment<FragmentMainBindin
         adapter.setListener(object :SeverListAdapter.OnClickListener{
             override fun onItemClick(pos:Int,item: SeverInfoEntity?) {
                 when(pos){
-
                     0 -> onClickProxy { onCarInfo() }
                     1 -> onClickProxy { onConverService() }
                     2 -> onClickProxy { onAkeyAlarm() }

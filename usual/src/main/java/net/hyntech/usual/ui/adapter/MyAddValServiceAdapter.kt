@@ -73,7 +73,7 @@ class MyAddValServiceAdapter (val context: Context): BaseAdapter<MyAddValService
                 tvBuyNow.visibility = View.GONE
                 ivState.visibility = View.GONE
                 tvNotPay.visibility = View.GONE
-                tvTime.visibility = View.INVISIBLE
+                tvTime.visibility = View.GONE
 
                 val state = it.state
                 if(TextUtils.equals("not_pay",state)){

@@ -359,7 +359,7 @@ class ControllerViewModel:CommonViewModel() {
     fun takeOrder(ebikeId: String, orderId: String, valueId: String) {
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
-            params.put("ebikeId:",ebikeId)
+            params.put("ebikeId",ebikeId)
             params.put("orderId",orderId)
             params.put("valueAddedServiceId",valueId)
             repository.takeOrder(params)

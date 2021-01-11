@@ -21,11 +21,11 @@ import net.hyntech.usual.vm.AddValViewModel
 class AddValServiceActivity:BaseViewActivity<ActivityAddvalServiceBinding,AddValViewModel>() {
 
     private val viewModel by viewModels<AddValViewModel>()
-    private var id:String? = ""
+    private var ebikeId:String? = ""
     private val addValServiceAdapter by lazy { AddValServiceAdapter(this).apply {
         this.setListener(object : AddValServiceAdapter.OnClickListener{ override fun onItemClick(item: AddValServiceEntity.ValueAddedServiceListBean?) {
             item?.let {
-                startActivity(Intent(this@AddValServiceActivity,AddValDetailActivity::class.java).putExtra(Constants.BundleKey.EXTRA_ID,id).putExtra(Constants.BundleKey.EXTRA_ID_S,item.valueAddedServiceId))
+                startActivity(Intent(this@AddValServiceActivity,AddValDetailActivity::class.java).putExtra(Constants.BundleKey.EXTRA_ID,ebikeId).putExtra(Constants.BundleKey.EXTRA_ID_S,item.valueAddedServiceId))
             }
         } }) } }
 
@@ -40,7 +40,7 @@ class AddValServiceActivity:BaseViewActivity<ActivityAddvalServiceBinding,AddVal
             onFinish(true)
         }
 
-        id = getBundleString(Constants.BundleKey.EXTRA_ID)
+        ebikeId = getBundleString(Constants.BundleKey.EXTRA_ID)
 
         refreshLayout.setEnableRefresh(true)//是否启用下拉刷新功能
         refreshLayout.setEnableLoadMore(true)//是否启用上拉加载功能
@@ -87,19 +87,19 @@ class AddValServiceActivity:BaseViewActivity<ActivityAddvalServiceBinding,AddVal
             finishLoadMore()
         })
 
-        viewModel.getAddValServiceList(id)
+        viewModel.getAddValServiceList(ebikeId)
 
     }
 
     private fun onRefreshData(){
-        viewModel.onAddValServiceRefresh(id)
+        viewModel.onAddValServiceRefresh(ebikeId)
     }
 
     private fun onLoadMoreData(){
         if(viewModel.lastPage){
             finishLoadMore()
         }else{
-            viewModel.onAddValServiceLoadMore(id)
+            viewModel.onAddValServiceLoadMore(ebikeId)
         }
     }
 

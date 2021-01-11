@@ -30,7 +30,8 @@ class  SeverListAdapter(val context: Context,val layoutRes:Int,val list:List<Sev
         val holder: ViewHolder = ViewHolder(view)
         holder.itemRoot.setOnClickListener {
             if(!UIUtils.isFastDoubleClick()){
-                listener?.onItemClick(holder.adapterPosition,list.get(holder.adapterPosition))
+                val pos = holder.adapterPosition
+                listener?.onItemClick(pos,list.get(pos))
             }
         }
         return holder

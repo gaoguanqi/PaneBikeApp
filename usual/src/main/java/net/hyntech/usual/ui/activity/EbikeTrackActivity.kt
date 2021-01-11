@@ -510,27 +510,6 @@ class EbikeTrackActivity:BaseViewActivity<ActivityEbikeTrackBinding,TrackViewMod
         marker = baiduMap?.addOverlay(option) as? Marker
     }
 
-    private fun startPlay(){
-        if(isPlay){
-            //暂停
-            isPlay = false
-            ibtnPlay?.background = draPlay
-            handler.removeMessages(0)
-        }else{
-            isPlay = true
-            ibtnPlay?.background = draPause
-            handler.sendEmptyMessageAtTime(0,stepTime)
-        }
-    }
-
-    private fun replay(){
-        isPlay = true
-        ibtnPlay?.background = draPause
-        handler.removeMessages(0)
-        index = 0
-        handler.sendEmptyMessageAtTime(0,stepTime)
-    }
-
     //设置档位
     private var stepMode:Int = 0
     private fun setStepMode(){

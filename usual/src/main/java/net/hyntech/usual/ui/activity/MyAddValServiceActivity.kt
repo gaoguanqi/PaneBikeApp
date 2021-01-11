@@ -23,7 +23,9 @@ class MyAddValServiceActivity:BaseViewActivity<ActivityMyAddvalServiceBinding,Ad
     private val myAddValAdapter by lazy { MyAddValServiceAdapter(this).apply {
         this.setListener(object : MyAddValServiceAdapter.OnClickListener{
             override fun onBuyNowClick(item: MyAddValServiceEntity.ListBean?) {
+                //我的增值服务
                 item?.let {
+                    ToastUtil.showToast("支付->我的增值服务")
                     val ebikeId = item.ebikeId
                     val orderId = item.orderId
                     val valueAddedServiceId = item.valueAddedServiceId

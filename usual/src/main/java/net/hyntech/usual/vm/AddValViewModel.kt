@@ -18,12 +18,12 @@ class AddValViewModel:BaseViewModel() {
     val addValServiceRefresh: MutableLiveData<List<AddValServiceEntity.ValueAddedServiceListBean>> = MutableLiveData()
     val addValServiceLoadMore: MutableLiveData<List<AddValServiceEntity.ValueAddedServiceListBean>> = MutableLiveData()
 
-    fun getAddValServiceList(id:String?) {
+    fun getAddValServiceList(ebikeId:String?) {
         pageNo = 1
         lastPage = true
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
-            params.put("ebikeId",id)
+            params.put("ebikeId",ebikeId)
             params.put("PrmPageNo",pageNo)
             params.put("PrmItemsPerPage",pageSize)
             repository.getAddValServiceList(params)
@@ -40,12 +40,12 @@ class AddValViewModel:BaseViewModel() {
         })
     }
 
-    fun onAddValServiceRefresh(id:String?) {
+    fun onAddValServiceRefresh(ebikeId:String?) {
         pageNo = 1
         lastPage = true
         launchOnlyResult({
             val params: WeakHashMap<String, Any> = WeakHashMap()
-            params.put("ebikeId",id)
+            params.put("ebikeId",ebikeId)
             params.put("PrmPageNo",pageNo)
             params.put("PrmItemsPerPage",pageSize)
             repository.getAddValServiceList(params)

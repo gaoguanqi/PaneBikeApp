@@ -24,7 +24,7 @@ class MyOrderActivity:BaseViewActivity<ActivityMyOrderBinding,ControllerViewMode
         this.setListener(object :MyOrderAdapter.OnClickListener{
             override fun onBuyNowClick(item: MyOrderEntity.ListBean?) {
                 item?.let {
-                    //ToastUtil.showToast(it.ebikeNo)
+                    ToastUtil.showToast("支付->我的保单")
                     val ebikeId = item.ebikeId
                     val orderId = item.orderId
                     val valueAddedServiceId = item.insuranceProductOrgId

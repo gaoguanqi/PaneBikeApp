@@ -95,6 +95,7 @@ class AddValInfoActivity:BaseViewActivity<ActivityAddvalInfoBinding,AddValViewMo
     }
 
     private fun onSubmit(item: AddValInfoEntity) {
+        ToastUtil.showToast("支付->车辆服务信息")
         val ebikeId = item.ebike.ebikeId
         val orderId = item.ebike.orderId
         val valueId = item.valueAddedServiceOrder.valueAddedServiceId
